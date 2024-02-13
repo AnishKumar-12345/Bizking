@@ -84,7 +84,7 @@
 
       <tbody>
        <tr
-        v-for="(item,index) in saleshistory"
+        v-for="(item,index) in this.filteredSalesHistory"
         :key="index"
 
          
@@ -204,6 +204,12 @@ export default {
       ],
         }
     },
+     computed: {
+    filteredSalesHistory() {
+      // Filter purchaseHistory based on the condition
+      return this.saleshistory.filter(item => item.so_status === 'Acknowledged' || item.so_status === 'Delivered' || item.so_status === 'Received' || item.so_status === 'Shipped');
+    }
+  },
     mounted(){
       this.getSalesorderdetails();
         setTimeout(() => {

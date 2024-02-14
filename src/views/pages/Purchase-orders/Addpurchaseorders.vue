@@ -148,6 +148,7 @@
          <td class="text-center">
           {{ item.uom }}
         </td>
+       
         <td class="text-center">
          &#8377; {{calculatedPricePerUnit[index]}} <br>
 
@@ -214,7 +215,7 @@
             </VBtn>
             
           </td>
-      
+       <!-- <td>{{calculateMargin[index]}}</td> -->
       </tr>
       </tbody>
       <tfoot>
@@ -574,67 +575,82 @@ export default {
              return isNaN(cgstdata) ? 0 : cgstdata.toFixed(2);
          })
       },
-    TaxfromCgst(){
-           return this.AllBrandproducts.map(item => {
-                 const MRP =   parseFloat(item.mrp);
-                 const CGST =  parseFloat(item.cgst.replace('%', ''));
-                //  const SGST =  parseFloat(item.sgst.replace('%', ''));
-                const Tax1 = MRP-(MRP/(1+(CGST/100)));
-                return isNaN(Tax1) ? 0 : Tax1.toFixed(2);
-           })
-    },
-     TaxfromSgst(){
-           return this.AllBrandproducts.map(item => {
-                 const MRP =   parseFloat(item.mrp);
-                 const SGST =  parseFloat(item.sgst.replace('%', ''));
-                //  const SGST =  parseFloat(item.sgst.replace('%', ''));
-                const Tax2 = MRP-(MRP/(1+(SGST/100)));
-                return isNaN(Tax2) ? 0 : Tax2.toFixed(2);
-           })
-    },
+    // TaxfromCgst(){
+    //        return this.AllBrandproducts.map(item => {
+    //              const MRP =   parseFloat(item.mrp);
+    //              const CGST =  parseFloat(item.cgst.replace('%', ''));
+    //             //  const SGST =  parseFloat(item.sgst.replace('%', ''));
+    //             const Tax1 = MRP-(MRP/(1+(CGST/100)));
+    //             return isNaN(Tax1) ? 0 : Tax1.toFixed(2);
+    //        })
+    // },
+    //  TaxfromSgst(){
+    //        return this.AllBrandproducts.map(item => {
+    //              const MRP =   parseFloat(item.mrp);
+    //              const SGST =  parseFloat(item.sgst.replace('%', ''));
+    //             //  const SGST =  parseFloat(item.sgst.replace('%', ''));
+    //             const Tax2 = MRP-(MRP/(1+(SGST/100)));
+    //             return isNaN(Tax2) ? 0 : Tax2.toFixed(2);
+    //        })
+    // },
+calculateMargin(){
+   return this.AllBrandproducts.map((item,index) => {
+    const mrp = parseFloat(item.mrp);
+    const totalGivenMargin = parseFloat(item.total_given_margin.replace('%', ''));
+
+     const margin = mrp * totalGivenMargin/100; 
+      // console.log('check the margin',margin)
+      return isNaN(margin) ? 0 : margin.toFixed(2);
+     
+    });
+},
+
 calculatedPricePerUnit(){
     return this.AllBrandproducts.map((item,index) => {
-      const Mrp = parseFloat(this.TaxDeductMRP[index]);
+      const Mrp = parseFloat(item.mrp);
       // console.log('Dedect MRP',Mrp);
-
-        const totalGivenMargin = parseFloat(item.total_given_margin.replace('%', ''));
+        // const 
+      const totalGivenMargin = parseFloat(this.calculateMargin[index]);
       // console.log('Mar',totalGivenMargin);
 
-     const pricePerUnit = Mrp - (Mrp * totalGivenMargin) / 100; 
+      const pricePerUnit = Mrp - totalGivenMargin; 
       
       return isNaN(pricePerUnit) ? 0 : pricePerUnit.toFixed(2);
      
     });
 },
-    TaxDeductMRP() {
-      // const item = this.AllBrandproducts[index];
-     return this.AllBrandproducts.map((item,index) => {
-      const mrp = parseFloat(item.mrp);
-      const TaxCGST =  parseFloat(this.TaxfromCgst[index]);
-      const TaxSGST =  parseFloat(this.TaxfromSgst[index]);
-      // console.log('m Total deduct',mrp-(TaxCGST+TaxSGST));
-      // console.log('mr sgst deduct',TaxSGST);
+  //   TaxDeductMRP() {
+  //     // const item = this.AllBrandproducts[index];
+  //    return this.AllBrandproducts.map((item,index) => {
+  //     const mrp = parseFloat(item.mrp);
+  //     const TaxCGST =  parseFloat(this.TaxfromCgst[index]);
+  //     const TaxSGST =  parseFloat(this.TaxfromSgst[index]);
+  //     // console.log('m Total deduct',mrp-(TaxCGST+TaxSGST));
+  //     // console.log('mr sgst deduct',TaxSGST);
 
-      const tmrp =  mrp-(TaxCGST+TaxSGST);
-      // console.log('mrp deduct',tmrp);
-      // const totalGivenMargin = parseFloat(item.total_given_margin.replace('%', ''));
-      // const quantity = parseFloat(item.quantity);
-      // Calculate the price per unit using the formula
-      // const pricePerUnit = tmrp - (tmrp * totalGivenMargin) / 100;
+  //     const tmrp =  mrp-(TaxCGST+TaxSGST);
+  //     // console.log('mrp deduct',tmrp);
+  //     // const totalGivenMargin = parseFloat(item.total_given_margin.replace('%', ''));
+  //     // const quantity = parseFloat(item.quantity);
+  //     // Calculate the price per unit using the formula
+  //     // const pricePerUnit = tmrp - (tmrp * totalGivenMargin) / 100;
 
-      // Round the result to two decimal places
-      return isNaN(tmrp) ? 0 : tmrp.toFixed(2);
-      // return pricePerUnit.toFixed(2);
-      //  const roundedPricePerUnit = pricePerUnit.toFixed(2);
-      //   this.AllBrandproducts[index] = { ...item, roundedPricePerUnit };
-        // Vue.set(this.AllBrandproducts, index, { ...item, roundedPricePerUnit });
-    });
-  },
+  //     // Round the result to two decimal places
+  //     return isNaN(tmrp) ? 0 : tmrp.toFixed(2);
+  //     // return pricePerUnit.toFixed(2);
+  //     //  const roundedPricePerUnit = pricePerUnit.toFixed(2);
+  //     //   this.AllBrandproducts[index] = { ...item, roundedPricePerUnit };
+  //       // Vue.set(this.AllBrandproducts, index, { ...item, roundedPricePerUnit });
+  //   });
+  // },
   calculatedTaxableAmount() {
     return this.AllBrandproducts.map((item, index) => {
     const quantitt = parseFloat(item.quantity);
     console.log('quanti',quantitt);
     const rawPricePerUnit = this.calculatedPricePerUnit[index];
+    const CGST =  parseFloat(item.cgst.replace('%', ''));
+    const SGST = parseFloat(item.sgst.replace('%', ''));
+    
     const pricePerUnit = parseFloat(rawPricePerUnit);
 
     // Skip calculation if quantity is 0
@@ -647,7 +663,7 @@ calculatedPricePerUnit(){
       return 0; // or any default value
     }
 
-    const taxableAmount = quantitt * pricePerUnit;
+    const taxableAmount = (rawPricePerUnit/(100+(CGST+SGST))*100)*quantitt;
     return isNaN(taxableAmount) ? 0 : taxableAmount.toFixed(2);
   });
   },

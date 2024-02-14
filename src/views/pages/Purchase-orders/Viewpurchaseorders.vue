@@ -70,6 +70,7 @@
         >          
           <td class="text-center">{{ item.po_number }}</td>
           <td class="text-center">{{ item.created_date }}</td>
+       
           <td class="text-center">
             <VChip
               :color="colorPOstatus(item.po_status).color"
@@ -234,9 +235,25 @@
                       :rules="Statusrules"
                     />
                   </VCol>
+
+                    <VCol
+                md="6"
+                cols="12"
+              >
+             
+                 <VTextField
+                  v-model="this.productData.delivery_date"
+                  type="date"
+                  label="Delivery Date"
+                  :min="today"
+                  :rules="dateRules"
+                 
+                />
+               </VCol>
                   <VDivider />
 
                   <VCol cols="12">
+
                     <VTable
                       :headers="headers2"
                       :items="AllBrandproducts"
@@ -515,6 +532,7 @@
                         </tr>
                       </tfoot>
                     </VTable>
+
                   </VCol>
 
                   <VCol
@@ -601,6 +619,20 @@
                       readonly
                     />
                   </VCol>
+
+                  <VCol
+                md="6"
+                cols="12"
+              >
+              <!-- {{formData.po_status}}  -->
+                 <VTextField
+                  v-model="this.VproductData.delivery_date"
+                  type="date"
+                  label="Delivery Date"
+                  readonly
+                 
+                />
+               </VCol>
                   <VDivider />
 
                   <VCol cols="12">
@@ -878,6 +910,7 @@ export default {
 
   data() {
     return {
+       today: this.getFormattedDate(new Date()),
       loading: true,
       loading2: false,
       Viewtotals: {
@@ -888,6 +921,9 @@ export default {
       },
       Statusrules: [v => !!v || 'Status Is Required'],
       quantityrules: [v => !!v || 'Quantity Is Required'],
+      dateRules: [
+         (v) => !!v || 'Date is required',
+      ],
       snackbar: false,
       snackbarText: '',
       timeout: 6000, // milliseconds
@@ -920,6 +956,7 @@ export default {
         you_saved: '',
         po_id: '',
         po_number: '',
+        delivery_date: '',
         sub_total: '', // Rename the property as per your API
         total_so_amount: '',
         total_quantity: '',
@@ -951,6 +988,7 @@ export default {
         you_saved: '',
         po_id: '',
         po_number: '',
+        delivery_date: '',
         'sub_total(taxable_amount_total)': '', // Rename the property as per your API
         total_so_amount: '',
         total_quantity: '',
@@ -1092,87 +1130,97 @@ export default {
         return isNaN(cgstdata) ? 0 : cgstdata.toFixed(2)
       })
     },
-   TaxfromCgst(){
-           return this.AllBrandproducts.map(item => {
-                 const MRP =   parseFloat(item.mrp);
-                 const CGST =  parseFloat(item.cgst.replace('%', ''));
-                //  const SGST =  parseFloat(item.sgst.replace('%', ''));
-                const Tax1 = MRP-(MRP/(1+(CGST/100)));
-                return isNaN(Tax1) ? 0 : Tax1.toFixed(2);
-           })
-    },
-     TaxfromSgst(){
-           return this.AllBrandproducts.map(item => {
-                 const MRP =   parseFloat(item.mrp);
-                 const SGST =  parseFloat(item.sgst.replace('%', ''));
-                //  const SGST =  parseFloat(item.sgst.replace('%', ''));
-                const Tax2 = MRP-(MRP/(1+(SGST/100)));
-                return isNaN(Tax2) ? 0 : Tax2.toFixed(2);
-           })
-    },
-calculatedPricePerUnit(){
-    return this.AllBrandproducts.map((item,index) => {
-      const Mrp = parseFloat(this.TaxDeductMRP[index]);
-      // console.log('Dedect MRP',Mrp);
+  //  TaxfromCgst(){
+  //          return this.AllBrandproducts.map(item => {
+  //                const MRP =   parseFloat(item.mrp);
+  //                const CGST =  parseFloat(item.cgst.replace('%', ''));
+  //               //  const SGST =  parseFloat(item.sgst.replace('%', ''));
+  //               const Tax1 = MRP-(MRP/(1+(CGST/100)));
+  //               return isNaN(Tax1) ? 0 : Tax1.toFixed(2);
+  //          })
+  //   },
+    //  TaxfromSgst(){
+    //        return this.AllBrandproducts.map(item => {
+    //              const MRP =   parseFloat(item.mrp);
+    //              const SGST =  parseFloat(item.sgst.replace('%', ''));
+    //             //  const SGST =  parseFloat(item.sgst.replace('%', ''));
+    //             const Tax2 = MRP-(MRP/(1+(SGST/100)));
+    //             return isNaN(Tax2) ? 0 : Tax2.toFixed(2);
+    //        })
+    // },
+    calculateMargin(){
+   return this.AllBrandproducts.map((item,index) => {
+    const mrp = parseFloat(item.mrp);
+    const totalGivenMargin = parseFloat(item.total_given_margin.replace('%', ''));
 
-        const totalGivenMargin = parseFloat(item.total_given_margin.replace('%', ''));
+     const margin = mrp * totalGivenMargin/100; 
+      // console.log('check the margin',margin)
+      return isNaN(margin) ? 0 : margin.toFixed(2);
+     
+    });
+},
+calculatedPricePerUnit(){
+  return this.AllBrandproducts.map((item,index) => {
+      const Mrp = parseFloat(item.mrp);
+      // console.log('Dedect MRP',Mrp);
+        // const 
+      const totalGivenMargin = parseFloat(this.calculateMargin[index]);
       // console.log('Mar',totalGivenMargin);
 
-     const pricePerUnit = Mrp - (Mrp * totalGivenMargin) / 100; 
+      const pricePerUnit = Mrp - totalGivenMargin; 
       
       return isNaN(pricePerUnit) ? 0 : pricePerUnit.toFixed(2);
      
     });
 },
-    TaxDeductMRP() {
-      // const item = this.AllBrandproducts[index];
-     return this.AllBrandproducts.map((item,index) => {
-      const mrp = parseFloat(item.mrp);
-      const TaxCGST =  parseFloat(this.TaxfromCgst[index]);
-      const TaxSGST =  parseFloat(this.TaxfromSgst[index]);
-      // console.log('m Total deduct',mrp-(TaxCGST+TaxSGST));
-      // console.log('mr sgst deduct',TaxSGST);
+  //   TaxDeductMRP() {
+  //     // const item = this.AllBrandproducts[index];
+  //    return this.AllBrandproducts.map((item,index) => {
+  //     const mrp = parseFloat(item.mrp);
+  //     const TaxCGST =  parseFloat(this.TaxfromCgst[index]);
+  //     const TaxSGST =  parseFloat(this.TaxfromSgst[index]);
+  //     // console.log('m Total deduct',mrp-(TaxCGST+TaxSGST));
+  //     // console.log('mr sgst deduct',TaxSGST);
 
-      const tmrp =  mrp-(TaxCGST+TaxSGST);
-      // console.log('mrp deduct',tmrp);
-      // const totalGivenMargin = parseFloat(item.total_given_margin.replace('%', ''));
-      // const quantity = parseFloat(item.quantity);
-      // Calculate the price per unit using the formula
-      // const pricePerUnit = tmrp - (tmrp * totalGivenMargin) / 100;
+  //     const tmrp =  mrp-(TaxCGST+TaxSGST);
+  //     // console.log('mrp deduct',tmrp);
+  //     // const totalGivenMargin = parseFloat(item.total_given_margin.replace('%', ''));
+  //     // const quantity = parseFloat(item.quantity);
+  //     // Calculate the price per unit using the formula
+  //     // const pricePerUnit = tmrp - (tmrp * totalGivenMargin) / 100;
 
-      // Round the result to two decimal places
-      return isNaN(tmrp) ? 0 : tmrp.toFixed(2);
-      // return pricePerUnit.toFixed(2);
-      //  const roundedPricePerUnit = pricePerUnit.toFixed(2);
-      //   this.AllBrandproducts[index] = { ...item, roundedPricePerUnit };
-        // Vue.set(this.AllBrandproducts, index, { ...item, roundedPricePerUnit });
-    });
-  },
+  //     // Round the result to two decimal places
+  //     return isNaN(tmrp) ? 0 : tmrp.toFixed(2);
+  //     // return pricePerUnit.toFixed(2);
+  //     //  const roundedPricePerUnit = pricePerUnit.toFixed(2);
+  //     //   this.AllBrandproducts[index] = { ...item, roundedPricePerUnit };
+  //       // Vue.set(this.AllBrandproducts, index, { ...item, roundedPricePerUnit });
+  //   });
+  // },
  calculatedTaxableAmount() {
   return this.AllBrandproducts.map((item, index) => {
     const quantitt = parseFloat(item.quantity);
-    console.log('check the quantity',quantitt)
-    const rawPricePerUnit = parseFloat(this.calculatedPricePerUnit[index]);
-    console.log('check the Priceperunit',rawPricePerUnit)
-
-    // const pricePerUnit = parseFloat(rawPricePerUnit);
-    // console.log('check the raw Priceperunit',pricePerUnit)
-
+    console.log('quanti',quantitt);
+    const rawPricePerUnit = this.calculatedPricePerUnit[index];
+    const CGST =  parseFloat(item.cgst.replace('%', ''));
+    const SGST = parseFloat(item.sgst.replace('%', ''));
+    
+    const pricePerUnit = parseFloat(rawPricePerUnit);
 
     // Skip calculation if quantity is 0
     if (quantitt === 0) {
       return 0;
     }
 
-    if (isNaN(quantitt) || isNaN(rawPricePerUnit)) {
+    if (isNaN(quantitt) || isNaN(pricePerUnit)) {
       console.log(`Invalid quantity or price at index ${index}`);
       return 0; // or any default value
     }
 
-    const taxableAmount = (quantitt * rawPricePerUnit);
+    const taxableAmount = (rawPricePerUnit/(100+(CGST+SGST))*100)*quantitt;
     return isNaN(taxableAmount) ? 0 : taxableAmount.toFixed(2);
-  });
-}
+   });
+  }
 
   },
 
@@ -1189,7 +1237,13 @@ calculatedPricePerUnit(){
     //  this.loading = false;
   },
   methods: {
-
+  getFormattedDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    },
+    
      colorTGMmargin(text){
     if(text){
       return {
@@ -1328,6 +1382,7 @@ calculatedPricePerUnit(){
         brand_id: this.selectedBrandId,
         user_id: this.userIds,
         created_date: this.productData.created_date,
+        delivery_date: this.productData.delivery_date,
         po_status: statusMapping[this.productData.po_status],
         total_cgst: `${this.allCGSTAmount}`,
         total_sgst: `${this.allSGSTAmount}`,
@@ -1450,18 +1505,21 @@ calculatedPricePerUnit(){
       this.VproductData.you_saved = itm.you_saved
       this.VproductData.total_quantity = itm.total_quantity
       this.VproductData.sub_total = itm.sub_total
+      this.VproductData.delivery_date = itm.delivery_date
       this.viewProduct = itm.products
     },
     editrow(itm) {
       //  this.$refs.vtable.items = combinedProducts;
-      console.log('check the dialog', itm)
-      this.dialog = true
-      this.productData.brand_name = itm.brand_name
-      this.productData.created_date = itm.created_date
-      this.productData.po_status = itm.po_status
-      this.productData.po_number = itm.po_number
-      this.productData.po_id = itm.po_id
+      console.log('check the dialog', itm);
+      this.dialog = true;
+      this.productData.brand_name = itm.brand_name;
+      this.productData.created_date = itm.created_date;
+      this.productData.delivery_date = itm.delivery_date;
+      this.productData.po_status = itm.po_status;
+      this.productData.po_number = itm.po_number;
+      this.productData.po_id = itm.po_id;
       this.editProduct = itm.products;
+  
 
       // if(itm.)
       if (this.productData.brand_name === itm.brand_name) {

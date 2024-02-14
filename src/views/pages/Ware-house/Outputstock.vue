@@ -68,6 +68,31 @@
                    
                 />
               </VCol>
+              <VCol  md="6"
+                cols="12">
+                <!-- {{this.deliveryPersons}}
+                {{selectedDeliveryPerson}} -->
+                <VSelect
+                v-model="selectedDeliveryPerson" 
+                label="Select Delivery Person"
+                :items="this.deliveryPersons"
+                item-value="value"
+                item-title="text"
+                :rules="PersonRules"
+               />
+
+          
+                <!-- <VSelect v-model="selectedDeliveryPerson" label="Select Delivery Person">
+    <VSelectItem
+      v-for="person in deliveryPersons"
+      :key="person.value"
+      :value="person.value"
+      :disabled="person.disabled"
+    >
+      {{ person.text }}
+    </VSelectItem>
+  </VSelect> -->
+              </VCol>
               <VCol cols="12">
                 
               <VTable
@@ -122,7 +147,7 @@
              
           <!-- {{ item.carbs }} -->
         </td>
-           <span v-if="isQuantityExceeded(item.shipped_ordered,item.ordered_quantity)" >
+           <span v-if="isQuantityExceeded(item.shipped_ordered,item.ordered_quantity)">
                            
                           </span>
          <td class="text-center">
@@ -196,6 +221,9 @@ export default {
      props: ['so_id'],
    data(){
     return{
+       PersonRules: [
+         (v) => !!v || 'Delivery Person is required',
+      ],
       loading:false,
        shippedexchange: [(v) => v === 0 || (!!v && `${v}`.trim() !== '') || 'shippedexchange Quantity Is Required'],
             shippedquantity: [(v) => v === 0 || (!!v && `${v}`.trim() !== '') || 'shipped Quantity Is Required'],
@@ -252,6 +280,12 @@ export default {
                 "shipped_exchange":"",
 
             },          
+        ],
+        "delivery_user_details":[
+          {
+            "delivery_person":"",
+            "name":"",
+          }
         ]
 
       },
@@ -268,9 +302,18 @@ export default {
 
         // { text: 'Remarks', value: 'protein' },
       ],
+       selectedDeliveryPerson: null,
+       deliveryPersons: [],
+       deliveryUserDetails:[],
     }
    },
-
+// created() {
+//   // Populate delivery persons array
+//   this.deliveryPersons = this.deliveryUserDetails.map(deliveryPerson => ({
+//     value: deliveryPerson.delivery_person,
+//     text: deliveryPerson.name
+//   }));
+// },
    computed: {
   // filteredDesserts() {
   //   if (!this.selectedPurchaseOrder) {
@@ -292,11 +335,13 @@ export default {
     }
 },
 mounted(){  
+
     this.Soid = this.$route.query.so_id
     console.log('Received po_id:', this.Soid);
     this.getOutputstockdetails();
     setTimeout(() => {
       this.loading = false; // Set loading to false when the operation is complete
+      console.log('deliveryPersons:', this.deliveryPersons);
     }, 2000);
 
 },
@@ -356,7 +401,7 @@ mounted(){
           "total_quantity": this.OutputStockDetails.total_quantity,          
           "created_date": this.OutputStockDetails.created_date,          
           "shipped_date": this.outputStock.shipped_date,  
-          "total_shipped_ordered": `${this.totalshippedorder}` ,
+          "total_shipped_ordered": `${this.totalshippedorder}`,
           "total_shipped_exchanged": `${this.totalshippedexchange}`,
           "products": this.outputStockproducts.map((product,index) => ({
             "merchant_product_id": product.merchant_product_id,
@@ -381,6 +426,7 @@ mounted(){
                   "shipped_ordered":  `${product.shipped_ordered}`,
                   "shipped_exchange":  `${product.shipped_exchange}`,
           })),
+          "delivery_person": this.selectedDeliveryPerson,
         };
         console.log('check the post data',postData);
        const validationErrors = postData.products.filter(product => {       
@@ -433,6 +479,7 @@ mounted(){
 
       getOutputstockdetails() {
         this.getOutputstock(this.Soid).then(response => {
+          // console.log('dates',response);
         this.OutputStockDetails = response.data
          console.log('check output dtock', this.OutputStockDetails);
          
@@ -440,15 +487,14 @@ mounted(){
         this.outputStock.merchant_name = this.OutputStockDetails.merchant_name;
         this.outputStock.so_status = 'Shipped';
         this.outputStockproducts = this.OutputStockDetails.products;
-//  if (Array.isArray(this.OutputStockDetails)) {
-//       this.OutputStockDetails.forEach(item => {
-  
-
-//         console.log('OutputStockDetails', this.OutputStockDetails);
-//       });
-//     } else {
-//       console.error('OutputStockDetails is not an array:', this.OutputStockDetails);
-//     }      
+        this.deliveryUserDetails = response.delivery_user_details;
+        console.log('delivery detials',this.deliveryUserDetails);
+        
+         this.deliveryPersons = this.deliveryUserDetails.map(deliveryPerson => ({
+            value: deliveryPerson.delivery_person,
+            text: deliveryPerson.name
+        }));
+   
     })
     },
 

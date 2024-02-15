@@ -1,1 +1,0 @@
-import{_ as e,o as n,c as t,g as a,r as s}from"./index.a28698aa.js";const _={};function l(o,c){return n(),t("div",null," Template will Integrate Shortly ! ")}const d=e(_,[["render",l]]),i={components:{Viewlead:d}};function p(o,c,f,m,u,$){const r=s("Viewlead");return n(),t("div",null,[a(r)])}const V=e(i,[["render",p]]);export{V as default};

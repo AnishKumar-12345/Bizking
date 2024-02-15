@@ -1,0 +1,1 @@
+import{_ as e,o as c,c as n,g as s,r as a}from"./index.6ec2b2ad.js";const d={};function _(t,o){return c(),n("div",null," Template will Integrate Shortly ! ")}const i=e(d,[["render",_]]),l={components:{Addservice:i}};function p(t,o,f,m,u,v){const r=a("Addservice");return c(),n("div",null,[s(r)])}const x=e(l,[["render",p]]);export{x as default};

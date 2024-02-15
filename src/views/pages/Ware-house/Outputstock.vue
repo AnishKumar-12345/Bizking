@@ -118,7 +118,10 @@
         v-for="(item,index) in this.outputStockproducts"
         :key="index"
       >
-       <td  class="text-center">
+      <td class="text-center">
+        {{item.brand_name}}
+      </td>
+       <td class="text-center">
            {{item.sku_name}}
           </td>
             <td  class="text-center">
@@ -291,6 +294,7 @@ export default {
       },
       outputStockproducts:[],
       headers: [
+        { text: 'Brand Name', value: 'brand_name'},
         { text: 'SKU Name', value: 'sku_name'},
         { text: 'UOM', value: 'uom'},
 
@@ -412,6 +416,7 @@ mounted(){
                   "margin_percentage": product.margin_percentage,
                   // "ordered_quantity":  product.ordered_quantity,
                   // "warehouse_quantity":  product.warehouse_quantity,
+                  "brand_name": product.brand_name,
                   "quantity": product.ordered_quantity,
                   "uom":  product.uom,
                   "price_per_unit":  product.price_per_unit,

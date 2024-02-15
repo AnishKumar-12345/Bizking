@@ -12,14 +12,14 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
   <VerticalNavLayout>
     <!-- 👉 navbar -->
     <template #navbar>
-      <VTextField
+      <!-- <VTextField
         rounded
         prepend-inner-icon="mdi-magnify"
         density="compact"
         max-width="100px"
         class="app-bar-search d-none d-sm-block"
         label="Search"
-      />
+      /> -->
 
       <VSpacer />
 

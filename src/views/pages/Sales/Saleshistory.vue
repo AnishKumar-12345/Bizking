@@ -10,20 +10,19 @@
         placeholder="Enter search query"
       />
     </div> -->
-    <!-- <div style="max-width:400px">
+    <div style="max-width:400px" v-if="this.saleshistory != null">
       <VTextField
       class="mb-3"
-        v-model="searchQuery"  
-        :loading="loading"
+        v-model="searchQuery"        
         density="compact"
         variant="solo"
-        label="Search templates"
+        label="Search"
         append-inner-icon="mdi-magnify"
         single-line
         hide-details
-        @click:append-inner="onClick" 
+  
     />
-    </div> -->
+    </div>
      <div v-if="loading"  class="loading-container">
       <VProgressLinear
             height="5"
@@ -198,23 +197,43 @@ export default {
             loaded: false,
        loading: true,
      saleshistory:[],
+       searchQuery:'',
       headers: [
-        
-        { text: 'Sales Order', value: 'salesorder' },
-        { text: 'Order Date', value: 'orderdate' },
-        { text: 'Status', value: 'status' },
-        { text: 'Order From', value: 'orderfrom' },
-        { text: 'Shipped To', value: 'shippedto' },
-        { text: 'Order Value', value: 'ordervalue' },
+      
+        { text: 'Sales Order', value: 'so_number' },
+        { text: 'Order Date', value: 'created_date' },
+        { text: 'Status', value: 'so_status' },
+        { text: 'Order From', value: 'merchant_name' },
+        { text: 'Shipped To', value: 'merchant_name' },
+        { text: 'Order Value', value: 'total_so_amount' },
         { text: 'Action', value: 'actions', sortable: false },
       ],
         }
     },
      computed: {
-    filteredSalesHistory() {
-      // Filter purchaseHistory based on the condition
-      return this.saleshistory.filter(item => item.so_status === 'Acknowledged' || item.so_status === 'Delivered' || item.so_status === 'Received' || item.so_status === 'Shipped');
+   filteredSalesHistory() {
+      const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
+      return this.saleshistory.filter((item) => {
+        // Filter based on search query
+        const matchesSearch = (
+          (item.so_number && item.so_number.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.created_date && item.created_date.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.so_status && item.so_status.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.merchant_name && item.merchant_name.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.total_so_amount && item.total_so_amount.toString().includes(lowerCaseQuery))
+        );
+        // Filter based on status
+        const matchesStatus = (
+          item.so_status === 'Acknowledged' || 
+          item.so_status === 'Delivered' || 
+          item.so_status === 'Received' || 
+          item.so_status === 'Shipped'
+        );
+        // Return true if both search query and status match
+        return matchesSearch && matchesStatus;
+      });
     },
+  
      paginatedItems() {
     const startIndex = (this.page - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;

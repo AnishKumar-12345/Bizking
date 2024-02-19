@@ -1,5 +1,18 @@
 <template>
   <div>
+      <div style="max-width:400px" >
+      <VTextField
+      class="mb-3"
+        v-model="searchQuery"        
+        density="compact"
+        variant="solo"
+        label="Search"
+        append-inner-icon="mdi-magnify"
+        single-line
+        hide-details
+      
+    />
+    </div>
       <div v-if="loading"  class="loading-container">
       <VProgressLinear
             height="5"
@@ -29,6 +42,7 @@
         </VCard>
       </VCol>
      </VRow> -->
+
 
      <VTable 
        :headers="headers"
@@ -114,7 +128,7 @@
         </VTable>
         <VPagination
   v-model="page"
-  :length="Math.ceil(this.Allstocks.length / pageSize)"
+  :length="Math.ceil(filteredStocks.length / pageSize)"
   @input="updatePagination"
 />
   </div>
@@ -128,6 +142,7 @@ export default {
 
     data(){
         return{
+          searchQuery:'',
        page: 1,
     pageSize: 10,
           loading:true,
@@ -148,10 +163,23 @@ export default {
         }
     },
   computed: {
+    filteredStocks(){
+        const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
+      return this.Allstocks.filter((item) => {
+        return (
+          (item.brand_name && item.brand_name.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.sku_name && item.sku_name.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.uom && item.uom.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.hsn_code && item.hsn_code.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.available_qty && item.available_qty.toString().includes(lowerCaseQuery)) ||
+          (item.stock_updated_date && item.stock_updated_date.toString().includes(lowerCaseQuery))
+        );
+      });
+    },
   paginatedItems() {
     const startIndex = (this.page - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-    return this.Allstocks.slice(startIndex, endIndex);
+    return this.filteredStocks.slice(startIndex, endIndex);
   },
 },
     mounted(){
@@ -162,27 +190,12 @@ export default {
               this.loading = false; // Set loading to false when the operation is complete
             }, 4000);
     },
-     watch: {
-    // Watch for changes in Allstocks array and trigger sorting
-    Allstocks: {
-      handler(newVal) {
-        newVal.sort((a, b) => {
-          // Your sorting logic
-        });
-      },
-      deep: true // Necessary if items within Allstocks can change properties
-    }
-  },
+ 
     methods:{
         updatePagination(page) {
           this.page = page;
         },
-            addItemAndSort(item) {
-      this.Allstocks.push(item);
-      this.Allstocks.sort((a, b) => {
-        // Your sorting logic
-      });
-    },
+          
     //   inputstock(itm){
     //     console.log('check the detials',itm.po_id);
     //      this.$router.push({
@@ -193,10 +206,10 @@ export default {
     //   },
       getstocksdetails(){
         this.getAllstocks().then((response) =>{
-          console.log('check the view stocks',response.data);
+          console.log('check the view stocks',response.data.data);
           this.Allstocks = response.data.data;
-          this.Allstocks.data.reverse();
-          console.log('check the view purchase History',this.Allstocks);
+          console.log('check the view ALl History',this.Allstocks);
+          this.Allstocks.reverse();     
 
         })
       },

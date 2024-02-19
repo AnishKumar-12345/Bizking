@@ -1,1 +1,0 @@
-import{_ as e,o as n,c as t,g as a,r as s}from"./index.9e8238bc.js";const _={};function d(o,r){return n(),t("div",null," Template will Integrate Shortly ! ")}const l=e(_,[["render",d]]),m={components:{Onboardmerchant:l}};function p(o,r,i,f,u,h){const c=s("Onboardmerchant");return n(),t("div",null,[a(c)])}const b=e(m,[["render",p]]);export{b as default};

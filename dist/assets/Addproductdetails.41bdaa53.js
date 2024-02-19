@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as o,g as d,r as s}from"./index.744fe626.js";const a={};function _(c,n){return t(),o("div",null," Template will Integrate Shortly ! ")}const p=e(a,[["render",_]]),l={components:{Addproduct:p}};function u(c,n,i,f,m,$){const r=s("Addproduct");return t(),o("div",null,[d(r)])}const A=e(l,[["render",u]]);export{A as default};

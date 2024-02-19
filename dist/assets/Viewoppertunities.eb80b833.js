@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as n,g as s,r as p}from"./index.744fe626.js";const i={};function a(o,r){return t(),n("div",null," Template will Integrate Shortly ! ")}const _=e(i,[["render",a]]),l={components:{Viewoppertunity:_}};function u(o,r,d,f,m,$){const c=p("Viewoppertunity");return t(),n("div",null,[s(c)])}const V=e(l,[["render",u]]);export{V as default};

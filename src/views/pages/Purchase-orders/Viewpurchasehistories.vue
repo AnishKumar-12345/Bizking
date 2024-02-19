@@ -1,5 +1,19 @@
 <template>
   <div>
+     <div style="max-width:400px" v-if="this.purchaseHistory != null">
+      <VTextField
+      class="mb-3"
+        v-model="searchQuery"        
+        density="compact"
+        variant="solo"
+        label="Search"
+        append-inner-icon="mdi-magnify"
+        single-line
+        hide-details
+    
+    />
+    </div>
+
       <div v-if="loading"  class="loading-container">
       <VProgressLinear
             height="5"
@@ -30,6 +44,7 @@
       </VCol>
      </VRow>
 
+ 
      <VTable v-if="this.purchaseHistory != null"
        :headers="headers"
        :items="paginatedItems"
@@ -140,6 +155,7 @@ export default {
 
     data(){
         return{
+          searchQuery:'',
           page: 1,
     pageSize: 10,
           userRoles:'',
@@ -164,8 +180,27 @@ export default {
      computed: {
        
     filteredPurchaseHistory() {
-      // Filter purchaseHistory based on the condition
-      return this.purchaseHistory.filter(item => item.po_status === 'Acknowledged' || item.po_status === 'Shared' || item.po_status === 'Received');
+     const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
+      return this.purchaseHistory.filter((item) => {
+        // Filter based on search query
+        const matchesSearch = (
+          (item.po_number && item.po_number.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.created_date && item.created_date.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.po_status && item.po_status.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.brand_name && item.brand_name.toLowerCase().includes(lowerCaseQuery)) 
+          // (item.total_so_amount && item.total_so_amount.toString().includes(lowerCaseQuery))
+        );
+        // Filter based on status
+        const matchesStatus = (
+          item.po_status === 'Acknowledged' || 
+          item.po_status === 'Shared' || 
+          item.po_status === 'Received' 
+          // item.po_status === 'Shipped'
+        );
+        // Return true if both search query and status match
+        return matchesSearch && matchesStatus;
+      });
+      // return this.purchaseHistory.filter(item => item.po_status === 'Acknowledged' || item.po_status === 'Shared' || item.po_status === 'Received');
     },
       paginatedItems() {
       const startIndex = (this.page - 1) * this.pageSize;

@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as n,g as a,r as s}from"./index.744fe626.js";const _={};function p(o,r){return t(),n("div",null," Template will Integrate Shortly ! ")}const l=e(_,[["render",p]]),u={components:{GenerateQuote:l}};function i(o,r,d,f,m,$){const c=s("GenerateQuote");return t(),n("div",null,[a(c)])}const g=e(u,[["render",i]]);export{g as default};

@@ -1,0 +1,1 @@
+import{_ as e,o as n,c as r,g as c,r as s}from"./index.744fe626.js";const _={};function u(o,t){return n(),r("div",null," Template will Integrate Shortly ! ")}const d=e(_,[["render",u]]),f={components:{Onboardmanufacturer:d}};function l(o,t,m,p,i,$){const a=s("Onboardmanufacturer");return n(),r("div",null,[c(a)])}const x=e(f,[["render",l]]);export{x as default};

@@ -1,5 +1,19 @@
 <template>
   <div>    
+     <div style="max-width:400px" >
+          <VTextField
+          class="mb-3"
+            v-model="searchQuery"        
+            density="compact"
+            variant="solo"
+            label="Search"
+            append-inner-icon="mdi-magnify"
+            single-line
+            hide-details
+ 
+        />
+    </div>
+
     <div v-if="loading"  class="loading-container">
       <VProgressLinear
             height="5"
@@ -39,6 +53,7 @@
       </VCol>
      </VRow>
 
+   
     <VTable v-if="this.purchaseorders != null"
       :headers="headers"
       :items="this.paginatedItems"  
@@ -140,7 +155,7 @@
     </VTable>
     <VPagination
   v-model="page"
-  :length="Math.ceil(purchaseorders.length / pageSize)"
+  :length="Math.ceil(filteredPurchaseOrder.length / pageSize)"
   @input="updatePagination"
 />
 
@@ -886,6 +901,7 @@ export default {
 
   data() {
     return {
+      searchQuery:'',
        page: 1,
     pageSize: 10,
        today: this.getFormattedDate(new Date()),
@@ -1030,21 +1046,37 @@ export default {
     }
   },
   computed: {
-   paginatedItems() {
+      filteredPurchaseOrder(){
+         const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
+      return this.purchaseorders.filter((item) => {
+        return (
+          (item.po_number && item.po_number.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.created_date && item.created_date.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.po_status && item.po_status.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.brand_name && item.brand_name.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.total_po_amount && item.total_po_amount.toString().includes(lowerCaseQuery)) 
+          // (item.collected_date && item.collected_date.toString().includes(lowerCaseQuery)) ||
+          // (item.quantity && item.quantity.toString().includes(lowerCaseQuery))  ||
+          // (item.warehouse_updated_date && item.warehouse_updated_date.toString().includes(lowerCaseQuery)) ||
+          // (item.send_to_brand_date && item.send_to_brand_date.toString().includes(lowerCaseQuery))
+        );
+      });
+    },
+   paginatedItems() {    
   // Sort purchaseorders based on created_date in descending order
-  const sortedPurchaseOrders = this.purchaseorders.slice().sort((a, b) => {
-    // Parse dates
-    const dateA = new Date(a.created_date);
-    const dateB = new Date(b.created_date);
+  // const sortedPurchaseOrders = this.purchaseorders.slice().sort((a, b) => {
+  //   // Parse dates
+  //   const dateA = new Date(a.created_date);
+  //   const dateB = new Date(b.created_date);
 
-    // Compare dates
-    return dateB - dateA; // Sort by date
-  });
+  //   // Compare dates
+  //   return dateB - dateA; // Sort by date
+  // });
 
   // Pagination
   const startIndex = (this.page - 1) * this.pageSize;
   const endIndex = startIndex + this.pageSize;
-  return sortedPurchaseOrders.slice(startIndex, endIndex);
+  return this.filteredPurchaseOrder.slice(startIndex, endIndex);
 },
     totalIndividualAmount() {
   return this.AllBrandproducts.reduce((total, item) => {

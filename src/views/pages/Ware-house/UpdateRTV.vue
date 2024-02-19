@@ -1,8 +1,22 @@
 <template>
   <div>
+      <div style="max-width:400px" >
+      <VTextField
+      class="mb-3"
+        v-model="searchQuery"        
+        density="compact"
+        variant="solo"
+        label="Search"
+        append-inner-icon="mdi-magnify"
+        single-line
+        hide-details
+  
+    />
+    </div>
+
     <VTable
       :headers="headers"
-      :items="this.RTVdata"
+      :items="this.paginatedItems"
       item-key="dessert"
       class="table-rounded"
       height="500"
@@ -22,7 +36,7 @@
 
       <tbody>
         <tr
-          v-for="(item, index) in this.RTVdata.data"
+          v-for="(item, index) in this.paginatedItems"
           :key="index"
         >
           <td class="text-center">{{ item.brand_name }}</td>
@@ -53,10 +67,11 @@
 
           <td
             class="text-center"
-            v-if="item.goods_status != 'Send To Brand'"
+           
            
           >
             <VBtn
+             v-if="item.goods_status != 'Send To Brand'"
               icon
               variant="text"
               color="default"
@@ -74,6 +89,11 @@
         </tr>
       </tbody>
     </VTable>
+<VPagination
+  v-model="page"
+  :length="Math.ceil(filteredRTV.length / pageSize)"
+  @input="updatePagination"
+/>
 
     <VDialog
       v-model="dialog"
@@ -194,7 +214,7 @@ export default {
       bottom: true,
       left: false,
       right: false,
-
+      searchQuery:'',
       PostRTV:{
         "rtv_id":"",
         "goods_status":"",
@@ -202,7 +222,8 @@ export default {
         "warehouse_updated_date":"",
         "send_to_brand_date":"",
       },
-
+  page: 1,
+    pageSize: 10,
       today: this.getFormattedDate(new Date()),
       dialog: false,
       RTVdata: [],
@@ -221,11 +242,36 @@ export default {
       ],
     }
   },
-  computed: {},
+  computed: {
+    filteredRTV(){
+         const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
+      return this.RTVdata.filter((item) => {
+        return (
+          (item.brand_name && item.brand_name.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.sku_name && item.sku_name.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.uom && item.uom.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.goods_status && item.goods_status.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.rtv_reason && item.rtv_reason.toString().includes(lowerCaseQuery)) ||
+          (item.collected_date && item.collected_date.toString().includes(lowerCaseQuery)) ||
+          (item.quantity && item.quantity.toString().includes(lowerCaseQuery))  ||
+          (item.warehouse_updated_date && item.warehouse_updated_date.toString().includes(lowerCaseQuery)) ||
+          (item.send_to_brand_date && item.send_to_brand_date.toString().includes(lowerCaseQuery))
+        );
+      });
+    },
+    paginatedItems() {
+    const startIndex = (this.page - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    return this.filteredRTV.slice(startIndex, endIndex);
+  },
+  },
   mounted() {
     this.getRTVdatas()
   },
   methods: {
+     updatePagination(page) {
+          this.page = page;
+        },
      validateForm() {      
        this.$refs.purchaseOrderForm.validate().then(valid => {
         console.log("form valid", valid.valid);
@@ -322,9 +368,11 @@ convertDateFormat(apiDate) {
     },
     getRTVdatas() {
       this.getrtvproducts().then(response => {
-        console.log('check the rtv', response)
-        this.RTVdata = response.data;
-        this.RTVdata.data.reverse();
+        // console.log('check the rtv', response.data.data)
+        this.RTVdata = response.data.data;
+        // console.log('check the rtv2', this.RTVdata);
+
+        this.RTVdata.reverse();
       })
     },
   },

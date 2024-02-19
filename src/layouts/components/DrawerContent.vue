@@ -86,8 +86,8 @@ export default{
           title: 'Brand',
           icon: "mdi-alpha-b-circle-outline",
           children: [
-            { id: 36, title: 'Onboard Manufacturer', route: '/account-settings' },
-            { id: 37, title: 'Update Manufacturer ', route: '/tables' },                            
+            { id: 36, title: 'Onboard Manufacturer', route: '/Manufactureonboard' },
+            { id: 37, title: 'Update Manufacturer ', route: '/Manufactureupdate' },                            
 
           ],
           expanded: false,

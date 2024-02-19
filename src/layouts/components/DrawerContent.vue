@@ -99,7 +99,7 @@ export default{
           children: [
             { id: 38, title: 'Create Order', route: '/Createpurchaseorder' },
             { id: 39, title: 'View Order', route: '/Viewpurchaseorder' },
-            { id: 40, title: 'View History', route: '/Viewpurchasehistory' },
+            // { id: 40, title: 'View History', route: '/Viewpurchasehistory' },
 
           ],
           expanded: false,
@@ -119,7 +119,7 @@ export default{
           title: 'Warehouse ',
           icon: "material-symbols:warehouse-outline",
           children: [
-            { id: 42, title: 'Input Stock', route: '/Createwarehouseinput' },
+            { id: 42, title: 'Input Stock', route: '/Viewpurchasehistory' },
             { id: 43, title: 'Output Stock', route: '/Createwarehouseoutput' },
              { id: 44, title: 'View Stock', route: '/Viewstoreinventory' },
             //  { id: 45, title: 'Generate D.C', route: '/tables' },                    
@@ -132,10 +132,19 @@ export default{
           title: 'Store Inventory',
           icon: "carbon:store",
           children: [
-            { id: 47, title: 'View Store', route: '/account-settings' },
-            { id: 48, title: 'Update Stock', route: '/tables' },
-             { id: 49, title: 'Delete Product', route: '/tables' },                    
+            { id: 47, title: 'View Store Stocks', route: '/Viewstorestocks' },
+            // { id: 48, title: 'Update Stock', route: '/tables' },
+            //  { id: 49, title: 'Delete Product', route: '/tables' },                    
 
+          ],
+          expanded: false,
+        },
+        {
+          id: 12,
+          title: 'Terms&Conditions',
+          icon: "carbon:store",
+          children: [
+            { id: 50, title: 'Add T&C', route: '/Addtermsandcondition' },                             
           ],
           expanded: false,
         },
@@ -149,29 +158,19 @@ export default{
   mounted(){
     const vuetifyTheme = useTheme()
   },
-  created() {
-    // Add navigation guard
-    this.$router.beforeEach((to, from, next) => {
-      // Get the route segments
-      const routeSegments = to.path.split('/');
-      // Get the last segment of the route (page name)
-      const pageName = routeSegments[routeSegments.length - 1];
-      // Loop through parent items to find the corresponding item
-      const parentItem = this.parentItems.find(item => {
-        if (item.children) {
-          // Check if any child item's route matches the current page name
-          return item.children.some(child => child.route === '/' + pageName);
-        }
-        return false;
-      });
-      if (parentItem) {
-        // Set expanded property to true to automatically open the menu item
-        parentItem.expanded = true;
-      }
-      // Continue with the navigation
-      next();
-    });
-  },
+//  watch: {
+//     '$route'(to, from) {
+//       if (to.name === 'Createwarehouseoutput') {
+//         // Extract so_id from query parameters
+//         const so_id = to.query.so_id;
+//         // Update the selectedChild based on the so_id
+//         this.selectedChild = so_id;
+//       } else {
+//         // Reset the selectedChild for other routes
+//         this.selectedChild = null;
+//       }
+//     }
+//   },
    methods: {
     toggleChildren(parentItem) {
        console.log('Toggling children for:', parentItem.title);
@@ -188,14 +187,13 @@ export default{
       // }
       // console.log('Parent item expanded:', parentItem.expanded);
     },
-    navigateTo(route,id) {
-       console.log('Navigating to route:', route);
-      this.$router.push(route);
-      console.log(id)
-      this.selectedChild = id;
-       console.log('Selected child:', this.selectedChild);
-      //  this.selectedChild = childItem.id;
-    },
+   navigateTo(route, id) {
+  console.log('Navigating to route:', route);
+  this.$router.push(route);
+  console.log(id);
+  this.selectedChild = id; // Update selectedChild with the id of the clicked child item
+  console.log('Selected child:', this.selectedChild);
+}
   },
 }
 </script>

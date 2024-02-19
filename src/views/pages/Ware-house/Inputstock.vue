@@ -279,7 +279,7 @@ export default {
       console.log("check valids",data,text)
        if(text > data ){
         this.snackbar = true;
-        this.color = "error";
+        this.color = "on-background";
         this.snackbarText = "RTM quantity cannot exceed item quantity."
       }
     },
@@ -287,7 +287,7 @@ export default {
       // return itm > data;
       if(itm > data){
         this.snackbar = true;
-        this.color = "error";
+        this.color = "on-background";
         this.snackbarText = "Received quantity cannot exceed item quantity."
       }
     },
@@ -325,7 +325,7 @@ validateForm(){
         }else{
            this.snackbar = true;
             this.snackbarText = "Please give all mandatory fields"
-            this.color = "error";
+            this.color = "on-background";
         }
       }); 
  },
@@ -374,7 +374,7 @@ validateForm(){
 
     if (!hasNonZeroQuantity) {
         this.snackbar = true;
-        this.color = "error";
+        this.color = "on-background";
         this.snackbarText = "Received Quantity or RTM must be greater than 0 for at least one product.";
         return;
     }
@@ -401,7 +401,7 @@ validateForm(){
                 console.log('check the response',response.status);
                   if (response.status == 1) {              
                     this.snackbar = true;
-                    this.color = "success";
+                    this.color = "primary";
                     this.formData = {};
                     this.snackbarText = response.message;  
                      setTimeout(() => {
@@ -413,13 +413,13 @@ validateForm(){
                     // this.getInputstockdetails();  
                   } else {          
                       this.snackbar = true;
-                      this.color = "error";
+                      this.color = "on-background";
                     };
                 
               })
       }else{
           this.snackbar = true;
-          this.color = "error";
+          this.color = "on-background";
           this.snackbarText = "your quantities are exceeded"; 
       }
             

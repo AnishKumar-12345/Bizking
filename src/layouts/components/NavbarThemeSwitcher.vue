@@ -8,7 +8,7 @@ const themes = [
     name: 'dark',
     icon: 'mdi-weather-night',
   },
-]
+] 
 </script>
 
 <template>

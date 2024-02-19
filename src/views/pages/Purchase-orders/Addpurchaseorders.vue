@@ -708,12 +708,12 @@ calculatedPricePerUnit(){
           }else{
             this.snackbar = true;
             this.snackbarText = "Please give Quantities"
-            this.color = "error";
+            this.color = "primary";
           }
         }else{
            this.snackbar = true;
             this.snackbarText = "Please give all mandatory fields"
-            this.color = "error";
+            this.color = "on-background";
         }
       });     
     },
@@ -781,7 +781,7 @@ calculatedPricePerUnit(){
           console.log('check the response',response.status);
             if (response.status == 1) {              
                this.snackbar = true;
-               this.color = "success";
+               this.color = "primary";
                this.formData = {};
                this.snackbarText = response.message;  
                setTimeout(() => {
@@ -789,7 +789,7 @@ calculatedPricePerUnit(){
             }, 1300);    
             } else {          
                  this.snackbar = true;
-                 this.color = "error";
+                 this.color = "on-background";
               };
            
         })

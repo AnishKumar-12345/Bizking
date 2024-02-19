@@ -64,9 +64,8 @@
    <VTable 
        v-if="this.saleshistory != null"
        :headers="headers" 
-       :items="saleshistory"
-       
-      class="table-rounded"      
+       :items="paginatedItems"       
+       class="table-rounded"      
        height="500"
       fixed-header 
       >
@@ -84,7 +83,7 @@
 
       <tbody>
        <tr
-        v-for="(item,index) in this.filteredSalesHistory"
+        v-for="(item,index) in this.paginatedItems"
         :key="index"
 
          
@@ -177,6 +176,11 @@
       </tr>
       </tbody>        
         </VTable>
+        <VPagination
+  v-model="page"
+  :length="Math.ceil(filteredSalesHistory.length / pageSize)"
+  @input="updatePagination"
+/>
   </div>
 </template>
 
@@ -188,6 +192,8 @@ export default {
 
     data(){
         return{
+            page: 1,
+    pageSize: 10,
           loading2: false,
             loaded: false,
        loading: true,
@@ -208,7 +214,12 @@ export default {
     filteredSalesHistory() {
       // Filter purchaseHistory based on the condition
       return this.saleshistory.filter(item => item.so_status === 'Acknowledged' || item.so_status === 'Delivered' || item.so_status === 'Received' || item.so_status === 'Shipped');
-    }
+    },
+     paginatedItems() {
+    const startIndex = (this.page - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    return this.filteredSalesHistory.slice(startIndex, endIndex);
+  },
   },
     mounted(){
       this.getSalesorderdetails();
@@ -217,6 +228,9 @@ export default {
     }, 2500);
     },
     methods:{
+        updatePagination(page) {
+    this.page = page;
+  },
           getPDFupdate(id){
       this.loading2 = true;
        window.open(id, '_blank');
@@ -253,6 +267,7 @@ export default {
       getSalesorderdetails(){
         this.getSalesorders().then((response)=>{
           this.saleshistory = response.data;
+          this.saleshistory.reverse();
           console.log('check rhe res',this.saleshistory);
 
         })

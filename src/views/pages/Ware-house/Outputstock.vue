@@ -141,7 +141,7 @@
       </VChip>
           <!-- {{ item.available }} -->
         </td>
-        <td class="text-center">
+        <td class="text-center" :class="{ 'has-error': isQuantityExceeded(item.shipped_ordered, item.ordered_quantity, item.warehouse_quantity) }">
           <VTextField   @keydown="preventDecimal"
                               @paste="preventPaste"
                               type="number"
@@ -150,17 +150,17 @@
              
           <!-- {{ item.carbs }} -->
         </td>
-           <span v-if="isQuantityExceeded(item.shipped_ordered,item.ordered_quantity)">
+           <!-- <span v-if="isQuantityExceeded(item.shipped_ordered,item.ordered_quantity,item.warehouse_quantity)">
                            
-                          </span>
-         <td class="text-center">
+                          </span> -->
+         <td class="text-center" :class="{ 'has-error': isQuantityExceeded2(item.shipped_exchange, item.exchange) }">
           <VTextField   @keydown="preventDecimal"
                               @paste="preventPaste"
                               type="number"
                               min="0"
                                max="20000" :rules="shippedexchange"  v-model="item.shipped_exchange" outlined dense />
-    <span v-if="isQuantityExceeded2(item.shipped_exchange,item.exchange)" >
-    </span>
+    <!-- <span v-if="isQuantityExceeded2(item.shipped_exchange,item.exchange)" >
+    </span> -->
           <!-- {{ item.carbs }} -->
         </td>
        
@@ -188,7 +188,8 @@
                 cols="12"
                 class="d-flex flex-wrap gap-4"
               >
-                <VBtn @click="validateForm()">Save</VBtn>
+              <!-- :disabled="validquan" -->
+                <VBtn @click="validateForm()" >Save</VBtn>
 
                 <!-- <VBtn
                   color="secondary"
@@ -224,6 +225,7 @@ export default {
      props: ['so_id'],
    data(){
     return{
+      validquan:false,
        PersonRules: [
          (v) => !!v || 'Delivery Person is required',
       ],
@@ -359,7 +361,7 @@ mounted(){
         }else{
            this.snackbar = true;
             this.snackbarText = "Please give all mandatory fields"
-            this.color = "error";
+            this.color = "on-background";
         }
       }); 
  },
@@ -434,22 +436,31 @@ mounted(){
           "delivery_person": this.selectedDeliveryPerson,
         };
         console.log('check the post data',postData);
-       const validationErrors = postData.products.filter(product => {       
-       console.log('sit', this.isQuantityExceeded(product.shipped_ordered, product.ordered_quantity));
-        return (
-          this.isQuantityExceeded(product.shipped_ordered, product.ordered_quantity) || 
-          this.isQuantityExceeded2(product.shipped_exchange, product.exchange)       
-        );
+        const validationErrors = this.outputStockproducts.map(product => {       
+          // console.log('Shipped quan', product.shipped_ordered, ' Ordered Quan', product.ordered_quantity, ' Warehouse Quan', product.warehouse_quantity);
+        
+          return ( 
+            this.isQuantityExceeded(product.shipped_ordered, product.ordered_quantity, product.warehouse_quantity) || this.isQuantityExceeded2(product.shipped_exchange, product.exchange) );
+          // console.log('sit', exceeded);;
       });
-
-       if (validationErrors.length === 0) {
+      //  const validationErrors = this.outputStockproducts.map(product => {       
+      //  console.log('sit', this.isQuantityExceeded(product.shipped_ordered, product.ordered_quantity, product.warehouse_quantity));
+      //   console.log('Shipped quan',product.shipped_ordered, ' Ordered Quan',product.ordered_quantity,' Warehouse Quan', product.warehouse_quantity);
+      //   return (
+      //     this.isQuantityExceeded(product.shipped_ordered, product.ordered_quantity, product.warehouse_quantity) 
+      //     // this.isQuantityExceeded2(product.shipped_exchange, product.exchange)       
+      //   );
+      // });
+    //  console.log('check', validationErrors.length);
+     console.log('Validation Error Length:', validationErrors.filter(error => error).length);
+       if (validationErrors.filter(error => error).length === 0) {
          this.loading = true;
             this.postOutputstock(postData).then((response)=>{
              console.log('check the response',response);
                 // console.log('check the response',response.status);
                   if (response.status == 1) {              
                     this.snackbar = true;
-                    this.color = "success";
+                    this.color = "primary";
                     this.formData = {};
                    
                     this.snackbarText = response.message;
@@ -464,12 +475,12 @@ mounted(){
                     // this.getInputstockdetails();  
                   } else {          
                       this.snackbar = true;
-                      this.color = "error";
+                      this.color = "on-background";
                     };
          })
        }else{
           this.snackbar = true;
-          this.color = "error";
+          this.color = "on-background";
           this.snackbarText = "your quantities are exceeded"; 
        }
        
@@ -534,19 +545,24 @@ mounted(){
       this.dialog = false;
     },
 
-      isQuantityExceeded(sq,oq){
-       if (sq !== "0" &&  sq > oq){
+isQuantityExceeded(sq, oq, wq) {
+    const minQuantity = Math.min(oq, wq);
+    if (sq > minQuantity && sq !== 0) { // Check if shipped quantity exceeds minQuantity and is not zero
         this.snackbar = true;
-        this.color = "error";
-        this.snackbarText = "Shipped quantity cannot exceed orderd quantity."
-      }
-    },
+        this.color = "on-background";
+        this.snackbarText = "Shipped quantity cannot exceed ordered or warehouse quantity";
+        return true; // Return true if validation fails
+    }
+    return false; // Return false if validation passes
+},
     isQuantityExceeded2(seq,eq){
        if(seq !== "0" && seq > eq){
         this.snackbar = true;
-        this.color = "error";
+        this.color = "on-background";
         this.snackbarText = "Shipped quantity cannot exceed orderd quantity."
+        return true;
       }
+        return false;
     },
    },
  

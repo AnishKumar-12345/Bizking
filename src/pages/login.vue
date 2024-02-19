@@ -79,7 +79,7 @@ const loginuser = () => {
          snackbar.value = {
           show: true,
           message: response.data.message,
-          color: 'success', 
+          color: 'primary', 
         };
       } else {
      

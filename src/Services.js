@@ -192,6 +192,91 @@ export default {
           .catch(err => {
             return err.response;
           });
-        }
+        },
+        posttandc(reqbody){
+          return axios
+          .post(this.url +"bizkingz/services/api/services/addTnC",reqbody, {
+            headers: {
+              "accept": "*/*",
+              "Content-Type": "application/json",
+              
+            },
+            // responseType: 'blob',
+          })
+          .then(response => {
+            return response;
+            // responseType: 'blob',
+          })
+          .catch(err => {
+            return err.response;
+          });
+        },
+        getrtvproducts(){
+          return axios
+          .get(this.url +"bizkingz/services/api/warehouse/getRtvProducts", {
+            headers: {
+              "accept": "*/*",
+              "Content-Type": "application/json",
+              
+            },
+            // responseType: 'blob',
+          })
+          .then(response => {
+            return response;
+            // responseType: 'blob',
+          })
+          .catch(err => {
+            return err.response;
+          });
+        },
+        editrtvproducts(reqbody){
+          return axios
+          .post(this.url +"bizkingz/services/api/warehouse/changeRtvStatus",reqbody, {
+            headers: {
+              "accept": "*/*",
+              "Content-Type": "application/json",
+              
+            },
+            // responseType: 'blob',
+          })
+          .then(response => {
+            return response;
+            // responseType: 'blob',
+          })
+          .catch(err => {
+            return err.response;
+          });
+        },
+        getMerchants(){
+          return axios
+          .get(this.url +"bizkingz/services/api/merchants/getMerchants", {
+            headers: {
+              "accept": "*/*",
+              "Content-Type": "application/json",
+              
+            },
+            // responseType: 'blob',
+          })
+          .then(response => {
+            return response;
+            // responseType: 'blob', 
+          })
+          .catch(err => {
+            return err.response;
+          });
+        },
+        getMerchantproductsstock(reqbody){
+          return axios
+          .get(this.url +"bizkingz/services/api/merchants/stock?merchant_id="+reqbody, {
+            headers: {
+              "Content-Type": "application/json",
+              "accept": "*/*",
+            //   "Authorization": "Bearer "+token
+            }
+          })
+          .then(response => {
+            return response.data;
+          });
+        },
     }
 }

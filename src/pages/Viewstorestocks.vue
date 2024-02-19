@@ -15,7 +15,7 @@
     >
       <!-- Account -->
       <VWindowItem value="account">
-        <Viewpurchasehistories/>
+        <Viewstore/>
       </VWindowItem>
 
     
@@ -25,11 +25,11 @@
 <script>
 import { useRoute } from 'vue-router'
 import { ref, onMounted } from 'vue';
-import Viewpurchasehistories from '@/views/pages/Purchase-orders/Viewpurchasehistories.vue'
+import Viewstore from '@/views/pages/Store/Viewstore.vue'
 
 export default {
     components:{
-        Viewpurchasehistories,
+        Viewstore,
    
     },
     data(){
@@ -38,7 +38,7 @@ export default {
             activeTab:'',
              tabs : [
                 {
-                    title: 'View Input Stocks',
+                    title: 'View Store Stocks',
                     icon: 'mdi-account-outline',
                     tab: 'account',
                 },                

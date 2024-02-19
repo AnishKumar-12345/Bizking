@@ -32,7 +32,7 @@
 
      <VTable 
        :headers="headers"
-       :items="this.Allstocks"
+       :items="this.paginatedItems"
        item-key="dessert"
        class="table-rounded"      
        height="500"
@@ -54,7 +54,7 @@
           
        <tr
       
-            v-for="(item,index) in this.Allstocks.data"
+            v-for="(item,index) in this.paginatedItems"
         :key="index"
          
       >       
@@ -79,7 +79,13 @@
           {{ item.hsn_code }}
         </td>
           <td class="text-center">
-          {{ item.available_qty }}
+             <VChip
+              :color="colorQuantity(item.available_qty).color"
+              class="font-weight-medium"
+              size="small"
+            >
+              {{ item.available_qty }}            
+            </VChip>          
         </td>
           <td class="text-center">
           {{ item.stock_updated_date }}
@@ -106,6 +112,11 @@
       </tr>
       </tbody>        
         </VTable>
+        <VPagination
+  v-model="page"
+  :length="Math.ceil(this.Allstocks.length / pageSize)"
+  @input="updatePagination"
+/>
   </div>
 </template>
 
@@ -117,7 +128,8 @@ export default {
 
     data(){
         return{
-      
+       page: 1,
+    pageSize: 10,
           loading:true,
     Allstocks:[],
 
@@ -135,7 +147,13 @@ export default {
          ],
         }
     },
-  
+  computed: {
+  paginatedItems() {
+    const startIndex = (this.page - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    return this.Allstocks.slice(startIndex, endIndex);
+  },
+},
     mounted(){
    
  
@@ -144,7 +162,27 @@ export default {
               this.loading = false; // Set loading to false when the operation is complete
             }, 4000);
     },
+     watch: {
+    // Watch for changes in Allstocks array and trigger sorting
+    Allstocks: {
+      handler(newVal) {
+        newVal.sort((a, b) => {
+          // Your sorting logic
+        });
+      },
+      deep: true // Necessary if items within Allstocks can change properties
+    }
+  },
     methods:{
+        updatePagination(page) {
+          this.page = page;
+        },
+            addItemAndSort(item) {
+      this.Allstocks.push(item);
+      this.Allstocks.sort((a, b) => {
+        // Your sorting logic
+      });
+    },
     //   inputstock(itm){
     //     console.log('check the detials',itm.po_id);
     //      this.$router.push({
@@ -156,15 +194,16 @@ export default {
       getstocksdetails(){
         this.getAllstocks().then((response) =>{
           console.log('check the view stocks',response.data);
-          this.Allstocks = response.data;
+          this.Allstocks = response.data.data;
+          this.Allstocks.data.reverse();
           console.log('check the view purchase History',this.Allstocks);
 
         })
       },
-      resolveStatusVariant (status){
-      if (status == 'Acknowledged')
+      colorQuantity (itm){
+      if (itm >= 10)
         return {
-          color: 'warning',
+          color: 'success',
           // text: 'Acknowledged',
         }
      
@@ -172,7 +211,7 @@ export default {
         
       else
         return {
-          color: 'info',
+          color: 'error',
           // text: 'Shared',
         }
       },

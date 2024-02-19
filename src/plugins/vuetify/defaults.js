@@ -34,6 +34,9 @@ export default {
     // set v-tooltip default location to top
     location: 'top',
   },
+  // VDataTable:{
+  //   color: 'primary',
+  // },
 
   // VList: {
   //   VListItem: {

@@ -1,0 +1,1 @@
+import{_ as e,o as t,c,g as s,r as a}from"./index.9e8238bc.js";const _={};function p(n,o){return t(),c("div",null," Template will Integrate Shortly ! ")}const d=e(_,[["render",p]]),i={components:{Updateservice:d}};function l(n,o,f,m,u,v){const r=a("Updateservice");return t(),c("div",null,[s(r)])}const x=e(i,[["render",l]]);export{x as default};

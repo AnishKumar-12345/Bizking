@@ -10,7 +10,7 @@
         />          
      </div>
 
-      <VRow v-if="this.filteredPurchaseHistory == null">
+      <VRow v-if="this.purchaseHistory == null">
       <VCol cols="12"> 
         <VCard title="Purchase Order View">
           <VCardText> 
@@ -30,9 +30,9 @@
       </VCol>
      </VRow>
 
-     <VTable v-if="this.filteredPurchaseHistory != null"
+     <VTable v-if="this.purchaseHistory != null"
        :headers="headers"
-       :items="filteredPurchaseHistory"
+       :items="paginatedItems"
         item-key="dessert"
       class="table-rounded"      
        height="500"
@@ -52,7 +52,7 @@
 
       <tbody>
        <tr
-        v-for="(item,index) in filteredPurchaseHistory"
+        v-for="(item,index) in paginatedItems"
         :key="index"
 
          
@@ -124,6 +124,11 @@
       </tr>
       </tbody>        
         </VTable>
+        <VPagination
+  v-model="page"
+  :length="Math.ceil(filteredPurchaseHistory.length / pageSize)"
+  @input="updatePagination"
+/>
   </div>
 </template>
 
@@ -135,6 +140,8 @@ export default {
 
     data(){
         return{
+          page: 1,
+    pageSize: 10,
           userRoles:'',
           loading:true,
     purchaseHistory:[],
@@ -155,10 +162,20 @@ export default {
         }
     },
      computed: {
+       
     filteredPurchaseHistory() {
       // Filter purchaseHistory based on the condition
       return this.purchaseHistory.filter(item => item.po_status === 'Acknowledged' || item.po_status === 'Shared' || item.po_status === 'Received');
-    }
+    },
+      paginatedItems() {
+      const startIndex = (this.page - 1) * this.pageSize;
+      const endIndex = startIndex + this.pageSize;
+      // Sort the filteredPurchaseHistory by created_date in descending order
+      const sortedItems = this.filteredPurchaseHistory.slice().sort((a, b) => {
+         return new Date(b.created_date) - new Date(a.created_date);
+      });
+      return sortedItems.slice(startIndex, endIndex);
+   }
   },
     mounted(){
    
@@ -171,6 +188,9 @@ export default {
             }, 4000);
     },
     methods:{
+       updatePagination(page) {
+    this.page = page;
+  },
       inputstock(itm){
         console.log('check the detials',itm.po_id);
          this.$router.push({
@@ -184,6 +204,7 @@ export default {
         this.getPurchaseorder(this.userIds,this.userRoles).then((response) =>{
           console.log('check the view purchase order',response.data);
           this.purchaseHistory = response.data;
+          this.purchaseHistory.reverse();
           console.log('check the view purchase History',this.purchaseHistory);
 
         })
@@ -191,15 +212,18 @@ export default {
       resolveStatusVariant (status){
       if (status == 'Acknowledged')
         return {
-          color: 'warning',
+          color: 'info',
           // text: 'Acknowledged',
         }
-     
+     else if(status == 'Shared')
+     return{
+        color: 'warning',
+     }
       
         
       else
         return {
-          color: 'info',
+          color: 'success',
           // text: 'Shared',
         }
       },

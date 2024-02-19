@@ -15,9 +15,8 @@
     >
       <!-- Account -->
       <VWindowItem value="account">
-        <Viewpurchasehistories/>
+        <AddTandC/>
       </VWindowItem>
-
     
     </VWindow>
     </div>
@@ -25,11 +24,11 @@
 <script>
 import { useRoute } from 'vue-router'
 import { ref, onMounted } from 'vue';
-import Viewpurchasehistories from '@/views/pages/Purchase-orders/Viewpurchasehistories.vue'
+import AddTandC from '@/views/pages/T&C/AddTandC.vue'
 
 export default {
     components:{
-        Viewpurchasehistories,
+        AddTandC,
    
     },
     data(){
@@ -38,7 +37,7 @@ export default {
             activeTab:'',
              tabs : [
                 {
-                    title: 'View Input Stocks',
+                    title: 'Add T&C',
                     icon: 'mdi-account-outline',
                     tab: 'account',
                 },                

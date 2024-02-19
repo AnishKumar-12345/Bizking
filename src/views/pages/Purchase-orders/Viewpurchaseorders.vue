@@ -41,10 +41,9 @@
 
     <VTable v-if="this.purchaseorders != null"
       :headers="headers"
-      :items="this.purchaseorders"
-      item-key="dessert"
+      :items="this.paginatedItems"  
       class="table-rounded"
-      height="550"
+      height="500"
       fixed-header
     >
 
@@ -59,13 +58,13 @@
           </th>
         </tr>
       </thead>
-      <!-- <template v-slot:body="{ items }"> -->
+     
      
       <tbody>
-        <!-- {{this.purchaseorders}} -->
+      
        
         <tr
-          v-for="(item, index) in this.purchaseorders"
+          v-for="(item, index) in this.paginatedItems"
           :key="index"
         >          
           <td class="text-center">{{ item.po_number }}</td>
@@ -78,9 +77,9 @@
               size="small"
             >
               {{ item.po_status }}
-              <!-- {{ item.fat }} -->
+          
             </VChip>
-            <!-- {{ item.po_status }} -->
+      
           </td>
           <td class="text-center">{{ item.brand_name }}</td>
           <td class="text-center">{{ item.brand_name }}</td>
@@ -101,20 +100,7 @@
                 size="22"
               />
             </VBtn>
-            <!-- <VBtn
-            v-if='item.status!="Acknowledged" && item.status!="Shared"'
-                icon
-                variant="text"
-                color="default"
-                class="me-2"
-                size="x-small"
-                @click="deleteRow(item)"
-            >
-                <VIcon
-                icon="ri-delete-bin-line"
-                size="22"
-                />
-            </VBtn> -->
+           
             <VBtn
               v-if="item.po_status == 'Acknowledged' || item.po_status == 'Shared' || item.po_status == 'Received'"
               icon
@@ -130,22 +116,7 @@
                 size="22"
               />
             </VBtn>
-<!-- {{item.po_id}} -->
-             <!-- <VBtn
-             v-if="item.po_status == 'Acknowledged' || item.po_status == 'Shared'"
-              icon
-              variant="text"
-              color="default"
-              class="me-2"
-              size="x-small"
-              @click="DownloadPDF(item.purchase_order_file)"
-            >
-              <VIcon
-                color="error"
-                icon="iwwa:file-pdf"
-                size="26"
-              />
-            </VBtn> -->
+
             <VBtn
 
              v-if="item.po_status == 'Acknowledged' || item.po_status == 'Shared' || item.po_status == 'Received'"
@@ -165,9 +136,14 @@
           </td>
         </tr>
       </tbody>
-      <!-- </template> -->
+ 
     </VTable>
-    
+    <VPagination
+  v-model="page"
+  :length="Math.ceil(purchaseorders.length / pageSize)"
+  @input="updatePagination"
+/>
+
     <VDialog
       v-model="dialog"
       max-width="1000"
@@ -659,10 +635,10 @@
                         >
                           <td class="text-center">{{ item.sku_name }}</td>
                           <td class="text-center">{{ item.hsn_code }}</td>
-                          <td class="text-center">{{ item.mrp }}</td>
+                          <td class="text-center">   &#8377;{{ item.mrp }}</td>
                           <td class="text-center">{{ item.quantity }}</td>
                           <td class="text-center">{{ item.uom }}</td>
-                          <td class="text-center">{{ item.price_per_unit }}
+                          <td class="text-center">   &#8377;{{ item.price_per_unit }}
                              <VChip
                               :color="colorTGMmargin(item.total_give_margin).color"
                               class="font-weight-medium"
@@ -672,8 +648,8 @@
                                 <!-- {{ item.fat }} -->
                                   </VChip>
                           </td>
-                          <td class="text-center">{{ item.taxable_amount }}</td>
-                          <td class="text-center">{{ item.csgt }}
+                          <td class="text-center">  &#8377;{{ item.taxable_amount }}</td>
+                          <td class="text-center">  &#8377;{{ item.csgt }}
                               <VChip
                               :color="colorTGMmargin(item.cgst_percentage).color"
                               class="font-weight-medium"
@@ -683,7 +659,7 @@
                                 <!-- {{ item.fat }} -->
                                   </VChip>
                           </td>
-                          <td class="text-center">{{ item.sgst }}
+                          <td class="text-center">  &#8377;{{ item.sgst }}
                               <VChip
                               :color="colorTGMmargin(item.sgst_percentage).color"
                               class="font-weight-medium"
@@ -693,7 +669,7 @@
                                 <!-- {{ item.fat }} -->
                                   </VChip>
                           </td>
-                          <td class="text-center">{{ item.amount }}</td>
+                          <td class="text-center">  &#8377;{{ item.amount }}</td>
                         </tr>
                       </tbody>
                       <tfoot>
@@ -910,6 +886,8 @@ export default {
 
   data() {
     return {
+       page: 1,
+    pageSize: 10,
        today: this.getFormattedDate(new Date()),
       loading: true,
       loading2: false,
@@ -1052,6 +1030,22 @@ export default {
     }
   },
   computed: {
+   paginatedItems() {
+  // Sort purchaseorders based on created_date in descending order
+  const sortedPurchaseOrders = this.purchaseorders.slice().sort((a, b) => {
+    // Parse dates
+    const dateA = new Date(a.created_date);
+    const dateB = new Date(b.created_date);
+
+    // Compare dates
+    return dateB - dateA; // Sort by date
+  });
+
+  // Pagination
+  const startIndex = (this.page - 1) * this.pageSize;
+  const endIndex = startIndex + this.pageSize;
+  return sortedPurchaseOrders.slice(startIndex, endIndex);
+},
     totalIndividualAmount() {
   return this.AllBrandproducts.reduce((total, item) => {
     const MRPP = parseFloat(item.mrp);
@@ -1237,6 +1231,9 @@ calculatedPricePerUnit(){
     //  this.loading = false;
   },
   methods: {
+     updatePagination(page) {
+    this.page = page;
+  },
   getFormattedDate(date) {
       const year = date.getFullYear();
       const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -1297,7 +1294,7 @@ calculatedPricePerUnit(){
     if(id == undefined){
             this.snackbar = true
             this.snackbarText = 'PDF is not available'
-            this.color = 'error'
+            this.color = 'on-background'
     }else{
       const pdfUrl = id;
       window.open(pdfUrl, '_blank');
@@ -1318,12 +1315,12 @@ calculatedPricePerUnit(){
           } else {
             this.snackbar = true
             this.snackbarText = 'Please give Quantities'
-            this.color = 'error'
+            this.color = 'on-background'
           }
         } else {
           this.snackbar = true
           this.snackbarText = 'Please give all mandatory fields'
-          this.color = 'error'
+          this.color = 'on-background'
         }
       })
     },
@@ -1418,14 +1415,14 @@ calculatedPricePerUnit(){
         console.log('check the response', response.status);
         if (response.status == 1) {
             this.snackbar = true;
-            this.color = 'success';
+            this.color = 'primary';
             this.formData = {};
             this.snackbarText = response.message;
             this.getPurchaseorderdetails();
             this.dialog = false;          
         } else {
             this.snackbar = true;
-            this.color = 'error';
+            this.color = 'on-background';
         }
     });
 },
@@ -1557,7 +1554,8 @@ calculatedPricePerUnit(){
     getPurchaseorderdetails() {
       this.getPurchaseorder(this.userIds, this.userRoles).then(response => {
         console.log('check the view purchase order', response)
-        this.purchaseorders = response.data
+        this.purchaseorders = response.data;
+         this.purchaseorders.reverse();
       })
     },
     colorPOstatus(status) {

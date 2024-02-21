@@ -1,1 +1,0 @@
-import{_ as e,o as t,c as n,g as o,r as s}from"./index.744fe626.js";const u={};function _(r,a){return t(),n("div",null," Template will Integrate Shortly ! ")}const p=e(u,[["render",_]]),d={components:{Updatemanufacturer:p}};function f(r,a,l,m,i,$){const c=s("Updatemanufacturer");return t(),n("div",null,[o(c)])}const h=e(d,[["render",f]]);export{h as default};

@@ -1,1 +1,0 @@
-import{_ as e,o as t,c as o,g as s,r as a}from"./index.744fe626.js";const _={};function p(c,n){return t(),o("div",null," Template will Integrate Shortly ! ")}const d=e(_,[["render",p]]),i={components:{Viewproduct:d}};function l(c,n,u,f,m,$){const r=a("Viewproduct");return t(),o("div",null,[s(r)])}const V=e(i,[["render",l]]);export{V as default};

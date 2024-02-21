@@ -75,9 +75,9 @@ export default{
           icon: "mdi-person-group-outline",
           children: [
               { id: 50, title: 'View Merchant', route: '/Viewmerchantdetails' },
-            { id: 33, title: 'Onboard Merchant', route: '/Onboardmerchantdetails' },
-            { id: 34, title: 'Update Merchant Details', route: '/Updatemerchant' },
-             { id: 35, title: 'Update Merchant Service', route: '/Updatemerchantservicedetails' },                    
+            // { id: 33, title: 'Onboard Merchant', route: '/Onboardmerchantdetails' },
+            // { id: 34, title: 'Update Merchant Details', route: '/Updatemerchant' },
+            //  { id: 35, title: 'Update Merchant Service', route: '/Updatemerchantservicedetails' },                    
 
           ],
           expanded: false,
@@ -87,7 +87,7 @@ export default{
           title: 'Brand',
           icon: "mdi-alpha-b-circle-outline",
           children: [
-            { id: 36, title: 'Onboard Manufacturer', route: '/Manufactureonboard' },
+            { id: 36, title: 'View Brand', route: '/Manufactureonboard' },
             { id: 37, title: 'Update Manufacturer ', route: '/Manufactureupdate' },                            
 
           ],

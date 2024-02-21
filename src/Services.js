@@ -252,8 +252,7 @@ export default {
           .get(this.url +"bizkingz/services/api/merchants/getMerchants", {
             headers: {
               "accept": "*/*",
-              "Content-Type": "application/json",
-              
+              "Content-Type": "application/json",              
             },
             // responseType: 'blob',
           })
@@ -276,6 +275,24 @@ export default {
           })
           .then(response => {
             return response.data;
+          });
+        },
+        getMerchantdetails(){
+          return axios
+          .get(this.url +"bizkingz/services/api/merchants/getMerchants", {
+            headers: {
+              "accept": "*/*",
+              "Content-Type": "application/json",
+              
+            },
+            // responseType: 'blob',
+          })
+          .then(response => {
+            return response;
+            // responseType: 'blob', 
+          })
+          .catch(err => {
+            return err.response;
           });
         },
     }

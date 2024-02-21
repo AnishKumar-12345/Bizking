@@ -127,10 +127,11 @@
             <td  class="text-center">
            {{item.uom}}
           </td>
-        <td class="text-center">{{ item.exchange }}</td>
-        <td class="text-center">
+            <td class="text-center">
           {{ item.ordered_quantity }}
         </td>
+        <td class="text-center">{{ item.exchange }}</td>
+      
         <td class="text-center">
           <VChip
         :color="resolveStatusVariant(item).color"
@@ -299,9 +300,9 @@ export default {
         { text: 'Brand Name', value: 'brand_name'},
         { text: 'SKU Name', value: 'sku_name'},
         { text: 'UOM', value: 'uom'},
-
+  { text: 'Ordered Quantity', value: 'ordered_quantity' },
         { text: 'Exchange Quantity', value: 'exchange_quantity' },
-        { text: 'Ordered Quantity', value: 'ordered_quantity' },
+      
         { text: 'Available', value: 'warehouse_quantity' },
         { text: 'Shipped Ordered', value: 'shipped_ordered' },
         { text: 'Shipped Exchanged', value: 'shipped_exchange' },

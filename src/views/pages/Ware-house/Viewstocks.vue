@@ -98,7 +98,7 @@
               class="font-weight-medium"
               size="small"
             >
-              {{ item.available_qty }}            
+              {{ item.available_qty >= 0 ? item.available_qty : 0 }}            
             </VChip>          
         </td>
           <td class="text-center">

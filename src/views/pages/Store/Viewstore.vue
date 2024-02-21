@@ -101,12 +101,12 @@
         </VTable>
               </VCol>
 
-              <VCol
+              <!-- <VCol
                 cols="12"
                 class="d-flex flex-wrap gap-4"
               >
                 <VBtn @click="validateForm">Save</VBtn>
-  <!-- @click="resetdetails" -->
+  
                 <VBtn
                   color="secondary"
                   variant="tonal"
@@ -115,7 +115,7 @@
                 >
                   Reset
                 </VBtn>
-              </VCol>
+              </VCol> -->
             </VRow>
           </VForm>
 

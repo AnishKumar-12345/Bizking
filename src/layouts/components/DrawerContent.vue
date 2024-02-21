@@ -74,6 +74,7 @@ export default{
           title: 'Merchant',
           icon: "mdi-person-group-outline",
           children: [
+              { id: 50, title: 'View Merchant', route: '/Viewmerchantdetails' },
             { id: 33, title: 'Onboard Merchant', route: '/Onboardmerchantdetails' },
             { id: 34, title: 'Update Merchant Details', route: '/Updatemerchant' },
              { id: 35, title: 'Update Merchant Service', route: '/Updatemerchantservicedetails' },                    
@@ -141,10 +142,22 @@ export default{
         },
         {
           id: 12,
+          title: 'Retention',
+          icon: "carbon:store",
+          children: [
+            { id: 48, title: 'Retention Visit', route: '/Retentionvisit' },
+            // { id: 48, title: 'Update Stock', route: '/tables' },
+            //  { id: 49, title: 'Delete Product', route: '/tables' },                    
+
+          ],
+          expanded: false,
+        },
+        {
+          id: 13,
           title: 'Terms&Conditions',
           icon: "carbon:store",
           children: [
-            { id: 50, title: 'Add T&C', route: '/Addtermsandcondition' },                             
+            { id: 49, title: 'Add T&C', route: '/Addtermsandcondition' },                             
           ],
           expanded: false,
         },

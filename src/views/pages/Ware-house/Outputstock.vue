@@ -137,7 +137,7 @@
         class="font-weight-medium"
         size="small"
       >
-        {{ item.warehouse_quantity }}
+        {{ item.warehouse_quantity >= 0 ? item.warehouse_quantity : 0}}
       </VChip>
           <!-- {{ item.available }} -->
         </td>
@@ -525,7 +525,7 @@ mounted(){
       
       else
         return {
-          color: 'success',
+          color: 'error',
           // text: 'Shared',
         }
       },

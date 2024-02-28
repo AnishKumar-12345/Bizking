@@ -219,15 +219,16 @@ export default {
        this.userRoles = localStorage.getItem('userRole')
        this.getPurchasehistorydetails();
            setTimeout(() => {
+            //  this.getPurchasehistorydetails();
               this.loading = false; // Set loading to false when the operation is complete
-            }, 4000);
+            }, 5000);
     },
     methods:{
        updatePagination(page) {
     this.page = page;
   },
       inputstock(itm){
-        console.log('check the detials',itm.po_id);
+        // console.log('check the detials',itm.po_id);
          this.$router.push({
           name: 'Createwarehouseinput', // Replace with the actual name of your route
           query: { po_id: itm.po_id }
@@ -237,10 +238,10 @@ export default {
       },
       getPurchasehistorydetails(){
         this.getPurchaseorder(this.userIds,this.userRoles).then((response) =>{
-          console.log('check the view purchase order',response.data);
+          // console.log('check the view purchase order',response.data);
           this.purchaseHistory = response.data;
           this.purchaseHistory.reverse();
-          console.log('check the view purchase History',this.purchaseHistory);
+          // console.log('check the view purchase History',this.purchaseHistory);
 
         })
       },

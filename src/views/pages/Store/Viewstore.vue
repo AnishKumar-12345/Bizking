@@ -1,5 +1,14 @@
 <template>
     <div>
+      <div v-if="loading"  class="loading-container">
+      <VProgressLinear
+            height="5"
+            color="primary"
+            indeterminate
+            class="custom-loader"  
+            full-width              
+        />          
+     </div>
          <VRow>
       <VCol cols="12">
        <VCard title="Merchants" class="mb-4">       
@@ -17,7 +26,7 @@
                 cols="12"
               >
               <!-- {{selectedmerchants}} -->
-                <VSelect
+                <VAutocomplete
                   v-model="selectedmerchants"
                   label="Store or Merchant"
                   :items="merchants"               
@@ -50,10 +59,23 @@
                  
               <VCol cols="12">
                 <!-- {{AllBrandproducts}} -->
+                 <div style="max-width:400px;" >
+                    <VTextField
+                    class="mb-3"
+                      v-model="searchQuery"        
+                      density="compact"
+                      variant="solo"
+                      label="Search"
+                      append-inner-icon="mdi-magnify"
+                      single-line
+                      hide-details
+          
+                  />
+              </div>
       <VTable
       
        :headers="headers"
-       :items="this.marchantstocksdata "
+       :items="this.paginatedItems "
         
       >
            
@@ -70,14 +92,14 @@
       </thead>
 
       <tbody>
-      <tr v-for="(item,index) in this.marchantstocksdata" :key="index">
+      <tr v-for="(item,index) in this.paginatedItems" :key="index">
        <td class="text-center">{{item.brand_name}}</td>
         <td  class="text-center">{{item.sku_name}}</td>
          <td  class="text-center">{{item.uom}}</td>
           <td  class="text-center">{{item.physical_soh}}</td>
            <td  class="text-center">{{item.closing}}</td>
             <td  class="text-center">{{item.opening}}</td>
-            <!-- <td class="text-center">
+            <td class="text-center">
               <V-btn
                   icon
                   variant="text"
@@ -90,15 +112,20 @@
                   
                       <VIcon
                         icon="ri-pencil-line"
-                        size="30"        
+                        size="22"        
                         color="#BA8B32"       
                         />   
                       </V-btn>     
-            </td> -->
+            </td>
       </tr>
       </tbody>
          
         </VTable>
+        <VPagination
+          v-model="page"
+          :length="Math.ceil(filteredMerchant.length / pageSize)"
+          @input="updatePagination"
+        />
               </VCol>
 
               <!-- <VCol
@@ -107,7 +134,7 @@
               >
                 <VBtn @click="validateForm">Save</VBtn>
   
-                <VBtn
+                <VBtn 
                   color="secondary"
                   variant="tonal"
                   @click="resetdetails()"
@@ -148,6 +175,10 @@ export default {
   },
    data(){
     return{
+      loading:true,
+        searchQuery:'',
+       page: 1,
+    pageSize: 10,
         snackbar: false,
       snackbarText: '',
       timeout: 6000, // milliseconds
@@ -171,7 +202,7 @@ export default {
         { text: 'Closing', value: 'closing' },
         { text: 'Opening', value: 'opening' },        
       
-        // { text: 'Actions', value: 'action' }, 
+        { text: 'Actions', value: 'action' }, 
 
 
       ],
@@ -180,6 +211,25 @@ export default {
    },
   
      computed: {  
+      filteredMerchant(){
+         const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
+      return this.marchantstocksdata.filter((item) => {
+        return (
+          (item.brand_name && item.brand_name.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.sku_name && item.sku_name.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.uom && item.uom.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.physical_soh && item.physical_soh.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.closing && item.closing.toLowerCase().includes(lowerCaseQuery)) || 
+            (item.opening && item.opening.toLowerCase().includes(lowerCaseQuery))  
+        );
+      });
+    },
+   paginatedItems() {  
+ 
+  const startIndex = (this.page - 1) * this.pageSize;
+  const endIndex = startIndex + this.pageSize;
+  return this.filteredMerchant.slice(startIndex, endIndex);
+},
        merchants(){
         return this.merchantName.map(a => a.merchant_uid
            );
@@ -189,32 +239,34 @@ export default {
     
     mounted(){
       this.getMerchantdetails();
-     
+     setTimeout(() => {
+              this.loading = false; // Set loading to false when the operation is complete
+            }, 4000);
      
     },
     
    methods:{ 
    handleMerchantSelection() {
-     console.log("Selected Merchant:", this.selectedmerchants);
+    //  console.log("Selected Merchant:", this.selectedmerchants);
      const selectedMerchant = this.merchantName.find(
      (brand) => brand.merchant_uid === this.selectedmerchants
   );
 
-  console.log("Selected Brand Details:", selectedMerchant);
+  // console.log("Selected Brand Details:", selectedMerchant);
 
   if (selectedMerchant) {
     this.selectedMerchantId = selectedMerchant.merchant_id;
-    console.log('Selected Merchant ID:', this.selectedMerchantId);
+    // console.log('Selected Merchant ID:', this.selectedMerchantId);
 
     // Now that you have the selected merchant ID, you can perform further actions, such as calling an API method to get brand details.
     this.getMerchantproductsstock(this.selectedMerchantId)
       .then((response) => {
-        console.log("Merchant Products:", response);
+        // console.log("Merchant Products:", response);
        
         // Handle the response accordingly
         if(response.status == 1){
            this.stockUpdatedate = response.data.stock_updated_date;
-        this.marchantstocksdata = response.data.products;
+           this.marchantstocksdata = response.data.products;
         }else{
            this.marchantstocksdata = [];
              this.snackbar = true;
@@ -232,7 +284,7 @@ export default {
       this.getMerchants().then((response)=>{
         
         this.merchantName = response.data.data;
-        console.log('mer',this.merchantName)
+        // console.log('mer',this.merchantName)
       })
      }
    },

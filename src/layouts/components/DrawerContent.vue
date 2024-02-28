@@ -59,13 +59,26 @@ export default{
           expanded: false,
         },
          {
+          id: 7,
+          title: 'Brand',
+          icon: "mdi-alpha-b-circle-outline",
+          children: [
+            { id: 37, title: 'Add Brand ', route: '/Addbrand' },                            
+            { id: 36, title: 'View Brand', route: '/Viewbrands' },
+            // { id: 50, title: 'Add Brand Product', route: '/Addbrandproductsalldata' },
+
+
+          ],
+          expanded: false,
+        },
+         {
           id: 5,
           title: 'Product  ',
           icon: "ic:baseline-production-quantity-limits",
           children: [
-            { id: 30, title: 'Add Product', route: '/Addproductdetails' },
-            { id: 31, title: 'Update Product', route: '/Viewproductdetails' },
-             { id: 32, title: 'Delete Product', route: '/Deleteproductdetails' },             
+            { id: 30, title: 'Add Product', route: '/Addbrandproductsalldata' },
+            { id: 31, title: 'View Product', route: '/Viewproductdetails' },
+            //  { id: 32, title: 'Delete Product', route: '/Deleteproductdetails' },               
          ],
           expanded: false,
          },
@@ -74,25 +87,16 @@ export default{
           title: 'Merchant',
           icon: "mdi-person-group-outline",
           children: [
-              { id: 50, title: 'View Merchant', route: '/Viewmerchantdetails' },
-            // { id: 33, title: 'Onboard Merchant', route: '/Onboardmerchantdetails' },
-            // { id: 34, title: 'Update Merchant Details', route: '/Updatemerchant' },
-            //  { id: 35, title: 'Update Merchant Service', route: '/Updatemerchantservicedetails' },                    
+            { id: 34, title: 'Onboard Merchant', route: '/Onboardmerchant' },
+              { id: 50, title: 'View Merchants', route: '/Viewmerchantdetails' },
+                { id: 35, title: 'Add Merchant Products', route: '/Addmerchantdetails' }, 
+              // { id: 33, title: 'View Merchant Products', route: '/Viewproducts' },
+                              
 
           ],
           expanded: false,
         },
-          {
-          id: 7,
-          title: 'Brand',
-          icon: "mdi-alpha-b-circle-outline",
-          children: [
-            { id: 36, title: 'View Brand', route: '/Manufactureonboard' },
-            { id: 37, title: 'Update Manufacturer ', route: '/Manufactureupdate' },                            
-
-          ],
-          expanded: false,
-        },
+         
         {
           id: 8,
           title: 'Purchase  ',
@@ -121,7 +125,7 @@ export default{
           icon: "material-symbols:warehouse-outline",
           children: [
             { id: 42, title: 'Input Stock', route: '/Viewpurchasehistory' },
-            { id: 43, title: 'Output Stock', route: '/Createwarehouseoutput' },
+            { id: 43, title: 'Output Stock', route: '/Outputstockupdates' },
              { id: 44, title: 'View Stock', route: '/Viewstoreinventory' },
             //  { id: 45, title: 'Generate D.C', route: '/tables' },                    
               { id: 46, title: 'Update RTV', route: '/Returnwarehousegoods' },  
@@ -186,7 +190,7 @@ export default{
 //   },
    methods: {
     toggleChildren(parentItem) {
-       console.log('Toggling children for:', parentItem.title);
+      //  console.log('Toggling children for:', parentItem.title);
       parentItem.expanded = !parentItem.expanded;  
        this.parentItems.forEach(item => {
         if (item !== parentItem) {
@@ -201,11 +205,11 @@ export default{
       // console.log('Parent item expanded:', parentItem.expanded);
     },
    navigateTo(route, id) {
-  console.log('Navigating to route:', route);
+  // console.log('Navigating to route:', route);
   this.$router.push(route);
-  console.log(id);
+  // console.log(id);
   this.selectedChild = id; // Update selectedChild with the id of the clicked child item
-  console.log('Selected child:', this.selectedChild);
+  // console.log('Selected child:', this.selectedChild);
 }
   },
 }

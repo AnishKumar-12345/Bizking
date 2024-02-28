@@ -1,0 +1,372 @@
+<template>
+    <div>
+         <VRow>
+      <VCol cols="12">
+       <VCard title="Onboard Merchant" class="mb-4">       
+
+        <VCardText>
+          <!-- 👉 Form -->
+          <VForm class="mt-6 " ref="purchaseOrderForm">
+            <VRow>
+    
+            
+
+
+            
+              <VCol
+                cols="12"
+                md="6"
+              >
+                <VTextField
+                  v-model="this.saveMerchant.merchant_uid"
+                  label="Merchant UID"
+                  :rules="uidrules"
+                  required
+                />
+              </VCol>
+      
+              <VCol
+                cols="12"
+                md="6"
+              >
+                <VTextField
+                  v-model="this.saveMerchant.merchant_name"
+                  label="Merchant Name"
+                  :rules="namerules"
+                  required
+                />
+              </VCol>
+            
+            <VCol
+                md="6"
+                cols="12"
+              >
+                 <VTextField
+                  v-model="this.saveMerchant.gst"
+                  label="GST"
+                  :rules="gstrules"
+                  required
+                />
+              </VCol>
+
+              <VCol
+                md="6"
+                cols="12"
+              >
+                 <VTextField
+                  v-model="this.saveMerchant.area_pincode"                
+                  label="Area Pincode"
+                  :rules="pinrules"
+                  required
+                />
+              </VCol>
+             <VCol
+                md="6"
+                cols="12"
+              >
+                 <VTextField
+                  v-model="this.saveMerchant.owner_name"                
+                
+                  label="Owner Name"
+                  :rules="namerules"
+                  required
+                />
+              </VCol>
+
+              <VCol
+                md="6"
+                cols="12"
+              >
+                 <VTextField
+                  v-model="this.saveMerchant.owner_phone"                
+                
+                  label="Owner Phone"
+                  :rules="phonerules"
+                  required
+                />
+              </VCol>
+              <VCol
+                md="6"
+                cols="12"
+              >
+                 <VTextField
+                  v-model="this.saveMerchant.poc_name"                
+                 
+                  label="POC Name"
+                  :rules="namerules"
+                  required
+                />
+              </VCol>
+              <VCol
+                md="6"
+                cols="12"
+              >
+                 <VTextField
+                  v-model="this.saveMerchant.poc_phone"                
+                
+                  label="POC Phone"
+                  :rules="phonerules"
+                  required
+                />
+              </VCol>
+              <VCol
+                md="6"
+                cols="12"
+              >
+                 <VTextField
+                  v-model="this.saveMerchant.shop_size"                
+                
+                  label="Shop Size"
+                />
+              </VCol>
+              <VCol
+                md="6"
+                cols="12"
+              >
+                  <VTextField
+                  v-model="this.saveMerchant.shop_type"                
+                
+                  label="Shop Type"
+                />
+              </VCol>
+
+              <VCol
+                md="6"
+                cols="12"
+              >
+                  <VTextField
+                  v-model="this.saveMerchant.location"                
+                
+                  label="Location"
+                />
+              </VCol>
+
+                <VCol
+                md="6"
+                cols="12"
+              >
+              <!-- {{this.salesdata}} -->
+
+                <VSelect
+                  v-model="this.saveMerchant.sales_person"                
+                 
+                  label="Sales Person"
+                  :items="this.salesdata"
+                item-value="value"
+                item-title="text"
+                 :rules="namerules"
+                  required
+                />
+              </VCol>
+              <VCol            
+                cols="12"
+              >
+              <!-- {{this.salesdata}} -->
+                <VTextField
+                  v-model="this.saveMerchant.store_address"               
+                 
+                  label="Store Address"
+                 :rules="storerules"
+                />
+              </VCol>
+              <VCol
+                cols="12"
+                class="d-flex flex-wrap gap-4"
+              >
+                <VBtn @click="validateForm()">Save</VBtn>
+
+                <VBtn
+                  color="secondary"
+                  variant="tonal"
+                  type="reset"
+               
+                >
+                  Reset
+                </VBtn>
+              </VCol>
+            </VRow>
+          </VForm>
+
+        </VCardText>
+      </VCard>
+    </VCol>  
+  </VRow>
+
+    <VSnackbar
+      v-model="snackbar" :timeout="3500"
+      :color="color"
+      
+    >
+      {{ snackbarText }}
+     <!-- <VBtn text @click="snackbar = false">Close</VBtn> -->
+    </VSnackbar> 
+     <!-- <VDivider />
+    <V-btn
+     icon
+     variant="text"
+     color="default"
+     class="mb-4 mt-4"
+     size="small"
+     style="margin-left: auto; display: block;"
+     @click="openproductdialog()"
+    >
+    
+        <VIcon
+          icon="mdi-plus-box"
+          size="30"        
+          color="#BA8B32"       
+          />   
+        </V-btn>          -->
+  <!-- class="mb-4 mt-4" -->
+
+    
+
+ 
+    </div>
+</template>
+<script>
+import servicescall from "@/Services";
+export default {
+    mixins: [servicescall],
+   data(){
+    return{
+      snackbar: false,
+      snackbarText: '',
+      timeout: 6000, // milliseconds
+      color: '', // or 'error', 'warning', 'info', etc.
+      top: false,
+      bottom: true,
+      left: false,
+      right: false,
+      salesdata:[],
+      userid:'',
+        dialog: false,
+         saveMerchant:{
+          "merchant_uid": "",
+          "merchant_name": "",
+          "store_address": "",
+          "gst": "",
+          "area_pincode": "",
+          "poc_name": "",
+          "poc_phone": "",
+          "owner_name": "",
+          "owner_phone": "",
+          // "decision_authority": "",
+          "shop_size": "",
+          "shop_type": "",
+          "location": "",
+          "created_by": "",
+          "sales_person": ""
+         },
+         storerules:[
+          (v) => !!v || 'Store Address is required',
+         ],
+       uidrules: [
+         (v) => !!v || 'UID is required',
+      ],
+       namerules: [
+         (v) => !!v || 'Name is required',
+      ],
+       gstrules: [
+               (v) => !!v || "GST is required",
+     
+      ],
+       pinrules: [
+         (v) => !!v || 'PIN is required',
+      ],
+       phonerules: [
+         (v) => !!v || " Mobile  is required",
+        (v) => /^[0-9]+$/.test(v) || "only number are accepted",
+        (v) =>
+          (v && v.length <= 10 && v.length >= 10) ||
+          "Mobile must be  10 number",
+      ],
+    }
+   },
+   mounted(){
+    this.getAllsales();
+    this.userid = localStorage.getItem('user_id')
+    // console.log('us',  this.userid)
+   },
+   methods:{
+    validateForm(){
+      this.$refs.purchaseOrderForm.validate().then(valid => {
+        // console.log("form valid", valid.valid);
+        if (valid.valid == true) {
+         
+          this.saveMerchants();
+        }else{
+           this.snackbar = true;
+            this.snackbarText = "Please give all mandatory fields"
+            this.color = "on-background";
+        }
+      }); 
+    },
+    saveMerchants(){
+      const postData = {
+         "merchant_uid": this.saveMerchant.merchant_uid,
+          "merchant_name": this.saveMerchant.merchant_name,
+          "store_address":  this.saveMerchant.store_address,
+          "gst": this.saveMerchant.gst,
+          "area_pincode": this.saveMerchant.area_pincode,
+          "poc_name": this.saveMerchant.poc_name,
+          "poc_phone": this.saveMerchant.poc_phone,
+          "owner_name": this.saveMerchant.owner_name,
+          "owner_phone": this.saveMerchant.owner_phone,
+          // "decision_authority": "",
+          "shop_size": this.saveMerchant.shop_size,
+          "shop_type": this.saveMerchant.shop_type,
+          "location": this.saveMerchant.location,
+          "created_by":  this.userid ,
+          "sales_person": this.saveMerchant.sales_person
+      }
+      this.addOnboardmerchant(postData).then((response)=>{
+        console.log('resp',response);
+         if(response.data.status == 1){
+              this.snackbarText = response.data.message;
+              this.color = "primary";
+              this.snackbar = true;
+               this.saveMerchant={};
+              
+              }else{
+              this.snackbarText = response.data.message;
+              this.color = "on-background";
+              this.snackbar = true;
+              }
+      })
+    },
+    getAllsales(){
+      this.getsalesperson().then((response)=>{
+        // console.log('sales',response);
+        this.salesdata = response.data.data;
+   
+         this.salesdata = this.salesdata.map(sales => ({
+            value: sales.user_id,
+            text: sales.name
+        }));
+           console.log('sales',this.salesdata);
+
+      })
+    },
+     deleteRow(item) {
+      // Implement your logic to delete the row
+      const index = this.data.indexOf(item);
+      if (index !== -1) {
+        this.data.splice(index, 1);
+      }
+    },
+
+      openproductdialog(){
+    // console.log('check the dialog')
+      this.dialog = true;
+   },
+    closeDialog() {
+      this.dialog = false;
+    },
+   },
+ 
+}
+</script>
+<style scoped>
+
+</style>

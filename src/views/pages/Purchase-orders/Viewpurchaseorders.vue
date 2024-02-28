@@ -18,7 +18,7 @@
       <VProgressLinear
             height="5"
             color="primary"
-            indeterminate
+            indeterminate 
             class="custom-loader"  
             full-width              
         />          
@@ -1226,7 +1226,7 @@ calculatedPricePerUnit(){
  calculatedTaxableAmount() {
   return this.AllBrandproducts.map((item, index) => {
     const quantitt = parseFloat(item.quantity);
-    console.log('quanti',quantitt);
+    // console.log('quanti',quantitt);
     const rawPricePerUnit = this.calculatedPricePerUnit[index];
     const CGST =  parseFloat(item.cgst.replace('%', ''));
     const SGST = parseFloat(item.sgst.replace('%', ''));
@@ -1239,7 +1239,7 @@ calculatedPricePerUnit(){
     }
 
     if (isNaN(quantitt) || isNaN(pricePerUnit)) {
-      console.log(`Invalid quantity or price at index ${index}`);
+      // console.log(`Invalid quantity or price at index ${index}`);
       return 0; // or any default value
     }
 
@@ -1255,7 +1255,7 @@ calculatedPricePerUnit(){
     this.createdBy = localStorage.getItem('createdby')
     this.userIds = localStorage.getItem('userId')
     this.userRoles = localStorage.getItem('userRole')
-    this.getPurchaseorderdetails()
+    this.getPurchaseorderdetails();
     this.getBrands();
      setTimeout(() => {
       this.loading = false; // Set loading to false when the operation is complete
@@ -1314,7 +1314,7 @@ calculatedPricePerUnit(){
      getPDFupdate(id){
       this.loading2 = true;
       this.getPurchasePDF(id).then((response)=>{
-        console.log(response)
+        // console.log(response)
         const pdfUrl = response.data.po_file;
         this.loading2 = false;
          window.open(pdfUrl, '_blank');
@@ -1322,7 +1322,7 @@ calculatedPricePerUnit(){
     },
 
     DownloadPDF(id){
-    console.log('check the id', id);
+    // console.log('check the id', id);
     if(id == undefined){
             this.snackbar = true
             this.snackbarText = 'PDF is not available'
@@ -1339,7 +1339,7 @@ calculatedPricePerUnit(){
     },
     validateForm() {
       this.$refs.purchaseOrderForm.validate().then(valid => {
-        console.log('form valid', valid.valid)
+        // console.log('form valid', valid.valid)
         if (valid.valid == true) {
           // this.saveData();
           if (this.allQuantity >= 1) {
@@ -1440,11 +1440,11 @@ calculatedPricePerUnit(){
         ),
     };
 
-    console.log('check the post data', postData);
+    // console.log('check the post data', postData);
 
     this.postupdatePurchaseorder(postData).then(response => {
-        console.log('check the response', response);
-        console.log('check the response', response.status);
+        // console.log('check the response', response);
+        // console.log('check the response', response.status);
         if (response.status == 1) {
             this.snackbar = true;
             this.color = 'primary';
@@ -1521,7 +1521,7 @@ calculatedPricePerUnit(){
       })
     },
     viewrow(itm) {
-      console.log('check the dialog', itm)
+      // console.log('check the dialog', itm)
       this.dialog2 = true
       this.VproductData.brand_name = itm.brand_name
       this.VproductData.created_date = itm.created_date
@@ -1539,7 +1539,7 @@ calculatedPricePerUnit(){
     },
     editrow(itm) {
       //  this.$refs.vtable.items = combinedProducts;
-      console.log('check the dialog', itm);
+      // console.log('check the dialog', itm);
       this.dialog = true;
       this.productData.brand_name = itm.brand_name;
       this.productData.created_date = itm.created_date;
@@ -1556,8 +1556,8 @@ calculatedPricePerUnit(){
         // console.log('check the brandId',this.selectedBrandId);
         this.getBrandproducts(this.selectedBrandId).then(response => {
           this.AllBrandproducts = response.data
-          console.log('Branddetails', this.AllBrandproducts)
-          console.log('text', this.AllBrandproducts)
+          // console.log('Branddetails', this.AllBrandproducts)
+          // console.log('text', this.AllBrandproducts)
 
           this.AllBrandproducts = this.AllBrandproducts.map(product => {
             const editedProduct = this.editProduct.find(
@@ -1569,7 +1569,7 @@ calculatedPricePerUnit(){
               quantity: editedProduct ? editedProduct.quantity : 0,
             }
           })
-          console.log('Filtered editProduct', this.AllBrandproducts)
+          // console.log('Filtered editProduct', this.AllBrandproducts)
         })
 
         //     this.AllBrandproducts = this.AllBrandproducts.filter(product =>
@@ -1585,7 +1585,7 @@ calculatedPricePerUnit(){
     },
     getPurchaseorderdetails() {
       this.getPurchaseorder(this.userIds, this.userRoles).then(response => {
-        console.log('check the view purchase order', response)
+        // console.log('check the view purchase order', response)
         this.purchaseorders = response.data;
          this.purchaseorders.reverse();
       })

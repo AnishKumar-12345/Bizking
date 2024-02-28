@@ -122,7 +122,7 @@ export default {
         
       validateForm() {      
        this.$refs.purchaseOrderForm.validate().then(valid => {
-        console.log("form valid", valid.valid);
+        // console.log("form valid", valid.valid);
         if (valid.valid == true) {          // this.saveData();
         
             this.addtandc();
@@ -139,9 +139,9 @@ export default {
             const reqjson = {};
             reqjson.type = this.tandc.type;
             reqjson.data = this.tandc.data;
-            console.log('check the sending daata',reqjson)
+            // console.log('check the sending daata',reqjson)
             this.posttandc(reqjson).then((response)=>{
-                console.log('check the tand c',response)
+                // console.log('check the tand c',response)
                  if (response.data.status == 1) {              
                     this.snackbar = true;
                     this.color = "primary";

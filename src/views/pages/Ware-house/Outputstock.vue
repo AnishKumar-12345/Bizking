@@ -300,7 +300,7 @@ export default {
         { text: 'Brand Name', value: 'brand_name'},
         { text: 'SKU Name', value: 'sku_name'},
         { text: 'UOM', value: 'uom'},
-  { text: 'Ordered Quantity', value: 'ordered_quantity' },
+        { text: 'Ordered Quantity', value: 'ordered_quantity' },
         { text: 'Exchange Quantity', value: 'exchange_quantity' },
       
         { text: 'Available', value: 'warehouse_quantity' },
@@ -344,18 +344,18 @@ export default {
 mounted(){  
 
     this.Soid = this.$route.query.so_id
-    console.log('Received po_id:', this.Soid);
+    // console.log('Received po_id:', this.Soid);
     this.getOutputstockdetails();
     setTimeout(() => {
       this.loading = false; // Set loading to false when the operation is complete
-      console.log('deliveryPersons:', this.deliveryPersons);
+      // console.log('deliveryPersons:', this.deliveryPersons);
     }, 2000);
 
 },
    methods:{
   validateForm(){
    this.$refs.purchaseOrderForm.validate().then(valid => {
-        console.log("form valid", valid.valid);
+        // console.log("form valid", valid.valid);
         if (valid.valid == true) {
          
           this.saveOutputstock();
@@ -436,7 +436,7 @@ mounted(){
           })),
           "delivery_person": this.selectedDeliveryPerson,
         };
-        console.log('check the post data',postData);
+        // console.log('check the post data',postData);
         const validationErrors = this.outputStockproducts.map(product => {       
           // console.log('Shipped quan', product.shipped_ordered, ' Ordered Quan', product.ordered_quantity, ' Warehouse Quan', product.warehouse_quantity);
         
@@ -453,11 +453,11 @@ mounted(){
       //   );
       // });
     //  console.log('check', validationErrors.length);
-     console.log('Validation Error Length:', validationErrors.filter(error => error).length);
+    //  console.log('Validation Error Length:', validationErrors.filter(error => error).length);
        if (validationErrors.filter(error => error).length === 0) {
          this.loading = true;
             this.postOutputstock(postData).then((response)=>{
-             console.log('check the response',response);
+            //  console.log('check the response',response);
                 // console.log('check the response',response.status);
                   if (response.status == 1) {              
                     this.snackbar = true;
@@ -498,14 +498,14 @@ mounted(){
         this.getOutputstock(this.Soid).then(response => {
           // console.log('dates',response);
         this.OutputStockDetails = response.data
-         console.log('check output dtock', this.OutputStockDetails);
+        //  console.log('check output dtock', this.OutputStockDetails);
          
         this.outputStock.so_number = this.OutputStockDetails.so_number;
         this.outputStock.merchant_name = this.OutputStockDetails.merchant_name;
         this.outputStock.so_status = 'Shipped';
         this.outputStockproducts = this.OutputStockDetails.products;
         this.deliveryUserDetails = response.delivery_user_details;
-        console.log('delivery detials',this.deliveryUserDetails);
+        // console.log('delivery detials',this.deliveryUserDetails);
         
          this.deliveryPersons = this.deliveryUserDetails.map(deliveryPerson => ({
             value: deliveryPerson.delivery_person,
@@ -539,7 +539,7 @@ mounted(){
     },
 
       openproductdialog(){
-    console.log('check the dialog')
+    // console.log('check the dialog')
       this.dialog = true;
    },
     closeDialog() {

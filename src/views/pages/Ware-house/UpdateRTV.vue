@@ -39,6 +39,8 @@
           v-for="(item, index) in this.paginatedItems"
           :key="index"
         >
+          <td class="text-center">{{ item.so_number }}</td>
+
           <td class="text-center">{{ item.brand_name }}</td>
 
           <td class="text-center">{{ item.sku_name }}</td>
@@ -54,6 +56,8 @@
               {{ item.goods_status }}
             </VChip>
           </td>
+
+          <td class="text-center">{{ item.delivery_person }}</td>
 
           <td class="text-center">{{ item.rtv_reason }}</td>
 
@@ -71,7 +75,7 @@
            
           >
             <VBtn
-             v-if="item.goods_status != 'Send To Brand'"
+             v-if="item.goods_status !== 'Send To Brand' "
               icon
               variant="text"
               color="default"
@@ -85,6 +89,23 @@
                 size="22"
               />
             </VBtn>
+
+             <VBtn
+             v-if="(item.rtv_reason == 'Not Moving' && item.goods_status == 'Reached Warehouse') || item.goods_status == 'Send To Brand'"
+       
+              icon
+              variant="text"
+              color="default"
+              class="me-2"
+              size="x-small"
+              @click="viewrow(item)"
+            >
+              <VIcon
+                color="warning"
+                icon="basil:eye-outline"
+                size="22"
+              />
+            </VBtn>
           </td>
         </tr>
       </tbody>
@@ -93,6 +114,7 @@
   v-model="page"
   :length="Math.ceil(filteredRTV.length / pageSize)"
   @input="updatePagination"
+   :max="maxPaginationPages"
 />
 
     <VDialog
@@ -184,6 +206,197 @@
       </VCard>
     </VDialog>
     
+      <VDialog
+      v-model="dialog2"
+      max-width="1000"
+    >
+      <VCard
+        title="View RTV Details"
+        class="mb-2"
+      >
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- 👉 Form -->
+              <VForm class="mt-6" ref="purchaseOrderForm">
+                <VRow>
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <!-- {{selectedPurchaseOrder}} -->
+                    <!-- {{this.productData.brand_name}} -->
+                    <!-- {{this.getRTV.so_number}} -->
+                    <VTextField 
+                    label="So No"
+                    v-model="this.getRTV.so_number"                   
+                    readonly
+                    />
+                  </VCol>
+
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <!-- {{formData.po_status}}  -->
+                    <VTextField label="BrandName" 
+                    v-model="this.getRTV.brand_name"
+                    readonly
+                    />
+                  </VCol>
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <!-- {{this.PostRTV.send_to_brand_date}}  -->
+                   <VTextField
+                     
+                      v-model=" this.getRTV.sku_name "
+                     readonly
+                      label="SKU Name"
+                      
+                      
+                    />
+<!-- {{ this.PostRTV.warehouse_updated_date}} -->
+                   
+                   </VCol>
+
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                     
+                      v-model=" this.getRTV.uom "
+                     readonly
+                      label="UOM"
+                     
+                      
+                    />
+                  </VCol>
+
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                     
+                      v-model=" this.getRTV.goods_status "
+                     
+                      label="Goods Status"
+                     readonly
+                      
+                    />
+                  </VCol>
+
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                     
+                      v-model=" this.getRTV.delivery_person "
+                     
+                      label="Delivery Person"
+                     readonly
+                      
+                    />
+                  </VCol>
+                
+                 <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                     
+                      v-model=" this.getRTV.rtv_reason "
+                     readonly
+                      label="RTV Reason"
+                     
+                      
+                    />
+                  </VCol>
+
+                    <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                     
+                      v-model=" this.getRTV.collected_date "
+                     readonly
+                      label="Collected Date"
+                     
+                      
+                    />
+                  </VCol>
+
+                   <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                     
+                      v-model=" this.getRTV.quantity "
+                     readonly
+                      label="Quantity"
+                     
+                      
+                    />
+                  </VCol>
+
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                     
+                      v-model=" this.getRTV.warehouse_updated_date "
+                     readonly
+                      label="WareHouse Updated Date"
+                     
+                      
+                    />
+                  </VCol>
+
+                   <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                     
+                      v-model=" this.getRTV.send_to_brand_date "
+                     readonly
+                      label="Send To Brand Date"
+                     
+                      
+                    />
+                  </VCol>
+
+                  <VDivider />
+
+                  <VCol
+                    cols="12"
+                    class="d-flex flex-wrap gap-4"
+                  >
+                    <!-- <VBtn @click="validateForm()" :disabled="this.PostRTV.goods_status == 'Collected'">Save</VBtn> -->
+                   
+                    <VBtn
+                      color="secondary"
+                  variant="tonal"
+                      @click="closedialog2()"
+                    >
+                      Close
+                    </VBtn>
+                  </VCol>
+                </VRow>
+              </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+      </VCard>
+    </VDialog>
+
      <VSnackbar
       v-model="snackbar" :timeout="3500"
       :color="color"
@@ -206,6 +419,7 @@ export default {
       dateRules: [
          (v) => !!v || 'Date is required',
       ],
+      maxPaginationPages:5,
       snackbar: false,
       snackbarText: '',
       timeout: 6000, // milliseconds
@@ -221,18 +435,36 @@ export default {
         "quantity":"",
         "warehouse_updated_date":"",
         "send_to_brand_date":"",
+        "rtv_reason":"",
+        "merchant_product_id":"",
       },
+        getRTV:{
+        "so_number":"",
+        "brand_name":"",
+        "sku_name":"",
+        "uom":"",
+        "goods_status":"",
+        "delivery_person":"",
+        "rtv_reason":"",
+          "collected_date":"",
+        "quantity":"",
+        "warehouse_updated_date":"",
+        "send_to_brand_date":"",
+
+      },
+      dialog2:false,
   page: 1,
     pageSize: 10,
       today: this.getFormattedDate(new Date()),
       dialog: false,
       RTVdata: [],
       headers: [
-        // { text: 'SNo', value: 'po_number' },
+        { text: 'SoNo', value: 'so_number' },
         { text: 'Brand Name', value: 'brand_name' },
         { text: 'SKU.', value: 'sku_name' },
         { text: 'UOM', value: 'uom' },
         { text: 'Goods Status', value: 'goods_status' },
+        { text: 'Delivery Person', value: 'delivery_person' },
         { text: 'RTV Reason', value: 'rtv_reason' },
         { text: 'Collected Date', value: 'collected_date' },
         { text: 'Quantity', value: 'quantity' },
@@ -269,12 +501,31 @@ export default {
     this.getRTVdatas()
   },
   methods: {
+    viewrow(item){
+      console.log('chec',item);
+      this.dialog2 = true;
+      this.getRTV.so_number = item.so_number;
+      this.getRTV.brand_name = item.brand_name;
+      this.getRTV.sku_name = item.sku_name;
+      this.getRTV.uom = item.uom;
+      this.getRTV.goods_status = item.goods_status;
+      this.getRTV.delivery_person = item.delivery_person;
+      this.getRTV.rtv_reason = item.rtv_reason;
+      this.getRTV.collected_date = item.collected_date;
+      this.getRTV.quantity = item.quantity;
+      this.getRTV.warehouse_updated_date = item.warehouse_updated_date;
+      this.getRTV.send_to_brand_date = item.send_to_brand_date;
+
+    },
+    closedialog2(){
+      this.dialog2 = false;
+    },
      updatePagination(page) {
           this.page = page;
         },
      validateForm() {      
        this.$refs.purchaseOrderForm.validate().then(valid => {
-        console.log("form valid", valid.valid);
+        // console.log("form valid", valid.valid);
         if (valid.valid == true) {
           this.saveeditRTVproducts();
          
@@ -292,11 +543,13 @@ export default {
         "warehouse_updated_date":this.PostRTV.warehouse_updated_date,
         "send_to_brand_date":this.PostRTV.send_to_brand_date ,
         "rtv_id":this.PostRTV.rtv_id,
+        "rtv_reason":this.PostRTV.rtv_reason,
+        "merchant_product_id":this.PostRTV.merchant_product_id
       }
       
       console.log('RTV',postData);
       this.editrtvproducts(postData).then((response)=>{
-        console.log(response);
+        // console.log(response);
          if (response.data.status == 1) {              
                this.snackbar = true;
                this.color = "primary";
@@ -324,11 +577,14 @@ export default {
       this.dialog = false
     },
     editrow(itm) {
+      console.log('check',itm);
       this.dialog = true;
        this.PostRTV = {
+        merchant_product_id: itm.merchant_product_id,
     rtv_id: itm.rtv_id,
     goods_status: itm.goods_status,
     quantity: itm.quantity,
+    rtv_reason: itm.rtv_reason,
     warehouse_updated_date: itm.warehouse_updated_date != 'N/A' ? this.convertDateFormat(itm.warehouse_updated_date) : '',
     send_to_brand_date: itm.send_to_brand_date != 'N/A' ? this.convertDateFormat(itm.send_to_brand_date) : ''
   };

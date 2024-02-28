@@ -14,7 +14,7 @@
     />
     </div>
 
-      <!-- <div v-if="loading"  class="loading-container">
+      <div v-if="loading"  class="loading-container">
       <VProgressLinear
             height="5"
             color="primary"
@@ -22,7 +22,7 @@
             class="custom-loader"  
             full-width              
         />          
-     </div> -->
+     </div>
 
       <!-- <VRow v-if="this.purchaseHistory == null">
       <VCol cols="12"> 
@@ -72,6 +72,8 @@
 
          
       >       
+        <td class="text-center">{{ item.sales_person }}</td>
+
         <td class="text-center">{{ item.merchant_name }}</td>
         <td class="text-center">
           {{ item.merchant_uid }}
@@ -119,6 +121,9 @@
         <td class="text-center">
           {{ item.updated_date }}
         </td>   
+           <td class="text-center">
+          {{ item.created_by }}
+        </td>   
         <td class="text-center">
           {{ item.created_date }}
         </td>
@@ -129,56 +134,45 @@
           {{ item.store_address }}
         </td>
           <td class="text-center">
-          {{ item.location }}
+          <a :href="item.location" target="_blank" style="color:blue">{{ item.location }}</a>
         </td>
           <td class="text-center">
           {{ item.area_pincode }}
-        </td>
-         
-        <!-- <td  class="text-center " v-if="item.po_status != 'Received'">
-       
-            <VBtn
-                icon
-                variant="text"
-                color="success"
-                class="me-2"
-                size="small"                
-            >
-         
-              <VIcon
-              icon="mdi-invoice-receive-outline"
-              color="success"
-              size="30"
-              @click="inputstock(item)"
-              />
-            </VBtn> -->
-              <!-- <VBtn
-                icon
-                variant="text"
-                color="default"
-                class="me-2"
-                size="x-small"
-                @click="deleteRow(item)"
-            >
-                <VIcon
-                icon="ri-pencil-line"
-                size="22"
-                />
-            </VBtn>
-            <VBtn
-                icon
-                variant="text"
-                color="default"
-                class="me-2"
-                size="x-small"
-                @click="deleteRow(item)"
-            >
-                <VIcon
-                icon="ri-delete-bin-line"
-                size="22"
-                />
-            </VBtn> -->
-          <!-- </td> -->
+        </td>         
+    <td class="text-center" >
+              <V-btn
+                  icon
+                  variant="text"
+                  color="default"
+                  class="mb-1 mt-2"
+                  size="x-small"
+                  style="margin-left: auto; display: block;"
+                 @click="editmerchant(item)"
+                  >
+                  
+                      <VIcon
+                        icon="ri-pencil-line"
+                        size="22"        
+                        color="#BA8B32"       
+                        />   
+                      </V-btn>     
+                       <!-- <V-btn
+                  icon
+                  variant="text"
+                  color="default"
+                  class="mb-1 mt-2"
+                  size="x-small"
+                  style="margin-left: auto; display: block;"
+                
+                  >
+                  
+                      <VIcon
+                        icon="material-symbols:delete"
+                        size="22"        
+                        color="error"       
+                        />   
+                      </V-btn>  -->
+            </td>
       </tr>
       </tbody>        
         </VTable>
@@ -187,6 +181,228 @@
             :length="Math.ceil(filteredMerchants.length / pageSize)"
             @input="updatePagination"
             />
+
+            <VDialog
+      v-model="dialog"
+      max-width="1000"
+    >
+    
+      <VCard
+        title="Update Merchant"
+        class="mb-2"
+      >
+      <VCardText>
+          <VRow>
+            <VCol cols="12">
+         <VForm class="mt-6 " ref="purchaseOrderForm">
+            <VRow> 
+            
+
+
+            
+              <VCol
+                cols="12"
+                md="6"
+              >
+                <VTextField
+                  v-model="this.saveMerchant.merchant_uid"
+                  label="Merchant UID"
+                  :rules="uidrules"
+                  required
+                />
+              </VCol>
+      
+              <VCol
+                cols="12"
+                md="6"
+              >
+                <VTextField
+                  v-model="this.saveMerchant.merchant_name"
+                  label="Merchant Name"
+                  :rules="namerules"
+                  required
+                />
+              </VCol>
+            
+            <VCol
+                md="6"
+                cols="12"
+              >
+                 <VTextField
+                  v-model="this.saveMerchant.gst"
+                  label="GST"
+                  :rules="gstrules"
+                  required
+                />
+              </VCol>
+
+              <VCol
+                md="6"
+                cols="12"
+              >
+                 <VTextField
+                  v-model="this.saveMerchant.area_pincode"                
+                  label="Area Pincode"
+                  :rules="pinrules"
+                  required
+                />
+              </VCol>
+             <VCol
+                md="6"
+                cols="12"
+              >
+                 <VTextField
+                  v-model="this.saveMerchant.owner_name"                
+                
+                  label="Owner Name"
+                  :rules="namerules"
+                  required
+                />
+              </VCol>
+
+              <VCol
+                md="6"
+                cols="12"
+              >
+                 <VTextField
+                  v-model="this.saveMerchant.owner_phone"                
+                
+                  label="Owner Phone"
+                  :rules="phonerules"
+                  required
+                />
+              </VCol>
+              <VCol
+                md="6"
+                cols="12"
+              >
+                 <VTextField
+                  v-model="this.saveMerchant.poc_name"                
+                 
+                  label="POC Name"
+                  :rules="namerules"
+                  required
+                />
+              </VCol>
+              <VCol
+                md="6"
+                cols="12"
+              >
+                 <VTextField
+                  v-model="this.saveMerchant.poc_phone"                
+                
+                  label="POC Phone"
+                  :rules="phonerules"
+                  required
+                />
+              </VCol>
+              <VCol
+                md="6"
+                cols="12"
+              >
+                 <VTextField
+                  v-model="this.saveMerchant.shop_size"                
+                
+                  label="Shop Size"
+                />
+              </VCol>
+              <VCol
+                md="6"
+                cols="12"
+              >
+                  <VTextField
+                  v-model="this.saveMerchant.shop_type"                
+                
+                  label="Shop Type"
+                />
+              </VCol>
+
+              <VCol
+                md="6"
+                cols="12"
+              >
+                  <VTextField
+                  v-model="this.saveMerchant.location"                
+                
+                  label="Location"
+                />
+              </VCol>
+
+                <VCol
+                md="6"
+                cols="12"
+              >
+              <!-- {{this.saveMerchant.sales_person}} -->
+                <VSelect
+                  v-model="this.saveMerchant.sales_person"              
+                 
+                  label="Sales Person"
+                  :items="this.salesdata"
+                item-value="value"
+                item-title="text"
+                 :rules="namerules"
+                  required
+                />
+              </VCol>
+
+                 <VCol
+                md="6"
+                cols="12"
+              >
+              <!-- {{this.saveMerchant.sales_person}} -->
+                <VSelect
+                  v-model="this.saveMerchant.status"                
+                 
+                  label="Status"
+                  :items="['Active','Inactive']"
+                
+                 
+                  required
+                />
+              </VCol>
+
+              <VCol            
+                cols="12"
+              >
+              <!-- {{this.salesdata}} -->
+                <VTextField
+                  v-model="this.saveMerchant.store_address"               
+                 
+                  label="Store Address"
+                 :rules="storerules"
+                />
+              </VCol>
+              <VCol
+                cols="12"
+                class="d-flex flex-wrap gap-4"
+              >
+                <VBtn @click="validateForm()">Save</VBtn>
+
+                <!-- <VBtn
+                  color="secondary"
+                  variant="tonal"
+                  type="reset"
+               
+                >
+                  Reset
+                </VBtn> -->
+              </VCol>
+            </VRow>
+          </VForm>
+            </VCol>
+          </VRow>
+      </VCardText>
+      </VCard>
+            </VDialog>
+            
+             <VSnackbar
+      v-model="snackbar" :timeout="3500"
+      :color="color"
+      
+    >
+      {{ snackbarText }}
+     <!-- <VBtn text @click="snackbar = false">Close</VBtn> -->
+    </VSnackbar> 
             </div>
 </template>
 <script>
@@ -195,11 +411,72 @@ export default {
     mixins: [servicescall],
     data(){
         return{
+            storerules:[
+          (v) => !!v || 'Store Address is required',
+         ],
+       uidrules: [
+         (v) => !!v || 'UID is required',
+      ],
+       namerules: [
+         (v) => !!v || 'Name is required',
+      ],
+       gstrules: [
+               (v) => !!v || "GST is required",
+     
+      ],
+       pinrules: [
+         (v) => !!v || 'PIN is required',
+      ],
+       phonerules: [
+         (v) => !!v || " Mobile  is required",
+        (v) => /^[0-9]+$/.test(v) || "only number are accepted",
+        (v) =>
+          (v && v.length <= 10 && v.length >= 10) ||
+          "Mobile must be  10 number",
+      ],
+           snackbar: false,
+      snackbarText: '',
+      timeout: 6000, // milliseconds
+      color: '', // or 'error', 'warning', 'info', etc.
+      top: false,
+      bottom: true,
+      left: false,
+      right: false,
+            dialog:false,
+            loading:true,
             searchQuery:'',
             page: 1,
             pageSize: 10,
             merchants:[],
+            saveMerchant:{
+              "merchant_uid": "",
+              "merchant_name": "",
+              "merchant_id":"",
+              "merchant_code":"",
+              "store_address": "",
+              "gst": "",
+              "area_pincode": "",
+
+              "poc_name": "",
+              "poc_phone": "",
+              "owner_name": "",
+
+              "owner_phone": "",
+              // "decision_authority": "",
+              "shop_size": "",
+              "shop_type": "",
+
+              "location": "",           
+              "sales_person": "",
+              "created_date": "",
+
+              "status": "",
+              "created_by": "",
+            },
+            salesdata:[],
+            createdby:'',
             headers:[
+               {text:'Sales Associate',value:'sales_person'},
                 {text:'Merchant Name',value:'merchant_name'},
                 {text:'Merchant UID',value:'merchant_uid'},
                 {text:'Owner Name',value:'owner_name'},
@@ -211,15 +488,13 @@ export default {
                 {text:'Status',value:'status'},            
                 {text:'GST',value:'gst'},
                 {text:'Update Date',value:'updated_date'},
+                 {text:'Created By',value:'created_by'},
                 {text:'Created Date',value:'created_date'},
                 {text:'Decision Authority',value:'decision_authority'},
                 {text:'Store Address',value:'store_address'},
                 {text:'Location',value:'location'},
                 {text:'Area Pincode',value:'area_pincode'},
-
-
-
-
+                {text:'Action',value:'actions'},
             ]
         }
     },
@@ -260,8 +535,119 @@ export default {
     },
     mounted(){
         this.getmerchants();
+        this.createdby =  localStorage.getItem('user_id');
+         setTimeout(() => {
+              this.loading = false; // Set loading to false when the operation is complete
+            }, 3000);
+            this.getAllsales();
     },
     methods:{
+         validateForm(){
+      this.$refs.purchaseOrderForm.validate().then(valid => {
+        // console.log("form valid", valid.valid);
+        if (valid.valid == true) {
+         
+          this.updatemerchant();
+        }else{
+           this.snackbar = true;
+            this.snackbarText = "Please give all mandatory fields"
+            this.color = "on-background";
+        }
+      }); 
+    },
+      updatemerchant(){
+          const postData = {
+          "merchant_uid": this.saveMerchant.merchant_uid,
+          "merchant_name": this.saveMerchant.merchant_name,
+          "merchant_code": this.saveMerchant.merchant_code,
+
+          "store_address":  this.saveMerchant.store_address,
+          "gst": this.saveMerchant.gst,
+          "status":  this.saveMerchant.status === "Active" ? "1" : "0",
+
+          "area_pincode": this.saveMerchant.area_pincode,
+          "poc_name": this.saveMerchant.poc_name,
+          "poc_phone": this.saveMerchant.poc_phone,
+
+          "owner_name": this.saveMerchant.owner_name,
+          "owner_phone": this.saveMerchant.owner_phone,
+          "merchant_id":  this.saveMerchant.merchant_id,
+
+          "shop_size": this.saveMerchant.shop_size,
+          "shop_type": this.saveMerchant.shop_type,
+          "location": this.saveMerchant.location,
+
+          "created_by":  this.createdby ,
+          "sales_person": this.saveMerchant.sales_person,
+          "created_date": this.saveMerchant.created_date,
+      }
+      console.log('post',postData);
+      this.updateMerchantdetailsdata(postData).then((response)=>{
+         if(response.data.status == 1){
+              this.snackbarText = response.data.message;
+              this.color = "primary";
+              this.snackbar = true;
+              this.dialog=false;
+              this.saveMerchant={};
+                this.getmerchants();
+              }else{
+              this.snackbarText = response.data.message;
+              this.color = "on-background";
+              this.snackbar = true;
+              }
+      })
+      },
+         getAllsales(){
+      this.getsalesperson().then((response)=>{
+        // console.log('sales',response);
+        this.salesdata = response.data.data;
+   
+         this.salesdata = this.salesdata.map(sales => ({
+            value: sales.user_id,
+            text: sales.name
+        }));
+           console.log('sales',this.salesdata);
+
+      })
+    },
+      editmerchant(item){
+        console.log('check the edit',item.merchant_id);
+        this.getMerchantdetailsdata(item.merchant_id).then((response)=>{
+          console.log('set merchnt',response);
+          if(response.data.status == 1){
+            this.dialog = true;
+           this.saveMerchant.merchant_uid = response.data.data.merchant_uid;
+           this.saveMerchant.merchant_id = response.data.data.merchant_id;
+           this.saveMerchant.created_date = response.data.data.created_date;
+           this.saveMerchant.merchant_code = response.data.data.merchant_code;
+
+            this.saveMerchant.merchant_name = response.data.data.merchant_name;
+             this.saveMerchant.gst = response.data.data.gst;
+              this.saveMerchant.area_pincode = response.data.data.area_pincode;
+
+               this.saveMerchant.owner_name = response.data.data.owner_name;
+                this.saveMerchant.owner_phone = response.data.data.owner_phone;
+                 this.saveMerchant.poc_name = response.data.data.poc_name;
+
+                  this.saveMerchant.poc_phone = response.data.data.poc_phone;
+                   this.saveMerchant.shop_size = response.data.data.shop_size;
+                    this.saveMerchant.shop_type = response.data.data.shop_type;
+
+                     this.saveMerchant.location = response.data.data.location;
+                      this.saveMerchant.sales_person = response.data.data.sales_person == this.salesdata.value ? this.salesdata.map(sales => ({
+                          value: sales.user_id,
+                          text: sales.name
+                      })) : response.data.data.sales_person,
+                       this.saveMerchant.store_address = response.data.data.store_address;
+                      
+                       this.saveMerchant.status = response.data.data.status == 1 ? 'Active' : 'Inactive';
+
+            // this.$router.push({
+            //     name: 'Onboardmerchantdetails'
+            // }); 
+          }
+        })
+      },
       resolveStatusVariant(itm){
         if(itm == 1){
           return{
@@ -278,7 +664,7 @@ export default {
   },
         getmerchants(){
             this.getMerchantdetails().then((response)=>{
-                console.log('merchants',response)
+                // console.log('merchants',response)
                 this.merchants = response.data.data;
                 this.merchants.reverse();
             })

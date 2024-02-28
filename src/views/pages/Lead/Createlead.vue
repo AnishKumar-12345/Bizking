@@ -265,7 +265,7 @@ export default {
     },
 
       openproductdialog(){
-    console.log('check the dialog')
+    // console.log('check the dialog')
       this.dialog = true;
    },
     closeDialog() {

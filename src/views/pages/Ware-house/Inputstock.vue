@@ -270,13 +270,13 @@ export default {
 
   mounted() {
     this.PoId = this.$route.query.po_id
-    console.log('Received po_id:', this.PoId)
+    // console.log('Received po_id:', this.PoId)
     this.getInputstockdetails()
   },
 
   methods: {
     isrtmQuantityExceeded(itm,data,text){
-      console.log("check valids",data,text)
+      // console.log("check valids",data,text)
        if(text > data ){
         this.snackbar = true;
         this.color = "on-background";
@@ -311,7 +311,7 @@ export default {
 
 validateForm(){
    this.$refs.purchaseOrderForm.validate().then(valid => {
-        console.log("form valid", valid.valid);
+        // console.log("form valid", valid.valid);
         if (valid.valid == true) {
           // this.saveData();
           // if(this.allQuantity >=1){   
@@ -368,7 +368,7 @@ validateForm(){
 
           })),
         };
-      console.log('check the post data',postData);
+      // console.log('check the post data',postData);
 
    const hasNonZeroQuantity = postData.products.some(product => product.received_quantity > 0 || product.rtm > 0);
 
@@ -380,7 +380,7 @@ validateForm(){
     }
 
      const validationErrors = postData.products.filter(product => {
-           console.log('check the post data',  product.rtm > product.quantity);
+          //  console.log('check the post data',  product.rtm > product.quantity);
     const totalQuantity = Number(product.received_quantity) + Number(product.rtm);
     return (
       this.isQuantityExceeded(product.received_quantity, product.quantity) ||
@@ -394,11 +394,11 @@ validateForm(){
     );
   });
 
-     console.log('valid errors',validationErrors);
+    //  console.log('valid errors',validationErrors);
       if (validationErrors.length === 0) {
       this.PostInputstock(postData).then((response) =>{
-                console.log('check the response',response);
-                console.log('check the response',response.status);
+                // console.log('check the response',response);
+                // console.log('check the response',response.status);
                   if (response.status == 1) {              
                     this.snackbar = true;
                     this.color = "primary";
@@ -435,7 +435,7 @@ validateForm(){
     getInputstockdetails() {
       this.getInputstock(this.PoId).then(response => {
         this.InputStockDetails = response.data
-        console.log('check input dtock', this.InputStockDetails)
+        // console.log('check input dtock', this.InputStockDetails)
 
         this.InputStockDetails.forEach(item => {
           this.inputStock.brand_id = item.brand_id;
@@ -448,7 +448,7 @@ validateForm(){
           this.inputStock.remarks = item.remarks
           this.inputStock.rtm = item.rtm
 
-          console.log('inputStockproducts', this.inputStockproducts)
+          // console.log('inputStockproducts', this.inputStockproducts)
         })      
       })
     },

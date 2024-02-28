@@ -206,10 +206,10 @@ export default {
     //   },
       getstocksdetails(){
         this.getAllstocks().then((response) =>{
-          console.log('check the view stocks',response.data.data);
+          // console.log('check the view stocks',response.data.data);
           this.Allstocks = response.data.data;
-          console.log('check the view ALl History',this.Allstocks);
-          this.Allstocks.reverse();     
+          // console.log('check the view ALl History',this.Allstocks);
+          // this.Allstocks.reverse();     
 
         })
       },

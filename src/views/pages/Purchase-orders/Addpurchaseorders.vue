@@ -17,7 +17,7 @@
                 cols="12"
               >
               <!-- {{selectedPurchaseOrder}} -->
-                <VSelect
+                <VAutocomplete
                   v-model="selectedPurchaseOrder"
                   label="Brand or Manufacturer"
                   :items="brandNames"               
@@ -66,6 +66,7 @@
                   :rules="Statusrules"           
                 />
               </VCol>
+
                <VCol
                 md="6"
                 cols="12"
@@ -96,8 +97,21 @@
                         size="30"        
                         color="#BA8B32"       
                         />   
-                      </V-btn>      -->
+                      </V-btn> -->
               <VCol cols="12">
+                 <div style="max-width:400px" >
+                  <VTextField
+                  class="mb-3"
+                    v-model="searchQuery"        
+                    density="compact"
+                    variant="solo"
+                    label="Search"
+                    append-inner-icon="mdi-magnify"
+                    single-line
+                    hide-details
+                
+                />
+                </div>
                 <!-- {{AllBrandproducts}} -->
       <VTable
        :headers="headers"
@@ -119,8 +133,8 @@
 
       <tbody>
        <tr
-        v-for="(item,index) in filteredBrandProducts"
-        :key="index"      
+        v-for="(item,index) in filteredPurchaseOrder"
+        :key="index"    
         
       >
   
@@ -132,7 +146,7 @@
           {{ item.hsn_code }}
         </td>
         <td class="text-center">
-          &#8377;{{ item.mrp }}
+          &#8377;{{ item.mrp }} 
         </td>
           <!-- <td class="text-center">
           &#8377;{{ TaxDeductMRP[index] }}
@@ -387,6 +401,8 @@ export default {
   },
    data(){
     return{
+          searchQuery:'',
+
       BrandRules: [
          (v) => !!v || 'Brand is required',
       ],
@@ -490,10 +506,30 @@ export default {
    },
   
      computed: {  
-        filteredBrandProducts() {
+     
+
+      filteredBrandProducts() {
       // Filter out items with undefined quantity
        return this.AllBrandproducts.filter(item => item.quantity !== undefined);
-    },   
+      },   
+
+      filteredPurchaseOrder() {
+      const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
+      console.log('log in',lowerCaseQuery)
+    return this.filteredBrandProducts.filter((item) => {
+    return (
+      (item.sku_name && item.sku_name.toLowerCase().includes(lowerCaseQuery)) ||
+      (item.hsn_code && item.hsn_code.toLowerCase().includes(lowerCaseQuery)) ||
+      (item.mrp && item.mrp.toString().toLowerCase().includes(lowerCaseQuery)) ||
+      (item.quantity && item.quantity.toString().toLowerCase().includes(lowerCaseQuery)) ||
+      (item.uom && item.uom.toLowerCase().includes(lowerCaseQuery)) ||
+      (item.total_given_margin && item.total_given_margin.toString().toLowerCase().includes(lowerCaseQuery)) ||
+      (item.cgst && item.cgst.toString().toLowerCase().includes(lowerCaseQuery)) ||
+      (item.sgst && item.sgst.toString().toLowerCase().includes(lowerCaseQuery))
+    );
+  });
+},
+
      totalIndividualAmount() {
   return this.AllBrandproducts.reduce((total, item) => {
     const MRPP = parseFloat(item.mrp);
@@ -646,7 +682,7 @@ calculatedPricePerUnit(){
   calculatedTaxableAmount() {
     return this.AllBrandproducts.map((item, index) => {
     const quantitt = parseFloat(item.quantity);
-    console.log('quanti',quantitt);
+    // console.log('quanti',quantitt);
     const rawPricePerUnit = this.calculatedPricePerUnit[index];
     const CGST =  parseFloat(item.cgst.replace('%', ''));
     const SGST = parseFloat(item.sgst.replace('%', ''));
@@ -659,7 +695,7 @@ calculatedPricePerUnit(){
     }
 
     if (isNaN(quantitt) || isNaN(pricePerUnit)) {
-      console.log(`Invalid quantity or price at index ${index}`);
+      // console.log(`Invalid quantity or price at index ${index}`);
       return 0; // or any default value
     }
 
@@ -700,7 +736,7 @@ calculatedPricePerUnit(){
 
       validateForm() {      
        this.$refs.purchaseOrderForm.validate().then(valid => {
-        console.log("form valid", valid.valid);
+        // console.log("form valid", valid.valid);
         if (valid.valid == true) {
           // this.saveData();
           if(this.allQuantity >=1){   
@@ -736,7 +772,7 @@ calculatedPricePerUnit(){
       }
     },
      saveData(){
-        console.log('check the CGST Amount',this.allCGSTAmount);
+        // console.log('check the CGST Amount',this.allCGSTAmount);
         const statusMapping = {
             'Draft': 1,
             'Created': 2,
@@ -774,11 +810,11 @@ calculatedPricePerUnit(){
             // "margin_amount": pr
           })),
         };
-        console.log('check the post data',postData);
+        // console.log('check the post data',postData);
       
           this.postPurchaseorder(postData).then((response) =>{
-          console.log('check the response',response);
-          console.log('check the response',response.status);
+          // console.log('check the response',response);
+          // console.log('check the response',response.status);
             if (response.status == 1) {              
                this.snackbar = true;
                this.color = "primary";
@@ -835,18 +871,18 @@ calculatedPricePerUnit(){
    },
 
     handleBrandSelection() {
-      console.log('Brand changed:', this.selectedPurchaseOrder);
+      // console.log('Brand changed:', this.selectedPurchaseOrder);
       const selectedBrand = this.Brandname.find(
         (brand) => brand.brand_name === this.selectedPurchaseOrder
       );
-        console.log("Select Brand Details",selectedBrand);
+        // console.log("Select Brand Details",selectedBrand);
 
       if (selectedBrand) {
         this.selectedBrandId = selectedBrand.brand_id;
-         console.log('check the brandId',this.selectedBrandId);
+        //  console.log('check the brandId',this.selectedBrandId);
         this.getBrandproducts(this.selectedBrandId).then((response)=>{
                   this.AllBrandproducts = response.data;
-                  console.log("BrandID",this.AllBrandproducts);
+                  // console.log("BrandID",this.AllBrandproducts);
         })
         // Call your API method to get brand details using this.selectedBrandId
         // this.getBrandDetails();
@@ -857,7 +893,7 @@ calculatedPricePerUnit(){
         
         // this.Brandname = response.data.map(e => e.brand_name)
         this.Brandname = response.data;
-        console.log('check the response', this.Brandname);
+        // console.log('check the response', this.Brandname);
       })
     },
     //  addNewRow(item) {
@@ -867,7 +903,7 @@ calculatedPricePerUnit(){
     //   this.data.push(newRow);
     // },
     onDateChange() {
-      console.log('Selected date:', this.selectedDate);
+      // console.log('Selected date:', this.selectedDate);
     },
      deleteRow(item) {
     
@@ -878,7 +914,7 @@ calculatedPricePerUnit(){
     },
 
       openproductdialog(){
-    console.log('check the dialog')
+    // console.log('check the dialog')
       this.dialog = true;
    },
     closeDialog() {

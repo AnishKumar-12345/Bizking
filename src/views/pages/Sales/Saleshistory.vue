@@ -110,6 +110,42 @@
            <td class="text-center">
           {{ item.total_so_amount }}
         </td>
+        <td class="text-center">
+           <VBtn
+
+             v-if="item.so_status == 'Shipped' || item.so_status == 'Delivered'"
+              icon
+              variant="text"
+              color="default"
+              class="me-2"
+              size="x-small"
+              @click="getPDFupdate(item.delivery_challan_file)"
+            >
+              <VIcon
+                color="error"
+                icon="iwwa:file-pdf"
+                size="26"
+              />
+            </VBtn>
+        </td>
+         <td class="text-center">
+           <VBtn
+
+             v-if="item.so_status == 'Shipped' || item.so_status == 'Delivered'"
+              icon
+              variant="text"
+              color="default"
+              class="me-2"
+              size="x-small"
+              @click="getPDFinvoice(item.invoice_file)"
+            >
+              <VIcon
+                color="error"
+                icon="iwwa:file-pdf"
+                size="26"
+              />
+            </VBtn>
+        </td>
         <td  class="text-center ">
           <!-- {{item.actions}} -->
             <VBtn
@@ -129,22 +165,7 @@
               />
             </VBtn>
 
-             <VBtn
-
-             v-if="item.so_status == 'Shipped' || item.so_status == 'Delivered'"
-              icon
-              variant="text"
-              color="default"
-              class="me-2"
-              size="x-small"
-              @click="getPDFupdate(item.delivery_challan_file)"
-            >
-              <VIcon
-                color="error"
-                icon="iwwa:file-pdf"
-                size="26"
-              />
-            </VBtn>
+            
               <!-- <VBtn
                 icon
                 variant="text"
@@ -206,6 +227,9 @@ export default {
         { text: 'Order From', value: 'merchant_name' },
         { text: 'Shipped To', value: 'merchant_name' },
         { text: 'Order Value', value: 'total_so_amount' },
+        { text: 'Delivery Challan', value: 'delivery_challan_file' },
+        { text: 'Invoice', value: 'invoice_file' },
+
         { text: 'Action', value: 'actions', sortable: false },
       ],
         }
@@ -224,7 +248,7 @@ export default {
         );
         // Filter based on status
         const matchesStatus = (
-          item.so_status === 'Acknowledged' || 
+          // item.so_status === 'Acknowledged' || 
           item.so_status === 'Delivered' || 
           item.so_status === 'Received' || 
           item.so_status === 'Shipped'
@@ -244,11 +268,16 @@ export default {
       this.getSalesorderdetails();
         setTimeout(() => {
       this.loading = false; // Set loading to false when the operation is complete
-    }, 2500);
+    }, 3000);
     },
     methods:{
         updatePagination(page) {
     this.page = page;
+  },
+  getPDFinvoice(id){
+     this.loading2 = true;
+       window.open(id, '_blank');
+        this.loading2 = false;
   },
           getPDFupdate(id){
       this.loading2 = true;
@@ -262,7 +291,7 @@ export default {
       // })
     },
       outputstock(item){
-          console.log('check the detials',item.so_id);
+          // console.log('check the detials',item.so_id);
          this.$router.push({
           name: 'Createwarehouseoutput', // Replace with the actual name of your route
           query: { so_id: item.so_id }
@@ -287,7 +316,7 @@ export default {
         this.getSalesorders().then((response)=>{
           this.saleshistory = response.data;
           this.saleshistory.reverse();
-          console.log('check rhe res',this.saleshistory);
+          // console.log('check rhe res',this.saleshistory);
 
         })
       },

@@ -10,7 +10,8 @@
         placeholder="Enter search query"
       />
     </div> -->
-    <div style="max-width:400px" v-if="this.saleshistory != null">
+   
+    <div style="max-width:400px" v-if="!showNoSalesAlert">
       <VTextField
       class="mb-3"
         v-model="searchQuery"        
@@ -23,15 +24,8 @@
   
     />
     </div>
-     <div v-if="loading"  class="loading-container">
-      <VProgressLinear
-            height="5"
-            color="primary"
-            indeterminate
-            class="custom-loader"  
-            full-width              
-        />          
-     </div>
+    
+
        <div v-if="loading2"  class="loading-container">
       <VProgressLinear
             height="5"
@@ -41,7 +35,7 @@
             full-width              
         />          
      </div>
-       <VRow v-if="this.saleshistory == null">
+       <VRow v-if="showNoSalesAlert">
       <VCol cols="12"> 
         <VCard title="Sales Order View">
           <VCardText> 
@@ -52,16 +46,30 @@
               class="mb-4"              
               border="top"
             >
-              <VAlertTitle class="mb-1"> Are you sure you gave Sales Orders? </VAlertTitle>
+              <VAlertTitle class="mb-1"> Are you sure you have Output Stocks? </VAlertTitle>
               <p class="mb-0">
-                The system is not retrieving the Sales Orders. Please ensure that you have applied for Sales Orders !</p>
+                The system is trying to retrieving the Orders. Please ensure that you have "Acknowledged" and "Onhold" Output Stock Orders !</p>
             </VAlert>
           </VCardText>
         </VCard>
       </VCol>
      </VRow>
+     
+      <div v-if="loading" id="app">
+      <div id="loading-bg">
+        <div class="loading-logo">
+          <img src="../../../assets/images/logos/comlogo.jpeg" height="60" width="68" alt="Logo" />
+        </div>
+        <div class="loading">
+          <div class="effect-1 effects"></div>
+          <div class="effect-2 effects"></div>
+          <div class="effect-3 effects"></div>
+        </div>
+      </div>
+    </div>
+       <!-- v-if="!showNoSalesAlert" -->
    <VTable 
-       v-if="this.saleshistory != null"
+      v-if="!showNoSalesAlert" 
        :headers="headers" 
        :items="paginatedItems"       
        class="table-rounded"      
@@ -211,6 +219,10 @@ export default {
         }
     },
      computed: {
+    // ifoutputstock(){
+    //   this.paginatedItems.map(item => item.)
+    // },
+   
    filteredSalesHistory() {
       const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
       return this.saleshistory.filter((item) => {
@@ -242,12 +254,18 @@ export default {
     const endIndex = startIndex + this.pageSize;
     return this.filteredSalesHistory.slice(startIndex, endIndex);
   },
+   showNoSalesAlert() {
+      // Check if any items have 'Acknowledged' or 'On Hold' status
+      return !this.saleshistory.some(
+        item => item.so_status === 'Acknowledged' || item.so_status === 'On Hold'
+      );
+    },
   },
     mounted(){
       this.getSalesorderdetails();
         setTimeout(() => {
       this.loading = false; // Set loading to false when the operation is complete
-    }, 2500);
+    }, 4500);
     },
     methods:{
         updatePagination(page) {

@@ -13,16 +13,18 @@
       
     />
     </div>
-      <div v-if="loading"  class="loading-container">
-      <VProgressLinear
-            height="5"
-            color="primary"
-            indeterminate
-            class="custom-loader"  
-            full-width              
-        />          
-     </div>
-
+       <div v-if="loading" id="app">
+      <div id="loading-bg">
+        <div class="loading-logo">
+          <img src="../../../assets/images/logos/comlogo.jpeg" height="60" width="68" alt="Logo" />
+        </div>
+        <div class="loading">
+          <div class="effect-1 effects"></div>
+          <div class="effect-2 effects"></div>
+          <div class="effect-3 effects"></div>
+        </div>
+      </div>
+    </div>
       <!-- <VRow v-if="this.filteredPurchaseHistory == null">
       <VCol cols="12"> 
         <VCard title="Purchase Order View">
@@ -170,9 +172,9 @@ export default {
           (item.brand_name && item.brand_name.toLowerCase().includes(lowerCaseQuery)) ||
           (item.sku_name && item.sku_name.toLowerCase().includes(lowerCaseQuery)) ||
           (item.uom && item.uom.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.hsn_code && item.hsn_code.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.hsn_code && item.hsn_code.toString().includes(lowerCaseQuery)) ||
           (item.available_qty && item.available_qty.toString().includes(lowerCaseQuery)) ||
-          (item.stock_updated_date && item.stock_updated_date.toString().includes(lowerCaseQuery))
+          (item.stock_updated_date && item.stock_updated_date.toLowerCase().includes(lowerCaseQuery))
         );
       });
     },
@@ -208,7 +210,7 @@ export default {
         this.getAllstocks().then((response) =>{
           // console.log('check the view stocks',response.data.data);
           this.Allstocks = response.data.data;
-          // console.log('check the view ALl History',this.Allstocks);
+          console.log('check the view ALl History',this.Allstocks);
           // this.Allstocks.reverse();     
 
         })

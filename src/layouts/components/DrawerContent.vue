@@ -16,6 +16,7 @@ export default{
  
   data(){
     return{
+      userRole: '',
        miniVariant: false,
        parentItems: [
         {
@@ -27,7 +28,7 @@ export default{
         },
         {
           id: 2,
-          title: 'Lead  ',
+          title: 'Lead',
           icon: "fluent-mdl2:party-leader",
           children: [
             { id: 21, title: 'Create Lead', route: '/Leadcreate' },
@@ -37,7 +38,7 @@ export default{
         }, 
          {
           id: 3,
-          title: 'Oppertunity  ',
+          title: 'Oppertunity',
           icon: "ic:baseline-connect-without-contact",
           children: [
             { id: 23, title: 'View Oppertunity', route: '/Viewoppertunities' },
@@ -49,17 +50,17 @@ export default{
         },
         {
           id: 4,
-          title: 'Service  ',
+          title: 'Service',
           icon: "ri:customer-service-2-line",
           children: [
             { id: 27, title: 'Add Service', route: '/Addservicesdetails' },
             { id: 28, title: 'Update Service', route: '/Updateservicedetails' },
-             { id: 29, title: 'Delete Service', route: '/Deleteservicesdetails' },             
+            { id: 29, title: 'Delete Service', route: '/Deleteservicesdetails' },             
          ],
           expanded: false,
         },
          {
-          id: 7,
+          id:5,
           title: 'Brand',
           icon: "mdi-alpha-b-circle-outline",
           children: [
@@ -72,8 +73,8 @@ export default{
           expanded: false,
         },
          {
-          id: 5,
-          title: 'Product  ',
+          id: 6,
+          title: 'Product',
           icon: "ic:baseline-production-quantity-limits",
           children: [
             { id: 30, title: 'Add Product', route: '/Addbrandproductsalldata' },
@@ -83,7 +84,7 @@ export default{
           expanded: false,
          },
          {
-          id: 6,
+          id: 7,
           title: 'Merchant',
           icon: "mdi-person-group-outline",
           children: [
@@ -99,7 +100,7 @@ export default{
          
         {
           id: 8,
-          title: 'Purchase  ',
+          title: 'Purchase',
           icon: "bx:purchase-tag-alt",
           children: [
             { id: 38, title: 'Create Order', route: '/Createpurchaseorder' },
@@ -111,7 +112,7 @@ export default{
         },    
         {
           id: 9,
-          title: 'Sales  ',
+          title: 'Sales',
           icon: "carbon-sales-ops",
           children: [
             { id: 41, title: 'View Sales History', route: '/Viewsaleshistory' },           
@@ -121,7 +122,7 @@ export default{
         },     
         {
           id: 10,
-          title: 'Warehouse ',
+          title: 'Warehouse',
           icon: "material-symbols:warehouse-outline",
           children: [
             { id: 42, title: 'Input Stock', route: '/Viewpurchasehistory' },
@@ -173,8 +174,48 @@ export default{
     }
   },
   mounted(){
-    const vuetifyTheme = useTheme()
+    const vuetifyTheme = useTheme();
+    this.userRole = localStorage.getItem("userRole");
+    console.log('check the role', this.userRole);
   },
+computed: {
+  filteredParentItems() {
+    if (this.userRole === "Sales Associate") {
+      // Filter items for Sales Associate
+      const allowedTitles = ["Dashboard", "Product"];
+      
+      console.log('Allowed Titles:', allowedTitles);
+      
+      const filteredItems = this.parentItems.filter((item) => {
+        const isAllowed = allowedTitles.includes(item.title);
+        console.log(`Title: ${item.title}, Allowed: ${isAllowed}`);
+        return isAllowed;
+      });
+      
+      console.log('Filtered Items:', filteredItems);
+      return filteredItems;
+    } else if (this.userRole === "Business Development Manager") {
+      // Filter items for Business Development Manager
+      const allowedTitles = ["Dashboard", "Merchant"];
+      
+      console.log('Allowed Titles:', allowedTitles);
+      
+      const filteredItems = this.parentItems.filter((item) => {
+        const isAllowed = allowedTitles.includes(item.title);
+        console.log(`Title: ${item.title}, Allowed: ${isAllowed}`);
+        return isAllowed;
+      });
+      
+      console.log('Filtered Items:', filteredItems);
+      return filteredItems;
+    } else {
+      // Return all items for other roles
+      return this.parentItems;
+    }
+  },
+},
+
+
 //  watch: {
 //     '$route'(to, from) {
 //       if (to.name === 'Createwarehouseoutput') {
@@ -248,8 +289,8 @@ export default{
 
     <VerticalNavLink class="custom-scrollbar"> 
       
-      <v-list-item-group  v-for="parentItem in parentItems" :key="parentItem.id">
-  
+      <v-list-item-group  v-for="(parentItem,index) in filteredParentItems" :key="index">
+ 
         <v-list-item 
        class="list-item"
           style="margin:8px; border-top-right-radius: 30px;

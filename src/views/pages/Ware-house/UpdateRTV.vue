@@ -14,7 +14,40 @@
     />
     </div>
 
-    <VTable
+ <VRow v-if="paginatedItems == null">
+      <VCol cols="12"> 
+        <VCard title="Sales Order View">
+          <VCardText> 
+            <!-- 👉 Checkbox and Button  -->
+            <VAlert
+              color="warning"
+              variant="tonal"
+              class="mb-4"              
+              border="top"
+            >
+              <VAlertTitle class="mb-1"> Are you sure you have RTV ? </VAlertTitle>
+              <p class="mb-0">
+                The system is trying to retrieving the RTV. Please ensure that you have RTV !</p>
+            </VAlert>
+          </VCardText>
+        </VCard>
+      </VCol>
+     </VRow>
+
+  <div v-if="loading" id="app">
+      <div id="loading-bg">
+        <div class="loading-logo">
+          <img src="../../../assets/images/logos/comlogo.jpeg" height="60" width="68" alt="Logo" />
+        </div>
+        <div class="loading">
+          <div class="effect-1 effects"></div>
+          <div class="effect-2 effects"></div>
+          <div class="effect-3 effects"></div>
+        </div>
+      </div>
+    </div>
+
+    <VTable v-if="paginatedItems != null"
       :headers="headers"
       :items="this.paginatedItems"
       item-key="dessert"
@@ -61,6 +94,8 @@
 
           <td class="text-center">{{ item.rtv_reason }}</td>
 
+          <td class="text-center">{{ item.type }}</td>
+
           <td class="text-center">{{ item.collected_date }}</td>
 
           <td class="text-center">{{ item.quantity }}</td>
@@ -75,7 +110,7 @@
            
           >
             <VBtn
-             v-if="item.goods_status !== 'Send To Brand' "
+             v-if="item.goods_status !== 'Send To Brand' && !(item.type === 'return' && item.goods_status === 'Reached Warehouse')"
               icon
               variant="text"
               color="default"
@@ -89,9 +124,9 @@
                 size="22"
               />
             </VBtn>
-
+            
              <VBtn
-             v-if="(item.rtv_reason == 'Not Moving' && item.goods_status == 'Reached Warehouse') || item.goods_status == 'Send To Brand'"
+             v-if="(item.type === 'return' && item.goods_status === 'Reached Warehouse') || item.goods_status === 'Send To Brand'"
        
               icon
               variant="text"
@@ -428,7 +463,9 @@ export default {
       bottom: true,
       left: false,
       right: false,
+      loading:true,
       searchQuery:'',
+      GoodsStatus:null,
       PostRTV:{
         "rtv_id":"",
         "goods_status":"",
@@ -436,6 +473,7 @@ export default {
         "warehouse_updated_date":"",
         "send_to_brand_date":"",
         "rtv_reason":"",
+        "type":"",
         "merchant_product_id":"",
       },
         getRTV:{
@@ -466,6 +504,8 @@ export default {
         { text: 'Goods Status', value: 'goods_status' },
         { text: 'Delivery Person', value: 'delivery_person' },
         { text: 'RTV Reason', value: 'rtv_reason' },
+        { text: 'Goods Type', value: 'type' },
+
         { text: 'Collected Date', value: 'collected_date' },
         { text: 'Quantity', value: 'quantity' },
         { text: 'Warehouse UpdateDate', value: 'warehouse_updated_date' },
@@ -479,15 +519,18 @@ export default {
          const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
       return this.RTVdata.filter((item) => {
         return (
+          (item.so_number && item.so_number.toLowerCase().includes(lowerCaseQuery)) ||
           (item.brand_name && item.brand_name.toLowerCase().includes(lowerCaseQuery)) ||
           (item.sku_name && item.sku_name.toLowerCase().includes(lowerCaseQuery)) ||
           (item.uom && item.uom.toLowerCase().includes(lowerCaseQuery)) ||
           (item.goods_status && item.goods_status.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.rtv_reason && item.rtv_reason.toString().includes(lowerCaseQuery)) ||
-          (item.collected_date && item.collected_date.toString().includes(lowerCaseQuery)) ||
-          (item.quantity && item.quantity.toString().includes(lowerCaseQuery))  ||
-          (item.warehouse_updated_date && item.warehouse_updated_date.toString().includes(lowerCaseQuery)) ||
-          (item.send_to_brand_date && item.send_to_brand_date.toString().includes(lowerCaseQuery))
+          (item.delivery_person && item.delivery_person.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.type && item.type.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.rtv_reason && item.rtv_reason.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.collected_date && item.collected_date.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.quantity && item.quantity.toLowerCase().includes(lowerCaseQuery))  ||
+          (item.warehouse_updated_date && item.warehouse_updated_date.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.send_to_brand_date && item.send_to_brand_date.toLowerCase().includes(lowerCaseQuery))
         );
       });
     },
@@ -498,7 +541,11 @@ export default {
   },
   },
   mounted() {
-    this.getRTVdatas()
+    this.getRTVdatas();
+      setTimeout(() => {
+              this.loading = false; // Set loading to false when the operation is complete
+            }, 4000);
+    
   },
   methods: {
     viewrow(item){
@@ -537,35 +584,49 @@ export default {
       });     
     },
     saveeditRTVproducts(){
-      const postData={
-        "goods_status":this.PostRTV.goods_status,
-        "quantity":this.PostRTV.quantity,
-        "warehouse_updated_date":this.PostRTV.warehouse_updated_date,
-        "send_to_brand_date":this.PostRTV.send_to_brand_date ,
-        "rtv_id":this.PostRTV.rtv_id,
-        "rtv_reason":this.PostRTV.rtv_reason,
-        "merchant_product_id":this.PostRTV.merchant_product_id
-      }
-      
-      console.log('RTV',postData);
-      this.editrtvproducts(postData).then((response)=>{
-        // console.log(response);
-         if (response.data.status == 1) {              
-               this.snackbar = true;
-               this.color = "primary";
-               this.PostRTV = {};
-               this.snackbarText = response.data.message;  
+         if(this.PostRTV.type === "return" && this.PostRTV.goods_status === "Send To Brand"){
+             this.snackbar = true;
+             this.snackbarText = "You Can't move Not Moving products to Brand"
+             this.color = "on-background";
+             this.PostRTV={};
                this.dialog = false;
-               this.getRTVdatas();
-            //    setTimeout(() => {
-            //     window.location.reload(true);
-            // }, 1300);    
-            } else {          
-                 this.snackbar = true;
-                 this.color = "on-background";
-                 this.snackbarText = response.data.message; 
-              }
-      })
+            }else{
+              // this.GoodsStatus = this.PostRTV.goods_status;
+              const postData={        
+                  "goods_status":  this.PostRTV.goods_status,
+                  "quantity":this.PostRTV.quantity,
+                  "warehouse_updated_date":this.PostRTV.warehouse_updated_date,
+                  "send_to_brand_date":this.PostRTV.send_to_brand_date ,
+                  "rtv_id":this.PostRTV.rtv_id,
+                  "rtv_reason":this.PostRTV.rtv_reason,
+                  "type":this.PostRTV.type,
+                  "merchant_product_id":this.PostRTV.merchant_product_id
+                }
+
+                  console.log('RTV',postData);
+
+                  this.editrtvproducts(postData).then((response)=>{
+                  // console.log(response);
+                  if (response.data.status == 1) {              
+                        this.snackbar = true;
+                        this.color = "primary";
+                        this.PostRTV = {};
+                        this.snackbarText = response.data.message;  
+                        this.dialog = false;
+                        this.getRTVdatas();
+                      //    setTimeout(() => {
+                      //     window.location.reload(true);
+                      // }, 1300);    
+                      } else {          
+                          this.snackbar = true;
+                          this.color = "on-background";
+                          this.snackbarText = response.data.message; 
+                        }
+                })
+            }
+      
+       
+    
     },
      getFormattedDate(date) {
       const year = date.getFullYear();
@@ -585,6 +646,7 @@ export default {
     goods_status: itm.goods_status,
     quantity: itm.quantity,
     rtv_reason: itm.rtv_reason,
+    type: itm.type,
     warehouse_updated_date: itm.warehouse_updated_date != 'N/A' ? this.convertDateFormat(itm.warehouse_updated_date) : '',
     send_to_brand_date: itm.send_to_brand_date != 'N/A' ? this.convertDateFormat(itm.send_to_brand_date) : ''
   };
@@ -626,7 +688,7 @@ convertDateFormat(apiDate) {
       this.getrtvproducts().then(response => {
         // console.log('check the rtv', response.data.data)
         this.RTVdata = response.data.data;
-        // console.log('check the rtv2', this.RTVdata);
+        console.log('check the rtv2', this.RTVdata);
 
         this.RTVdata.reverse();
       })

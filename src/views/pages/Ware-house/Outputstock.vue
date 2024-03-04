@@ -9,7 +9,7 @@
             full-width              
         />          
      </div>
-         <VRow>
+         <VRow> 
       <VCol cols="12">
        <VCard title="Output Stock" class="mb-4">       
 
@@ -17,7 +17,7 @@
           <!-- 👉 Form -->
           <VForm class="mt-6 " ref="purchaseOrderForm">
             <VRow>
-    
+   
               <VCol
                 md="6"
                 cols="12"
@@ -130,7 +130,7 @@
             <td class="text-center">
           {{ item.ordered_quantity }}
         </td>
-        <td class="text-center">{{ item.exchange }}</td>
+        <td class="text-center">{{ item.exchange == "" ? 0 : item.exchange }}</td>
       
         <td class="text-center">
           <VChip
@@ -230,7 +230,7 @@ export default {
        PersonRules: [
          (v) => !!v || 'Delivery Person is required',
       ],
-      loading:false,
+      loading:true,
        shippedexchange: [(v) => v === 0 || (!!v && `${v}`.trim() !== '') || 'shippedexchange Quantity Is Required'],
             shippedquantity: [(v) => v === 0 || (!!v && `${v}`.trim() !== '') || 'shipped Quantity Is Required'],
        snackbar: false,
@@ -349,7 +349,7 @@ mounted(){
     setTimeout(() => {
       this.loading = false; // Set loading to false when the operation is complete
       // console.log('deliveryPersons:', this.deliveryPersons);
-    }, 2000);
+    }, 4500);
 
 },
    methods:{
@@ -431,6 +431,7 @@ mounted(){
                   "cgst_percentage":  product.cgst_percentage,
                   "exchange":  product.exchange,
                   "return":  product.return,
+                  "rtv_reason": product.rtv_reason,
                   "shipped_ordered":  `${product.shipped_ordered}`,
                   "shipped_exchange":  `${product.shipped_exchange}`,
           })),
@@ -504,6 +505,7 @@ mounted(){
         this.outputStock.merchant_name = this.OutputStockDetails.merchant_name;
         this.outputStock.so_status = 'Shipped';
         this.outputStockproducts = this.OutputStockDetails.products;
+        console.log('check ',this.outputStockproducts);
         this.deliveryUserDetails = response.delivery_user_details;
         // console.log('delivery detials',this.deliveryUserDetails);
         

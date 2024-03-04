@@ -22,6 +22,7 @@
                   label="Brand or Manufacturer"
                   :items="brandNames"               
                   :rules="BrandRules"
+                      :menu-props="{ maxHeight: 200 }"
                   @update:model-value="handleBrandSelection"
                 />
               </VCol>

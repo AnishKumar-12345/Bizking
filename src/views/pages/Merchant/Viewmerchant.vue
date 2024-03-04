@@ -14,15 +14,18 @@
     />
     </div>
 
-      <div v-if="loading"  class="loading-container">
-      <VProgressLinear
-            height="5"
-            color="primary"
-            indeterminate
-            class="custom-loader"  
-            full-width              
-        />          
-     </div>
+      <div v-if="loading" id="app">
+      <div id="loading-bg">
+        <div class="loading-logo">
+          <img src="../../../assets/images/logos/comlogo.jpeg" height="60" width="68" alt="Logo" />
+        </div>
+        <div class="loading">
+          <div class="effect-1 effects"></div>
+          <div class="effect-2 effects"></div>
+          <div class="effect-3 effects"></div>
+        </div>
+      </div>
+    </div>
 
       <!-- <VRow v-if="this.purchaseHistory == null">
       <VCol cols="12"> 
@@ -127,14 +130,15 @@
         <td class="text-center">
           {{ item.created_date }}
         </td>
-          <td class="text-center">
+          <!-- <td class="text-center">
           {{ item.decision_authority }}
-        </td>
+        </td> -->
           <td class="text-center">
           {{ item.store_address }}
         </td>
           <td class="text-center">
-          <a :href="item.location" target="_blank" style="color:blue">{{ item.location }}</a>
+          <!-- <a :href="item.location" target="_blank" style="color:blue">{{ item.location }}</a> -->
+          {{ item.location }}
         </td>
           <td class="text-center">
           {{ item.area_pincode }}
@@ -426,6 +430,7 @@ export default {
       ],
        pinrules: [
          (v) => !!v || 'PIN is required',
+          (v) => (v && /^\d{6}$/.test(v)) || 'PIN must be 6 digits'
       ],
        phonerules: [
          (v) => !!v || " Mobile  is required",
@@ -490,7 +495,7 @@ export default {
                 {text:'Update Date',value:'updated_date'},
                  {text:'Created By',value:'created_by'},
                 {text:'Created Date',value:'created_date'},
-                {text:'Decision Authority',value:'decision_authority'},
+                // {text:'Decision Authority',value:'decision_authority'},
                 {text:'Store Address',value:'store_address'},
                 {text:'Location',value:'location'},
                 {text:'Area Pincode',value:'area_pincode'},
@@ -503,6 +508,7 @@ export default {
          const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
         return this.merchants.filter((item) => {
         return (
+          (item.sales_person && item.sales_person.toLowerCase().includes(lowerCaseQuery)) ||
           (item.merchant_name && item.merchant_name.toLowerCase().includes(lowerCaseQuery)) ||
           (item.merchant_uid && item.merchant_uid.toLowerCase().includes(lowerCaseQuery)) ||
           (item.owner_name && item.owner_name.toLowerCase().includes(lowerCaseQuery)) ||

@@ -30,7 +30,7 @@
                   v-model="selectedmerchants"
                   label="Store or Merchant"
                   :items="merchants"               
-                
+                    :menu-props="{ maxHeight: 200 }"
                   @update:model-value="handleMerchantSelection"
                 />
               </VCol>

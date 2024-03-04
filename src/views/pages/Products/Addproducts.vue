@@ -12,7 +12,7 @@
          <VRow> 
       <VCol cols="12">
        <VCard title="Add Product" class="mb-4">       
-
+ 
        
         <VCardText>
           
@@ -33,6 +33,7 @@
                   item-value="value"
                   item-title="text"
                   :rules="storerules"
+                      :menu-props="{ maxHeight: 200 }"
                 />
               </VCol>
 
@@ -132,7 +133,7 @@
                  <VTextField
                   v-model="this.Addbrand.final_ret"                
                 :rules="computedFinalret()"
-                  label="Final Ret"
+                  label="Final Retail"
                  @input="updateFinalret"                
                  
                 />
@@ -145,6 +146,7 @@
                   <VTextField
                   v-model="this.Addbrand.final_retail_cp"                
                    type="number"
+                :rules="retailsrules"
                       min="0" 
                    @keydown="preventDecimal" @paste="preventPaste" 
                   label="Final Retail CP"
@@ -176,6 +178,7 @@
                    @keydown="preventDecimal" @paste="preventPaste" 
                 type="number"
                   label="BC Margin Amount"
+                  :rules="bcmarules"
                 />
               </VCol>
               
@@ -190,6 +193,7 @@
                     type="number"
                   label="BK Profit"
                  min="0" 
+                 :rules="Bkprules"
                    @keydown="preventDecimal" @paste="preventPaste" 
                 />
               </VCol>
@@ -221,7 +225,7 @@
               
                 />
               </VCol>
-               <VCol
+               <VCol v-if="userRole != 'Sales Associate'"
                 cols="12"
                 class="d-flex flex-wrap gap-4"
               >
@@ -286,8 +290,17 @@ export default {
       bcmrules: [
          (v) => !!v || 'BC Margin is required',
       ],
+       bcmarules: [
+         (v) => !!v || 'BC Margin Amount is required',
+      ],
        uomrules: [
          (v) => !!v || 'UOM is required',
+      ],
+        retailsrules: [
+         (v) => !!v || 'Final Retails CP is required',
+      ],
+       Bkprules: [
+         (v) => !!v || 'BK Profit is required',
       ],
       // tgmrules:[
       //    (v) => !!v || 'Total Given Margin is required',
@@ -299,6 +312,10 @@ export default {
       //     return true;
       //   }
       // ],
+      hsnrules:[
+         (v) => !!v || 'HSN is required',
+
+       ],
       cgstrules:[
          (v) => !!v || 'CGST is required',
 
@@ -322,6 +339,7 @@ export default {
       marchantstocksdata:[],
      selectedBrand:null,
       BrandNames:[],
+      userRole:'',
     Addbrand:{        
 
         
@@ -375,6 +393,8 @@ export default {
     },
     
     mounted(){
+      this.userRole = localStorage.getItem("userRole");
+
       this.getBranddetails();
      setTimeout(() => {
               this.loading = false; // Set loading to false when the operation is complete

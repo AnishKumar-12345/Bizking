@@ -30,7 +30,7 @@
                   v-model="selectedmerchants"
                   label="Store or Merchant"
                   :items="merchants"               
-                
+                    :menu-props="{ maxHeight: 200 }"
                   @update:model-value="handleMerchantSelection"
                 />
               </VCol>
@@ -99,7 +99,7 @@
           <td  class="text-center">{{item.physical_soh}}</td>
            <td  class="text-center">{{item.closing}}</td>
             <td  class="text-center">{{item.opening}}</td>
-            <td class="text-center">
+            <!-- <td class="text-center">
               <V-btn
                   icon
                   variant="text"
@@ -116,7 +116,7 @@
                         color="#BA8B32"       
                         />   
                       </V-btn>     
-            </td>
+            </td> -->
       </tr>
       </tbody>
          
@@ -202,7 +202,7 @@ export default {
         { text: 'Closing', value: 'closing' },
         { text: 'Opening', value: 'opening' },        
       
-        { text: 'Actions', value: 'action' }, 
+        // { text: 'Actions', value: 'action' }, 
 
 
       ],

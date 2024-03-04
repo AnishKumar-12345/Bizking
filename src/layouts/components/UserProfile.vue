@@ -10,6 +10,7 @@ const avatarBadgeProps = {
   bordered: true,
 }
 const userName = localStorage.getItem('createdby');
+const userRole = localStorage.getItem('userRole');
 </script>
 
 <template>
@@ -24,7 +25,7 @@ const userName = localStorage.getItem('createdby');
       <!-- SECTION Menu -->
       <VMenu
         activator="parent"
-        width="230"
+        width="310"
         location="bottom end"
         offset="14px"
       >
@@ -49,14 +50,14 @@ const userName = localStorage.getItem('createdby');
               {{userName}}
             </VListItemTitle>
             <VListItemSubtitle class="text-disabled">
-              Admin
+              {{userRole}}
             </VListItemSubtitle>
           </VListItem>
 
           <VDivider class="my-2" />
 
           <!-- 👉 Profile -->
-          <VListItem link>
+          <!-- <VListItem link>
             <template #prepend>
               <VIcon
                 class="me-2"
@@ -66,10 +67,10 @@ const userName = localStorage.getItem('createdby');
             </template>
 
             <VListItemTitle>Profile</VListItemTitle>
-          </VListItem>
+          </VListItem> -->
 
           <!-- 👉 Settings -->
-          <VListItem link>
+          <!-- <VListItem link>
             <template #prepend>
               <VIcon
                 class="me-2"
@@ -79,7 +80,7 @@ const userName = localStorage.getItem('createdby');
             </template>
 
             <VListItemTitle>Settings</VListItemTitle>
-          </VListItem>
+          </VListItem> -->
 
           <!-- 👉 Pricing -->
           <!-- <VListItem link>

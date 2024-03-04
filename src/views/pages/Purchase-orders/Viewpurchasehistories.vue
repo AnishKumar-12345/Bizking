@@ -14,15 +14,19 @@
     />
     </div>
 
-      <div v-if="loading"  class="loading-container">
-      <VProgressLinear
-            height="5"
-            color="primary"
-            indeterminate
-            class="custom-loader"  
-            full-width              
-        />          
-     </div>
+     
+      <div v-if="loading" id="app">
+      <div id="loading-bg">
+        <div class="loading-logo">
+          <img src="../../../assets/images/logos/comlogo.jpeg" height="60" width="68" alt="Logo" />
+        </div>
+        <div class="loading">
+          <div class="effect-1 effects"></div>
+          <div class="effect-2 effects"></div>
+          <div class="effect-3 effects"></div>
+        </div>
+      </div>
+    </div>
 
       <VRow v-if="this.purchaseHistory == null">
       <VCol cols="12"> 
@@ -90,7 +94,7 @@
           {{ item.brand_name }}
         </td>
         <td class="text-center">
-          {{ item.brand_name }}
+          {{ item.brand_name == item.brand_name ? 'Mauriya Spiritual & Naturals(BIZKINGZ)' : item.brand_name }}
         </td>
         <td  class="text-center " v-if="item.po_status != 'Received'">
           <!-- {{item.actions}} -->
@@ -221,7 +225,7 @@ export default {
            setTimeout(() => {
             //  this.getPurchasehistorydetails();
               this.loading = false; // Set loading to false when the operation is complete
-            }, 5000);
+            }, 3000);
     },
     methods:{
        updatePagination(page) {
@@ -241,7 +245,7 @@ export default {
           // console.log('check the view purchase order',response.data);
           this.purchaseHistory = response.data;
           this.purchaseHistory.reverse();
-          // console.log('check the view purchase History',this.purchaseHistory);
+          console.log('check the view purchase History',this.purchaseHistory);
 
         })
       },

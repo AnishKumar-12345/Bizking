@@ -14,15 +14,18 @@
     />
     </div>
 
-      <div v-if="loading"  class="loading-container">
-      <VProgressLinear
-            height="5"
-            color="primary"
-            indeterminate
-            class="custom-loader"  
-            full-width              
-        />          
-     </div>
+     <div v-if="loading" id="app">
+      <div id="loading-bg">
+        <div class="loading-logo">
+          <img src="../../../assets/images/logos/comlogo.jpeg" height="60" width="68" alt="Logo" />
+        </div>
+        <div class="loading">
+          <div class="effect-1 effects"></div>
+          <div class="effect-2 effects"></div>
+          <div class="effect-3 effects"></div>
+        </div>
+      </div>
+    </div>
 
       <!-- <VRow v-if="this.purchaseHistory == null">
       <VCol cols="12"> 
@@ -125,9 +128,9 @@
         <td class="text-center">
           {{ item.created_date }}
         </td>
-          <td class="text-center">
+          <!-- <td class="text-center">
           {{ item.decision_authority }}
-        </td>
+        </td> -->
           <td class="text-center">
           {{ item.address }}
         </td>
@@ -223,31 +226,109 @@
                   required
                 />
               </VCol>
-            
-            <!-- <VCol
+
+             <VCol
+             
+                cols="12"
+                   md="6"
+              >
+                 <VTextField
+                  v-model="this.saveBrand.email_id"                
+                
+                  label="Email"
+                  :rules="emailRules"
+                  required
+                />
+              </VCol>
+              
+
+              <VCol
+                md="6"
+                cols="12"
+              >
+                  <VTextField
+                  v-model=" this.saveBrand.gst"              
+                  label="GST"
+                  :rules="gstrules"
+                />
+              </VCol>
+
+              <VCol            
+                md="6"
+                cols="12"
+              >
+           
+                <VTextField
+                  v-model="this.saveBrand.area_pincode"               
+                 :rules="pinrules"
+                 type="number"
+                  label="Area Pin Code"
+                 
+                />
+              </VCol>
+
+                 <VCol
                 md="6"
                 cols="12"
               >
                  <VTextField
-                  v-model="this.saveBrand.brand_code "
-                  label="Brand Code"
+                  v-model=" this.saveBrand.owner_name"                
                  
-                 
+                  label="Owner Name"
+                  :rules="namerules"
+                  required
                 />
-              </VCol> -->
+              </VCol>
+
+                <VCol
+                md="6"
+                cols="12"
+              >
+                 <VTextField
+                  v-model="this.saveBrand.owner_phone"                
+                
+                  label="Owner Phone"
+                  :rules="phonerules"
+                  required
+                />
+              </VCol>
 
               <VCol
                 md="6"
                 cols="12"
               >
                  <VTextField
-                  v-model=" this.saveBrand.brand_category"                
-                  label="Brand Category"
-                  
-                  required
+                  v-model="this.saveBrand.poc_name"                
+                :rules="namerules"
+                  label="POC Name"
                 />
               </VCol>
-             <VCol
+
+              <VCol
+                md="6"
+                cols="12"
+              >
+                  <VTextField
+                  v-model="this.saveBrand.poc_phone "                
+                  :rules="phonerules"
+                  label="POC Phone"
+                />
+              </VCol>
+
+              <VCol            
+                md="6"
+                cols="12"
+              >
+           
+                <VTextField
+                  v-model="this.saveBrand.location"               
+                 
+                  label="Location"
+                 
+                />
+              </VCol>
+
+              <VCol
                 md="6"
                 cols="12"
               >
@@ -265,17 +346,18 @@
                 cols="12"
               >
                  <VTextField
-                  v-model="this.saveBrand.email_id"                
-                
-                  label="Email"
-                  :rules="emailRules"
+                  v-model=" this.saveBrand.brand_category"                
+                  label="Brand Category"
+                  
                   required
                 />
-              </VCol>
-               <VCol
+              </VCol>            
+
+              <VCol
                 md="6"
                 cols="12"
               >
+           
           
                 <VSelect
                   v-model="this.saveBrand.status"                
@@ -286,140 +368,27 @@
                  
                   required
                 />
-              </VCol>
-              <VCol
-                md="6"
-                cols="12"
-              >
-                 <VTextField
-                  v-model=" this.saveBrand.owner_name"                
-                 
-                  label="Owner Name"
-                  :rules="namerules"
-                  required
-                />
-              </VCol>
-              <VCol
-                md="6"
-                cols="12"
-              >
-                 <VTextField
-                  v-model="this.saveBrand.owner_phone"                
-                
-                  label="Owner Phone"
-                  :rules="phonerules"
-                  required
-                />
-              </VCol>
-              <VCol
-                md="6"
-                cols="12"
-              >
-                 <VTextField
-                  v-model="this.saveBrand.poc_name"                
-                
-                  label="POC Name"
-                />
-              </VCol>
-              <VCol
-                md="6"
-                cols="12"
-              >
-                  <VTextField
-                  v-model="this.saveBrand.poc_phone "                
-                  :rules="phonerules"
-                  label="POC Phone"
-                />
-              </VCol>
+              </VCol>         
+            
+            
 
-              <VCol
-                md="6"
-                cols="12"
-              >
-                  <VTextField
-                  v-model=" this.saveBrand.gst"              
-                  label="GST"
-                />
-              </VCol>
-<!-- 
-                  <VCol
-                md="6"
-                cols="12"
-              >
-                  <VTextField
-                  v-model=" this.saveBrand.updated_date"                
-                
-                  label="Updated Date"
-                />
-              </VCol> -->
-
-                
-
-              <!-- <VCol            
-                md="6"
-                cols="12"
-              >
-           
-                <VTextField
-                  v-model=" this.saveBrand.created_date"               
-                 
-                  label="Created Date"
-                 
-                />
-              </VCol> -->
-<!-- 
-              <VCol            
-                md="6"
-                cols="12"
-              >
-           
-                <VTextField
-                  v-model="this.saveBrand.decision_authority"               
-                 
-                  label="Decision Authority"
-                 
-                />
-              </VCol> -->
 
               <VCol            
-                md="6"
+            
                 cols="12"
               >
            
                 <VTextField
                   v-model=" this.saveBrand.address "               
                  
-                  label="Address"
+                  label="Store Address"
                  
                 />
               </VCol>
 
-               <VCol            
-                md="6"
-                cols="12"
-              >
-           
-                <VTextField
-                  v-model="this.saveBrand.location"               
-                 
-                  label="Location"
-                 
-                />
-              </VCol>
+             
 
-               <VCol            
-                md="6"
-                cols="12"
-              >
-           
-                <VTextField
-                  v-model="this.saveBrand.area_pincode"               
-                 :rules="pinrules"
-                 type="number"
-                  label="Area Pin Code"
-                 
-                />
-              </VCol>
+            
               <VCol
                 cols="12"
                 class="d-flex flex-wrap gap-4"
@@ -512,7 +481,7 @@ export default {
 
               emailRules: [ 
               (v) => !!v || 'Email is required',
-              (v) => /.+@.+\..+/.test(v) || 'Email must be valid',
+              (v) => /.+@.+\..+/.test(v) || 'The email must be valid with the correct format: @ and . symbols',
             ],
 
               phonerules: [
@@ -537,7 +506,7 @@ export default {
                 {text:'GST',value:'gst'},
                 {text:'Updated Date',value:'updated_date'},
                 {text:'Onboarded Date',value:'created_date'},
-                {text:'Decision Authority',value:'decision_authority'},
+                // {text:'Decision Authority',value:'decision_authority'},
                 {text:'Address',value:'address'},
                 {text:'Location',value:'location'},
                 {text:'Area Pincode',value:'area_pincode'},
@@ -566,7 +535,7 @@ export default {
           (item.decision_authority && item.decision_authority.toLowerCase().includes(lowerCaseQuery)) ||
           (item.address && item.address.toLowerCase().includes(lowerCaseQuery)) ||
           (item.location && item.location.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.area_pincode && item.area_pincode.toLowerCase().includes(lowerCaseQuery)) 
+          (item.area_pincode && item.area_pincode.toString().includes(lowerCaseQuery)) 
         );
       });
     },

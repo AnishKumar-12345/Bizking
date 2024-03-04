@@ -14,15 +14,18 @@
     />
     </div>
 
-      <div v-if="loading"  class="loading-container">
-      <VProgressLinear
-            height="5"
-            color="primary"
-            indeterminate
-            class="custom-loader"  
-            full-width              
-        />          
-     </div>
+       <div v-if="loading" id="app">
+      <div id="loading-bg">
+        <div class="loading-logo">
+          <img src="../../../assets/images/logos/comlogo.jpeg" height="60" width="68" alt="Logo" />
+        </div>
+        <div class="loading">
+          <div class="effect-1 effects"></div>
+          <div class="effect-2 effects"></div>
+          <div class="effect-3 effects"></div>
+        </div>
+      </div>
+    </div>
 
       <VRow v-if="this.products == null">
       <VCol cols="12"> 
@@ -133,7 +136,7 @@
           <!-- <td class="text-center">
           {{ item.area_pincode }}
         </td>          -->
-    <td class="text-center" >
+    <td class="text-center" v-if="this.userRole != 'Sales Associate'">
               <V-btn
                   icon
                   variant="text"
@@ -168,7 +171,7 @@
     >
     
       <VCard
-        title="Update Merchant"
+        title="Update Product"
         class="mb-2"
       >
       <VCardText>
@@ -203,6 +206,7 @@
                   item-value="value"
                   item-title="text"
                   :rules="namerules"
+                      :menu-props="{ maxHeight: 200 }"
                   required
                 />
               </VCol>
@@ -226,7 +230,7 @@
                  <VTextField
                   v-model=" this.saveProduct.uom"                
                   label="UOM"
-                  :rules="namerules"
+                  :rules="uomRules"
                   required
                 />
               </VCol>
@@ -236,9 +240,10 @@
               >
                  <VTextField
                   v-model="this.saveProduct.hsn_code"                
-                
+                 min="0"
+                  @keydown="preventDecimal" @paste="preventPaste" 
                   label="HSN Code"
-                  :rules="namerules"
+                type="number"
                   required
                 />
               </VCol>
@@ -249,9 +254,10 @@
               >
                  <VTextField
                   v-model="this.saveProduct.mrp"                
-                
+                 min="0"
+                  @keydown="preventDecimal" @paste="preventPaste" 
                   label="MRP"
-                  :rules="namerules"
+                  :rules="mrprules"
                   required
                 />
               </VCol>
@@ -262,32 +268,24 @@
               >
                  <VTextField
                   v-model=" this.saveProduct.total_given_margin"                
-                 
+                  :rules="computedTGMRules()"
                   label="Total Given Margin"
-                  :rules="namerules"
+                  @input="updateTotalGivenMargin"
                   required
                 />
               </VCol>
-              <VCol
+
+               <VCol            
                 md="6"
                 cols="12"
               >
-                 <VTextField
-                  v-model="  this.saveProduct.sgst"                
-                
-                  label="SGST"
-                  :rules="namerules"
-                  required
-                />
-              </VCol>
-              <VCol
-                md="6"
-                cols="12"
-              >
-                 <VTextField
-                  v-model="this.saveProduct.cgst"                
-                
-                  label="CGST"
+           
+                <VTextField
+                  v-model="this.saveProduct.bizkingz_cp_final"               
+                  min="0"
+                  @keydown="preventDecimal" @paste="preventPaste" 
+                  label="Bizking CP Final"
+                 
                 />
               </VCol>
               <VCol
@@ -296,70 +294,49 @@
               >
                   <VTextField
                   v-model="this.saveProduct.pitch_from "                
-                
+                  @input="updatePitchfrom"
+                      :rules="computedPitchRules()"
                   label="Pitch From"
                 />
               </VCol>
+              <VCol
+                md="6"
+                cols="12"
+              >
+               <!-- @input="updateFinalret"   
+                 :rules="computedFinalret()" -->
+                  <VTextField
+                  v-model=" this.saveProduct.final_ret"                
+                 min="0"
+                  @keydown="preventDecimal" @paste="preventPaste" 
+                  label="Final Retail"
+                   
+                />
+              </VCol>
 
+              
               <VCol
                 md="6"
                 cols="12"
               >
                   <VTextField
                   v-model=" this.saveProduct.final_retail_cp"                
-                
+                 min="0"
+                  @keydown="preventDecimal" @paste="preventPaste" 
                   label="Final Retail CP"
+                 
                 />
               </VCol>
-
-                  <VCol
-                md="6"
-                cols="12"
-              >
-                  <VTextField
-                  v-model=" this.saveProduct.final_ret"                
-                
-                  label="Final Retail"
-                />
-              </VCol>
-
-                
-
-              <VCol            
+            <VCol            
                 md="6"
                 cols="12"
               >
            
                 <VTextField
-                  v-model=" this.saveProduct.bk_profit"               
-                 
-                  label="BK Profit"
-                 
-                />
-              </VCol>
-
-              <VCol            
-                md="6"
-                cols="12"
-              >
-           
-                <VTextField
-                  v-model="this.saveProduct.bizkingz_cp_final"               
-                 
-                  label="Bizking CP Final"
-                 
-                />
-              </VCol>
-
-              <VCol            
-                md="6"
-                cols="12"
-              >
-           
-                <VTextField
-                  v-model=" this.saveProduct.bc_margin_amt "               
-                 
-                  label="BC margin Amount"
+                  v-model="  this.saveProduct.bc_margin "               
+                   :rules="computedbcmargin()"
+                      @input="updatebcmargin" 
+                  label="BC margin "
                  
                 />
               </VCol>
@@ -369,13 +346,54 @@
               >
            
                 <VTextField
-                  v-model="  this.saveProduct.bc_margin "               
-                 
-                  label="BC margin "
+                  v-model=" this.saveProduct.bc_margin_amt "               
+                   
+                  label="BC margin Amount"
+                  min="0"
+                  @keydown="preventDecimal" @paste="preventPaste" 
+                />
+              </VCol>
+
+               <VCol            
+                md="6"
+                cols="12"
+              >
+           
+                <VTextField
+                  v-model=" this.saveProduct.bk_profit"               
+                  min="0"
+                  @keydown="preventDecimal" @paste="preventPaste" 
+                  label="BK Profit"
                  
                 />
               </VCol>
 
+              <VCol
+                md="6"
+                cols="12"
+              >
+                 <VTextField
+                  v-model="this.saveProduct.cgst"                
+                   :rules="computedCGST()"
+                       @input="updateCGST" 
+                  label="CGST"
+                />
+              </VCol>
+
+              <VCol
+                md="6"
+                cols="12"
+              >
+                 <VTextField
+                  v-model="  this.saveProduct.sgst"                
+                    :rules="computedSGST()"
+                     @input="updateSGST" 
+                  label="SGST"
+               
+                  required
+                />
+              </VCol>         
+             
                 <VCol
                 md="6"
                 cols="12"
@@ -434,16 +452,19 @@ export default {
             storerules:[
           (v) => !!v || 'Store Address is required',
          ],
-       uidrules: [
-         (v) => !!v || 'UID is required',
+       mrprules: [
+         (v) => !!v || 'MRP is required',
       ],
        namerules: [
          (v) => !!v || 'Name is required',
       ],
-       gstrules: [
-               (v) => !!v || "GST is required",
-     
+       uomRules: [
+         (v) => !!v || 'UOM is required',
       ],
+      //  hsnRules: [
+      //          (v) => !!v || "HSN is required",
+     
+      // ],
        pinrules: [
          (v) => !!v || 'PIN is required',
       ],
@@ -497,6 +518,7 @@ export default {
             salesdata:[],
             BrandNames:[],
             selectedBrand:null,
+            userRole:'',
             createdby:'',
             headers:[
                {text:'Brand Name',value:'brand_name'},
@@ -529,18 +551,18 @@ export default {
           (item.brand_name && item.brand_name.toLowerCase().includes(lowerCaseQuery)) ||
           (item.sku_name && item.sku_name.toLowerCase().includes(lowerCaseQuery)) ||
           (item.uom && item.uom.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.hsn_code && item.hsn_code.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.mrp && item.mrp.toLowerCase().includes(lowerCaseQuery))|| 
+          (item.hsn_code && item.hsn_code.toString().includes(lowerCaseQuery)) ||
+          (item.mrp && item.mrp.toString().includes(lowerCaseQuery))|| 
           (item.status && item.status.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.total_given_margin && item.total_given_margin.toLowerCase().includes(lowerCaseQuery))  ||
+          (item.total_given_margin && item.total_given_margin.toString().includes(lowerCaseQuery))  ||
           (item.sgst && item.sgst.toLowerCase().includes(lowerCaseQuery)) ||
           (item.cgst && item.cgst.toLowerCase().includes(lowerCaseQuery)) ||
           (item.pitch_from && item.pitch_from.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.final_retail_cp && item.final_retail_cp.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.final_retail_cp && item.final_retail_cp.toString().includes(lowerCaseQuery)) || 
           (item.final_ret && item.final_ret.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.bk_profit && item.bk_profit.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.bizkingz_cp_final && item.bizkingz_cp_final.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.bc_margin_amt && item.bc_margin_amt.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.bk_profit && item.bk_profit.toString().includes(lowerCaseQuery)) ||
+          (item.bizkingz_cp_final && item.bizkingz_cp_final.toString().includes(lowerCaseQuery)) ||
+          (item.bc_margin_amt && item.bc_margin_amt.toString().includes(lowerCaseQuery)) ||
           (item.bc_margin && item.bc_margin.toLowerCase().includes(lowerCaseQuery))
 
         );
@@ -549,11 +571,12 @@ export default {
          paginatedItems() {
     const startIndex = (this.page - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-    return this.products.slice(startIndex, endIndex);
+    return this.filteredProducts.slice(startIndex, endIndex);
   },
     },
     mounted(){
       this.getBranddetails();
+      this.userRole = localStorage.getItem("userRole");
      
         // this.createdby =  localStorage.getItem('user_id');
            this.getProductsdata();
@@ -564,6 +587,201 @@ export default {
             // this.getAllsales();
     },
     methods:{
+        preventPaste(event){
+      const clipboardData = event.clipboardData || window.clipboardData;
+      const pastedData = clipboardData.getData('text');
+
+      // Validate pasted data (you can modify this regex as needed)
+      const isValid = /^[0-9]+$/.test(pastedData);
+
+      if (!isValid) {
+        event.preventDefault();
+      }
+    },
+     preventDecimal(event) {     
+      if (event.key === ',' ||  event.key === '+' ||  event.key === '-' || event.keyCode === 189 || event.keyCode === 109) {
+        event.preventDefault();
+      }
+    },
+      computedbcmargin() {
+    const hasPercentage = (value) => {
+      const regex = /^(0|([1-9]\d*))(?:\.\d+)?%$/;
+      return regex.test(String(value));
+    };
+
+    return [
+      (v) => !!v || 'BC margin is required',
+      (v) => {
+        if (!v.startsWith('0%')) {
+          return hasPercentage(v) || 'Must include a numerical value with a percentage symbol';
+        } else {
+          return v === '0%' || 'Must include a numerical value with a percentage symbol.';
+        }
+      },
+    ];
+  },
+
+   updatebcmargin(value) {
+    if (value === '0%' || value === '0') {
+      this.saveProduct.bc_margin = '0%';
+    } else if (value.startsWith('0%')) {
+      // User tried to enter something after 0%, reset to 0%
+      this.saveProduct.bc_margin = '0%';
+    } else {
+      // Handle other cases as needed, possibly show an error message
+      this.saveProduct.bc_margin = value;
+    }
+  },
+
+computedSGST() {
+    const hasPercentage = (value) => {
+      const regex = /^(0|([1-9]\d*))(?:\.\d+)?%$/;
+      return regex.test(String(value));
+    };
+
+    return [
+      (v) => !!v || 'SGST is required',
+      (v) => {
+        if (!v.startsWith('0%')) {
+          return hasPercentage(v) || 'Must include a numerical value with a percentage symbol';
+        } else {
+          return v === '0%' || 'Must include a numerical value with a percentage symbol.';
+        }
+      },
+    ];
+  },
+
+   updateSGST(value) {
+    if (value === '0%' || value === '0') {
+      this.saveProduct.sgst = '0%';
+    } else if (value.startsWith('0%')) {
+      // User tried to enter something after 0%, reset to 0%
+      this.saveProduct.sgst = '0%';
+    } else {
+      // Handle other cases as needed, possibly show an error message
+      this.saveProduct.sgst = value;
+    }
+  },
+
+ computedCGST() {
+    const hasPercentage = (value) => {
+      const regex = /^(0|([1-9]\d*))(?:\.\d+)?%$/;
+      return regex.test(String(value));
+    };
+
+    return [
+      (v) => !!v || 'CGST is required',
+      (v) => {
+        if (!v.startsWith('0%')) {
+          return hasPercentage(v) || 'Must include a numerical value with a percentage symbol';
+        } else {
+          return v === '0%' || 'Must include a numerical value with a percentage symbol.';
+        }
+      },
+    ];
+  },
+
+   updateCGST(value) {
+    if (value === '0%' || value === '0') {
+      this.saveProduct.cgst = '0%';
+    } else if (value.startsWith('0%')) {
+      // User tried to enter something after 0%, reset to 0%
+      this.saveProduct.cgst = '0%';
+    } else {
+      // Handle other cases as needed, possibly show an error message
+      this.saveProduct.cgst = value;
+    }
+  },
+
+     computedFinalret() {
+    const hasPercentage = (value) => {
+      const regex = /^(0|([1-9]\d*))(?:\.\d+)?%$/;
+      return regex.test(String(value));
+    };
+
+    return [
+      (v) => !!v || 'Final Ret is required',
+      (v) => {
+        if (!v.startsWith('0%')) {
+          return hasPercentage(v) || 'Must include a numerical value with a percentage symbol';
+        } else {
+          return v === '0%' || 'Must include a numerical value with a percentage symbol.';
+        }
+      },
+    ];
+  },
+
+   updateFinalret(value) {
+    if (value === '0%' || value === '0') {
+      this.saveProduct.final_ret = '0%';
+    } else if (value.startsWith('0%')) {
+      // User tried to enter something after 0%, reset to 0%
+      this.saveProduct.final_ret = '0%';
+    } else {
+      // Handle other cases as needed, possibly show an error message
+      this.saveProduct.final_ret = value;
+    }
+  },
+
+   computedPitchRules() {
+    const hasPercentage = (value) => {
+      const regex = /^(0|([1-9]\d*))(?:\.\d+)?%$/;
+      return regex.test(String(value));
+    };
+
+    return [
+      (v) => !!v || 'Pitch From is required',
+      (v) => {
+        if (!v.startsWith('0%')) {
+          return hasPercentage(v) || 'Must include a numerical value with a percentage symbol';
+        } else {
+          return v === '0%' || 'Must include a numerical value with a percentage symbol.';
+        }
+      },
+    ];
+  },
+
+   updatePitchfrom(value) {
+    if (value === '0%' || value === '0') {
+      this.saveProduct.pitch_from = '0%';
+    } else if (value.startsWith('0%')) {
+      // User tried to enter something after 0%, reset to 0%
+      this.saveProduct.pitch_from = '0%';
+    } else {
+      // Handle other cases as needed, possibly show an error message
+      this.saveProduct.pitch_from = value;
+    }
+  },
+
+  computedTGMRules() {
+    const hasPercentage = (value) => {
+      const regex = /^(0|([1-9]\d*))(?:\.\d+)?%$/;
+      return regex.test(String(value));
+    };
+
+    return [
+      (v) => !!v || 'Total Given Margin is required',
+      (v) => {
+        if (!v.startsWith('0%')) {
+          return hasPercentage(v) || 'Must include a numerical value with a percentage symbol';
+        } else {
+          return v === '0%' || 'Must include a numerical value with a percentage symbol.';
+        }
+      },
+    ];
+  },
+
+   updateTotalGivenMargin(value) {
+    if (value === '0%' || value === '0') {
+     this.saveProduct.total_given_margin = '0%';
+    } else if (value.startsWith('0%')) {
+      // User tried to enter something after 0%, reset to 0%
+      this.saveProduct.total_given_margin = '0%';
+    } else {
+      // Handle other cases as needed, possibly show an error message
+     this.saveProduct.total_given_margin = value;
+    }
+  },
          validateForm(){
          this.$refs.purchaseOrderForm.validate().then(valid => {
         // console.log("form valid", valid.valid);

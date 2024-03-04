@@ -30,7 +30,7 @@
                   v-model="selectedmerchants"
                   label="Store or Merchant"
                   :items="merchants"               
-                
+                 :menu-props="{ maxHeight: 200 }"
                   @update:model-value="handleMerchantSelection"
                 />
               </VCol>
@@ -98,8 +98,9 @@
       <tr v-for="(item,index) in this.paginatedItems" :key="index">
         <td class="text-center">
           <!-- {{item.selected}} -->
-                          <VCheckbox v-model="item.selected"       @change="toggleItemSelection(item)"
-></VCheckbox>
+          <!-- @change="toggleItemSelection(item)" -->
+                          <VCheckbox v-model="item.selected"       
+        ></VCheckbox>
                         </td>
        <td class="text-center">{{item.brand_name}}</td>
         <td  class="text-center">{{item.sku_name}}</td>
@@ -349,8 +350,13 @@ export default {
         }
       }); 
  },
+//     toggleItemSelection: function(item) {
+//   // Toggle the selected property of the item
+//   item.selected = !item.selected;
+// },
+
     saveMerchants(){
-       const selectedMargins = this.filteredMerchant
+       const selectedMargins = this.marchantstocksdata
         .filter(item => item.selected)
         .map((item) => ({
           brand_product_id: item.brand_product_id, // Replace with actual property name
@@ -400,16 +406,7 @@ export default {
             });
         },
   
-    toggleItemSelection(item) {
-      const index = this.selectedItems.indexOf(item.brand_product_id);
-      if (index === -1) {
-        // Item is not in selectedItems, add it
-        this.selectedItems.push(item.brand_product_id);
-      } else {
-        // Item is in selectedItems, remove it
-        this.selectedItems.splice(index, 1);
-      }
-    },
+ 
     // getmerchantbrand(){
     //   this.getmerchantbrandproducts().then((response)=>{
     //     console.log('check rhe resp brand',response);

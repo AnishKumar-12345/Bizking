@@ -271,9 +271,10 @@ export default {
                (v) => !!v || "GST is required",
      
       ],
-       pinrules: [
-         (v) => !!v || 'PIN is required',
-      ],
+         pinrules: [        
+                (v) => !!v || 'PIN is required',
+                 (v) => (v && /^\d{6}$/.test(v)) || 'PIN must be 6 digits'
+              ],
        phonerules: [
          (v) => !!v || " Mobile  is required",
         (v) => /^[0-9]+$/.test(v) || "only number are accepted",

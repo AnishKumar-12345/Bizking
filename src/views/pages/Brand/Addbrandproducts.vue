@@ -57,6 +57,7 @@
                   v-model="this.saveBrand.area_pincode"                
                   label="Area Pincode"
                   :rules="pinrules"
+                  type="number"
                   required
                 />
               </VCol>
@@ -66,9 +67,9 @@
               >
                  <VTextField
                   v-model="this.saveBrand.owner_name"                
-                
+                  type="text"
                   label="Owner Name"
-                  :rules="namerules"
+                  :rules="namerules1"
                   required
                 />
               </VCol>
@@ -93,7 +94,7 @@
                   v-model="this.saveBrand.poc_name"                
                  
                   label="POC Name"
-                  :rules="namerules"
+                  :rules="namerules1"
                   required
                 />
               </VCol>
@@ -306,20 +307,25 @@ export default {
 
        namerules: [
          (v) => !!v || 'Name is required',
+       
       ],
-
+  namerules1: [
+         (v) => !!v || 'Name is required',
+         (v) => /^[a-zA-Z]+$/.test(v) || 'Only letters are allowed in the name'
+      ],
        gstrules: [
         (v) => !!v || "GST is required",     
       ],
 
-      pinrules: [        
-         (v) => !!v || 'PIN is required',
-      ],
+     pinrules: [        
+                (v) => !!v || 'PIN is required',
+                 (v) => (v && /^\d{6}$/.test(v)) || 'PIN must be 6 digits'
+              ],
 
-  emailRules: [ 
-  (v) => !!v || 'Email is required',
-  (v) => /.+@.+\..+/.test(v) || 'Email must be valid',
-],
+      emailRules: [ 
+      (v) => !!v || 'Email is required',
+      (v) => /.+@.+\..+/.test(v) || 'The email must be valid with the correct format: @ and . symbols', 
+    ],
 
       phonerules: [
          (v) => !!v || " Mobile  is required",

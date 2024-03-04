@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as n,g as p,r as s}from"./index.89c3bcd2.js";const a={};function _(o,r){return t(),n("div",null," Template will Integrate Shortly ! ")}const i=e(a,[["render",_]]),d={components:{UpdateOppertunity:i}};function l(o,r,u,f,m,$){const c=s("UpdateOppertunity");return t(),n("div",null,[p(c)])}const y=e(d,[["render",l]]);export{y as default};

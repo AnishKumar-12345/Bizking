@@ -10,7 +10,7 @@
         placeholder="Enter search query"
       />
     </div> -->
-    <div style="max-width:400px" v-if="this.saleshistory != null">
+    <div style="max-width:400px" v-if="!showNoSalesAlert">
       <VTextField
       class="mb-3"
         v-model="searchQuery"        
@@ -23,15 +23,9 @@
   
     />
     </div>
-     <div v-if="loading"  class="loading-container">
-      <VProgressLinear
-            height="5"
-            color="primary"
-            indeterminate
-            class="custom-loader"  
-            full-width              
-        />          
-     </div>
+    
+    
+
        <div v-if="loading2"  class="loading-container">
       <VProgressLinear
             height="5"
@@ -41,7 +35,7 @@
             full-width              
         />          
      </div>
-       <VRow v-if="this.saleshistory == null">
+       <VRow v-if="showNoSalesAlert"> 
       <VCol cols="12"> 
         <VCard title="Sales Order View">
           <VCardText> 
@@ -60,8 +54,22 @@
         </VCard>
       </VCol>
      </VRow>
+
+      <div v-if="loading" id="app">
+      <div id="loading-bg">
+        <div class="loading-logo">
+          <img src="../../../assets/images/logos/comlogo.jpeg" height="60" width="68" alt="Logo" />
+        </div>
+        <div class="loading">
+          <div class="effect-1 effects"></div>
+          <div class="effect-2 effects"></div>
+          <div class="effect-3 effects"></div>
+        </div>
+      </div>
+    </div>
+
    <VTable 
-       v-if="this.saleshistory != null"
+      v-if="!showNoSalesAlert" 
        :headers="headers" 
        :items="paginatedItems"       
        class="table-rounded"      
@@ -100,6 +108,9 @@
         {{ item.so_status }}
           <!-- {{ item.fat }} -->
             </VChip>
+        </td>
+          <td class="text-center">
+          {{ item.delivery_person }}
         </td>
         <td class="text-center">
           {{ item.merchant_name }}
@@ -224,13 +235,15 @@ export default {
         { text: 'Sales Order', value: 'so_number' },
         { text: 'Order Date', value: 'created_date' },
         { text: 'Status', value: 'so_status' },
+        { text: 'Delivery Person', value: 'delivery_person' },
+
         { text: 'Order From', value: 'merchant_name' },
         { text: 'Shipped To', value: 'merchant_name' },
         { text: 'Order Value', value: 'total_so_amount' },
         { text: 'Delivery Challan', value: 'delivery_challan_file' },
         { text: 'Invoice', value: 'invoice_file' },
 
-        { text: 'Action', value: 'actions', sortable: false },
+        // { text: 'Action', value: 'actions', sortable: false },
       ],
         }
     },
@@ -263,12 +276,18 @@ export default {
     const endIndex = startIndex + this.pageSize;
     return this.filteredSalesHistory.slice(startIndex, endIndex);
   },
+   showNoSalesAlert() {
+      // Check if any items have 'Acknowledged' or 'On Hold' status
+      return !this.saleshistory.some(
+        item => item.so_status === 'Delivered' || item.so_status === 'Received' || item.so_status === 'Shipped'
+      );
+    },
   },
     mounted(){
       this.getSalesorderdetails();
         setTimeout(() => {
       this.loading = false; // Set loading to false when the operation is complete
-    }, 3000);
+    }, 5000);
     },
     methods:{
         updatePagination(page) {
@@ -316,7 +335,7 @@ export default {
         this.getSalesorders().then((response)=>{
           this.saleshistory = response.data;
           this.saleshistory.reverse();
-          // console.log('check rhe res',this.saleshistory);
+          console.log('check rhe res',this.saleshistory);
 
         })
       },

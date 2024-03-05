@@ -544,7 +544,7 @@ export default {
         this.createdby =  localStorage.getItem('user_id');
          setTimeout(() => {
               this.loading = false; // Set loading to false when the operation is complete
-            }, 3000);
+            }, 7000);
             this.getAllsales();
     },
     methods:{

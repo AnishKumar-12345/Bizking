@@ -208,7 +208,22 @@ computed: {
       
       console.log('Filtered Items:', filteredItems);
       return filteredItems;
-    } else {
+    }  else if (this.userRole === "Brand Management") {
+      // Filter items for Business Development Manager
+      const allowedTitles = ["Dashboard", "Brand", "Product","Purchase"];
+      
+      // console.log('Allowed Titles:', allowedTitles);
+      
+      const filteredItems = this.parentItems.filter((item) => {
+        const isAllowed = allowedTitles.includes(item.title);
+        // console.log(`Title: ${item.title}, Allowed: ${isAllowed}`);
+        return isAllowed;
+      });
+      
+      // console.log('Filtered Items:', filteredItems);
+      return filteredItems;
+    } 
+     else {
       // Return all items for other roles
       return this.parentItems;
     }

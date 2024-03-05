@@ -141,7 +141,7 @@
           {{ item.area_pincode }}
         </td>
          
-    <td class="text-center">
+    <td class="text-center" v-if="this.userRole != 'Brand Management'">
               <V-btn
                   icon
                   variant="text"
@@ -422,6 +422,7 @@ export default {
     mixins: [servicescall],
     data(){
         return{
+          userRole:"",
           loading:true,
            snackbar: false,
             snackbarText: '',
@@ -551,6 +552,8 @@ export default {
     },
     mounted(){
         this.getAllBrands();
+      this.userRole = localStorage.getItem("userRole");
+
         setTimeout(() => {
       this.loading = false; // Set loading to false when the operation is complete
     }, 3000);

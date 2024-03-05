@@ -302,7 +302,7 @@ export default {
       // this.getmerchantbrand();
      setTimeout(() => {
               this.loading = false; // Set loading to false when the operation is complete
-            }, 4000);
+            }, 6000);
      
     },
     

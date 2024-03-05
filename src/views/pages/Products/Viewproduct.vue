@@ -136,7 +136,7 @@
           <!-- <td class="text-center">
           {{ item.area_pincode }}
         </td>          -->
-    <td class="text-center" v-if="this.userRole != 'Sales Associate'">
+    <td class="text-center" v-if="this.userRole != 'Sales Associate' && this.userRole != 'Brand Management'">
               <V-btn
                   icon
                   variant="text"

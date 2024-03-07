@@ -1,9 +1,19 @@
 <template>
     <div>
+         <div v-if="loading"  class="loading-container">
+      <VProgressLinear
+            height="5"
+            color="primary"
+            indeterminate
+            class="custom-loader"  
+            full-width              
+        />          
+     </div>
+
          <VRow>
       <VCol cols="12">
        <VCard title="Purchase Order" class="mb-4">       
-
+ 
        
         <VCardText>
           
@@ -402,6 +412,7 @@ export default {
   },
    data(){
     return{
+          loading:true,
           searchQuery:'',
 
       BrandRules: [
@@ -715,7 +726,10 @@ calculatedPricePerUnit(){
       this.getBrandsdata();
       this.createdBy = localStorage.getItem('createdby');
       this.userIds = localStorage.getItem('userId');
-     
+     setTimeout(() => {
+            //  this.getPurchasehistorydetails();
+              this.loading = false; // Set loading to false when the operation is complete
+            }, 3000);
     },
     
    methods:{ 

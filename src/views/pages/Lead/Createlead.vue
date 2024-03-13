@@ -6,7 +6,7 @@
 
         <VCardText>
           <!-- 👉 Form -->
-          <VForm class="mt-6 ">
+          <VForm class="mt-6" ref="purchaseOrderForm">
             <VRow>
     
               <VCol
@@ -14,9 +14,10 @@
                 cols="12"
               >
                 <VSelect
-                 
+                 v-model="saveLeads.lead_type"
                   label="Lead Type"
                   :items="['Merchant','Brand']"
+                  :rules="namerules"
                 />
               </VCol>
 
@@ -27,8 +28,9 @@
                 md="6"
               >
                 <VTextField
-                
+                 v-model="saveLeads.name"                
                   label="Store Name"
+                  :rules="storerules"
                
                 />
               </VCol>
@@ -38,8 +40,9 @@
                 md="6"
               >
                 <VTextField
-                
+                 v-model="loggedby"                
                   label="Lead Handler"
+                  readonly
                 />
               </VCol>
             
@@ -48,7 +51,8 @@
                 cols="12"
               >
                  <VTextField
-                
+                 v-model="saveLeads.address"
+                :rules="storearules"
                   label="Store Address"
                 />
               </VCol>
@@ -58,6 +62,7 @@
                 cols="12"
               >
                  <VTextField
+                 v-model="saveLeads.gst"
                 
                   label="GST"
                 />
@@ -67,7 +72,8 @@
                 cols="12"
               >
                  <VTextField
-                
+                 v-model="saveLeads.pincode"
+                :rules="pinrules"
                   label="Area PinCode"
                 />
               </VCol>
@@ -77,7 +83,8 @@
                 cols="12"
               >
                  <VTextField
-                
+                 v-model="saveLeads.location"
+                :rules="locationrules"
                   label="Location"
                 />
               </VCol>
@@ -86,7 +93,8 @@
                 cols="12"
               >
                  <VTextField
-                
+                 v-model="saveLeads.poc_name"
+                :rules="namerules1"
                   label="POC Name"
                 />
               </VCol>
@@ -95,7 +103,8 @@
                 cols="12"
               >
                  <VTextField
-                
+                 v-model="saveLeads.poc_phone"
+                :rules="phonerules"
                   label="POC Phone"
                 />
               </VCol>
@@ -104,7 +113,18 @@
                 cols="12"
               >
                  <VTextField
-                
+                 v-model="saveLeads.owner_name"
+                :rules="namerules1"
+                  label="Owner Name"
+                />
+              </VCol>
+              <VCol
+                md="6"
+                cols="12"
+              >
+                 <VTextField
+                 v-model="saveLeads.owner_phone"
+                :rules="phonerules"
                   label="Owner Phone"
                 />
               </VCol>
@@ -113,7 +133,8 @@
                 cols="12"
               >
                  <VSelect
-                
+                 v-model="saveLeads.decision_authority"
+                :rules="authrules"
                   label="Decision Authority"
                   :items="['POC','Owner']"
                 />
@@ -122,7 +143,7 @@
                 cols="12"
                 class="d-flex flex-wrap gap-4"
               >
-                <VBtn>Save</VBtn>
+                <VBtn @click="validateForm">Save</VBtn>
 
                 <VBtn
                   color="secondary"
@@ -162,100 +183,152 @@
 
     
 
- 
+     <VSnackbar
+      v-model="snackbar" :timeout="3500"
+      :color="color"
+      
+    >
+      {{ snackbarText }}
+     <!-- <VBtn text @click="snackbar = false">Close</VBtn> -->
+    </VSnackbar> 
+
     </div>
 </template>
-<script>
+<script> 
+import servicescall from "@/Services";
+
 export default {
+  mixins: [servicescall],
+
    data(){
     return{
-        dialog: false,
-          data: [
-            {
-                po: 'PO001',
-                ODate: '2024.01.12',
-                status: 'Draft',
-                OT: 24,
-                ST: 4,
-                total: 5,
-
-            },
-            {
-                po: 'PO002',
-                ODate: '2024.01.12',
-                status: 'Created',
-                OT: 24,
-                ST: 4,
-                total: 5,
-
-            },
-            {
-                po: 'PO003',
-                ODate: '2024.01.12',
-                status: 'Created',
-                OT: 24,
-                ST: 4,
-                total: 5,
-
-            },
-            {
-                po: 'PO004',
-                ODate: '2024.01.12',
-                status: 'Draft',
-                OT: 24,
-                ST: 4,
-                total: 5,
-
-            },
-            {
-                po: 'PO005',
-                ODate: '2024.01.12',
-                status: 'Shared',
-                OT: 24,
-                ST: 4,
-                total: 5,
-
-            },
-              {
-                po: 'PO006',
-                ODate: '2024.01.12',
-                status: 'Acknowledged',
-                OT: 24,
-                ST: 4,
-                total: 5,
-
-            },
-              {
-                po: 'PO007',
-                ODate: '2024.01.12',
-                status: 'Acknowledged',
-                OT: 24,
-                ST: 4,
-                total: 5,
-
-            },
-              {
-                po: 'PO008',
-                ODate: '2024.01.12',
-                status: 'Acknowledged',
-                OT: 24,
-                ST: 4,
-                total: 5,
-            },
-    ],
-      headers: [
-        { text: 'Purchase Order', value: 'po' },
-        { text: 'Order Date', value: 'ODate' },
-        { text: 'Status', value: 'status' },
-        { text: 'Order To', value: 'OT' },
-        { text: 'Shipped To', value: 'ST' },
-        { text: 'Total', value: 'total' },
-        { text: 'Action', value: 'actions', sortable: false },        
-
+        storearules:[
+          (v) => !!v || 'Store Address is required',
+         ],
+         locationrules:[
+          (v) => !!v || 'Location is required',
+         ],
+        storerules:[
+          (v) => !!v || 'Store Name is required',
+         ],
+       uidrules: [
+         (v) => !!v || 'UID is required',
       ],
+
+       namerules: [
+         (v) => !!v || 'Lead is required',
+       
+      ],
+        authrules: [
+         (v) => !!v || 'Authority is required',
+       
+      ],
+      namerules1: [
+         (v) => !!v || 'Name is required',
+         (v) => /^[a-zA-Z]+$/.test(v) || 'Only letters are allowed in the name'
+      ],
+       gstrules: [
+        (v) => !!v || "GST is required",     
+      ],
+
+     pinrules: [        
+                (v) => !!v || 'PIN is required',
+                 (v) => (v && /^\d{6}$/.test(v)) || 'PIN must be 6 digits'
+              ],
+
+      emailRules: [ 
+      (v) => !!v || 'Email is required',
+      (v) => /.+@.+\..+/.test(v) || 'The email must be valid with the correct format: @ and . symbols', 
+    ],
+
+      phonerules: [
+         (v) => !!v || " Mobile  is required",
+          (v) => /^[0-9]+$/.test(v) || "only number are accepted",
+          (v) =>
+            (v && v.length <= 10 && v.length >= 10) ||
+            "Mobile must be  10 number",
+        ],
+        dialog: false,
+        loggedby:'',
+        userid:'',
+        saveLeads:{
+          "lead_type":"",
+          "name":"",
+          "address":"",
+          "pincode":"",
+          "owner_name":"",
+          "owner_phone":"",
+          "poc_name":"",
+          "poc_phone":"",
+          "gst":"",
+          "decision_authority":"",
+          "user_id":"",
+          "location":""
+        },
+         snackbar: false,
+      snackbarText: '',
+      timeout: 6000, // milliseconds
+      color: '', // or 'error', 'warning', 'info', etc.
+      top: false,
+      bottom: true,
+      left: false,
+      right: false,
+        
     }
    },
+
+   mounted(){
+    this.loggedby = localStorage.getItem('createdby');
+    this.userid = localStorage.getItem('user_id');
+
+   },
+
    methods:{
+      validateForm(){
+      this.$refs.purchaseOrderForm.validate().then(valid => {
+        // console.log("form valid", valid.valid);
+        if (valid.valid == true) {
+         
+          this.saveLeaddata();
+        }else{
+           this.snackbar = true;
+            this.snackbarText = "Please give all mandatory fields"
+            this.color = "on-background";
+        }
+      }); 
+    },
+    
+    saveLeaddata(){
+      const postdata = {
+            "lead_type":this.saveLeads.lead_type,
+            "name":this.saveLeads.name,
+            "address":this.saveLeads.address,
+            "pincode":this.saveLeads.pincode,
+            "owner_name":this.saveLeads.owner_name,
+            "owner_phone":this.saveLeads.owner_phone,
+            "poc_name":this.saveLeads.poc_name,
+            "poc_phone":this.saveLeads.poc_phone,
+            "gst":this.saveLeads.gst,
+            "decision_authority":this.saveLeads.decision_authority,
+            "user_id":this.userid,
+            "location":this.saveLeads.location,
+      }
+      console.log('chek p',postdata);
+      this.saveLead(postdata).then((response)=>{
+        console.log('chec',response);
+        if(response.data.status == 1){
+           this.snackbar = true;
+            this.snackbarText = response.data.message;
+            this.color = "primary";
+            this.saveLeads = {};
+        }else{
+            this.snackbar = true;
+            this.snackbarText = response.data.message;
+            this.color = "on-background";
+            this.saveLeads = {};
+        }
+      })
+    },
      deleteRow(item) {
       // Implement your logic to delete the row
       const index = this.data.indexOf(item);

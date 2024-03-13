@@ -20,9 +20,9 @@
         </tr>
       </thead>
 
-      <!-- <tbody>        
+      <tbody>        
        <tr
-        v-for="(item,index) in paginatedItems"
+        v-for="(item,index) in oppitems"
         :key="index"
 
          
@@ -41,17 +41,18 @@
           {{ item.mrp }}
         </td>
          <td class="text-center">
-          <VChip
+          <!-- <VChip
         :color="resolveStatusVariant(item.status).color"
         class="font-weight-medium"
         size="small"
       >
       {{ item.status == 1 ? 'Active' : 'Inactive'}}
     
-            </VChip>
+            </VChip> -->
+            {{item.status}}
           
         </td> 
-        <td class="text-center">
+        <!-- <td class="text-center">
           {{ item.total_given_margin }}
         </td>
            <td class="text-center">
@@ -81,16 +82,16 @@
         </td>
           <td class="text-center">
           {{ item.bc_margin }}
-        </td>
+        </td> -->
           
-    <td class="text-center" v-if="this.userRole != 'Sales Associate' && this.userRole != 'Brand Management'">
+    <td class="text-center" >
               <V-btn
                   icon
                   variant="text"
                   color="default"
                   class="mb-1 mt-2"
                   size="x-small"
-                  style="margin-left: auto; display: block;"
+                 
                  @click="editProduct(item)"
                   >
                   
@@ -103,7 +104,7 @@
                       
             </td>
       </tr>
-      </tbody>         -->
+      </tbody>        
         </VTable>
    </div>
 </template>
@@ -185,6 +186,51 @@ export default {
             selectedBrand:null,
             userRole:'',
             createdby:'',
+
+             oppitems : [
+            {
+              brand_name: 'Frozen Yogurt',
+              sku_name: 159,
+              uom: 6,
+              hsn_code: 24,
+              mrp: 4,
+
+              status: 'active',
+            
+            },
+            {
+              brand_name: 'Ice cream sandwich',
+              sku_name: 237,
+              uom: 6,
+              hsn_code: 24,
+              mrp: 4,
+               status: 'active',
+            },
+            {
+              brand_name: 'Eclair',
+              sku_name: 262,
+              uom: 6,
+              hsn_code: 24,
+              mrp: 4,
+               status: 'active',
+            },
+            {
+              brand_name: 'Cupcake',
+              sku_name: 305,
+              uom: 6,
+              hsn_code: 24,
+              mrp: 4,
+               status: 'active',
+            },
+            {
+              brand_name: 'Gingerbread',
+              sku_name: 356,
+              uom: 6,
+              hsn_code: 24,
+              mrp: 4,
+               status: 'active',
+            },
+          ],
             headers:[
                {text:'Lead',value:'brand_name'},
                 {text:'Type',value:'sku_name'},
@@ -208,7 +254,14 @@ export default {
             ]
         }
     },
-
+methods:{
+  editProduct(){
+     this.$router.push({
+          name: 'Leadbasicdataview', // Replace with the actual name of your route
+        //   query: { so_id: item.so_id }
+        });
+  }
+}
 
 }
 </script>

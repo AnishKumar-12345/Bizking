@@ -153,6 +153,9 @@
         <td class="text-center">
           {{ item.sku_name }}
         </td>
+         <td class="text-center">
+          {{ item.uom }}
+        </td>
         <td class="text-center">
           {{ item.hsn_code }}
         </td>
@@ -170,9 +173,7 @@
           
           <!-- {{ item.Quantity }} -->
         </td>
-         <td class="text-center">
-          {{ item.uom }}
-        </td>
+        
        
         <td class="text-center">
          &#8377; {{calculatedPricePerUnit[index]}} <br>
@@ -247,10 +248,11 @@
           <tr>
             <td class="text-center">Total</td>
             <td></td>
-            <td></td>         
+            <td></td>    
+            <td></td>
             <td class="text-center"> {{ allQuantity }}</td>
             <td></td>    
-            <td></td>         
+            <!-- <td></td>          -->
             <td class="text-center"> &#8377;{{ allTaxableAmmount }}</td>
             <td class="text-center"> &#8377;{{ allCGSTAmount }}</td>
             <td class="text-center"> &#8377;{{ allSGSTAmount }}</td>
@@ -495,12 +497,13 @@ export default {
       headers: [
         // { text: 'Purchase Order', value: 'po' },
         { text: 'Product Name', value: 'sku_name' },
+          { text: 'UOM', value: 'uom' },
         { text: 'HSN', value: 'hsn_code' },
         { text: 'MRP', value: 'mrp' },
         // { text: 'MRPD', value: 'TaxDeductMRP' },
 
         { text: 'Quantity', value: 'quantity'},
-        { text: 'UOM', value: 'uom' },
+      
         { text: 'Price/Unit', value: 'calculatedPricePerUnit' },        
         { text: 'TaxableAmount', value: 'calculatedTaxableAmount' },   
         { text: 'CGST', value: 'calculatedCGSTAmount' },  

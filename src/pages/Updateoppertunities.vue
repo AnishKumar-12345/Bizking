@@ -14,11 +14,17 @@
       :touch="false"
     >
       <!-- Account -->
-      <VWindowItem value="account">
+      <VWindowItem value="basicdata">
         <UpdateOppertunity/>
       </VWindowItem>
 
-    
+     <VWindowItem value="workinfohistory">
+        <Workinfo/>
+      </VWindowItem>
+
+      <VWindowItem value="quote">
+        <GenerateQuote/>
+      </VWindowItem>
     </VWindow>
     </div>
 </template>
@@ -26,11 +32,14 @@
 import { useRoute } from 'vue-router'
 import { ref, onMounted } from 'vue';
 import UpdateOppertunity from '@/views/pages/Oppertunity/UpdateOppertunity.vue'
+import Workinfo from '@/views/pages/Oppertunity/Workinfo.vue'
+import GenerateQuote from '@/views/pages/Oppertunity/GenerateQuote.vue'
 
 export default {
     components:{
         UpdateOppertunity,
-   
+   Workinfo,
+   GenerateQuote,
     },
     data(){
         return{
@@ -38,13 +47,23 @@ export default {
             activeTab:'',
              tabs : [
                 {
-                    title: 'Add Oppertunity',
+                    title: 'Opp Basic Data',
                     icon: 'mdi-account-outline',
-                    tab: 'account',
-                },                
+                    tab: 'basicdata',
+                }, 
+                 {
+                    title: 'Work Info History',
+                    icon: 'mdi-account-outline',
+                    tab: 'workinfohistory',
+                },     
+                {
+                    title: 'Quote',
+                    icon: 'mdi-account-outline',
+                    tab: 'quote',
+                },            
           ]
         }
-    },
+    }, 
     mounted(){
         this.currentroute = useRoute()
         this.activeTab = ref(this.currentroute.params.tab);

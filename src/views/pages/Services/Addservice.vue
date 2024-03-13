@@ -13,10 +13,11 @@
                 md="6"
                 cols="12"
               >
+              <!-- :items="['Merchant','Brand']" -->
                 <VSelect
                  
-                  label="Lead Type"
-                  :items="['Merchant','Brand']"
+                  label="Service Type"
+                  
                 />
               </VCol>
 

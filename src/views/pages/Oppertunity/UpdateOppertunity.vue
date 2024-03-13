@@ -79,7 +79,7 @@
                 cols="12"
               >
                  <VTextField
-                
+                 
                   label="Location"
                 />
               </VCol>

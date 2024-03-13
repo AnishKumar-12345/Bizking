@@ -3,7 +3,7 @@ import axios from "axios";
 export default { 
     data(){
         return{
-            url:'http://103.211.218.32/'
+            url:'http://216.10.250.149/'
         }
     },
     methods:{
@@ -506,6 +506,43 @@ export default {
             .catch(err => {
               return err.response;
             });
-          }
+          },
+         
+          storestocksreport(id,filter,startdate,enddate){
+            return axios
+            .get(this.url +"bizkingz/services/api/reports/merchant_sales?merchant_id="+id+"&date_filter="+filter+"&start_date="+startdate+"&end_date="+enddate, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+         salesstocksreport(id){
+            return axios
+            .get(this.url +"bizkingz/services/api/reports/sales_orders?type="+id, {
+              // headers: {
+              //   "accept": "*/*",
+              //   "Content-Type": "application/json",
+                
+              // },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
     }
 }

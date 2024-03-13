@@ -257,7 +257,9 @@ export default {
           (item.created_date && item.created_date.toLowerCase().includes(lowerCaseQuery)) ||
           (item.so_status && item.so_status.toLowerCase().includes(lowerCaseQuery)) ||
           (item.merchant_name && item.merchant_name.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.total_so_amount && item.total_so_amount.toString().includes(lowerCaseQuery))
+          (item.total_so_amount && item.total_so_amount.toString().includes(lowerCaseQuery)) ||
+          (item.delivery_person && item.delivery_person.toLowerCase().includes(lowerCaseQuery)) 
+
         );
         // Filter based on status
         const matchesStatus = (

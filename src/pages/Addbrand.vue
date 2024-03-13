@@ -38,7 +38,7 @@ export default {
             activeTab:'',
              tabs : [
                 {
-                    title: 'Add Brand Products',
+                    title: 'Add Brand ',
                     icon: 'mdi-account-outline',
                     tab: 'account',
                 },                

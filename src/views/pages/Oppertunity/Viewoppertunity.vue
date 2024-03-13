@@ -2,8 +2,8 @@
    <div>
      <VTable 
        :headers="headers"
-    
-        item-key="dessert"
+    :items="oppitems"
+        item-key="brand_name"
       class="table-rounded"      
        height="500"
       fixed-header 
@@ -20,9 +20,9 @@
         </tr>
       </thead>
 
-      <!-- <tbody>        
+      <tbody>        
        <tr
-        v-for="(item,index) in paginatedItems"
+        v-for="(item,index) in oppitems"
         :key="index"
 
          
@@ -37,10 +37,14 @@
            
         {{ item.hsn_code }}
         </td>
-        <td class="text-center">
-          {{ item.mrp }}
+          <td class="text-center">
+           
+        {{ item.mrp }}
         </td>
-         <td class="text-center">
+        <td class="text-center">
+          {{ item.status }}
+        </td>
+         <!-- <td class="text-center">
           <VChip
         :color="resolveStatusVariant(item.status).color"
         class="font-weight-medium"
@@ -50,48 +54,20 @@
     
             </VChip>
           
-        </td> 
-        <td class="text-center">
+        </td>  -->
+        <!-- <td class="text-center">
           {{ item.total_given_margin }}
-        </td>
-           <td class="text-center">
-          {{ item.sgst }}
-        </td>   
-        <td class="text-center">
-          {{ item.cgst }}
-        </td>  
-         <td class="text-center">
-          {{ item.pitch_from }}
-        </td>   
-        
-        <td class="text-center">
-          {{ item.final_retail_cp }}
-        </td>   
-        <td class="text-center">
-          {{ item.final_ret }}
-        </td>   
-           <td class="text-center">
-          {{ item.bk_profit }}
-        </td>   
-        <td class="text-center">
-          {{ item.bizkingz_cp_final }}
-        </td>
-          <td class="text-center">
-          {{ item.bc_margin_amt }}
-        </td>
-          <td class="text-center">
-          {{ item.bc_margin }}
-        </td>
+        </td> -->
           
-    <td class="text-center" v-if="this.userRole != 'Sales Associate' && this.userRole != 'Brand Management'">
+          
+    <td class="text-center">
               <V-btn
                   icon
                   variant="text"
                   color="default"
                   class="mb-1 mt-2"
-                  size="x-small"
-                  style="margin-left: auto; display: block;"
-                 @click="editProduct(item)"
+                  size="x-small"                 
+                 @click="editOppertunity(item)"
                   >
                   
                       <VIcon
@@ -103,7 +79,7 @@
                       
             </td>
       </tr>
-      </tbody>         -->
+      </tbody>        
         </VTable>
    </div>
 </template>
@@ -113,6 +89,50 @@ export default {
     mixins: [servicescall], 
     data(){
         return{
+          oppitems : [
+            {
+              brand_name: 'Frozen Yogurt',
+              sku_name: 159,
+              uom: 6,
+              hsn_code: 24,
+              mrp: 4,
+
+              status: 'active',
+            
+            },
+            {
+              brand_name: 'Ice cream sandwich',
+              sku_name: 237,
+              uom: 6,
+              hsn_code: 24,
+              mrp: 4,
+               status: 'active',
+            },
+            {
+              brand_name: 'Eclair',
+              sku_name: 262,
+              uom: 6,
+              hsn_code: 24,
+              mrp: 4,
+               status: 'active',
+            },
+            {
+              brand_name: 'Cupcake',
+              sku_name: 305,
+              uom: 6,
+              hsn_code: 24,
+              mrp: 4,
+               status: 'active',
+            },
+            {
+              brand_name: 'Gingerbread',
+              sku_name: 356,
+              uom: 6,
+              hsn_code: 24,
+              mrp: 4,
+               status: 'active',
+            },
+          ],
           maxPaginationPages:5,
             storerules:[
           (v) => !!v || 'Store Address is required',
@@ -185,7 +205,7 @@ export default {
             selectedBrand:null,
             userRole:'',
             createdby:'',
-            headers:[
+            headers:[ 
                {text:'Oppertunity',value:'brand_name'},
                 {text:'Type',value:'sku_name'},
                 {text:'Store Name',value:'uom'},
@@ -208,7 +228,15 @@ export default {
             ]
         }
     },
-
+methods:{
+  editOppertunity(item){
+    // console.log('check oppertunity',item);
+    this.$router.push({
+          name: 'Updateoppertunities', // Replace with the actual name of your route
+          // query: { po_id: itm.po_id }
+        });
+  }
+}
 
 }
 </script>

@@ -204,7 +204,7 @@
                 <VTextField
                   v-model="this.saveBrand.address"               
                  
-                  label="Store Address"
+                  label="Brand Address"
                  :rules="storerules"
                 />
               </VCol>

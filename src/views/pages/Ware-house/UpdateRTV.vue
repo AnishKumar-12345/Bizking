@@ -23,7 +23,7 @@
               color="warning"
               variant="tonal"
               class="mb-4"              
-              border="top"
+              border="top" 
             >
               <VAlertTitle class="mb-1"> Are you sure you have RTV ? </VAlertTitle>
               <p class="mb-0">
@@ -186,6 +186,7 @@
                     <!-- {{formData.po_status}}  -->
                     <VTextField label="Quantity" 
                     v-model="this.PostRTV.quantity"
+                    type="number"  min="0"  @keydown="preventDecimal" @paste="preventPaste"
                     />
                   </VCol>
                   <VCol
@@ -548,6 +549,23 @@ export default {
     
   },
   methods: {
+     preventPaste(event){
+      const clipboardData = event.clipboardData || window.clipboardData;
+      const pastedData = clipboardData.getData('text');
+
+      // Validate pasted data (you can modify this regex as needed)
+      const isValid = /^[0-9]+$/.test(pastedData);
+
+      if (!isValid) {
+        event.preventDefault();
+      }
+    },
+
+    preventDecimal(event) {     
+      if (event.key === '.' || event.key === ',' ||  event.key === '+' ||  event.key === '-' || event.keyCode === 189 || event.keyCode === 109) {
+        event.preventDefault();
+      }
+    },
     viewrow(item){
       console.log('chec',item);
       this.dialog2 = true;

@@ -287,6 +287,9 @@
                           <td class="text-center">
                             {{ item.sku_name }}
                           </td>
+                             <td class="text-center">
+                            {{ item.uom }}
+                          </td>
                           <td class="text-center">
                             {{ item.hsn_code }}
                           </td>
@@ -302,9 +305,7 @@
                             />
                             <!-- {{ item.Quantity }} -->
                           </td>
-                          <td class="text-center">
-                            {{ item.uom }}
-                          </td>
+                       
                           <td class="text-center">
                             &#8377; {{ calculatedPricePerUnit[index] }} <br />
                             <!-- &#8377;{{ item.total_given_margin }} -->
@@ -365,9 +366,10 @@
                           <td class="text-center">Total</td>
                           <td></td>
                           <td></td>
+                          <td></td>
                           <td class="text-center">{{ allQuantity }}</td>
                           <td></td>
-                          <td></td>
+                          <!-- <td></td> -->
                           <td class="text-center">&#8377;{{ allTaxableAmmount }}</td>
                           <td class="text-center">&#8377;{{ allCGSTAmount }}</td>
                           <td class="text-center">&#8377;{{ allSGSTAmount }}</td>
@@ -653,10 +655,10 @@
                           :key="index"
                         >
                           <td class="text-center">{{ item.sku_name }}</td>
+                          <td class="text-center">{{ item.uom }}</td>
                           <td class="text-center">{{ item.hsn_code }}</td>
                           <td class="text-center">   &#8377;{{ item.mrp }}</td>
                           <td class="text-center">{{ item.quantity }}</td>
-                          <td class="text-center">{{ item.uom }}</td>
                           <td class="text-center">   &#8377;{{ item.price_per_unit }}
                              <VChip
                               :color="colorTGMmargin(item.total_give_margin).color"
@@ -696,10 +698,10 @@
                           <td class="text-center">Total</td>
                           <td></td>
                           <td></td>
-                          <!-- <td></td>       -->
+                          <td></td>      
                           <td class="text-center">{{ this.VproductData.total_quantity }}</td>
                           <td></td>
-                          <td></td>
+                          <!-- <td></td> -->
                           <td class="text-center">&#8377;{{ this.VproductData.sub_total }}</td>
                           <!-- <td></td> -->
                           <td class="text-center">&#8377;{{ this.VproductData.total_cgst }}</td>
@@ -1023,10 +1025,10 @@ export default {
       ],
       headers2: [
         { text: 'Product Name', value: 'sku_name' },
+        { text: 'UOM', value: 'uom' },
         { text: 'HSN', value: 'hsn_code' },
         { text: 'MRP', value: 'mrp' },
         { text: 'Quantity', value: 'quantity' },
-        { text: 'UOM', value: 'uom' },
         { text: 'Price/Unit', value: 'price_per_unit' },
         { text: 'TaxableAmount', value: 'taxable_amount' },
         { text: 'CGST', value: 'csgt' },
@@ -1036,10 +1038,10 @@ export default {
       ],
       headers3: [
         { text: 'Product Name', value: 'sku_name' },
+        { text: 'UOM', value: 'uom' },
         { text: 'HSN', value: 'hsn_code' },
         { text: 'MRP', value: 'mrp' },
         { text: 'Quantity', value: 'quantity' },
-        { text: 'UOM', value: 'uom' },
         { text: 'Price/Unit', value: 'price_per_unit' },
         { text: 'TaxableAmount', value: 'taxable_amount' },
         { text: 'CGST', value: 'csgt' },

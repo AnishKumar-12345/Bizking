@@ -105,7 +105,7 @@ const triangleBg = computed(() => {
 
 <!-- Anish UI -->
    <VCard
-    title="Ongoing Oppertunities!"
+    title="Ongoing Opportunities!"
     
     class="position-relative"
   >
@@ -116,7 +116,7 @@ const triangleBg = computed(() => {
         <p>🎉</p>
       <!-- <p>78% of target 🚀</p> -->
       <VBtn size="small">
-        View Oppertunities
+        View Opportunities
       </VBtn>
     </VCardText>
 

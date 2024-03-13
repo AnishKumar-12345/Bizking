@@ -41,7 +41,7 @@ export default{
           title: 'Oppertunity',
           icon: "ic:baseline-connect-without-contact",
           children: [
-             { id: 25, title: 'Add Oppertunity', route: '/Updateoppertunities' },
+            //  { id: 25, title: 'Add Oppertunity', route: '/Updateoppertunities' },
             { id: 23, title: 'View Oppertunity', route: '/Viewoppertunities' },
             // { id: 24, title: 'Generate Quote', route: '/Oppertunitygeneratequote' },
               // { id: 26, title: 'Close Oppertunity', route: '/Closealloppertunities' },
@@ -144,6 +144,17 @@ export default{
 
           ],
           expanded: false,
+        },
+          {
+          id: 14,
+          title: 'Reports',
+          icon: "carbon:store",
+          route: '/Allreportsdata',
+          expanded: false,
+          // children: [
+          //   { id: 50, title: 'MerachantSales', route: '/Merchantsalesdata' },                             
+          // ],
+          // expanded: false,
         },
         {
           id: 12,

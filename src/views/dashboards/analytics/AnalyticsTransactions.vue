@@ -41,7 +41,7 @@ const triangleBg = computed(() => {
 
 <template>
  <VCard
-    title="Ongoing Oppertunities!"
+    title="Ongoing Opportunities!"
     
     class="position-relative"
   >

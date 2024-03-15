@@ -13,10 +13,10 @@
                 md="6"
                 cols="12"
               >
-                <VSelect
+                <VTextField
                  v-model="saveLeads.lead_type"
                   label="Lead Type"
-                  :items="['Merchant','Brand']"
+                 readonly
                   :rules="namerules"
                 />
               </VCol>
@@ -78,43 +78,24 @@
                 />
               </VCol>
 
-              <VCol
+              <!-- <VCol
                 md="6"
                 cols="12"
               >
+          
                  <VTextField
                  v-model="saveLeads.location"
-                :rules="locationrules"
+              
                   label="Location"
                 />
-              </VCol>
-              <VCol
-                md="6"
-                cols="12"
-              >
-                 <VTextField
-                 v-model="saveLeads.poc_name"
-                :rules="namerules1"
-                  label="POC Name"
-                />
-              </VCol>
-              <VCol
-                md="6"
-                cols="12"
-              >
-                 <VTextField
-                 v-model="saveLeads.poc_phone"
-                :rules="phonerules"
-                  label="POC Phone"
-                />
-              </VCol>
-              <VCol
+              </VCol> -->
+               <VCol
                 md="6"
                 cols="12"
               >
                  <VTextField
                  v-model="saveLeads.owner_name"
-                :rules="namerules1"
+                :rules="namerules2"
                   label="Owner Name"
                 />
               </VCol>
@@ -132,6 +113,31 @@
                 md="6"
                 cols="12"
               >
+                 <VTextField
+                 v-model="saveLeads.poc_name"
+                :rules="namerules1"
+                  label="POC Name"
+                />
+                <span><strong color="error">* </strong> please enter owner name if there is no poc</span>
+                  <!-- <template #label>
+                          POC Name<strong class="red--text">* </strong>
+                        </template> -->
+              </VCol>
+              <VCol
+                md="6"
+                cols="12"
+              >
+                 <VTextField
+                 v-model="saveLeads.poc_phone"
+                :rules="phonerules"
+                  label="POC Phone"
+                />
+              </VCol>
+             
+              <VCol
+                md="6"
+                cols="12"
+              >
                  <VSelect
                  v-model="saveLeads.decision_authority"
                 :rules="authrules"
@@ -145,14 +151,14 @@
               >
                 <VBtn @click="validateForm">Save</VBtn>
 
-                <VBtn
+                <!-- <VBtn
                   color="secondary"
                   variant="tonal"
                   type="reset"
                
                 >
                   Reset
-                </VBtn>
+                </VBtn> -->
               </VCol>
             </VRow>
           </VForm>
@@ -220,19 +226,23 @@ export default {
        
       ],
         authrules: [
-         (v) => !!v || 'Authority is required',
+         (v) => !!v || 'Decision Authority is required',
        
       ],
       namerules1: [
-         (v) => !!v || 'Name is required',
-         (v) => /^[a-zA-Z]+$/.test(v) || 'Only letters are allowed in the name'
+         (v) => !!v || 'POC name is required',
+        //  (v) => /^[a-zA-Z]+$/.test(v) || 'Only letters are allowed in the name'
+      ],
+       namerules2: [
+         (v) => !!v || 'Owner name is required',
+        //  (v) => /^[a-zA-Z]+$/.test(v) || 'Only letters are allowed in the name'
       ],
        gstrules: [
         (v) => !!v || "GST is required",     
       ],
 
      pinrules: [        
-                (v) => !!v || 'PIN is required',
+                (v) => !!v || 'PIN Code is required',
                  (v) => (v && /^\d{6}$/.test(v)) || 'PIN must be 6 digits'
               ],
 
@@ -242,7 +252,7 @@ export default {
     ],
 
       phonerules: [
-         (v) => !!v || " Mobile  is required",
+         (v) => !!v || " Mobile Number is required",
           (v) => /^[0-9]+$/.test(v) || "only number are accepted",
           (v) =>
             (v && v.length <= 10 && v.length >= 10) ||
@@ -252,7 +262,7 @@ export default {
         loggedby:'',
         userid:'',
         saveLeads:{
-          "lead_type":"",
+          "lead_type":"Brand",
           "name":"",
           "address":"",
           "pincode":"",

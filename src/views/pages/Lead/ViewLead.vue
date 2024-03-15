@@ -1,6 +1,55 @@
 <template>
    <div>
+
+   <VRow v-if="this.leadData == null">
+      <VCol cols="12"> 
+        <VCard title="Lead View">
+          <VCardText> 
+            <!-- 👉 Checkbox and Button  -->
+            <VAlert
+              color="warning"
+              variant="tonal"
+              class="mb-4"              
+              border="top"
+            >
+              <VAlertTitle class="mb-1"> Are you sure you gave Leads? </VAlertTitle>
+              <p class="mb-0">
+                The system is not retrieving the Leads. Please ensure that you have applied for Leads !</p>
+            </VAlert>
+          </VCardText>
+        </VCard>
+      </VCol>
+     </VRow>
+
+    <div style="max-width:400px" v-if="this.leadData != null">
+      <VTextField
+      class="mb-3"
+        v-model="searchQuery"        
+        density="compact"
+        variant="solo"
+        label="Search"
+        append-inner-icon="mdi-magnify"
+        single-line 
+        hide-details
+    
+    />
+    </div>
+
+     <div v-if="loading" id="app">
+      <div id="loading-bg">
+        <div class="loading-logo">
+          <img src="../../../assets/images/logos/comlogo.jpeg" height="60" width="68" alt="Logo" />
+        </div>
+        <div class="loading">
+          <div class="effect-1 effects"></div>
+          <div class="effect-2 effects"></div>
+          <div class="effect-3 effects"></div>
+        </div>
+      </div>
+    </div>
+
      <VTable 
+     v-if="this.leadData != null"
        :headers="headers"
     
         item-key="dessert"
@@ -22,24 +71,24 @@
 
       <tbody>        
        <tr
-        v-for="(item,index) in oppitems"
+        v-for="(item,index) in paginatedItems"
         :key="index"
 
          
       >       
-        <td class="text-center">{{ item.brand_name }}</td>
+        <td class="text-center">{{ item.lead_no }}</td>
 
-        <td class="text-center">{{ item.sku_name }}</td>
+        <td class="text-center">{{ item.lead_type }}</td>
         <td class="text-center">
-          {{ item.uom }}
+          {{ item.name }}
         </td>
         <td class="text-center">
            
-        {{ item.hsn_code }}
+        {{ item.address }}
         </td>
-        <td class="text-center">
-          {{ item.mrp }}
-        </td>
+        <!-- <td class="text-center">
+          {{ item.location }}
+        </td> -->
          <td class="text-center">
           <!-- <VChip
         :color="resolveStatusVariant(item.status).color"
@@ -52,38 +101,38 @@
             {{item.status}}
           
         </td> 
-        <!-- <td class="text-center">
-          {{ item.total_given_margin }}
+        <td class="text-center">
+          {{ item.gst }}
         </td>
            <td class="text-center">
-          {{ item.sgst }}
+          {{ item.owner_name }}
         </td>   
         <td class="text-center">
-          {{ item.cgst }}
+          {{ item.owner_phone }}
         </td>  
          <td class="text-center">
-          {{ item.pitch_from }}
+          {{ item.poc_name }}
         </td>   
         
         <td class="text-center">
-          {{ item.final_retail_cp }}
+          {{ item.poc_phone }}
         </td>   
         <td class="text-center">
-          {{ item.final_ret }}
+          {{ item.updated_date }}
         </td>   
            <td class="text-center">
-          {{ item.bk_profit }}
+          {{ item.created_date }}
         </td>   
         <td class="text-center">
-          {{ item.bizkingz_cp_final }}
+          {{ item.pincode }}
         </td>
-          <td class="text-center">
+          <!-- <td class="text-center">
           {{ item.bc_margin_amt }}
         </td>
           <td class="text-center">
           {{ item.bc_margin }}
         </td> -->
-          
+           
     <td class="text-center" >
               <V-btn
                   icon
@@ -106,6 +155,12 @@
       </tr>
       </tbody>        
         </VTable>
+          <VPagination
+            v-model="page"
+            :length="Math.ceil(filteredProducts.length / pageSize)"
+            @input="updatePagination"
+               :max="maxPaginationPages"
+            />
    </div>
 </template>
 <script>
@@ -114,6 +169,11 @@ export default {
     mixins: [servicescall], 
     data(){
         return{
+           page: 1,
+            pageSize: 10,
+             loading:true,
+            searchQuery:'',
+
           maxPaginationPages:5,
             storerules:[
           (v) => !!v || 'Store Address is required',
@@ -181,63 +241,29 @@ export default {
               "bc_margin": "",
               // "created_by": "",
             },
-            salesdata:[],
-            BrandNames:[],
+            // salesdata:[],
+            // BrandNames:[],
             selectedBrand:null,
             userRole:'',
             createdby:'',
-
-             oppitems : [
-            {
-              brand_name: 'Frozen Yogurt',
-              sku_name: 159,
-              uom: 6,
-              hsn_code: 24,
-              mrp: 4,
-
-              status: 'active',
-            
-            },
-            {
-              brand_name: 'Ice cream sandwich',
-              sku_name: 237,
-              uom: 6,
-              hsn_code: 24,
-              mrp: 4,
-               status: 'active',
-            },
-            {
-              brand_name: 'Eclair',
-              sku_name: 262,
-              uom: 6,
-              hsn_code: 24,
-              mrp: 4,
-               status: 'active',
-            },
-            {
-              brand_name: 'Cupcake',
-              sku_name: 305,
-              uom: 6,
-              hsn_code: 24,
-              mrp: 4,
-               status: 'active',
-            },
-            {
-              brand_name: 'Gingerbread',
-              sku_name: 356,
-              uom: 6,
-              hsn_code: 24,
-              mrp: 4,
-               status: 'active',
-            },
-          ],
+             userid:"",
+            leadData:[],
             headers:[
-               {text:'Lead',value:'brand_name'},
-                {text:'Type',value:'sku_name'},
-                {text:'Store Name',value:'uom'},
-                {text:'Address',value:'hsn_code'},
-                {text:'Location',value:'mrp'},
+               {text:'Lead',value:'lead_no'},
+                {text:'Type',value:'lead_type'},
+                {text:'Store Name',value:'name'},
+                {text:'Address',value:'address'},
+                // {text:'Location',value:'location'},
                 {text:'Status',value:'status'},
+                {text:'GST',value:'gst'},
+                {text:'Owner Name',value:'owner_name'},
+                {text:'Owner Phone',value:'owner_phone'},
+                {text:'Poc Name',value:'poc_name'},
+                {text:'Poc Phone',value:'poc_phone'},
+                {text:'Updated Date',value:'updated_date'},
+                {text:'Created Date',value:'created_date'},
+                {text:'PinCode',value:'pincode'},
+
                 // {text:'Total Given Margin',value:'total_given_margin'},
                 // {text:'SGST',value:'sgst'},
                 // {text:'CGST',value:'cgst'},
@@ -254,11 +280,60 @@ export default {
             ]
         }
     },
+    computed:{
+      
+         filteredProducts(){
+         const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
+        return this.leadData.filter((item) => {
+        return (
+          (item.lead_no && item.lead_no.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.lead_type && item.lead_type.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.name && item.name.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.address && item.address.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.location && item.location.toLowerCase().includes(lowerCaseQuery))|| 
+          (item.status && item.status.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.gst && item.gst.toLowerCase().includes(lowerCaseQuery))  ||
+          (item.owner_name && item.owner_name.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.owner_phone && item.owner_phone.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.poc_name && item.poc_name.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.poc_phone && item.poc_phone.toString().includes(lowerCaseQuery)) || 
+          (item.updated_date && item.updated_date.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.created_date && item.created_date.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.pincode && item.pincode.toLowerCase().includes(lowerCaseQuery)) 
+      
+
+        );
+      });
+    },
+
+      paginatedItems() {
+          const startIndex = (this.page - 1) * this.pageSize;
+          const endIndex = startIndex + this.pageSize;
+          return this.filteredProducts.slice(startIndex, endIndex);
+        },
+    },
+    mounted(){
+    this.userid = localStorage.getItem('user_id');
+    this.getLeaddata();
+     setTimeout(() => {
+      this.loading = false; // Set loading to false when the operation is complete
+    }, 3000);
+    },
 methods:{
-  editProduct(){
+   updatePagination(page) {
+    this.page = page;
+  },
+  getLeaddata(){
+    this.getLeads( this.userid).then((response)=>{
+      console.log('res',response);
+      this.leadData = response.data.data;
+      this.leadData.reverse();
+    })
+  },
+  editProduct(item){
      this.$router.push({
           name: 'Leadbasicdataview', // Replace with the actual name of your route
-        //   query: { so_id: item.so_id }
+          query: { lead_id: item.lead_id } 
         });
   }
 }

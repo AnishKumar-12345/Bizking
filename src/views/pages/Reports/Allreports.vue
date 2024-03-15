@@ -10,7 +10,7 @@
         />          
      </div>
 
-     <VRow>
+     <VRow> 
     <!-- <VCol
       cols="12"
       md="4"
@@ -151,6 +151,63 @@
 
     </VCard>
     </VCol>   
+
+    <VCol
+      cols="12"
+      md="4"
+    >
+       <VCard
+      title="Merchant Stock Inventory"
+      class="position-relative"
+    >
+      <VCardText>
+        <h4 class="text-4xl font-weight-medium text-primary">
+          2
+        </h4>
+        <p>🎉</p>
+        <VBtn size="small" @click="openMSI()">
+          Get Reports
+        </VBtn>
+      </VCardText>
+
+      <!-- Triangle Background -->
+      <VImg
+        :src="triangleBg"
+        class="triangle-bg flip-in-rtl"
+      />
+        <img src="@/assets/images/avatars/avatar-11.png"  class="trophy">
+
+    </VCard>
+    </VCol>  
+
+     <VCol
+      cols="12"
+      md="4"
+    >
+       <VCard
+      title="Warehouse Stock Inventory"
+      class="position-relative"
+    >
+      <VCardText>
+        <h4 class="text-4xl font-weight-medium text-primary">
+          2
+        </h4>
+        <p>🎉</p>
+        <VBtn size="small" @click="openWSI()">
+          Get Reports
+        </VBtn>
+      </VCardText>
+
+      <!-- Triangle Background -->
+      <VImg
+        :src="triangleBg"
+        class="triangle-bg flip-in-rtl"
+      />
+        <img src="@/assets/images/avatars/avatar-9.png"  class="trophy">
+
+    </VCard>
+    </VCol>  
+
   </VRow>
 
     <VDialog
@@ -449,6 +506,159 @@
       </VCard>
     </VDialog>
 
+
+  <VDialog
+      v-model="dialog4"
+      max-width="1000"
+    >
+   
+      <VCard
+        title="Merchant Stock Inventory"
+        class="mb-2"
+      >
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- 👉 Form -->
+             <VForm class="mt-6" ref="purchaseOrderForm3">
+            <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
+           
+            </VCheckbox> -->
+            <VRow>
+    
+              <VCol
+                md="6"
+                cols="12"
+              >
+        
+               
+                <VAutocomplete
+                  v-model="selectedmerchants2"
+                  :items="merchantName" 
+                   item-value="value"
+                  item-title="text"
+                  :rules="storeMerchant"
+                  label="Store or Merchant"
+                  :menu-props="{ maxHeight: 200 }"        
+                  no-underline
+                
+                />
+               
+              </VCol>           
+
+            
+           
+
+              
+
+
+              <VDivider />                 
+             
+
+              <VCol
+                cols="12"
+                class="d-flex flex-wrap gap-4"
+              >
+                <VBtn @click="validateForm3()">Get</VBtn>
+        
+                <VBtn @click="closemreport()">Close</VBtn>
+
+                <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
+                <VProgressCircular
+                :size="50"
+                color="primary"
+                indeterminate
+                v-show="isProgress3"
+              >
+              </VProgressCircular>
+
+              
+              </VCol>
+             
+            </VRow>
+          </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+      </VCard>
+  </VDialog>
+
+<VDialog
+      v-model="dialog5"
+      max-width="1000"
+    >
+   
+      <VCard
+        title="Warehouse Stock Inventory"
+        class="mb-2"
+      >
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- 👉 Form -->
+             <VForm class="mt-6" ref="purchaseOrderForm4">
+            <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
+           
+            </VCheckbox> -->
+            <VRow>
+    
+              <VCol
+                md="6"
+                cols="12"
+              >
+        
+               
+                <VAutocomplete
+                  v-model="selectedBrand"
+                  :items="Brandname" 
+                   item-value="value"
+                  item-title="text"
+                  :rules="storeBrand"
+                  label="Brand Names"
+                  :menu-props="{ maxHeight: 200 }"        
+                  no-underline                
+                />
+               
+              </VCol>           
+
+            
+           
+
+              
+
+
+              <VDivider />                 
+             
+
+              <VCol
+                cols="12"
+                class="d-flex flex-wrap gap-4"
+              >
+                <VBtn @click="validateForm4()">Get</VBtn>
+        
+                <VBtn @click="closewreport()">Close</VBtn>
+
+                <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
+                <VProgressCircular
+                :size="50"
+                color="primary"
+                indeterminate
+                v-show="isProgress4"
+              >
+              </VProgressCircular>
+
+              
+              </VCol>
+             
+            </VRow>
+          </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+      </VCard>
+  </VDialog>
+
+
       <VSnackbar
       v-model="snackbar" :timeout="3500"
       :color="color"
@@ -463,7 +673,9 @@
 <script>
 import servicescall from "@/Services";
 // import VueExcelXlsx from 'vue-excel-xlsx';
-
+import { useTheme } from 'vuetify'
+import triangleDark from '@/assets/images/misc/triangle-dark.png'
+import triangleLight from '@/assets/images/misc/triangle-light.png'
 export default {
   mixins: [servicescall],
   components: {
@@ -483,15 +695,22 @@ export default {
       right: false,
       isProgress:false,
       isProgress2:false,
+      isProgress3:false,
+      isProgress4:false,
       
         loading:true,
         dialog2:false,
         dialog3:false,
+        dialog4:false,
+        dialog5:false,
+
         selectdatepicker:null,
         merchantName:[],
         reportsMerchant:[],
          selectAll: false,
         selectedmerchants:null,
+        selectedmerchants2:null,
+        selectedBrand:null,
           salesRules: [
               (v) => !!v || 'Sales is required',
             ],
@@ -500,6 +719,10 @@ export default {
           ],
           selectDate: [
             (v) => !!v || 'Select Date is required',
+          ],
+          storeBrand:[
+            (v) => !!v || 'Brand Name is required',
+
           ],
         reportsdata:{
                 "merchant_id":"",
@@ -559,19 +782,117 @@ export default {
     this.maxDate = newDate ? newDate : this.getFormattedDate(new Date());
   }
 },
-   computed:{
-    // merchants(){
-    //     return this.merchantName.map(a => a.merchant_uid
-    //        );
-    // },
-   },
+  computed:{
+    vuetifyTheme(){
+      return useTheme();
+    },
+    triangleBg(){
+  return this.vuetifyTheme.global.name.value === 'light' ? triangleLight : triangleDark
+
+    }
+  },
    mounted(){
     this.getMerchantdetails();
+    this.getBrandsdata();
         setTimeout(() => {
               this.loading = false; // Set loading to false when the operation is complete
             }, 3000);
    },
    methods:{
+     validateForm4(){
+      this.$refs.purchaseOrderForm4.validate().then(valid => {
+        // console.log("form valid", valid.valid);
+        if (valid.valid == true) {
+         
+          this.getwarehousestockreport();
+        }else{
+           this.snackbar = true;
+            this.snackbarText = "Please give all mandatory fields"
+            this.color = "on-background";
+        }
+      }); 
+    },
+ getwarehousestockreport(){
+               this.isProgress4 = true;
+
+        this.getBrandreports(this.selectedBrand).then((response)=>{
+          // console.log(response);
+           
+
+        if(response.data.status == 0){
+               this.isProgress4 = false;
+            this.dialog4 = false; 
+           
+            this.selectedBrand="";
+           this.snackbar = true;
+            this.color = "on-background";
+            this.snackbarText = response.data.message;
+            
+        }else{
+           this.isProgress4 = false;
+            this.dialog5 = false;   
+            
+          //  this.loading = true;
+            // this.reportsdata={};
+            this.selectedBrand="";
+         
+            const blob = new Blob([response.data], { type: 'text/csv' });
+
+        // Create a temporary URL for the Blob
+        const url = window.URL.createObjectURL(blob);
+
+        // Create a link element
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'Warehouse Stock Inventory Report.csv'); // Set the file name here
+
+        // Append the link to the body
+        document.body.appendChild(link);
+
+        // Programmatically click the link to trigger the download
+        link.click();
+
+        // Clean up - remove the link and revoke the URL
+        link.parentNode.removeChild(link);
+        window.URL.revokeObjectURL(url);
+
+        // console.log('CSV data:', response.data);
+          this.snackbar = true;
+            this.color = "primary";
+            this.snackbarText = "Reports downloaded successfully.";
+        }
+    
+    })
+    },
+
+    getBrandsdata(){
+      this.getBrands().then((response)=>{       
+     
+         this.Brandname = [
+          { value: "all", text: "All" },
+          ...response.data.map(brand => ({
+            value: brand.brand_id,
+            text: brand.brand_name
+          }))
+        ];
+        console.log('check the response', this.Brandname);
+      })
+    },
+    closewreport(){
+      this.dialog5=false;
+
+    },
+  openWSI(){
+      this.dialog5=true;
+  },
+    closemreport(){
+      this.dialog4=false;
+      this.selectedmerchants2="";
+
+    },
+    openMSI(){
+      this.dialog4=true;
+    },
       validateForm1(){
       this.$refs.purchaseOrderForm1.validate().then(valid => {
         // console.log("form valid", valid.valid);
@@ -597,6 +918,74 @@ export default {
             this.color = "on-background";
         }
       }); 
+    },
+
+      validateForm3(){
+      this.$refs.purchaseOrderForm3.validate().then(valid => {
+        // console.log("form valid", valid.valid);
+        if (valid.valid == true) {
+         
+          this.getMerchantsreport();
+        }else{
+           this.snackbar = true;
+            this.snackbarText = "Please give all mandatory fields"
+            this.color = "on-background";
+        }
+      }); 
+    },     
+
+
+  getMerchantsreport(){
+               this.isProgress3 = true;
+
+        this.getMerchantstocksreport(this.selectedmerchants2).then((response)=>{
+          // console.log(response);
+           
+
+        if(response.data.status == 0){
+               this.isProgress3 = false;
+            this.dialog4 = false; 
+           
+            this.selectedmerchants2="";
+           this.snackbar = true;
+            this.color = "on-background";
+            this.snackbarText = response.data.message;
+            
+        }else{
+           this.isProgress3 = false;
+            this.dialog4 = false;   
+            
+          //  this.loading = true;
+            this.reportsdata={};
+            this.selectedmerchants2="";
+         
+            const blob = new Blob([response.data], { type: 'text/csv' });
+
+        // Create a temporary URL for the Blob
+        const url = window.URL.createObjectURL(blob);
+
+        // Create a link element
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'Merchant Stock Inventory Report.csv'); // Set the file name here
+
+        // Append the link to the body
+        document.body.appendChild(link);
+
+        // Programmatically click the link to trigger the download
+        link.click();
+
+        // Clean up - remove the link and revoke the URL
+        link.parentNode.removeChild(link);
+        window.URL.revokeObjectURL(url);
+
+        // console.log('CSV data:', response.data);
+          this.snackbar = true;
+            this.color = "primary";
+            this.snackbarText = "Reports downloaded successfully.";
+        }
+    
+    })
     },
     openSales(){
       this.dialog3 = true;
@@ -677,18 +1066,26 @@ export default {
 //     return; // Exit the method to prevent further execution
 //   }
 
-    if(this.selectSales === "All"){
-      this.selectSales = "all"
-    }else if(this.selectSales === "Acknowledged"){
-       this.selectSales = "3"
-    }else if(this.selectSales === "Shipped"){
-       this.selectSales = "4"
-    }else if(this.selectSales === "Delivered"){
-       this.selectSales = "5"
-    }
-  console.log('check ', this.selectSales );
+    // if(this.selectSales === "All"){
+    //   this.selectSales = "all"
+    // }else if(this.selectSales === "Acknowledged"){
+    //    this.selectSales = "3"
+    // }else if(this.selectSales === "Shipped"){
+    //    this.selectSales = "4"
+    // }else if(this.selectSales === "Delivered"){
+    //    this.selectSales = "5"
+    // }
+
+     const statusMapping = {
+            'All': "all",
+            'Acknowledged': "3",
+            'Shipped': "4",
+            'Delivered': "5",          
+          };
+
+  console.log('check ', statusMapping[this.selectSales] );
    this.isProgress2 = true;
-      this.salesstocksreport(this.selectSales).then((response)=>{
+      this.salesstocksreport(statusMapping[this.selectSales]).then((response)=>{
         console.log('check the response',response);
           if(response.data.status == 0){
                this.isProgress2 = false;
@@ -836,6 +1233,12 @@ export default {
   inline-size: 7rem;
   inset-block-end: -1rem;
   inset-inline-end: 0.8rem;
+}
+.trophy {
+  position: absolute;
+  inline-size: 5.8rem;
+  inset-block-end: -1rem;
+  inset-inline-end: 0.6rem;
 }
 .trophy1 {
   position: absolute;

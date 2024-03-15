@@ -72,6 +72,19 @@
           
                   />
               </div>
+
+              <div v-if="loading2" id="app">
+      <div id="loading-bg">
+        <div class="loading-logo">
+          <img src="../../../assets/images/logos/comlogo.jpeg" height="60" width="68" alt="Logo" />
+        </div>
+        <div class="loading">
+          <div class="effect-1 effects"></div>
+          <div class="effect-2 effects"></div>
+          <div class="effect-3 effects"></div>
+        </div>
+      </div>
+    </div>
       <VTable
       
        :headers="headers"
@@ -176,6 +189,7 @@ export default {
    data(){
     return{
       loading:true,
+      loading2:false,
         searchQuery:'',
        page: 1,
     pageSize: 10,
@@ -257,16 +271,17 @@ export default {
   if (selectedMerchant) {
     this.selectedMerchantId = selectedMerchant.merchant_id;
     // console.log('Selected Merchant ID:', this.selectedMerchantId);
-
+this.loading2 = true;
     // Now that you have the selected merchant ID, you can perform further actions, such as calling an API method to get brand details.
     this.getMerchantproductsstock(this.selectedMerchantId)
       .then((response) => {
-        // console.log("Merchant Products:", response);
+        console.log("Merchant Products:", response);
        
         // Handle the response accordingly
         if(response.status == 1){
            this.stockUpdatedate = response.data.stock_updated_date;
            this.marchantstocksdata = response.data.products;
+             this.loading2 = false; 
         }else{
            this.marchantstocksdata = [];
              this.snackbar = true;

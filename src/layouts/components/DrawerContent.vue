@@ -32,7 +32,7 @@ export default{
           icon: "fluent-mdl2:party-leader",
           children: [
             { id: 21, title: 'Create Lead', route: '/Leadcreate' },
-            { id: 22, title: 'Update Lead', route: '/LeadView' },
+            { id: 22, title: 'View Lead', route: '/LeadView' },
          ],
           expanded: false,
         }, 

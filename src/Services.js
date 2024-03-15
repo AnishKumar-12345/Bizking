@@ -563,5 +563,77 @@ export default {
               return err.response;
             });
           },
+          getLeads(reqbody){
+            return axios
+            .get(this.url +"bizkingz/services/api/leads/viewLeads?user_id="+reqbody, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          updateLeads(reqbody){
+            return axios
+            .get(this.url +"bizkingz/services/api/leads/getLeadDetails?lead_id="+reqbody, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          getMerchantstocksreport(reqbody){
+            return axios
+            .get(this.url +"bizkingz/services/api/reports/store_stock?merchant_id="+reqbody, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          getBrandreports(reqbody){
+            return axios
+            .get(this.url +"bizkingz/services/api/reports/warehouse_stock?brand_id="+reqbody, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
     }
 }

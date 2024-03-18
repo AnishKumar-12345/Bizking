@@ -104,9 +104,10 @@
     >
       <VCardText>
         <h4 class="text-4xl font-weight-medium text-primary">
-          2
-        </h4>
-        <p>🎉</p>
+                  <VIcon size="50" start icon="line-md:downloading-loop" />
+
+        </h4> <br>
+        <!-- <p>🎉</p> -->
         <VBtn size="small"  @click="openSales()">
           Get Reports
         </VBtn>
@@ -120,9 +121,7 @@
     <img src="@/assets/images/avatars/avatar-15.png" class="trophy1">
       <img :src="avatarg" class="avatarg">
     </VCard>
-    </VCol>
-
-  
+    </VCol> 
 
     <VCol
       cols="12"
@@ -134,9 +133,10 @@
     >
       <VCardText>
         <h4 class="text-4xl font-weight-medium text-primary">
-          2
-        </h4>
-        <p>🎉</p>
+         <VIcon size="50" start icon="line-md:downloading-loop" />
+
+        </h4> <br>
+        <!-- <p>🎉</p> -->
         <VBtn size="small" @click="openMPS()">
           Get Reports
         </VBtn>
@@ -162,9 +162,10 @@
     >
       <VCardText>
         <h4 class="text-4xl font-weight-medium text-primary">
-          2
-        </h4>
-        <p>🎉</p>
+                  <VIcon size="50" start icon="line-md:downloading-loop" />
+
+        </h4> <br>
+        <!-- <p>🎉</p> -->
         <VBtn size="small" @click="openMSI()">
           Get Reports
         </VBtn>
@@ -190,9 +191,10 @@
     >
       <VCardText>
         <h4 class="text-4xl font-weight-medium text-primary">
-          2
-        </h4>
-        <p>🎉</p>
+                  <VIcon size="50" start icon="line-md:downloading-loop" />
+
+        </h4> <br>
+        <!-- <p>🎉</p> -->
         <VBtn size="small" @click="openWSI()">
           Get Reports
         </VBtn>
@@ -204,6 +206,35 @@
         class="triangle-bg flip-in-rtl"
       />
         <img src="@/assets/images/avatars/avatar-9.png"  class="trophy">
+
+    </VCard>
+    </VCol>  
+
+  <VCol
+      cols="12"
+      md="4"
+    >
+       <VCard
+      title="Brands"
+      class="position-relative"
+    >
+      <VCardText>
+        <h4 class="text-4xl font-weight-medium text-primary">
+                  <VIcon size="50" start icon="line-md:downloading-loop" />
+
+        </h4> <br>
+        <!-- <p>🎉</p> -->
+        <VBtn size="small" @click="openBrand()">
+          Get Reports
+        </VBtn>
+      </VCardText>
+
+      <!-- Triangle Background -->
+      <VImg
+        :src="triangleBg"
+        class="triangle-bg flip-in-rtl"
+      />
+        <img src="@/assets/images/avatars/avatar-10.png"  class="trophy">
 
     </VCard>
     </VCol>  
@@ -265,32 +296,7 @@
                    label="Select Date"
                
                 />
-              </VCol>
-
-              <!-- <VCol  
-              v-if="reportsdata.date_filter == 'This Year' || reportsdata.date_filter == 'This Month'"
-               md="6"
-               cols="12"
-               >
-                <VTextField
-                   v-model="reportsdata.start_date"                
-                  type="date"
-                  label="Start Date"
-                  :min="today"
-                />
-              </VCol>
-                <VCol  
-                    v-if="reportsdata.date_filter == 'This Year' || reportsdata.date_filter == 'This Month'"
-                 md="6"
-                cols="12"
-                >
-                   <VTextField
-                 v-model="reportsdata.end_date"  
-                  type="date"
-                  label="End Date"
-                      :min="today"
-                />
-              </VCol> -->
+              </VCol>         
            
 
              <VCol   
@@ -299,11 +305,11 @@
                cols="12"
                >
                 <VTextField
-                   v-model="reportsdata.start_date"                
+                  v-model="reportsdata.start_date"                
                   type="date"
                   label="Start Date"
-              :min="minDate"
-    :max="maxDate"
+                  :min="minDate"
+                  :max="maxDate"
                 />
               </VCol>
                 <VCol  
@@ -322,73 +328,8 @@
 
 
               <VDivider />                 
-              <VCol cols="12">
-          
-                 <!-- <div style="max-width:400px;" >
-                    <VTextField
-                    class="mb-3"
-                      v-model="searchQuery"        
-                      density="compact"
-                      variant="solo"
-                      label="Search"
-                      append-inner-icon="mdi-magnify"
-                      single-line
-                      hide-details
-          
-                  />
-              </div> -->
-      <!-- <VTable
-      
-       :headers="headers"
-      
-        
-      >
-           
-       <thead>
-        <tr>
-           <th class="text-center">
-                        
-                        </th>
-          <th
-           class="text-center"
-            v-for="header in headers"
-            :key="header"
-          >
-            {{ header.text }}
-          </th>
-        </tr>
-      </thead>
-
-      <tbody>
-      <tr v-for="(item,index) in this.paginatedItems" :key="index">
-        <td class="text-center">
-        
-                          <VCheckbox v-model="item.selected"       
-        ></VCheckbox>
-                        </td>
-       <td class="text-center">{{item.brand_name}}</td>
-        <td  class="text-center">{{item.sku_name}}</td>
-         <td  class="text-center">{{item.uom}}</td>
-          <td  class="text-center"> &#8377;{{item.mrp}}</td>
-           <td  class="text-center">
-            <VTextField  
-            v-model="item.margin"   style="min-width:80px;"  
-              :rules="computedmarginRules()"
-               @input="updatemargin()"
-             
-          />
-           
-            </td>
-            
-      </tr>
-      </tbody>
-         
-        </VTable> 
-        <VPagination
-          v-model="page"
-          :length="Math.ceil(filteredMerchant.length / pageSize)"
-          @input="updatePagination"
-        /> -->
+              <VCol cols="12">         
+                 
               </VCol>
 
               <VCol
@@ -396,29 +337,7 @@
                 class="d-flex flex-wrap gap-4"
               >
                 <VBtn @click="validateForm1()">Get</VBtn>
-                <!-- {{reportsMerchant}} -->
-    <!-- <VueExcelXlsx
-        :data="reportsMerchant"
-        :columns="jsonfields"
-        :file-name="'merchants'"
-        :file-type="'xlsx'"
-        :sheet-name="'sheetname'" 
-    >
-    <VIcon large color="primary">mdi-cloud-download</VIcon>
-</VueExcelXlsx> -->
-<!-- <VueExcelXlsx
-      v-if="reportsMerchant.length > 0"
-      :data="reportsMerchant"
-      :columns="jsonfields"
-      :file-name="'merchants'"
-      :file-type="'xlsx'"
-      :sheet-name="'sheetname'"
-      style="cursor: pointer;"
-      @click.stop="downloadExcel()"
-    >
-      <VIcon large color="primary">mdi-cloud-download</VIcon>
-    </VueExcelXlsx> -->
-                <!-- <VBtn @click="downloadReport">Download</VBtn> -->
+                
                 <VBtn @click="closereport()">Close</VBtn>
 
                 <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
@@ -506,7 +425,6 @@
       </VCard>
     </VDialog>
 
-
   <VDialog
       v-model="dialog4"
       max-width="1000"
@@ -583,7 +501,7 @@
       </VCard>
   </VDialog>
 
-<VDialog
+  <VDialog
       v-model="dialog5"
       max-width="1000"
     >
@@ -658,6 +576,73 @@
       </VCard>
   </VDialog>
 
+  <VDialog
+      v-model="dialog6"
+      max-width="1000"
+    >
+   
+      <VCard
+        title="Brands Report"
+        class="mb-2"
+      >
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- 👉 Form -->
+             <VForm class="mt-6" ref="purchaseOrderForm5">
+            <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
+            </VCheckbox> -->
+            <VRow>
+    
+              <VCol
+                md="6"
+                cols="12"
+              >
+        
+               
+                <VAutocomplete
+                  v-model="selectedBrand2"
+                  :items="Brandname" 
+                   item-value="value"
+                  item-title="text"
+                  :rules="storeBrand"
+                  label="Brand Names"
+                  :menu-props="{ maxHeight: 200 }"        
+                  no-underline                
+                />
+               
+              </VCol>        
+
+              <VDivider />              
+             
+
+              <VCol
+                cols="12"
+                class="d-flex flex-wrap gap-4"
+              >
+                <VBtn @click="validateForm5()">Get</VBtn>
+        
+                <VBtn @click="closeBreport()">Close</VBtn>
+
+                <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
+                <VProgressCircular
+                :size="50"
+                color="primary"
+                indeterminate
+                v-show="isProgress4"
+              >
+              </VProgressCircular>
+
+              
+              </VCol>
+             
+            </VRow>
+          </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+      </VCard>
+  </VDialog>
 
       <VSnackbar
       v-model="snackbar" :timeout="3500"
@@ -693,24 +678,30 @@ export default {
       bottom: true,
       left: false,
       right: false,
+
       isProgress:false,
       isProgress2:false,
       isProgress3:false,
       isProgress4:false,
+      isProgress5:false,
+
       
         loading:true,
         dialog2:false,
         dialog3:false,
         dialog4:false,
         dialog5:false,
+        dialog6:false,
 
         selectdatepicker:null,
         merchantName:[],
         reportsMerchant:[],
-         selectAll: false,
+        selectAll: false,
         selectedmerchants:null,
         selectedmerchants2:null,
         selectedBrand:null,
+        selectedBrand2:null,
+
           salesRules: [
               (v) => !!v || 'Sales is required',
             ],
@@ -724,19 +715,19 @@ export default {
             (v) => !!v || 'Brand Name is required',
 
           ],
-        reportsdata:{
+         reportsdata:{
                 "merchant_id":"",
                 "date_filter":"",
                 "start_date":"",
                 "end_date":""
             },
-              today: this.getFormattedDate(new Date()),
-              todays: this.getFormattedDates(new Date()),
-               maxDate: this.getFormattedDate(new Date()), 
+                today: this.getFormattedDate(new Date()),
+                todays: this.getFormattedDates(new Date()),
+                maxDate: this.getFormattedDate(new Date()), 
                 minDate: '1900-01-01', 
-                   maxDate1: this.getFormattedDate(new Date()), 
+                maxDate1: this.getFormattedDate(new Date()), 
                 minDate1: '1900-01-01', 
-    jsonfields: [
+       jsonfields: [
         {
           label: "Closing",
           field: "Closing",
@@ -799,6 +790,79 @@ export default {
             }, 3000);
    },
    methods:{
+    openBrand(){
+      this.dialog6=true;
+    },
+    closeBreport(){
+      this.dialog6=false;
+      this.selectedBrand2='';
+    },
+     validateForm5(){
+      this.$refs.purchaseOrderForm5.validate().then(valid => {
+        // console.log("form valid", valid.valid);
+        if (valid.valid == true) {
+         
+          this.getbrandsreport();
+        }else{
+           this.snackbar = true;
+            this.snackbarText = "Please give all mandatory fields"
+            this.color = "on-background";
+        }
+      }); 
+    },
+ getbrandsreport(){
+               this.isProgress5 = true;
+
+        this.getBrandsallreport(this.selectedBrand2).then((response)=>{
+          // console.log(response);
+           
+
+        if(response.data.status == 0){
+               this.isProgress5 = false;
+            this.dialog6 = false; 
+           
+            this.selectedBrand2="";
+           this.snackbar = true;
+            this.color = "on-background";
+            this.snackbarText = response.data.message;
+            
+        }else{
+           this.isProgress5 = false;
+            this.dialog6 = false;   
+            
+          //  this.loading = true;
+            // this.reportsdata={};
+            this.selectedBrand2="";
+        //  console.log('length',response.data.length);
+            const blob = new Blob([response.data], { type: 'text/csv' });
+
+        // Create a temporary URL for the Blob
+        const url = window.URL.createObjectURL(blob);
+
+        // Create a link element
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'Brand Report.csv'); // Set the file name here
+
+        // Append the link to the body
+        document.body.appendChild(link);
+
+        // Programmatically click the link to trigger the download
+        link.click();
+
+        // Clean up - remove the link and revoke the URL
+        link.parentNode.removeChild(link);
+        window.URL.revokeObjectURL(url);
+
+        // console.log('CSV data:', response.data);
+          this.snackbar = true;
+            this.color = "primary";
+            this.snackbarText = "Reports downloaded successfully.";
+        }
+    
+    })
+    },
+
      validateForm4(){
       this.$refs.purchaseOrderForm4.validate().then(valid => {
         // console.log("form valid", valid.valid);
@@ -835,7 +899,7 @@ export default {
           //  this.loading = true;
             // this.reportsdata={};
             this.selectedBrand="";
-         
+        //  console.log('length',response.data.length);
             const blob = new Blob([response.data], { type: 'text/csv' });
 
         // Create a temporary URL for the Blob
@@ -880,7 +944,7 @@ export default {
     },
     closewreport(){
       this.dialog5=false;
-
+      this.selectedBrand='';
     },
   openWSI(){
       this.dialog5=true;
@@ -1121,7 +1185,7 @@ export default {
         window.URL.revokeObjectURL(url);
 
         
-          this.snackbar = true;
+          this.snackbar = true; 
             this.color = "primary";
             this.snackbarText = "Reports downloaded successfully.";
         }
@@ -1238,7 +1302,7 @@ export default {
   position: absolute;
   inline-size: 5.8rem;
   inset-block-end: -1rem;
-  inset-inline-end: 0.6rem;
+  inset-inline-end: -1rem;
 }
 .trophy1 {
   position: absolute;
@@ -1249,7 +1313,7 @@ export default {
 .trophy4 {
   position: absolute;
   inline-size: 9rem;
-  inset-block-end:  1rem;
-  inset-inline-end: -1rem;
+  inset-block-end: 0.9rem;
+  inset-inline-end: -2rem;
 }
 </style>

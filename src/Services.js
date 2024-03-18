@@ -635,5 +635,23 @@ export default {
               return err.response;
             });
           },
+          getBrandsallreport(reqbody){
+            return axios
+            .get(this.url +"bizkingz/services/api/reports/brand_products?brand_id="+reqbody, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
     }
 }

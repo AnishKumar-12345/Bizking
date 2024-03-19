@@ -10,96 +10,14 @@
         />          
      </div>
 
-     <VRow> 
-    <!-- <VCol
-      cols="12"
-      md="4"
-    >
-      <VCard
-      title="Brand!"
-      class="position-relative"
-    >
-      <VCardText>
-        <h4 class="text-4xl font-weight-medium text-primary">
-          2
-        </h4>
-        <p>🎉</p>
-        <VBtn size="small" disabled>
-          Get Reports 
-        </VBtn>
-      </VCardText> -->
-
-      <!-- Triangle Background -->
-       <!-- :src="triangleBg" -->
-      <!-- <VImg
-       
-        class="triangle-bg flip-in-rtl"
-      />
-       <img src="@/assets/images/avatars/avatar-9.png" class="avatarg">
-    </VCard>
-    </VCol> -->
-
-    <!-- <VCol
-      cols="12"
-      md="4"
-    >
-      <VCard
-      title="Brand Products"
-      class="position-relative"
-    >
-      <VCardText>
-        <h4 class="text-4xl font-weight-medium text-primary">
-          2
-        </h4>
-        <p>🎉</p>
-        <VBtn size="small" disabled>
-          Get Reports
-        </VBtn>
-      </VCardText> -->
-
-      <!-- Triangle Background -->
-      <!-- <VImg
-        :src="triangleBg"
-        class="triangle-bg flip-in-rtl"
-      />
-     <img src="@/assets/images/avatars/avatar-9.png" class="avatarg">
-    </VCard>
-    </VCol>
-
-    <VCol
-      cols="12"
-      md="4" 
-    >
-      <VCard
-      title="Merchant"
-      class="position-relative"
-    >
-      <VCardText>
-        <h4 class="text-4xl font-weight-medium text-primary">
-          2
-        </h4>
-        <p>🎉</p>
-        <VBtn size="small" disabled>
-          Get Reports
-        </VBtn>
-      </VCardText> -->
-
-      <!-- Triangle Background -->
-      <!-- <VImg
-        :src="triangleBg"
-        class="triangle-bg flip-in-rtl"
-      />
-         <img src="@/assets/images/avatars/avatar-11.png" class="trophy">
-
-    </VCard>
-    </VCol> -->
-
+     <VRow>  
+<!-- Merchant Products report -->
     <VCol
       cols="12"
       md="4"
     >
-      <VCard
-      title="Sales"
+       <VCard
+      title="Merchant Products"
       class="position-relative"
     >
       <VCardText>
@@ -108,7 +26,7 @@
 
         </h4> <br>
         <!-- <p>🎉</p> -->
-        <VBtn size="small"  @click="openSales()">
+        <VBtn size="small" @click="openMPR()">
           Get Reports
         </VBtn>
       </VCardText>
@@ -118,11 +36,12 @@
         :src="triangleBg"
         class="triangle-bg flip-in-rtl"
       />
-    <img src="@/assets/images/avatars/avatar-15.png" class="trophy1">
-      <img :src="avatarg" class="avatarg">
-    </VCard>
-    </VCol> 
+        <img src="@/assets/images/avatars/avatar-14.png"  class="trophy2">
 
+    </VCard>
+    </VCol>  
+
+<!-- Merchant Product Sales report -->
     <VCol
       cols="12"
       md="4"
@@ -152,6 +71,7 @@
     </VCard>
     </VCol>   
 
+<!-- Merchant Stock Inventory report -->
     <VCol
       cols="12"
       md="4"
@@ -181,6 +101,37 @@
     </VCard>
     </VCol>  
 
+<!-- sales orders report -->
+    <VCol
+      cols="12"
+      md="4"
+    >
+      <VCard
+      title="Sales Orders"
+      class="position-relative"
+    >
+      <VCardText>
+        <h4 class="text-4xl font-weight-medium text-primary">
+                  <VIcon size="50" start icon="line-md:downloading-loop" />
+
+        </h4> <br>
+        <!-- <p>🎉</p> -->
+        <VBtn size="small"  @click="openSales()">
+          Get Reports
+        </VBtn>
+      </VCardText>
+
+      <!-- Triangle Background -->
+      <VImg
+        :src="triangleBg"
+        class="triangle-bg flip-in-rtl"
+      />
+    <img src="@/assets/images/avatars/avatar-15.png" class="trophy1">
+      <img :src="avatarg" class="avatarg">
+    </VCard>
+    </VCol> 
+
+<!-- Warehouse Stock Inventory report -->
      <VCol
       cols="12"
       md="4"
@@ -210,37 +161,69 @@
     </VCard>
     </VCol>  
 
-  <VCol
-      cols="12"
-      md="4"
-    >
-       <VCard
-      title="Brands"
-      class="position-relative"
-    >
-      <VCardText>
-        <h4 class="text-4xl font-weight-medium text-primary">
-                  <VIcon size="50" start icon="line-md:downloading-loop" />
+<!-- Brand Products report -->
+    <VCol
+        cols="12"
+        md="4"
+      >
+        <VCard
+        title="Brand Products"
+        class="position-relative"
+      >
+        <VCardText>
+          <h4 class="text-4xl font-weight-medium text-primary">
+                    <VIcon size="50" start icon="line-md:downloading-loop" />
 
-        </h4> <br>
-        <!-- <p>🎉</p> -->
-        <VBtn size="small" @click="openBrand()">
-          Get Reports
-        </VBtn>
-      </VCardText>
+          </h4> <br>
+          <!-- <p>🎉</p> -->
+          <VBtn size="small" @click="openBrand()">
+            Get Reports
+          </VBtn>
+        </VCardText>
 
-      <!-- Triangle Background -->
-      <VImg
-        :src="triangleBg"
-        class="triangle-bg flip-in-rtl"
-      />
-        <img src="@/assets/images/avatars/avatar-10.png"  class="trophy">
+        <!-- Triangle Background -->
+        <VImg
+          :src="triangleBg"
+          class="triangle-bg flip-in-rtl"
+        />
+          <img src="@/assets/images/avatars/avatar-10.png"  class="trophy">
 
-    </VCard>
+      </VCard>
     </VCol>  
+
+<!-- Purchase Orders -->
+    <!-- <VCol
+        cols="12"
+        md="4"
+      >
+        <VCard
+        title="Purchase Orders"
+        class="position-relative"
+      >
+        <VCardText>
+          <h4 class="text-4xl font-weight-medium text-primary">
+                    <VIcon size="50" start icon="line-md:downloading-loop" />
+
+          </h4> <br>
+       
+          <VBtn size="small" @click="openPurchase()">
+            Get Reports
+          </VBtn>
+        </VCardText>
+
+   
+        <VImg
+          :src="triangleBg"
+          class="triangle-bg flip-in-rtl"
+        />
+          <img src="@/assets/images/avatars/avatar-12.png"  class="trophy5">
+
+      </VCard>
+    </VCol>   -->
 
   </VRow>
 
+<!-- Merchant Product Sales Dialog -->
     <VDialog
       v-model="dialog2"
       max-width="1000"
@@ -360,13 +343,14 @@
       </VCard>
     </VDialog>
 
+<!-- sales orders Dialog -->
      <VDialog
       v-model="dialog3"
       max-width="1000"
     >
    
       <VCard
-        title="Sales"
+        title="Sales Orders"
         class="mb-2"
       >
         <VCardText>
@@ -425,211 +409,400 @@
       </VCard>
     </VDialog>
 
-  <VDialog
-      v-model="dialog4"
-      max-width="1000"
-    >
-   
-      <VCard
-        title="Merchant Stock Inventory"
-        class="mb-2"
+<!-- Merchant Stock Inventory Dialog -->
+    <VDialog
+        v-model="dialog4"
+        max-width="1000"
       >
-        <VCardText>
-          <VRow>
-            <VCol cols="12">
-              <!-- 👉 Form -->
-             <VForm class="mt-6" ref="purchaseOrderForm3">
-            <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
-           
-            </VCheckbox> -->
-            <VRow>
     
-              <VCol
-                md="6"
-                cols="12"
-              >
-        
-               
-                <VAutocomplete
-                  v-model="selectedmerchants2"
-                  :items="merchantName" 
-                   item-value="value"
-                  item-title="text"
-                  :rules="storeMerchant"
-                  label="Store or Merchant"
-                  :menu-props="{ maxHeight: 200 }"        
-                  no-underline
+        <VCard
+          title="Merchant Stock Inventory"
+          class="mb-2"
+        >
+          <VCardText>
+            <VRow>
+              <VCol cols="12">
+                <!-- 👉 Form -->
+              <VForm class="mt-6" ref="purchaseOrderForm3">
+              <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
+            
+              </VCheckbox> -->
+              <VRow>
+      
+                <VCol
+                  md="6"
+                  cols="12"
+                >
+          
                 
-                />
-               
-              </VCol>           
+                  <VAutocomplete
+                    v-model="selectedmerchants2"
+                    :items="merchantName" 
+                    item-value="value"
+                    item-title="text"
+                    :rules="storeMerchant"
+                    label="Store or Merchant"
+                    :menu-props="{ maxHeight: 200 }"        
+                    no-underline
+                  
+                  />
+                
+                </VCol>           
 
+              
             
-           
 
+                
+
+
+                <VDivider />                 
               
 
+                <VCol
+                  cols="12"
+                  class="d-flex flex-wrap gap-4"
+                >
+                  <VBtn @click="validateForm3()">Get</VBtn>
+          
+                  <VBtn @click="closemreport()">Close</VBtn>
 
-              <VDivider />                 
-             
+                  <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
+                  <VProgressCircular
+                  :size="50"
+                  color="primary"
+                  indeterminate
+                  v-show="isProgress3"
+                >
+                </VProgressCircular>
 
-              <VCol
-                cols="12"
-                class="d-flex flex-wrap gap-4"
-              >
-                <VBtn @click="validateForm3()">Get</VBtn>
-        
-                <VBtn @click="closemreport()">Close</VBtn>
-
-                <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
-                <VProgressCircular
-                :size="50"
-                color="primary"
-                indeterminate
-                v-show="isProgress3"
-              >
-              </VProgressCircular>
-
+                
+                </VCol>
               
+              </VRow>
+            </VForm>
               </VCol>
-             
             </VRow>
-          </VForm>
-            </VCol>
-          </VRow>
-        </VCardText>
-      </VCard>
-  </VDialog>
+          </VCardText>
+        </VCard>
+    </VDialog>
 
-  <VDialog
-      v-model="dialog5"
+<!-- Warehouse Stock Inventory Dialog -->
+    <VDialog
+        v-model="dialog5"
+        max-width="1000"
+      >
+    
+        <VCard
+          title="Warehouse Stock Inventory"
+          class="mb-2"
+        >
+          <VCardText>
+            <VRow>
+              <VCol cols="12">
+                <!-- 👉 Form -->
+              <VForm class="mt-6" ref="purchaseOrderForm4">
+              <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
+            
+              </VCheckbox> -->
+              <VRow>
+      
+                <VCol
+                  md="6"
+                  cols="12"
+                >
+          
+                
+                  <VAutocomplete
+                    v-model="selectedBrand"
+                    :items="Brandname" 
+                    item-value="value"
+                    item-title="text"
+                    :rules="storeBrand"
+                    label="Brand Names"
+                    :menu-props="{ maxHeight: 200 }"        
+                    no-underline                
+                  />
+                
+                </VCol>           
+
+              
+            
+
+                
+
+
+                <VDivider />                 
+              
+
+                <VCol
+                  cols="12"
+                  class="d-flex flex-wrap gap-4"
+                >
+                  <VBtn @click="validateForm4()">Get</VBtn>
+          
+                  <VBtn @click="closewreport()">Close</VBtn>
+
+                  <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
+                  <VProgressCircular
+                  :size="50"
+                  color="primary"
+                  indeterminate
+                  v-show="isProgress4"
+                >
+                </VProgressCircular>
+
+                
+                </VCol>
+              
+              </VRow>
+            </VForm>
+              </VCol>
+            </VRow>
+          </VCardText>
+        </VCard>
+    </VDialog>
+
+<!-- Brand Products Dialog -->
+    <VDialog
+        v-model="dialog6"
+        max-width="1000"
+      >
+    
+        <VCard
+          title="Brand Products"
+          class="mb-2"
+        >
+          <VCardText>
+            <VRow>
+              <VCol cols="12">
+                <!-- 👉 Form -->
+              <VForm class="mt-6" ref="purchaseOrderForm5">
+              <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
+              </VCheckbox> -->
+              <VRow>
+      
+                <VCol
+                  md="6"
+                  cols="12"
+                >
+          
+                
+                  <VAutocomplete
+                    v-model="selectedBrand2"
+                    :items="Brandname" 
+                    item-value="value"
+                    item-title="text"
+                    :rules="storeBrand"
+                    label="Brand Names"
+                    :menu-props="{ maxHeight: 200 }"        
+                    no-underline                
+                  />
+                
+                </VCol>        
+
+                <VDivider />              
+              
+
+                <VCol
+                  cols="12"
+                  class="d-flex flex-wrap gap-4"
+                >
+                  <VBtn @click="validateForm5()">Get</VBtn>
+          
+                  <VBtn @click="closeBreport()">Close</VBtn>
+
+                  <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
+                  <VProgressCircular
+                  :size="50"
+                  color="primary"
+                  indeterminate
+                  v-show="isProgress4"
+                >
+                </VProgressCircular>
+
+                
+                </VCol>
+              
+              </VRow>
+            </VForm>
+              </VCol>
+            </VRow>
+          </VCardText>
+        </VCard>
+    </VDialog>
+
+<!-- Merhant Products Dialog -->
+    <VDialog
+        v-model="dialog7"
+        max-width="1000"
+      >
+    
+        <VCard
+          title="Merchant Products "
+          class="mb-2"
+        >
+          <VCardText>
+            <VRow>
+              <VCol cols="12">
+                <!-- 👉 Form -->
+              <VForm class="mt-6" ref="purchaseOrderForm6">
+              <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
+            
+              </VCheckbox> -->
+              <VRow>
+      
+                <VCol
+                  md="6"
+                  cols="12"
+                >
+          
+                
+                  <VAutocomplete
+                    v-model="selectedmerchants3"
+                    :items="merchantName" 
+                    item-value="value"
+                    item-title="text"
+                    :rules="storeMerchant"
+                    label="Store or Merchant"
+                    :menu-props="{ maxHeight: 200 }"        
+                    no-underline
+                  
+                  />
+                
+                </VCol>           
+
+              
+            
+
+                
+
+
+                <VDivider />                 
+              
+
+                <VCol
+                  cols="12"
+                  class="d-flex flex-wrap gap-4"
+                >
+                  <VBtn @click="validateForm6()">Get</VBtn>
+          
+                  <VBtn @click="closeMPreport()">Close</VBtn>
+
+                  <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
+                  <VProgressCircular
+                  :size="50"
+                  color="primary"
+                  indeterminate
+                  v-show="isProgress6"
+                >
+                </VProgressCircular>
+
+                
+                </VCol>
+              
+              </VRow>
+            </VForm>
+              </VCol>
+            </VRow>
+          </VCardText>
+        </VCard>
+    </VDialog>
+
+<!-- sales orders Dialog -->
+     <VDialog
+      v-model="dialog8"
       max-width="1000"
     >
    
       <VCard
-        title="Warehouse Stock Inventory"
+        title="Purchase Orders"
         class="mb-2"
       >
         <VCardText>
           <VRow>
             <VCol cols="12">
               <!-- 👉 Form -->
-             <VForm class="mt-6" ref="purchaseOrderForm4">
+             <VForm class="mt-6" ref="purchaseOrderForm7">
             <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
            
             </VCheckbox> -->
-            <VRow>
-    
-              <VCol
+            <VRow>  
+              
+               <VCol   
                 md="6"
                 cols="12"
-              >
-        
-               
-                <VAutocomplete
-                  v-model="selectedBrand"
-                  :items="Brandname" 
-                   item-value="value"
-                  item-title="text"
-                  :rules="storeBrand"
-                  label="Brand Names"
-                  :menu-props="{ maxHeight: 200 }"        
-                  no-underline                
+                >
+                <!-- this_year this_month -->
+                   <VSelect 
+                  v-model="selectPurchase"
+                   :items="['All','Acknowledged','Shipped','Delivered']"
+                   label="Select"
+               :rules="salesRules"
                 />
-               
-              </VCol>           
+              </VCol>
 
-            
+             <VCol   
+                md="6"
+                cols="12"
+                >
+                <!-- this_year this_month -->
+                   <VSelect 
+                   :rules="selectDate"
+                   v-model="Purchasedata.date_filter"
+                   :items="['Custom','Current Year','Current Month']"
+                   label="Select Date"
+               
+                />
+              </VCol>         
            
 
-              
-
-
-              <VDivider />                 
-             
-
-              <VCol
-                cols="12"
-                class="d-flex flex-wrap gap-4"
-              >
-                <VBtn @click="validateForm4()">Get</VBtn>
-        
-                <VBtn @click="closewreport()">Close</VBtn>
-
-                <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
-                <VProgressCircular
-                :size="50"
-                color="primary"
-                indeterminate
-                v-show="isProgress4"
-              >
-              </VProgressCircular>
-
-              
-              </VCol>
-             
-            </VRow>
-          </VForm>
-            </VCol>
-          </VRow>
-        </VCardText>
-      </VCard>
-  </VDialog>
-
-  <VDialog
-      v-model="dialog6"
-      max-width="1000"
-    >
-   
-      <VCard
-        title="Brands Report"
-        class="mb-2"
-      >
-        <VCardText>
-          <VRow>
-            <VCol cols="12">
-              <!-- 👉 Form -->
-             <VForm class="mt-6" ref="purchaseOrderForm5">
-            <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
-            </VCheckbox> -->
-            <VRow>
-    
-              <VCol
-                md="6"
-                cols="12"
-              >
-        
-               
-                <VAutocomplete
-                  v-model="selectedBrand2"
-                  :items="Brandname" 
-                   item-value="value"
-                  item-title="text"
-                  :rules="storeBrand"
-                  label="Brand Names"
-                  :menu-props="{ maxHeight: 200 }"        
-                  no-underline                
+             <VCol   
+               v-if="Purchasedata.date_filter == 'Custom'"
+               md="6"
+               cols="12"
+               >
+                <VTextField
+                  v-model="Purchasedata.start_date"                
+                  type="date"
+                  label="Start Date"
+                  :min="minDate"
+                  :max="maxDate"
                 />
-               
-              </VCol>        
+              </VCol>
+                <VCol  
+                v-if="Purchasedata.date_filter == 'Custom'"                 
+                 md="6"
+                cols="12"
+                >
+               <VTextField
+                  v-model="Purchasedata.end_date"  
+                  type="date"
+                  label="End Date"
+                  :min="minDate1"
+                  :max="maxDate1"
+                />
+              </VCol>    
 
-              <VDivider />              
+ 
+            
+
+              <VDivider />                
              
 
               <VCol
                 cols="12"
                 class="d-flex flex-wrap gap-4"
               >
-                <VBtn @click="validateForm5()">Get</VBtn>
-        
-                <VBtn @click="closeBreport()">Close</VBtn>
+                <VBtn @click="validateForm7()">Get</VBtn>
+               
+                <VBtn @click="closePurchase()">Close</VBtn>
 
                 <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
                 <VProgressCircular
                 :size="50"
                 color="primary"
                 indeterminate
-                v-show="isProgress4"
+                v-show="isProgress7"
               >
               </VProgressCircular>
 
@@ -642,13 +815,13 @@
           </VRow>
         </VCardText>
       </VCard>
-  </VDialog>
+    </VDialog>
 
       <VSnackbar
       v-model="snackbar" :timeout="3500"
       :color="color"
       
-    >
+      >
       {{ snackbarText }}
      <!-- <VBtn text @click="snackbar = false">Close</VBtn> -->
     </VSnackbar> 
@@ -670,6 +843,8 @@ export default {
    data(){
     return{
       selectSales:null,
+      selectPurchase:null,
+
       snackbar: false,
       snackbarText: '',
       timeout: 6000, // milliseconds
@@ -684,6 +859,8 @@ export default {
       isProgress3:false,
       isProgress4:false,
       isProgress5:false,
+      isProgress6:false,
+      isProgress7:false,
 
       
         loading:true,
@@ -692,6 +869,8 @@ export default {
         dialog4:false,
         dialog5:false,
         dialog6:false,
+        dialog7:false,
+        dialog8:false,
 
         selectdatepicker:null,
         merchantName:[],
@@ -699,6 +878,8 @@ export default {
         selectAll: false,
         selectedmerchants:null,
         selectedmerchants2:null,
+        selectedmerchants3:null,
+
         selectedBrand:null,
         selectedBrand2:null,
 
@@ -721,49 +902,56 @@ export default {
                 "start_date":"",
                 "end_date":""
             },
+            Purchasedata:{
+             
+                "date_filter":"",
+                "start_date":"",
+                "end_date":""
+            },
                 today: this.getFormattedDate(new Date()),
                 todays: this.getFormattedDates(new Date()),
                 maxDate: this.getFormattedDate(new Date()), 
                 minDate: '1900-01-01', 
                 maxDate1: this.getFormattedDate(new Date()), 
                 minDate1: '1900-01-01', 
-       jsonfields: [
-        {
-          label: "Closing",
-          field: "Closing",
-        },
-        {
+
+        jsonfields: [
+          {
+            label: "Closing",
+            field: "Closing",
+          },
+         {
           label: "Date",
           field: "Date",
-        },
+          },
          {
           label: "Merchant Name",
           field: "Merchant Name",
-        },
+         },
          {
           label: "Merchant UID",
           field: "Merchant UID",
-        },
+         },
          {
           label: "Opening",
           field: "Opening",
-        },
+          },
          {
           label: "Physical SOH",
           field: "Physical SOH",
-        },
+          },
          {
           label: "SA Name",
           field: "SA Name",
-        },
+         },
          {
           label: "SKU Name",
           field: "SKU Name",
-        },
+          },
          {
           label: "Sale",
           field: "Sale",
-        },
+         },
       ],
     }
    },
@@ -790,6 +978,87 @@ export default {
             }, 3000);
    },
    methods:{
+    openPurchase(){
+            this.dialog8 = true; 
+
+    },
+    closePurchase(){
+            this.dialog8 = false; 
+            this.selectPurchase = "";
+    },
+     validateForm6(){
+      this.$refs.purchaseOrderForm6.validate().then(valid => {
+        // console.log("form valid", valid.valid);
+        if (valid.valid == true) {
+         
+          this.getMerchantProductsreport();
+        }else{
+           this.snackbar = true;
+            this.snackbarText = "Please give all mandatory fields"
+            this.color = "on-background";
+        }
+      }); 
+    },
+ getMerchantProductsreport(){
+               this.isProgress6 = true;
+
+        this.getMProductsreport(this.selectedmerchants3).then((response)=>{
+          // console.log(response);
+           
+
+        if(response.data.status == 0){
+               this.isProgress6 = false;
+            this.dialog7 = false; 
+           
+            this.selectedBrand2="";
+           this.snackbar = true;
+            this.color = "on-background";
+            this.snackbarText = response.data.message;
+            
+        }else{
+           this.isProgress6 = false;
+            this.dialog7 = false;   
+            
+          //  this.loading = true;
+            // this.reportsdata={};
+            this.selectedmerchants3="";
+        //  console.log('length',response.data.length);
+            const blob = new Blob([response.data], { type: 'text/csv' });
+
+        // Create a temporary URL for the Blob
+        const url = window.URL.createObjectURL(blob);
+
+        // Create a link element
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'Merchant Products Report.csv'); // Set the file name here
+
+        // Append the link to the body
+        document.body.appendChild(link);
+
+        // Programmatically click the link to trigger the download
+        link.click();
+
+        // Clean up - remove the link and revoke the URL
+        link.parentNode.removeChild(link);
+        window.URL.revokeObjectURL(url);
+
+        // console.log('CSV data:', response.data);
+          this.snackbar = true;
+            this.color = "primary";
+            this.snackbarText = "Reports downloaded successfully.";
+        }
+    
+    })
+    },
+
+    closeMPreport(){
+      this.dialog7=false;
+      this.selectedmerchants3='';
+    },
+    openMPR(){
+      this.dialog7=true;
+    },
     openBrand(){
       this.dialog6=true;
     },
@@ -1310,10 +1579,22 @@ export default {
   inset-block-end: 0.5rem;
   inset-inline-end: 1rem;
 }
+.trophy2{
+  position: absolute;
+  inline-size: 12rem;
+  inset-block-end: -1rem;
+  inset-inline-end: -1rem;
+}
 .trophy4 {
   position: absolute;
   inline-size: 9rem;
   inset-block-end: 0.9rem;
   inset-inline-end: -2rem;
+}
+.trophy5{
+    position: absolute;
+  inline-size: 5rem;
+  inset-block-end: -1rem;
+  inset-inline-end: 2rem;
 }
 </style>

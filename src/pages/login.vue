@@ -10,8 +10,8 @@ import { ref, computed } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 
-const router = useRouter();
-const form = ref({ 
+const router = useRouter()
+const form = ref({
   email: '',
   password: '',
   remember: false,
@@ -22,8 +22,8 @@ const emailRules = computed(() => {
   const rules = []
 
   // Email validation rule
-  rules.push((v) => !!v || 'Email is required')
-  rules.push((v) => /.+@.+\..+/.test(v) || 'Email must be valid')
+  rules.push(v => !!v || 'Email is required')
+  rules.push(v => /.+@.+\..+/.test(v) || 'Email must be valid')
 
   return rules
 })
@@ -32,7 +32,7 @@ const passwordrules = computed(() => {
   const rules = []
 
   // Email validation rule
-  rules.push((v) => !!v || 'Password is required')
+  rules.push(v => !!v || 'Password is required')
   // rules.push((v) => /.+@.+\..+/.test(v) || 'Email must be valid')
 
   return rules
@@ -42,7 +42,7 @@ const snackbar = ref({
   show: false,
   message: '',
   color: '',
-});
+})
 
 const vuetifyTheme = useTheme()
 const authThemeMask = computed(() => {
@@ -51,58 +51,56 @@ const authThemeMask = computed(() => {
 const isPasswordVisible = ref(false)
 
 const loginuser = () => {
-   if (!form.value.email || !form.value.password) {
+  if (!form.value.email || !form.value.password) {
     snackbar.value = {
       show: true,
       message: 'Please give mandatory fields',
       color: 'error',
-    };
-    return; // Stop the function execution
+    }
+    return // Stop the function execution
   }
-    const requestData = {
-      email: form.value.email,
-      password: form.value.password
-    };
+  const requestData = {
+    email: form.value.email,
+    password: form.value.password,
+  }
   //  }
-   axios.post('http://103.211.218.32/bizkingz/services/api/auth/login', requestData)
+  axios
+    .post('http://103.211.218.32/bizkingz/services/api/auth/login', requestData)
     .then(response => {
-     
-      console.log('API Response:', response);
-     
+      console.log('API Response:', response)
+
       if (response.data.status == 1) {
-         setTimeout(() => {
-                router.push('/Dashboardhome');
-            }, 1000);          
-        localStorage.setItem("createdby", response.data.data.name);
-        localStorage.setItem("userId", response.data.data.user_id);
-        localStorage.setItem("userRole", response.data.data.user_role);
-          localStorage.setItem("user_id", response.data.data.user_id);
-         snackbar.value = {
+        setTimeout(() => {
+          router.push('/Dashboardhome')
+        }, 1000)
+        localStorage.setItem('createdby', response.data.data.name)
+        localStorage.setItem('userId', response.data.data.user_id)
+        localStorage.setItem('userRole', response.data.data.user_role)
+        localStorage.setItem('user_id', response.data.data.user_id)
+        snackbar.value = {
           show: true,
           message: response.data.message,
-          color: 'primary', 
-        };
+          color: 'primary',
+        }
       } else {
-     
-          snackbar.value = {
+        snackbar.value = {
           show: true,
           message: response.data.message, // Display the error message from the API
           color: 'error', // Set the color to 'error' for red color, or use 'success' for green, etc.
-        };
+        }
       }
     })
     .catch(error => {
       // Handle errors here
-      console.error('API Error:', error);
+      console.error('API Error:', error)
       snackbar.value = {
         show: true,
         message: 'An error occurred while logging in. Please try again.',
         color: 'error',
-      };
+      }
       // You can display an error message or take appropriate actions
-    });
+    })
 }
-
 </script>
 
 <template>
@@ -114,7 +112,11 @@ const loginuser = () => {
       <VCardItem class="justify-center">
         <template #prepend>
           <div class="d-flex">
-            <img src="@/assets/images/logos/comlogo.jpeg" width="80" height="80">
+            <img
+              src="@/assets/images/logos/comlogo.jpeg"
+              width="80"
+              height="80"
+            />
           </div>
         </template>
 
@@ -124,12 +126,8 @@ const loginuser = () => {
       </VCardItem>
 
       <VCardText class="pt-2">
-        <h5 class="text-h5 font-weight-semibold mb-1">
-          Welcome to BIZKINGZ! 👋🏻
-        </h5>
-        <p class="mb-0">
-          Please sign-in to your account and start the adventure
-        </p>
+        <h5 class="text-h5 font-weight-semibold mb-1">Welcome to BIZKINGZ! 👋🏻</h5>
+        <p class="mb-0">Please sign-in to your account and start the adventure</p>
       </VCardText>
 
       <VCardText>
@@ -142,7 +140,7 @@ const loginuser = () => {
                 v-model="form.email"
                 label="Email"
                 type="email"
-                 :rules="emailRules"
+                :rules="emailRules"
               />
             </VCol>
 
@@ -154,8 +152,7 @@ const loginuser = () => {
                 :type="isPasswordVisible ? 'text' : 'password'"
                 :append-inner-icon="isPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
                 @click:append-inner="isPasswordVisible = !isPasswordVisible"
-               :rules="passwordrules"
-                
+                :rules="passwordrules"
               />
               <!-- <span v-if="!isPasswordValid" class="error-message">Password must be at least 6 characters</span> -->
               <!-- remember me checkbox -->
@@ -174,11 +171,11 @@ const loginuser = () => {
               </div> -->
 
               <!-- login button -->
-               <!-- to="/" -->
-               <br><br>
+              <!-- to="/" -->
+              <br /><br />
               <VBtn
                 block
-                type="submit"               
+                type="submit"
               >
                 Login
               </VBtn>
@@ -257,7 +254,7 @@ const loginuser = () => {
 </template>
 
 <style lang="scss">
-@use "@core/scss/pages/page-auth.scss";
+@use '@core/scss/pages/page-auth.scss';
 </style>
 
 <route lang="yaml">

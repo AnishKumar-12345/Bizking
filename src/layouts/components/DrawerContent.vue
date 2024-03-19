@@ -233,6 +233,20 @@ computed: {
       
       // console.log('Filtered Items:', filteredItems);
       return filteredItems;
+    }  else if (this.userRole === "Warehouse") {
+      // Filter items for Business Development Manager
+      const allowedTitles = ["Dashboard", "Warehouse"];
+      
+      // console.log('Allowed Titles:', allowedTitles);
+      
+      const filteredItems = this.parentItems.filter((item) => {
+        const isAllowed = allowedTitles.includes(item.title);
+        // console.log(`Title: ${item.title}, Allowed: ${isAllowed}`);
+        return isAllowed;
+      });
+      
+      // console.log('Filtered Items:', filteredItems);
+      return filteredItems;
     } 
      else {
       // Return all items for other roles

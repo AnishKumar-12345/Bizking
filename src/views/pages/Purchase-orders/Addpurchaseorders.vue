@@ -798,6 +798,17 @@ calculatedPricePerUnit(){
             'Acknowledged': 4,
             'Received': 5,
           };
+    console.log('check the ammounts',this.AllBrandproducts.map((product,index) => ({
+   "taxable_amount":`${this.calculatedTaxableAmount[index]}`,
+    "price_per_unit": `${this.calculatedPricePerUnit[index]}`,
+     "csgt":`${this.calculatedCGSTAmount[index]}`,
+            "sgst":`${this.calculatedSGSTAmount[index]}`,
+            "amount":`${this.calculateTotalamount[index]}`,
+            "total_give_margin": product.total_given_margin,
+    })))
+
+ const filteredProducts = this.AllBrandproducts.filter(product => product.quantity > 0);
+ console.log('t',filteredProducts);
         const postData = {
           "brand_id": this.selectedBrandId,
           "user_id": this.userIds,
@@ -810,28 +821,30 @@ calculatedPricePerUnit(){
           "sub_total": `${this.allTaxableAmmount}`,
           "total_po_amount": `${this.allAmmount}`,
           "total_quantity": `${this.allQuantity}`,
-          "products": this.AllBrandproducts.filter(product => product.quantity > 0).map((product,index) => ({
-            "brand_product_id": product.brand_product_id,
-            "sku_name": product.sku_name,
-            "hsn_code": product.hsn_code,
-            "mrp": product.mrp,
-            "quantity":`${product.quantity}`,
-            "uom":`${product.uom}`,
-            "sgst_percentage":product.sgst.includes('%') ? `${product.sgst}` : `${product.sgst}%`,
-            "cgst_percentage":product.cgst.includes('%') ? `${product.cgst}` : `${product.cgst}%`,
-            "price_per_unit": `${this.calculatedPricePerUnit[index]}`,
-            "taxable_amount":`${this.calculatedTaxableAmount[index]}`,
-            "csgt":`${this.calculatedCGSTAmount[index]}`,
-            "sgst":`${this.calculatedSGSTAmount[index]}`,
-            "amount":`${this.calculateTotalamount[index]}`,
-            "total_give_margin": product.total_given_margin,
-            // "margin_amount": pr
-          })),
+         "products": filteredProducts.map((product, index) => {
+            const calculatedIndex = this.AllBrandproducts.findIndex(p => p === product);
+            return {
+                "brand_product_id": product.brand_product_id,
+                "sku_name": product.sku_name,
+                "hsn_code": product.hsn_code,
+                "mrp": product.mrp,
+                "quantity": `${product.quantity}`,
+                "uom": `${product.uom}`,
+                "sgst_percentage": product.sgst.includes('%') ? `${product.sgst}` : `${product.sgst}%`,
+                "cgst_percentage": product.cgst.includes('%') ? `${product.cgst}` : `${product.cgst}%`,
+                "price_per_unit": `${this.calculatedPricePerUnit[calculatedIndex]}`,
+                "taxable_amount": `${this.calculatedTaxableAmount[calculatedIndex]}`,
+                "csgt": `${this.calculatedCGSTAmount[calculatedIndex]}`,
+                "sgst": `${this.calculatedSGSTAmount[calculatedIndex]}`,
+                "amount": `${this.calculateTotalamount[calculatedIndex]}`,
+                "total_give_margin": product.total_given_margin,
+            };
+        }),
         };
-        // console.log('check the post data',postData);
+        console.log('check the post data',postData);
       
           this.postPurchaseorder(postData).then((response) =>{
-          // console.log('check the response',response);
+          console.log('check the response',response);
           // console.log('check the response',response.status);
             if (response.status == 1) {              
                this.snackbar = true;
@@ -900,7 +913,7 @@ calculatedPricePerUnit(){
         //  console.log('check the brandId',this.selectedBrandId);
         this.getBrandproducts(this.selectedBrandId).then((response)=>{
                   this.AllBrandproducts = response.data;
-                  // console.log("BrandID",this.AllBrandproducts);
+                   console.log("BrandID",this.AllBrandproducts);
         })
         // Call your API method to get brand details using this.selectedBrandId
         // this.getBrandDetails();

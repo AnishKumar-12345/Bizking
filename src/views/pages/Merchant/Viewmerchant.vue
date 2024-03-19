@@ -540,11 +540,22 @@ export default {
    }
     },
     mounted(){
-        this.getmerchants();
+        // this.getmerchants();
         this.createdby =  localStorage.getItem('user_id');
-         setTimeout(() => {
-              this.loading = false; // Set loading to false when the operation is complete
-            }, 7000);
+        //  setTimeout(() => {
+        //       this.loading = false; // Set loading to false when the operation is complete
+        //     }, 7000);
+           this.getmerchants()
+            .then(() => {
+              // Set loading to false when API call is successful
+              this.loading = false;
+            })
+            .catch((error) => {
+              // Handle any errors if the API call fails
+              console.error('Error fetching merchants:', error);
+              // You might want to set loading to false here as well
+              // Depending on how you want to handle API errors
+            });
             this.getAllsales();
     },
     methods:{
@@ -668,13 +679,27 @@ export default {
          updatePagination(page) {
     this.page = page;
   },
-        getmerchants(){
-            this.getMerchantdetails().then((response)=>{
-                // console.log('merchants',response)
-                this.merchants = response.data.data;
-                this.merchants.reverse();
+        // getmerchants(){
+        //     this.getMerchantdetails().then((response)=>{
+        //         // console.log('merchants',response)
+        //         this.merchants = response.data.data;
+        //         this.merchants.reverse();
+        //     })
+        // }
+        getmerchants() {
+        return new Promise((resolve, reject) => {
+          this.getMerchantdetails()
+            .then((response) => {
+              this.merchants = response.data.data;
+              this.merchants.reverse();
+              resolve(); // Resolve the promise when API call is successful
             })
-        }
+            .catch((error) => {
+              console.error('Error fetching merchants:', error);
+              reject(error); // Reject the promise if there's an error
+            });
+        });
+},
     }
 }
 </script>

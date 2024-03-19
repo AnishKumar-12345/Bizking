@@ -1100,12 +1100,12 @@ export default {
 },
       savedamount() {
   // Parse the quantity and calculate total savings dynamically
-  const quantity = parseFloat(this.allAmmount);
-  const totalSavings = this.totalIndividualAmount - (isNaN(quantity) ? 0 : quantity);
+    const quantity = parseFloat(this.allAmmount);
+    const totalSavings = this.totalIndividualAmount - (isNaN(quantity) ? 0 : quantity);
 
-  // Return Math.max(0, totalSavings) formatted to 2 decimal places
-  return Math.max(0, totalSavings).toFixed(2);
-},
+    // Return Math.max(0, totalSavings) formatted to 2 decimal places
+    return Math.max(0, totalSavings).toFixed(2);
+  },
     allAmmount() {
       const AllAmount = this.calculateTotalamount.reduce((tot, amo) => tot + parseFloat(amo), 0)
       return parseFloat(AllAmount.toFixed(2))
@@ -1181,16 +1181,16 @@ export default {
     //        })
     // },
     calculateMargin(){
-   return this.AllBrandproducts.map((item,index) => {
-    const mrp = parseFloat(item.mrp);
-    const totalGivenMargin = parseFloat(item.total_given_margin.replace('%', ''));
+    return this.AllBrandproducts.map((item,index) => {
+      const mrp = parseFloat(item.mrp);
+      const totalGivenMargin = parseFloat(item.total_given_margin.replace('%', ''));
 
-     const margin = mrp * totalGivenMargin/100; 
-      // console.log('check the margin',margin)
-      return isNaN(margin) ? 0 : margin.toFixed(2);
-     
-    });
-},
+      const margin = mrp * totalGivenMargin/100; 
+        // console.log('check the margin',margin)
+        return isNaN(margin) ? 0 : margin.toFixed(2);
+      
+      });
+  },
 calculatedPricePerUnit(){
   return this.AllBrandproducts.map((item,index) => {
       const Mrp = parseFloat(item.mrp);
@@ -1204,7 +1204,7 @@ calculatedPricePerUnit(){
       return isNaN(pricePerUnit) ? 0 : pricePerUnit.toFixed(2);
      
     });
-},
+ },
   //   TaxDeductMRP() {
   //     // const item = this.AllBrandproducts[index];
   //    return this.AllBrandproducts.map((item,index) => {

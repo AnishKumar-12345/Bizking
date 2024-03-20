@@ -761,5 +761,23 @@ export default {
               return err.response;
             });
           },
+          getOppertunities(){
+            return axios
+            .get(this.url +"bizkingz/services/api/opportunities/getAllOpportunities", {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
     }
 }

@@ -1,9 +1,58 @@
 <template>
    <div>
+
+   <VRow v-if="this.opportunity == null">
+      <VCol cols="12"> 
+        <VCard title="Lead View">
+          <VCardText> 
+            <!-- 👉 Checkbox and Button  -->
+            <VAlert
+              color="warning"
+              variant="tonal"
+              class="mb-4"              
+              border="top"
+            >
+              <VAlertTitle class="mb-1"> Are you sure you gave Opportunity? </VAlertTitle>
+              <p class="mb-0">
+                The system is not retrieving the Opportunity. Please ensure that you have applied for Opportunity !</p>
+            </VAlert>
+          </VCardText>
+        </VCard>
+      </VCol>
+     </VRow>
+
+    <div style="max-width:400px" v-if="this.opportunity != null">
+      <VTextField
+      class="mb-3"
+        v-model="searchQuery"        
+        density="compact"
+        variant="solo"
+        label="Search"
+        append-inner-icon="mdi-magnify"
+        single-line 
+        hide-details
+    
+    />
+    </div>
+
+     <div v-if="loading" id="app">
+      <div id="loading-bg">
+        <div class="loading-logo">
+          <img src="../../../assets/images/logos/comlogo.jpeg" height="60" width="68" alt="Logo" />
+        </div>
+        <div class="loading">
+          <div class="effect-1 effects"></div>
+          <div class="effect-2 effects"></div>
+          <div class="effect-3 effects"></div>
+        </div>
+      </div>
+    </div>
+
      <VTable 
+     v-if="this.opportunity != null"
        :headers="headers"
-    :items="oppitems"
-        item-key="brand_name"
+    
+        item-key="dessert"
       class="table-rounded"      
        height="500"
       fixed-header 
@@ -22,65 +71,100 @@
 
       <tbody>        
        <tr
-        v-for="(item,index) in oppitems"
+        v-for="(item,index) in paginatedItems"
         :key="index"
 
          
       >       
-        <td class="text-center">{{ item.brand_name }}</td>
+        <!-- <td class="text-center">{{ item.lead_no }}</td> -->
 
-        <td class="text-center">{{ item.sku_name }}</td>
-        <td class="text-center">
-          {{ item.uom }}
-        </td>
-        <td class="text-center">
-           
-        {{ item.hsn_code }}
-        </td>
+        <td class="text-center">{{ item.lead_type }}</td>
           <td class="text-center">
-           
-        {{ item.mrp }}
+          {{ item.created_by }}
+        </td>
+         <td class="text-center">
+          {{ item.decision_authority }}
         </td>
         <td class="text-center">
-          {{ item.status }}
+          {{ item.name }}
         </td>
-         <!-- <td class="text-center">
+        <td class="text-center">           
+        {{ item.address }}
+        </td>
+        <!-- <td class="text-center">
+          {{ item.location }}
+        </td> -->
+         <td class="text-center">
           <VChip
         :color="resolveStatusVariant(item.status).color"
         class="font-weight-medium"
         size="small"
       >
-      {{ item.status == 1 ? 'Active' : 'Inactive'}}
+      {{ item.status}}
     
             </VChip>
+            <!-- {{item.status}} -->
           
-        </td>  -->
+        </td> 
+        <td class="text-center">
+          {{ item.gst }}
+        </td>
+           <td class="text-center">
+          {{ item.owner_name }}
+        </td>   
+        <td class="text-center">
+          {{ item.owner_phone }}
+        </td>  
+         <td class="text-center">
+          {{ item.poc_name }}
+        </td>   
+        
+        <td class="text-center">
+          {{ item.poc_phone }}
+        </td>   
         <!-- <td class="text-center">
-          {{ item.total_given_margin }}
+          {{ item.updated_date }}
+        </td>   
+           <td class="text-center">
+          {{ item.created_date }}
+        </td>    -->
+        <td class="text-center">
+          {{ item.pincode }}
+        </td>
+          <!-- <td class="text-center">
+          {{ item.bc_margin_amt }}
+        </td>
+          <td class="text-center">
+          {{ item.bc_margin }}
         </td> -->
-          
-          
-    <td class="text-center">
-              <V-btn
+           
+    <td class="text-center" >
+               <V-btn
                   icon
                   variant="text"
                   color="default"
                   class="mb-1 mt-2"
-                  size="x-small"                 
-                 @click="editOppertunity(item)"
-                  >
-                  
-                      <VIcon
-                        icon="ri-pencil-line"
-                        size="22"        
-                        color="#BA8B32"       
-                        />   
-                      </V-btn>     
+                  size="x-small"
+                 
+                 @click="editProduct(item)"
+                >
+                <VIcon
+                    icon="ri-pencil-line"
+                    size="22"        
+                    color="#BA8B32"       
+                 />   
+               </V-btn>     
                       
             </td>
       </tr>
       </tbody>        
         </VTable>
+          <VPagination
+            v-model="page"
+            :length="Math.ceil(filteredProducts.length / pageSize)"
+            @input="updatePagination"
+               :max="maxPaginationPages"
+            />
    </div>
 </template>
 <script>
@@ -89,50 +173,11 @@ export default {
     mixins: [servicescall], 
     data(){
         return{
-          oppitems : [
-            {
-              brand_name: 'Frozen Yogurt',
-              sku_name: 159,
-              uom: 6,
-              hsn_code: 24,
-              mrp: 4,
+           page: 1,
+            pageSize: 10,
+             loading:true,
+            searchQuery:'',
 
-              status: 'active',
-            
-            },
-            {
-              brand_name: 'Ice cream sandwich',
-              sku_name: 237,
-              uom: 6,
-              hsn_code: 24,
-              mrp: 4,
-               status: 'active',
-            },
-            {
-              brand_name: 'Eclair',
-              sku_name: 262,
-              uom: 6,
-              hsn_code: 24,
-              mrp: 4,
-               status: 'active',
-            },
-            {
-              brand_name: 'Cupcake',
-              sku_name: 305,
-              uom: 6,
-              hsn_code: 24,
-              mrp: 4,
-               status: 'active',
-            },
-            {
-              brand_name: 'Gingerbread',
-              sku_name: 356,
-              uom: 6,
-              hsn_code: 24,
-              mrp: 4,
-               status: 'active',
-            },
-          ],
           maxPaginationPages:5,
             storerules:[
           (v) => !!v || 'Store Address is required',
@@ -200,40 +245,111 @@ export default {
               "bc_margin": "",
               // "created_by": "",
             },
-            salesdata:[],
-            BrandNames:[],
+            // salesdata:[],
+            // BrandNames:[],
             selectedBrand:null,
             userRole:'',
             createdby:'',
-            headers:[ 
-               {text:'Oppertunity',value:'brand_name'},
-                {text:'Type',value:'sku_name'},
-                {text:'Store Name',value:'uom'},
-                {text:'Address',value:'hsn_code'},
-                {text:'Location',value:'mrp'},
-                {text:'Status',value:'status'},
-                // {text:'Total Given Margin',value:'total_given_margin'},
-                // {text:'SGST',value:'sgst'},
-                // {text:'CGST',value:'cgst'},
-                // {text:'Pitch From',value:'pitch_from'},            
-                // {text:'Final Retail CP',value:'final_retail_cp'},
-                // {text:'Final Retail',value:'final_ret'},
-                //  {text:'BK Profit',value:'bk_profit'},
-                // {text:'Bizking CP Final',value:'bizkingz_cp_final'},
-                // {text:'BC Margin Amount',value:'bc_margin_amt'},
-                // {text:'BC Margin',value:'bc_margin'},
+             userid:"",
+            leadData:[],
+            opportunity:[],
+            headers:[
+                // {text:'Lead',value:'lead_no'},
+                {text:'Type',value:'lead_type'},
+                {text:'Created By',value:'created_by'},
+                {text:'Decision Authority',value:'decision_authority'},
+                {text:'Name',value:'name'},
+                {text:'Address',value:'address'},
                 // {text:'Location',value:'location'},
-                // {text:'Area Pincode',value:'area_pincode'},
+                {text:'Status',value:'status'},
+                {text:'GST',value:'gst'},
+                {text:'Owner Name',value:'owner_name'},
+                {text:'Owner Phone',value:'owner_phone'},
+                {text:'Poc Name',value:'poc_name'},
+                {text:'Poc Phone',value:'poc_phone'},
+                // {text:'Updated Date',value:'updated_date'},
+                // {text:'Created Date',value:'created_date'},
+                {text:'PinCode',value:'pincode'},             
                 {text:'Action',value:'actions'},
             ]
         }
     },
+    computed:{
+        //  leadfilter(){
+        //     return this.leadData.filter(name => name.status != "closed");
+        //  },
+         filteredProducts(){
+         const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
+        return this.opportunity.filter((item) => {
+        return (
+          // (item.lead_no && item.lead_no.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.lead_type && item.lead_type.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.name && item.name.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.address && item.address.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.location && item.location.toLowerCase().includes(lowerCaseQuery))|| 
+          (item.status && item.status.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.gst && item.gst.toLowerCase().includes(lowerCaseQuery))  ||
+          (item.owner_name && item.owner_name.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.owner_phone && item.owner_phone.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.poc_name && item.poc_name.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.poc_phone && item.poc_phone.toString().includes(lowerCaseQuery)) || 
+          // (item.updated_date && item.updated_date.toLowerCase().includes(lowerCaseQuery)) ||
+          // (item.created_date && item.created_date.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.pincode && item.pincode.toLowerCase().includes(lowerCaseQuery)) || 
+          (item.decision_authority && item.decision_authority.toLowerCase().includes(lowerCaseQuery))
+      
+
+        );
+      });
+    },
+
+      paginatedItems() {
+          const startIndex = (this.page - 1) * this.pageSize;
+          const endIndex = startIndex + this.pageSize;
+          return this.filteredProducts.slice(startIndex, endIndex);
+        },
+    },
+    mounted(){
+    // this.userid = localStorage.getItem('user_id');
+    this.getOpportunitiesdata();
+     setTimeout(() => {
+      this.loading = false; // Set loading to false when the operation is complete
+    }, 3000);
+    },
 methods:{
-  editOppertunity(item){
-    // console.log('check oppertunity',item);
-    this.$router.push({
-          name: 'Updateoppertunities', // Replace with the actual name of your route
-          // query: { po_id: itm.po_id }
+  resolveStatusVariant(itm){
+      if(itm == "Partially interested" || itm == "partially interested"){
+          return{
+            color:"warning"
+          }
+        }else if (itm == "Closed" || itm == "closed"){
+          return{
+            color:"success"
+          }
+        }else if (itm == "Created" || itm == "created" ){
+          return{
+            color:"primary"
+          }
+        }else {
+           return{
+            color:"error"
+          }
+        }
+  },
+   updatePagination(page) {
+    this.page = page;
+  },
+  getOpportunitiesdata(){
+    this.getOppertunities().then((response)=>{
+      console.log('res',response);
+      this.opportunity = response.data.data;
+      this.opportunity.reverse();
+    }) 
+  },
+  editProduct(item){ 
+     this.$router.push({
+          name: 'Leadbasicdataview', // Replace with the actual name of your route
+          query: { lead_id: item.lead_id } 
         });
   }
 }

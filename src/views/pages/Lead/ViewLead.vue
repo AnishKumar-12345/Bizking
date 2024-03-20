@@ -79,11 +79,13 @@
         <td class="text-center">{{ item.lead_no }}</td>
 
         <td class="text-center">{{ item.lead_type }}</td>
+          <td class="text-center">
+          {{ item.created_by }}
+        </td>
         <td class="text-center">
           {{ item.name }}
         </td>
-        <td class="text-center">
-           
+        <td class="text-center">           
         {{ item.address }}
         </td>
         <!-- <td class="text-center">
@@ -251,7 +253,9 @@ export default {
             headers:[
                {text:'Lead',value:'lead_no'},
                 {text:'Type',value:'lead_type'},
-                {text:'Store Name',value:'name'},
+                {text:'Created By',value:'created_by'},
+
+                {text:'Name',value:'name'},
                 {text:'Address',value:'address'},
                 // {text:'Location',value:'location'},
                 {text:'Status',value:'status'},
@@ -301,7 +305,7 @@ export default {
           (item.poc_phone && item.poc_phone.toString().includes(lowerCaseQuery)) || 
           (item.updated_date && item.updated_date.toLowerCase().includes(lowerCaseQuery)) ||
           (item.created_date && item.created_date.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.pincode && item.pincode.toLowerCase().includes(lowerCaseQuery)) 
+          (item.pincode && item.pincode.toLowerCase().includes(lowerCaseQuery))
       
 
         );
@@ -361,3 +365,6 @@ methods:{
 
 }
 </script>
+
+
+

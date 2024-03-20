@@ -22,6 +22,17 @@
               ref="purchaseOrderForm"
             >
               <VRow>
+                 <VCol
+                  cols="12"
+                  md="6"
+                >
+                  <VTextField
+                    v-model="saveLeads.lead_type"
+                    label="Name"
+                    :rules="storerules"
+                    readonly
+                  />
+                </VCol>
                 <VCol
                   cols="12"
                   md="6"
@@ -310,6 +321,7 @@ export default {
           return new Promise((resolve, reject) => {
           this.updateLeads(this.Leadid).then(response => {
               console.log('check response', response.data.data)
+              this.saveLeads.lead_type = response.data.data.lead_type
               this.saveLeads.address = response.data.data.address
               this.saveLeads.decision_authority = response.data.data.decision_authority
               this.saveLeads.gst = response.data.data.gst

@@ -90,15 +90,15 @@
           {{ item.location }}
         </td> -->
          <td class="text-center">
-          <!-- <VChip
+          <VChip
         :color="resolveStatusVariant(item.status).color"
         class="font-weight-medium"
         size="small"
       >
-      {{ item.status == 1 ? 'Active' : 'Inactive'}}
+      {{ item.status}}
     
-            </VChip> -->
-            {{item.status}}
+            </VChip>
+            <!-- {{item.status}} -->
           
         </td> 
         <td class="text-center">
@@ -281,10 +281,12 @@ export default {
         }
     },
     computed:{
-      
+         leadfilter(){
+            return this.leadData.filter(name => name.status != "closed");
+         },
          filteredProducts(){
          const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
-        return this.leadData.filter((item) => {
+        return this.leadfilter.filter((item) => {
         return (
           (item.lead_no && item.lead_no.toLowerCase().includes(lowerCaseQuery)) ||
           (item.lead_type && item.lead_type.toLowerCase().includes(lowerCaseQuery)) ||
@@ -320,6 +322,25 @@ export default {
     }, 3000);
     },
 methods:{
+  resolveStatusVariant(itm){
+      if(itm == "Partially interested" || itm == "partially interested"){
+          return{
+            color:"warning"
+          }
+        }else if (itm == "Closed" || itm == "closed"){
+          return{
+            color:"success"
+          }
+        }else if (itm == "Created" || itm == "created" ){
+          return{
+            color:"primary"
+          }
+        }else {
+           return{
+            color:"error"
+          }
+        }
+  },
    updatePagination(page) {
     this.page = page;
   },

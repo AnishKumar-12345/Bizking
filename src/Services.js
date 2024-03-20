@@ -725,5 +725,41 @@ export default {
               return err.response;
             });
           },
+          AddLeadInfo(reqbody){
+            return axios
+            .post(this.url +"bizkingz/services/api/leads/addLeadInfo",reqbody, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          UpdateLeadInfo(reqbody){
+            return axios
+            .post(this.url +"bizkingz/services/api/leads/updateLeadInfo",reqbody, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
     }
 }

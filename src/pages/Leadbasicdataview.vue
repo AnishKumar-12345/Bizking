@@ -53,7 +53,7 @@ export default {
                     icon: 'mdi-account-outline',
                     tab: 'account',
                 },
-                {
+                { 
                   title: 'Work Info History',
                   icon: 'mdi-lock-open-outline',
                   tab: 'notification',

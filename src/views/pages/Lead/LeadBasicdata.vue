@@ -1,5 +1,14 @@
 <template>
   <div>
+      <div v-if="loading"  class="loading-container">
+      <VProgressLinear
+            height="5"
+            color="primary"
+            indeterminate
+            class="custom-loader"  
+            full-width              
+        />          
+     </div>
     <VRow>
       <VCol cols="12">
         <VCard
@@ -149,6 +158,7 @@ export default {
 
   data() {
     return {
+      loading:true,
       snackbar: false,
       snackbarText: '',
       timeout: 6000,
@@ -167,7 +177,7 @@ export default {
       authrules: [v => !!v || 'Authority is required'],
       namerules1: [
         v => !!v || 'Name is required',
-        v => /^[a-zA-Z]+$/.test(v) || 'Only letters are allowed in the name',
+    
       ],
       gstrules: [v => !!v || 'GST is required'],
 
@@ -221,7 +231,14 @@ export default {
     this.loggedby = localStorage.getItem('createdby');
     // console.log('set', this.Leadid);
 
-    this.editLeadsdata()
+    // this.editLeadsdata()
+       this.editLeadsdata()
+            .then(() => {
+             
+              this.loading = false;            })
+            .catch((error) => {             
+              console.error('Error fetching merchants:', error);             
+            });
   },
   methods: {
     validateForm() {
@@ -238,6 +255,13 @@ export default {
     },
 
     updateLeaddata() {
+      const status = {
+        'Created': 'created',
+        'Partially interested' : 'partially interested',
+        'Cancelled': 'cancelled',
+        'Closed' : 'closed'
+      }
+
       const postdata = {
         name: this.saveLeads.name,
         address: this.saveLeads.address,
@@ -250,7 +274,7 @@ export default {
         gst: this.saveLeads.gst,
         decision_authority: this.saveLeads.decision_authority,
         location: this.saveLeads.location,
-        status: this.saveLeads.status,
+        status: status[this.saveLeads.status] ,
       }
       console.log('update lead', postdata)
       this.updateLead(postdata).then(response => {
@@ -260,33 +284,54 @@ export default {
           this.snackbarText = response.data.message
           this.color = 'primary'
           // this.saveLeads = {};
-          this.$router.push({ name: 'LeadView' })
+          
         } else {
           this.snackbar = true
           this.snackbarText = response.data.message
           this.color = 'on-background'
-          this.saveLeads = {}
+          this.saveLeads = {} 
         }
       })
     },
 
     editLeadsdata() {
-      this.updateLeads(this.Leadid).then(response => {
-        console.log('check response', response.data.data)
-        this.saveLeads.address = response.data.data.address
-        this.saveLeads.decision_authority = response.data.data.decision_authority
-        this.saveLeads.gst = response.data.data.gst
-        this.saveLeads.name = response.data.data.name
-        this.saveLeads.lead_id = response.data.data.lead_id
-        this.saveLeads.owner_name = response.data.data.owner_name
-        this.saveLeads.owner_phone = response.data.data.owner_phone
-        this.saveLeads.poc_name = response.data.data.poc_name
-        this.saveLeads.poc_phone = response.data.data.poc_phone
-        this.saveLeads.pincode = response.data.data.pincode
-        this.saveLeads.location = response.data.data.location
-        // this.saveLeads.poc_phone = response.data.data.poc_phone;
-        // this.saveLeads.poc_phone = response.data.data.poc_phone;
-      })
+      //  return new Promise((resolve, reject) => {
+      //     this.getMerchantdetails()
+      //       .then((response) => {
+      //         this.merchants = response.data.data;
+      //         this.merchants.reverse();
+      //         resolve(); // Resolve the promise when API call is successful
+      //       })
+      //       .catch((error) => {
+      //         console.error('Error fetching merchants:', error);
+      //         reject(error); // Reject the promise if there's an error
+      //       });
+      //   });
+          return new Promise((resolve, reject) => {
+          this.updateLeads(this.Leadid).then(response => {
+              console.log('check response', response.data.data)
+              this.saveLeads.address = response.data.data.address
+              this.saveLeads.decision_authority = response.data.data.decision_authority
+              this.saveLeads.gst = response.data.data.gst
+              this.saveLeads.name = response.data.data.name
+              this.saveLeads.lead_id = response.data.data.lead_id
+              this.saveLeads.owner_name = response.data.data.owner_name
+              this.saveLeads.owner_phone = response.data.data.owner_phone
+              this.saveLeads.poc_name = response.data.data.poc_name
+              this.saveLeads.poc_phone = response.data.data.poc_phone
+              this.saveLeads.pincode = response.data.data.pincode
+              this.saveLeads.location = response.data.data.location
+              this.saveLeads.status = response.data.data.status
+              // this.saveLeads.poc_phone = response.data.data.poc_phone;
+              // this.saveLeads.poc_phone = response.data.data.poc_phone;
+              resolve();
+            })
+            .catch((error) => {
+              console.error('Error fetching merchants:', error);
+              reject(error); // Reject the promise if there's an error
+            });
+        });
+     
     },  
 
   },

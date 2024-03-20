@@ -78,7 +78,7 @@
                 />
               </VCol>
 
-              <!-- <VCol
+              <VCol
                 md="6"
                 cols="12"
               >
@@ -88,7 +88,7 @@
               
                   label="Location"
                 />
-              </VCol> -->
+              </VCol>
                <VCol
                 md="6"
                 cols="12"
@@ -196,7 +196,7 @@
     >
       {{ snackbarText }}
      <!-- <VBtn text @click="snackbar = false">Close</VBtn> -->
-    </VSnackbar> 
+    </VSnackbar>  
 
     </div>
 </template>

@@ -192,7 +192,7 @@
     </VCol>  
 
 <!-- Purchase Orders -->
-    <!-- <VCol
+    <VCol
         cols="12"
         md="4"
       >
@@ -219,7 +219,38 @@
           <img src="@/assets/images/avatars/avatar-12.png"  class="trophy5">
 
       </VCard>
-    </VCol>   -->
+    </VCol>  
+
+<!-- User Store Logins -->
+    <!-- <VCol
+        cols="12"
+        md="4"
+      >
+        <VCard
+        title="User Store Login"
+        class="position-relative"
+      >
+        <VCardText>
+          <h4 class="text-4xl font-weight-medium text-primary">
+                    <VIcon size="50" start icon="line-md:downloading-loop" />
+
+          </h4> <br>
+       
+          <VBtn size="small" @click="openUserstore()">
+            Get Reports
+          </VBtn>
+        </VCardText>
+
+   
+        <VImg
+          :src="triangleBg"
+          class="triangle-bg flip-in-rtl"
+        />
+          <img src="@/assets/images/avatars/avatar-13.png"  class="trophy6">
+
+      </VCard>
+    </VCol>  -->
+
 
   </VRow>
 
@@ -344,7 +375,7 @@
     </VDialog>
 
 <!-- sales orders Dialog -->
-     <VDialog
+    <VDialog
       v-model="dialog3"
       max-width="1000"
     >
@@ -708,7 +739,7 @@
         </VCard>
     </VDialog>
 
-<!-- sales orders Dialog -->
+<!-- Puchase orders Dialog -->
      <VDialog
       v-model="dialog8"
       max-width="1000"
@@ -735,7 +766,7 @@
                 <!-- this_year this_month -->
                    <VSelect 
                   v-model="selectPurchase"
-                   :items="['All','Acknowledged','Shipped','Delivered']"
+                   :items="['All','Acknowledged','Shared','Received']"
                    label="Select"
                :rules="salesRules"
                 />
@@ -815,7 +846,76 @@
           </VRow>
         </VCardText>
       </VCard>
-    </VDialog>
+     </VDialog>
+
+<!-- User Store Dialog -->
+     <VDialog
+        v-model="dialog9"
+        max-width="1000"
+      >
+    
+        <VCard
+          title="User Store"
+          class="mb-2"
+        >
+          <VCardText>
+            <VRow>
+              <VCol cols="12">
+                <!-- 👉 Form -->
+              <VForm class="mt-6" ref="purchaseOrderForm8">
+              <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
+              </VCheckbox> -->
+              <VRow>
+      
+                <VCol
+                  md="6"
+                  cols="12"
+                >
+          
+                
+                  <VAutocomplete
+                    v-model="userStoredata"
+                    :items="userstorenames" 
+                    item-value="value"
+                    item-title="text"
+                    :rules="storeBrand"
+                    label="Sales Persons"
+                    :menu-props="{ maxHeight: 200 }"        
+                    no-underline                
+                  />
+                
+                </VCol>        
+
+                <VDivider />              
+              
+
+                <VCol
+                  cols="12"
+                  class="d-flex flex-wrap gap-4"
+                >
+                  <VBtn @click="validateForm8()">Get</VBtn>
+          
+                  <VBtn @click="closeUserLoginreport()">Close</VBtn>
+
+                  <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
+                  <VProgressCircular
+                  :size="50"
+                  color="primary"
+                  indeterminate
+                  v-show="isProgress8"
+                >
+                </VProgressCircular>
+
+                
+                </VCol>
+              
+              </VRow>
+            </VForm>
+              </VCol>
+            </VRow>
+          </VCardText>
+        </VCard>
+     </VDialog>
 
       <VSnackbar
       v-model="snackbar" :timeout="3500"
@@ -824,7 +924,7 @@
       >
       {{ snackbarText }}
      <!-- <VBtn text @click="snackbar = false">Close</VBtn> -->
-    </VSnackbar> 
+      </VSnackbar> 
   </div>
 </template>
 
@@ -842,9 +942,10 @@ export default {
 
    data(){
     return{
+      userStoredata:null,
       selectSales:null,
       selectPurchase:null,
-
+     
       snackbar: false,
       snackbarText: '',
       timeout: 6000, // milliseconds
@@ -861,6 +962,7 @@ export default {
       isProgress5:false,
       isProgress6:false,
       isProgress7:false,
+      isProgress8:false,
 
       
         loading:true,
@@ -871,9 +973,11 @@ export default {
         dialog6:false,
         dialog7:false,
         dialog8:false,
+        dialog9:false,
 
         selectdatepicker:null,
         merchantName:[],
+        userstorenames:[],
         reportsMerchant:[],
         selectAll: false,
         selectedmerchants:null,
@@ -971,13 +1075,196 @@ export default {
     }
   },
    mounted(){
+    this.getAllsales();
     this.getMerchantdetails();
     this.getBrandsdata();
         setTimeout(() => {
-              this.loading = false; // Set loading to false when the operation is complete
-            }, 3000);
+              this.loading = false; 
+          }, 3000);
    },
    methods:{
+    validateForm8(){
+      this.$refs.purchaseOrderForm8.validate().then(valid => {
+        // console.log("form valid", valid.valid);
+        if (valid.valid == true) {
+         
+          this.getUserstoreloginreport();
+        }else{
+           this.snackbar = true;
+            this.snackbarText = "Please give all mandatory fields"
+            this.color = "on-background";
+        }
+      }); 
+    },
+    getUserstoreloginreport(){
+       this.isProgress8 = true;
+
+        this.getUserstorereport(this.userStoredata).then((response)=>{
+          // console.log(response);
+           
+
+        if(response.data.status == 0){
+               this.isProgress8 = false;
+            this.dialog9 = false; 
+           
+            this.userStoredata="";
+           this.snackbar = true;
+            this.color = "on-background";
+            this.snackbarText = response.data.message;
+            
+        }else{
+           this.isProgress8 = false;
+            this.dialog9 = false;   
+            
+          //  this.loading = true;
+            // this.reportsdata={};
+            this.userStoredata="";
+        //  console.log('length',response.data.length);
+            const blob = new Blob([response.data], { type: 'text/csv' });
+
+        // Create a temporary URL for the Blob
+        const url = window.URL.createObjectURL(blob);
+
+        // Create a link element
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'User Store Login Report.csv'); // Set the file name here
+
+        // Append the link to the body
+        document.body.appendChild(link);
+
+        // Programmatically click the link to trigger the download
+        link.click();
+
+        // Clean up - remove the link and revoke the URL
+        link.parentNode.removeChild(link);
+        window.URL.revokeObjectURL(url);
+
+        // console.log('CSV data:', response.data);
+          this.snackbar = true;
+            this.color = "primary";
+            this.snackbarText = "Reports downloaded successfully.";
+        }    
+      })
+    },
+    closeUserLoginreport(){
+      this.dialog9 = false;
+      this.userStoredata = '';
+    },
+    openUserstore(){
+      this.dialog9 = true;
+    },
+
+      getAllsales(){
+      this.getsalesperson().then((response)=>{
+        // console.log('sales',response);
+        // this.salesdata = response.data.data;
+   
+        //  this.salesdata = this.salesdata.map(sales => ({
+        //     value: sales.user_id,
+        //     text: sales.name
+        // }));
+
+         this.userstorenames = [
+          { value: "all", text: "All" },
+          ...response.data.data.map(brand => ({
+            value: brand.user_id,
+            text: brand.name
+          }))
+        ];
+           console.log('sales',this.userstorenames); 
+
+      })
+    },
+
+     validateForm7(){
+      this.$refs.purchaseOrderForm7.validate().then(valid => {
+        // console.log("form valid", valid.valid);
+        if (valid.valid == true) {
+         
+          this.getPurchaseOrdersdatareport();
+        }else{
+           this.snackbar = true;
+            this.snackbarText = "Please give all mandatory fields"
+            this.color = "on-background";
+        }
+      }); 
+    },
+    getPurchaseOrdersdatareport(){
+
+       const statusMapping = {
+            'All': "all",
+            'Acknowledged': "3",
+            'Shared': "4",
+            'Received': "5",          
+          };
+
+
+       if (this.Purchasedata.date_filter === 'Custom') {
+            this.Purchasedata.date_filter = "custom";
+          } else if (this.Purchasedata.date_filter === 'Current Year') {
+            this.Purchasedata.date_filter = "this_year";
+            this.Purchasedata.start_date = this.getFormattedDate(new Date())
+             this.Purchasedata.end_date = this.getFormattedDate(new Date())
+          } else if (this.Purchasedata.date_filter === 'Current Month') {
+            this.Purchasedata.date_filter = "this_month";
+               this.Purchasedata.start_date = this.getFormattedDate(new Date())
+             this.Purchasedata.end_date = this.getFormattedDate(new Date())
+          }
+
+      this.isProgress7 = true;
+
+        this.getPurchasesorderreport( statusMapping[this.selectPurchase],this.Purchasedata.date_filter,this.Purchasedata.start_date,this.Purchasedata.end_date).then((response)=>{
+          // console.log(response);
+           
+
+        if(response.data.status == 0){
+            this.isProgress7 = false;
+            this.dialog8 = false;            
+            this.Purchasedata={};
+            this.selectPurchase='';
+            this.snackbar = true;
+            this.color = "on-background";
+            this.snackbarText = response.data.message;
+            
+        }else{
+           this.isProgress7 = false;
+           this.dialog8 = false;            
+          this.Purchasedata={};
+            this.selectPurchase='';
+            
+          //  this.loading = true;
+            // this.reportsdata={};
+            this.selectedmerchants3="";
+        //  console.log('length',response.data.length);
+            const blob = new Blob([response.data], { type: 'text/csv' });
+
+        // Create a temporary URL for the Blob
+        const url = window.URL.createObjectURL(blob);
+
+        // Create a link element
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'Purchase Order Report.csv'); // Set the file name here
+
+        // Append the link to the body
+        document.body.appendChild(link);
+
+        // Programmatically click the link to trigger the download
+        link.click();
+
+        // Clean up - remove the link and revoke the URL
+        link.parentNode.removeChild(link);
+        window.URL.revokeObjectURL(url);
+
+        // console.log('CSV data:', response.data);
+          this.snackbar = true;
+            this.color = "primary";
+            this.snackbarText = "Reports downloaded successfully.";
+        }
+    
+    })
+    },
     openPurchase(){
             this.dialog8 = true; 
 
@@ -1079,7 +1366,7 @@ export default {
         }
       }); 
     },
- getbrandsreport(){
+     getbrandsreport(){
                this.isProgress5 = true;
 
         this.getBrandsallreport(this.selectedBrand2).then((response)=>{
@@ -1145,7 +1432,7 @@ export default {
         }
       }); 
     },
- getwarehousestockreport(){
+     getwarehousestockreport(){
                this.isProgress4 = true;
 
         this.getBrandreports(this.selectedBrand).then((response)=>{
@@ -1154,7 +1441,7 @@ export default {
 
         if(response.data.status == 0){
                this.isProgress4 = false;
-            this.dialog4 = false; 
+            this.dialog5 = false; 
            
             this.selectedBrand="";
            this.snackbar = true;
@@ -1496,9 +1783,8 @@ export default {
             this.snackbarText = response.data.message;
             
         }else{
-           this.isProgress = false;
-            this.dialog2 = false;   
-            
+            this.isProgress = false;
+            this.dialog2 = false;  
           //  this.loading = true;
             this.reportsdata={};
             this.selectedmerchants="";
@@ -1595,6 +1881,12 @@ export default {
     position: absolute;
   inline-size: 5rem;
   inset-block-end: -1rem;
+  inset-inline-end: 2rem;
+}
+.trophy6{
+    position: absolute;
+  inline-size: 3.1rem;
+  inset-block-end: -0.7rem;
   inset-inline-end: 2rem;
 }
 </style>

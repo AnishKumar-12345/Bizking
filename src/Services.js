@@ -346,7 +346,7 @@ export default {
         },
         getsalesperson(){
           return axios
-          .get(this.url +"bizkingz/services/api/users/getAllUsers", {
+          .get(this.url +"bizkingz/services/api/users/getAllUsers", { 
             headers: {
               "accept": "*/*",
               "Content-Type": "application/json",
@@ -563,9 +563,9 @@ export default {
               return err.response;
             });
           },
-          getLeads(reqbody){
+          getLeads(){
             return axios
-            .get(this.url +"bizkingz/services/api/leads/viewLeads?user_id="+reqbody, {
+            .get(this.url +"bizkingz/services/api/leads/viewLeadsWeb", {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",
@@ -670,6 +670,60 @@ export default {
             .catch(err => {
               return err.response;
             });
-          }
+          },
+         getPurchasesorderreport(type,filter,startdate,enddate){
+            return axios
+            .get(this.url +"bizkingz/services/api/reports/purchase_orders?type="+type+"&date_filter="+filter+"&start_date="+startdate+"&end_date="+enddate, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          getUserstorereport(reqbody){
+            return axios
+            .get(this.url +"bizkingz/services/api/reports/userStoreLogin?user_id="+reqbody, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          updateLead(reqbody){
+            return axios
+            .post(this.url +"bizkingz/services/api/leads/updateLead",reqbody, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
     }
 }

@@ -699,7 +699,7 @@ export default {
               reject(error); // Reject the promise if there's an error
             });
         });
-},
+}, 
     }
 }
 </script>

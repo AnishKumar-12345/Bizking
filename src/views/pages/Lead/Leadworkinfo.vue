@@ -80,27 +80,30 @@
 
       <tbody>        
        <tr
-        v-for="(item,index) in oppitems"
+        v-for="(item,index) in workInfo"
         :key="index"
 
          
       >       
-        <td class="text-center">{{ item.brand_name }}</td>
+        <td class="text-center">{{ index }}</td>
 
-        <td class="text-center">{{ item.sku_name }}</td>
+        <td class="text-center">{{ item.created_date }}</td>
         <td class="text-center">
-          {{ item.uom }}
+          {{ item.updated_date }}
         </td>
         <td class="text-center">
            
-        {{ item.hsn_code }}
+        {{ item.summary }}
         </td>
           <!-- <td class="text-center">
            
         {{ item.mrp }}
         </td> -->
         <td class="text-center">
-          {{ item.status }}
+          {{ item.working_notes }}
+        </td>
+         <td class="text-center">
+          {{ item.visit_status }}
         </td>
          <!-- <td class="text-center">
           <VChip
@@ -118,14 +121,14 @@
         </td> -->
           
           
-    <!-- <td class="text-center">
+    <td class="text-center">
               <V-btn
                   icon
                   variant="text"
                   color="default"
                   class="mb-1 mt-2"
                   size="x-small"                 
-                 @click="editOppertunity(item)"
+                 @click="editWorkinfo(item)"
                   >
                   
                       <VIcon
@@ -135,7 +138,7 @@
                         />   
                       </V-btn>     
                       
-            </td> -->
+            </td>
       </tr>
       </tbody>        
                  </VTable>
@@ -156,50 +159,7 @@ export default {
     mixins: [servicescall], 
     data(){
         return{
-          oppitems : [
-            {
-              brand_name: 'Frozen Yogurt',
-              sku_name: 159,
-              uom: 6,
-              hsn_code: "Text",
-            //   mrp: 4,
-
-              status: 'visited',
-            
-            },
-            {
-              brand_name: 'Ice cream sandwich',
-              sku_name: 237,
-              uom: 6,
-              hsn_code: "Text",
-            //   mrp: 4,
-               status: 'visited',
-            },
-            {
-              brand_name: 'Eclair',
-              sku_name: 262,
-              uom: 6,
-              hsn_code: "Text",
-            //   mrp: 4,
-               status: 'visited',
-            },
-            {
-              brand_name: 'Cupcake',
-              sku_name: 305,
-              uom: 6,
-              hsn_code: "Text",
-            //   mrp: 4,
-               status: 'visited',
-            },
-            {
-              brand_name: 'Gingerbread',
-              sku_name: 356,
-              uom: 6,
-              hsn_code: "Text",
-            //   mrp: 4,
-               status: 'visited',
-            },
-          ],
+        Leadid:'',
           maxPaginationPages:5,
             storerules:[
           (v) => !!v || 'Store Address is required',
@@ -272,39 +232,44 @@ export default {
             selectedBrand:null,
             userRole:'',
             createdby:'',
+            workInfo:[],
             headers:[
                {text:'SNo',value:'brand_name'},
-                {text:'Date',value:'sku_name'},
-                {text:'Summary',value:'uom'},
-                {text:'Notes',value:'hsn_code'},
-                {text:'Status',value:'status'},
+                {text:'Date',value:'created_date'},
+                {text:'Updated Date',value:'updated_date'},
+                {text:'Summary',value:'summary'},
+                {text:'Notes',value:'working_notes'},
+                {text:'Status',value:'visit_status'},    
+                {text:'Action',value:'action'},    
 
-                // {text:'Location',value:'mrp'},
-                // {text:'Status',value:'status'},
-                // {text:'Total Given Margin',value:'total_given_margin'},
-                // {text:'SGST',value:'sgst'},
-                // {text:'CGST',value:'cgst'},
-                // {text:'Pitch From',value:'pitch_from'},            
-                // {text:'Final Retail CP',value:'final_retail_cp'},
-                // {text:'Final Retail',value:'final_ret'},
-                //  {text:'BK Profit',value:'bk_profit'},
-                // {text:'Bizking CP Final',value:'bizkingz_cp_final'},
-                // {text:'BC Margin Amount',value:'bc_margin_amt'},
-                // {text:'BC Margin',value:'bc_margin'},
-                // {text:'Location',value:'location'},
-                // {text:'Area Pincode',value:'area_pincode'},
-                // {text:'Action',value:'actions'},
             ]
         }
     },
+    mounted(){
+      this.Leadid = this.$route.query.lead_id;
+      console.log('check the id',this.Leadid);
+      this.updateLeadsdata();
+    },
 methods:{
-  editOppertunity(item){
-    // console.log('check oppertunity',item);
-    this.$router.push({
-          name: 'Updateoppertunities', // Replace with the actual name of your route
-          // query: { po_id: itm.po_id }
-        });
-  }
+   updateLeadsdata(){
+      this.updateLeads(this.Leadid).then((response)=>{
+        console.log('check response',response.data.data.work_info);
+       this.workInfo = response.data.data.work_info;
+
+        // this.saveLeads.poc_phone = response.data.data.poc_phone;
+        // this.saveLeads.poc_phone = response.data.data.poc_phone;
+
+
+      })
+    },
+
+  // editOppertunity(item){
+  //   // console.log('check oppertunity',item);
+  //   this.$router.push({
+  //         name: 'Updateoppertunities', // Replace with the actual name of your route
+  //         // query: { po_id: itm.po_id }
+  //       });
+  // }
 }
 
 }

@@ -15,7 +15,7 @@
       class="mb-3"
         v-model="searchQuery"        
         density="compact"
-        variant="solo"
+        variant="solo" 
         label="Search"
         append-inner-icon="mdi-magnify"
         single-line
@@ -35,6 +35,7 @@
             full-width              
         />          
      </div>
+     
        <VRow v-if="showNoSalesAlert"> 
       <VCol cols="12"> 
         <VCard title="Sales Order View">
@@ -63,7 +64,7 @@
         <div class="loading">
           <div class="effect-1 effects"></div>
           <div class="effect-2 effects"></div>
-          <div class="effect-3 effects"></div>
+          <div class="effect-3 effects"></div> 
         </div>
       </div>
     </div>
@@ -286,10 +287,21 @@ export default {
     },
   },
     mounted(){
-      this.getSalesorderdetails();
-        setTimeout(() => {
-      this.loading = false; // Set loading to false when the operation is complete
-    }, 5000);
+       this.getSalesorderdetails()
+            .then(() => {
+              // Set loading to false when API call is successful
+              this.loading = false;
+            })
+            .catch((error) => {
+              // Handle any errors if the API call fails
+              console.error('Error fetching merchants:', error);
+              // You might want to set loading to false here as well
+              // Depending on how you want to handle API errors
+            });
+    //   this.getSalesorderdetails();
+    //     setTimeout(() => {
+    //   this.loading = false; // Set loading to false when the operation is complete
+    // }, 5000);
     },
     methods:{
         updatePagination(page) {
@@ -333,14 +345,28 @@ export default {
           // text: 'Shared',
         }
       },
-      getSalesorderdetails(){
-        this.getSalesorders().then((response)=>{
-          this.saleshistory = response.data;
-          this.saleshistory.reverse();
-          console.log('check rhe res',this.saleshistory);
+      // getSalesorderdetails(){
+      //   this.getSalesorders().then((response)=>{
+      //     this.saleshistory = response.data;
+      //     this.saleshistory.reverse();
+      //     console.log('check rhe res',this.saleshistory);
 
-        })
-      },
+      //   })
+      // },
+       getSalesorderdetails() {
+        return new Promise((resolve, reject) => {
+          this.getSalesorders()
+            .then((response) => {
+              this.saleshistory = response.data;
+              this.saleshistory.reverse();
+              resolve(); // Resolve the promise when API call is successful
+            })
+            .catch((error) => {
+              console.error('Error fetching merchants:', error);
+              reject(error); // Reject the promise if there's an error
+            });
+        });
+}, 
       //  onClick () {
       //   this.loading = true
 

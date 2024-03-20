@@ -345,7 +345,7 @@ export default {
             value: sales.user_id,
             text: sales.name
         }));
-           console.log('sales',this.salesdata);
+           console.log('sales',this.salesdata); 
 
       })
     },

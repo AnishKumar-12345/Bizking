@@ -13,10 +13,10 @@
                 md="6"
                 cols="12"
               >
-                <VTextField
+                <VSelect
                  v-model="saveLeads.lead_type"
                   label="Lead Type"
-                 readonly
+                :items="['Brand','Merchant']"
                   :rules="namerules"
                 />
               </VCol>
@@ -29,7 +29,7 @@
               >
                 <VTextField
                  v-model="saveLeads.name"                
-                  label="Store Name"
+                  label="Name"
                   :rules="storerules"
                
                 />
@@ -53,7 +53,7 @@
                  <VTextField
                  v-model="saveLeads.address"
                 :rules="storearules"
-                  label="Store Address"
+                  label="Address"
                 />
               </VCol>
 
@@ -262,7 +262,7 @@ export default {
         loggedby:'',
         userid:'',
         saveLeads:{
-          "lead_type":"Brand",
+          "lead_type":"",
           "name":"",
           "address":"",
           "pincode":"",
@@ -309,6 +309,11 @@ export default {
     },
     
     saveLeaddata(){
+      const Dautority = {
+        "POC" : "poc",
+        "Owner" : "owner"
+      }
+      console.log('set',Dautority[this.saveLeads.decision_authority]);
       const postdata = {
             "lead_type":this.saveLeads.lead_type,
             "name":this.saveLeads.name,
@@ -319,7 +324,7 @@ export default {
             "poc_name":this.saveLeads.poc_name,
             "poc_phone":this.saveLeads.poc_phone,
             "gst":this.saveLeads.gst,
-            "decision_authority":this.saveLeads.decision_authority,
+            "decision_authority": Dautority[this.saveLeads.decision_authority] ,
             "user_id":this.userid,
             "location":this.saveLeads.location,
       }

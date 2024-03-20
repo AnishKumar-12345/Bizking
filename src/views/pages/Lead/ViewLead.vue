@@ -324,13 +324,13 @@ methods:{
     this.page = page;
   },
   getLeaddata(){
-    this.getLeads( this.userid).then((response)=>{
+    this.getLeads().then((response)=>{
       console.log('res',response);
       this.leadData = response.data.data;
       this.leadData.reverse();
-    })
+    }) 
   },
-  editProduct(item){
+  editProduct(item){ 
      this.$router.push({
           name: 'Leadbasicdataview', // Replace with the actual name of your route
           query: { lead_id: item.lead_id } 

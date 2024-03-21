@@ -30,9 +30,10 @@
                   cols="12"
                   md="4"
                 >
-                  <VTextField
+                  <VSelect
                     v-model="this.workinfo.visit_status"
                     :rules="visitRules"
+                    :items="['Scheduled','Not Visited','Talked Via Phone','Visited']"
                     label="Visit Status"
                   />
                 </VCol>
@@ -126,10 +127,13 @@
                         <td class="text-center">
                           {{ item.working_notes }}
                         </td>
+                         
                         <td class="text-center">
                           {{ item.visit_status }}
                         </td>
-
+                        <td class="text-center">
+                          {{ item.schedule_next_visit }}
+                        </td>
                         <td class="text-center">
                           <V-btn
                             icon
@@ -358,6 +362,7 @@ export default {
         { text: 'Summary', value: 'summary' },
         { text: 'Notes', value: 'working_notes' },
         { text: 'Status', value: 'visit_status' },
+        { text: 'Schedule Next Visit ', value: 'schedule_next_visit' },
         { text: 'Action', value: 'action' },
       ],
     }

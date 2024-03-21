@@ -156,7 +156,7 @@
                </V-btn>     
                       
             </td>
-      </tr>
+        </tr>
       </tbody>        
         </VTable>
           <VPagination
@@ -286,6 +286,7 @@ export default {
           (item.lead_type && item.lead_type.toLowerCase().includes(lowerCaseQuery)) ||
           (item.name && item.name.toLowerCase().includes(lowerCaseQuery)) ||
           (item.address && item.address.toLowerCase().includes(lowerCaseQuery)) ||
+           (item.created_by && item.created_by.toLowerCase().includes(lowerCaseQuery)) ||
           (item.location && item.location.toLowerCase().includes(lowerCaseQuery))|| 
           (item.status && item.status.toLowerCase().includes(lowerCaseQuery)) ||
           (item.gst && item.gst.toLowerCase().includes(lowerCaseQuery))  ||

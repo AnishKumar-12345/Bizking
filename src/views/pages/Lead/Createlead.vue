@@ -29,10 +29,11 @@
               >
                 <VTextField
                  v-model="saveLeads.name"                
-                  label="Name"
+                  label="Brand / Merchant name"
                   :rules="storerules"
                
-                />
+                />                 
+
               </VCol>
       
               <VCol

@@ -112,7 +112,7 @@
               :rules="computedmarginRules()"
                @input="updatemargin()"
              
-          />
+          /> 
             <!-- {{item.margin}} -->
             </td>
             <!-- <td  class="text-center">{{item.opening}}</td> -->
@@ -167,7 +167,13 @@
                 class="d-flex flex-wrap gap-4"
               >
                 <VBtn @click="validateForm()">Save</VBtn>
-  
+                 <VProgressCircular
+                  :size="50"
+                  color="primary"
+                  indeterminate
+                  v-show="isProgress"
+                >
+                </VProgressCircular>
                 <!-- <VBtn 
                   color="secondary"
                   variant="tonal"
@@ -241,6 +247,7 @@ export default {
       bottom: true,
       left: false,
       right: false,
+      isProgress:false,
       marchantstocksdata:[],
      selectedmerchants:null,
       merchantName:[],
@@ -375,9 +382,12 @@ export default {
           };
       console.log('check brand da',postData)
           // Call your API method to save the data
+       this.isProgress = true;
           this.postmerchantbrandproducts(postData)
             .then((response) => {
               // Handle success if needed
+       this.isProgress = false;
+
               console.log("Saved items:", response);
               if(response.data.status == 1){
               this.snackbarText = response.data.message;
@@ -389,6 +399,8 @@ export default {
                 window.location.reload(true);
             }, 1300);
               }else{
+             this.isProgress = true;
+
               this.snackbarText = response.data.message;
               this.color = "on-background";
               this.snackbar = true;

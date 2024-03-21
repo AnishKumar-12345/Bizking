@@ -292,24 +292,25 @@ export default {
          const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
         return this.leadfilter.filter((item) => {
         return (
+
           (item.lead_no && item.lead_no.toLowerCase().includes(lowerCaseQuery)) ||
           (item.lead_type && item.lead_type.toLowerCase().includes(lowerCaseQuery)) ||
           (item.name && item.name.toLowerCase().includes(lowerCaseQuery)) ||
           (item.address && item.address.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.created_by && item.created_by.toLowerCase().includes(lowerCaseQuery)) ||
           (item.location && item.location.toLowerCase().includes(lowerCaseQuery))|| 
           (item.status && item.status.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.gst && item.gst.toLowerCase().includes(lowerCaseQuery))  ||
+          (item.gst && item.gst.toLowerCase().includes(lowerCaseQuery)) ||
           (item.owner_name && item.owner_name.toLowerCase().includes(lowerCaseQuery)) ||
           (item.owner_phone && item.owner_phone.toLowerCase().includes(lowerCaseQuery)) ||
           (item.poc_name && item.poc_name.toLowerCase().includes(lowerCaseQuery)) ||
           (item.poc_phone && item.poc_phone.toString().includes(lowerCaseQuery)) || 
           (item.updated_date && item.updated_date.toLowerCase().includes(lowerCaseQuery)) ||
           (item.created_date && item.created_date.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.pincode && item.pincode.toLowerCase().includes(lowerCaseQuery))
-      
+          (item.pincode && item.pincode.toLowerCase().includes(lowerCaseQuery))     
 
         );
-      });
+       });
     },
 
       paginatedItems() {

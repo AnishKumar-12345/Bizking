@@ -28,7 +28,7 @@
                 >
                   <VTextField
                     v-model="saveLeads.lead_type"
-                    label="Name"
+                    label="Lead Type"
                     :rules="storerules"
                     readonly
                   />
@@ -39,7 +39,7 @@
                 >
                   <VTextField
                     v-model="saveLeads.name"
-                    label="Name"
+                    label="Brand / Merchant Name"
                     :rules="storerules"
                   />
                 </VCol>

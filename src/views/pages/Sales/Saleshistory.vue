@@ -10,19 +10,7 @@
         placeholder="Enter search query"
       />
     </div> -->
-    <div style="max-width:400px" v-if="!showNoSalesAlert">
-      <VTextField
-      class="mb-3"
-        v-model="searchQuery"        
-        density="compact"
-        variant="solo" 
-        label="Search"
-        append-inner-icon="mdi-magnify"
-        single-line
-        hide-details
   
-    />
-    </div>
     
     
 
@@ -36,11 +24,11 @@
         />          
      </div>
      
-       <VRow v-if="showNoSalesAlert"> 
+       <!-- <VRow v-if="showNoSalesAlert"> 
       <VCol cols="12"> 
         <VCard title="Sales Order View">
           <VCardText> 
-            <!-- 👉 Checkbox and Button  -->
+       
             <VAlert
               color="warning"
               variant="tonal"
@@ -54,9 +42,55 @@
           </VCardText>
         </VCard>
       </VCol>
-     </VRow>
+     </VRow> -->
 
-      <div v-if="loading" id="app">
+    
+
+        <VCard         
+          class="mb-2"
+        >
+          <VCardText>
+            <VRow>
+              <VCol cols="12">
+                <!-- 👉 Form -->
+              <VForm class="mt-6" ref="purchaseOrderForm8">
+              <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
+              </VCheckbox> -->
+              <VRow>
+                <VCol   md="6"
+                  cols="12">
+                  <VSelect 
+                  v-model="selectsales"
+                  :items="['Shipped','Delivered']"
+                    @update:model-value="getSalesorderdetails"      
+                      
+                      label="Please Select The Status"     
+                  />
+
+                </VCol>
+              </VRow>
+              </VForm>
+              </VCol>
+            </VRow>
+          </VCardText>
+      </VCard>
+
+        <div style="max-width:400px" v-if="!showNoSalesAlert">
+      <VTextField
+        class="mb-3"
+        v-model="searchQuery"        
+        density="compact"
+        variant="solo" 
+        label="Search"
+        append-inner-icon="mdi-magnify"
+        single-line
+        hide-details
+       
+  
+    />
+    </div>
+
+  <div v-if="loading" id="app">
       <div id="loading-bg">
         <div class="loading-logo">
           <img src="../../../assets/images/logos/comlogo.jpeg" height="60" width="68" alt="Logo" />
@@ -224,13 +258,15 @@ export default {
 
     data(){
         return{
+          selectsales:null,
             page: 1,
     pageSize: 10,
           loading2: false,
             loaded: false,
-       loading: true,
+       loading: false,
      saleshistory:[],
        searchQuery:'',
+       
       headers: [
       
         { text: 'Sales Order', value: 'so_number' },
@@ -284,20 +320,20 @@ export default {
       return !this.saleshistory.some(
         item => item.so_status === 'Delivered' || item.so_status === 'Received' || item.so_status === 'Shipped'
       );
-    },
+     },
   },
     mounted(){
-       this.getSalesorderdetails()
-            .then(() => {
-              // Set loading to false when API call is successful
-              this.loading = false;
-            })
-            .catch((error) => {
-              // Handle any errors if the API call fails
-              console.error('Error fetching merchants:', error);
-              // You might want to set loading to false here as well
-              // Depending on how you want to handle API errors
-            });
+      //  this.getSalesorderdetails()
+      //       .then(() => {
+      //         // Set loading to false when API call is successful
+      //         this.loading = false;
+      //       })
+      //       .catch((error) => {
+      //         // Handle any errors if the API call fails
+      //         console.error('Error fetching merchants:', error);
+      //         // You might want to set loading to false here as well
+      //         // Depending on how you want to handle API errors
+      //       });
     //   this.getSalesorderdetails();
     //     setTimeout(() => {
     //   this.loading = false; // Set loading to false when the operation is complete
@@ -354,18 +390,30 @@ export default {
       //   })
       // },
        getSalesorderdetails() {
-        return new Promise((resolve, reject) => {
-          this.getSalesorders()
+         
+        // return new Promise((resolve, reject) => {
+          
+          const postdata = {
+            "All":"all",
+            "Shipped":"4",
+            "Delivered":"5"
+          }
+          this.loading = true;
+          this.getSalesorders(postdata[this.selectsales])
             .then((response) => {
+              console.log('response',response);
+              if(response.status == 1){
+              this.loading = false;
               this.saleshistory = response.data;
               this.saleshistory.reverse();
-              resolve(); // Resolve the promise when API call is successful
+              // resolve(); // Resolve the promise when API call is successful
+              }              
             })
-            .catch((error) => {
-              console.error('Error fetching merchants:', error);
-              reject(error); // Reject the promise if there's an error
-            });
-        });
+            // .catch((error) => {
+            //   console.error('Error fetching merchants:', error);
+            //   reject(error); // Reject the promise if there's an error
+            // });
+        // });
 }, 
       //  onClick () {
       //   this.loading = true

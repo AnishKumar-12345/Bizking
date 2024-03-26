@@ -110,9 +110,26 @@ export default {
             return err.response;
           });
         },
-        getSalesorders(){
+        getSalesorders(reqbody){
           return axios
-          .get(this.url +"bizkingz/services/api/sales/getSalesOrders", {
+          .get(this.url +"bizkingz/services/api/sales/getSalesOrders?so_status="+reqbody, {
+            headers: {
+              "Content-Type": "application/json",
+              "accept": "*/*",
+            //   "Authorization": "Bearer "+token
+            }
+          })
+          .then(response => {
+            return response.data;
+          })
+          .catch(err => {
+            console.log('check tick',err);
+            return err.response;
+          });
+        },
+        getOutputSalesorders(){
+          return axios
+          .get(this.url +"bizkingz/services/api/sales/getAckSalesOrders", {
             headers: {
               "Content-Type": "application/json",
               "accept": "*/*",

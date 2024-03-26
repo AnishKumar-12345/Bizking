@@ -38,7 +38,7 @@ export default {
             activeTab:'',
              tabs : [
                 {
-                    title: 'Add Your Sales',
+                    title: 'Acknowledged Sales Orders',
                     icon: 'mdi-account-outline',
                     tab: 'account',
                 },                

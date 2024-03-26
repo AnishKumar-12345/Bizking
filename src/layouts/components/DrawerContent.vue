@@ -235,7 +235,7 @@ computed: {
       return filteredItems;
     }  else if (this.userRole === "Warehouse") {
       // Filter items for Business Development Manager
-      const allowedTitles = ["Dashboard", "Warehouse"];
+      const allowedTitles = ["Dashboard", "Warehouse","Sales"];
       
       // console.log('Allowed Titles:', allowedTitles);
       

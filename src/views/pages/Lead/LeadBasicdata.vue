@@ -71,6 +71,17 @@
                   cols="12"
                 >
                   <VTextField
+                    v-model="saveLeads.email"
+                    label="Email"
+                    :rules="emailRules"
+                  />
+                </VCol>
+
+                <VCol
+                  md="6"
+                  cols="12"
+                >
+                  <VTextField
                     v-model="saveLeads.gst"
                     label="GST"
                   />
@@ -212,6 +223,7 @@ export default {
         lead_type: '',
         name: '',
         address: '',
+        email:'',
         pincode: '',
         lead_id: '',
         owner_name: '',
@@ -223,7 +235,7 @@ export default {
         user_id: '',
         location: '',
         status: '',
-      },
+       },
       loggedby: '',
 
       headers: [
@@ -276,6 +288,7 @@ export default {
       const postdata = {
         name: this.saveLeads.name,
         address: this.saveLeads.address,
+        email: this.saveLeads.email,
         pincode: this.saveLeads.pincode,
         lead_id: this.saveLeads.lead_id,
         owner_name: this.saveLeads.owner_name,
@@ -323,6 +336,7 @@ export default {
               console.log('check response', response.data.data)
               this.saveLeads.lead_type = response.data.data.lead_type
               this.saveLeads.address = response.data.data.address
+              this.saveLeads.email = response.data.data.email
               this.saveLeads.decision_authority = response.data.data.decision_authority
               this.saveLeads.gst = response.data.data.gst
               this.saveLeads.name = response.data.data.name

@@ -10,56 +10,68 @@
         placeholder="Enter search query"
       />
     </div> -->
-   <!-- v-if="!showNoSalesAlert" -->
-    <div style="max-width:400px" >
+    <!-- v-if="!showNoSalesAlert" -->
+    <div style="max-width: 400px">
       <VTextField
-      class="mb-3"
-        v-model="searchQuery"        
+        class="mb-3"
+        v-model="searchQuery"
         density="compact"
         variant="solo"
         label="Search"
         append-inner-icon="mdi-magnify"
         single-line
         hide-details
-  
-    />
+      />
     </div>
-    
 
-       <div v-if="loading2"  class="loading-container">
+    <div
+      v-if="loading2"
+      class="loading-container"
+    >
       <VProgressLinear
-            height="5"
-            color="primary"
-            indeterminate
-            class="custom-loader"  
-            full-width              
-        />          
-     </div>
-     <!-- v-if="showNoSalesAlert" -->
-       <!-- <VRow >
-      <VCol cols="12"> 
-        <VCard title="Sales Order View">
-          <VCardText> 
-        
+        height="5"
+        color="primary"
+        indeterminate
+        class="custom-loader"
+        full-width
+      />
+    </div>
+
+    <!-- v-if="showNoSalesAlert" -->
+
+    <VRow v-if="this.saleshistory == ''">
+      <VCol cols="12">
+        <VCard title="Output Stocks View">
+          <VCardText>
             <VAlert
               color="warning"
               variant="tonal"
-              class="mb-4"              
+              class="mb-4"
               border="top"
             >
               <VAlertTitle class="mb-1"> Are you sure you have Output Stocks? </VAlertTitle>
               <p class="mb-0">
-                The system is trying to retrieving the Orders. Please ensure that you have "Acknowledged" and "Onhold" Output Stock Orders !</p>
+                The system is trying to retrieving the Orders. Please ensure that you have "Acknowledged" and "Onhold"
+                Output Stock Orders !
+              </p>
             </VAlert>
           </VCardText>
         </VCard>
       </VCol>
-     </VRow> -->
-     
-      <div v-if="loading" id="app">
+    </VRow>
+
+    <div
+      v-if="loading"
+      id="app"
+    >
       <div id="loading-bg">
         <div class="loading-logo">
-          <img src="../../../assets/images/logos/comlogo.jpeg" height="60" width="68" alt="Logo" />
+          <img
+            src="../../../assets/images/logos/comlogo.jpeg"
+            height="60"
+            width="68"
+            alt="Logo"
+          />
         </div>
         <div class="loading">
           <div class="effect-1 effects"></div>
@@ -68,19 +80,20 @@
         </div>
       </div>
     </div>
-       <!-- v-if="!showNoSalesAlert" -->
-   <VTable 
-      
-       :headers="headers" 
-       :items="paginatedItems"       
-       class="table-rounded"      
-       height="500"
-      fixed-header 
-      >
-       <thead>
+    <!-- v-if="!showNoSalesAlert" -->
+    <!-- hasOwnProperty('cboqs') -->
+    <VTable
+      v-if="this.saleshistory != ''"
+      :headers="headers"
+      :items="paginatedItems"
+      class="table-rounded"
+      height="500"
+      fixed-header
+    >
+      <thead>
         <tr>
           <th
-           class="text-center"
+            class="text-center"
             v-for="header in headers"
             :key="header"
           >
@@ -90,57 +103,59 @@
       </thead>
 
       <tbody>
-       <tr
-        v-for="(item,index) in this.paginatedItems"
-        :key="index"
 
-         
-      >       
-        <td class="text-center">{{ item.so_number }}</td>
-        <td class="text-center">
-          {{ item.created_date }}
-        </td>
-        <td class="text-center">
-           <VChip
-        :color="resolveStatusVariant(item.so_status).color"
-        class="font-weight-medium"
-        size="small"
-      >
-        {{ item.so_status }}
-          <!-- {{ item.fat }} -->
-            </VChip>
-        </td>
-        <td class="text-center">
-          {{ item.merchant_name }}
-        </td>
-        <td class="text-center">
-          {{ item.merchant_name }}
-        </td>
-           <td class="text-center">
-          {{ item.total_so_amount }}
-        </td>
-        <td  class="text-center ">
-          <!-- {{item.actions}} -->
-            <VBtn
-            v-if="item.so_status != 'Shipped' && item.so_status != 'Delivered'"
-                icon
-                variant="text"
-                color="success"
-                class="me-2"
-                size="small"                
+          <tr v-if="filteredSalesHistory.length === 0">
+          <td colspan="16" class="text-center"><h1>No data found !</h1></td>
+        </tr>  
+
+        <tr
+          v-for="(item, index) in this.paginatedItems"
+          :key="index"
+        >
+          <td class="text-center">{{ item.so_number }}</td>
+          <td class="text-center">
+            {{ item.created_date }}
+          </td>
+          <td class="text-center">
+            <VChip
+              :color="resolveStatusVariant(item.so_status).color"
+              class="font-weight-medium"
+              size="small"
             >
-            <!-- Receive Stock -->
-              <VIcon
-              icon="mdi-invoice-receive-outline"
+              {{ item.so_status }}
+              <!-- {{ item.fat }} -->
+            </VChip>
+          </td>
+          <td class="text-center">
+            {{ item.merchant_name }}
+          </td>
+          <td class="text-center">
+            {{ item.merchant_name }}
+          </td>
+          <td class="text-center">
+            {{ item.total_so_amount }}
+          </td>
+          <td class="text-center">
+            <!-- {{item.actions}} -->
+            <VBtn
+              v-if="item.so_status != 'Shipped' && item.so_status != 'Delivered'"
+              icon
+              variant="text"
               color="success"
-              size="30"
-              @click="outputstock(item)"
+              class="me-2"
+              size="small"
+            >
+              <!-- Receive Stock -->
+              <VIcon
+                icon="mdi-invoice-receive-outline"
+                color="success"
+                size="30"
+                @click="outputstock(item)"
               />
             </VBtn>
 
-             <VBtn
-
-             v-if="item.so_status == 'Shipped' || item.so_status == 'Delivered'"
+            <VBtn
+              v-if="item.so_status == 'Shipped' || item.so_status == 'Delivered'"
               icon
               variant="text"
               color="default"
@@ -154,7 +169,7 @@
                 size="26"
               />
             </VBtn>
-              <!-- <VBtn
+            <!-- <VBtn
                 icon
                 variant="text"
                 color="default"
@@ -181,94 +196,91 @@
                 />
             </VBtn> -->
           </td>
-      </tr>
-      </tbody>        
-        </VTable>
+        </tr>
+      </tbody>
+    </VTable>
 
-         <VDialog
+    <VDialog
       v-model="dialog"
       max-width="1000"
     >
-    
       <VCard
         title="Proceed To Ship Sales Orders"
         class="mb-2"
       >
-      <VCardText>
-        <VRow> 
-      <VCol cols="12">
-       <!-- <VCard title="Output Stock" class="mb-4">       
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- <VCard title="Output Stock" class="mb-4">       
 
         <VCardText> -->
-          <!-- 👉 Form -->
-          <VForm class="mt-6 " ref="purchaseOrderForm">
-            <VRow>
-   
-              <VCol
-                md="6"
-                cols="12"
+              <!-- 👉 Form -->
+              <VForm
+                class="mt-6"
+                ref="purchaseOrderForm"
               >
-                <VTextField
-                  v-model=" this.outputStock.so_number"
-                  label="Sales Order"
-                readonly
-                />
-               
-              </VCol>
+                <VRow>
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                      v-model="this.outputStock.so_number"
+                      label="Sales Order"
+                      readonly
+                    />
+                  </VCol>
 
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VTextField
+                      v-model="this.outputStock.merchant_name"
+                      label="Order From"
+                      readonly
+                    />
+                  </VCol>
 
-            
-              <VCol
-                cols="12"
-                md="6"
-              >
-                <VTextField
-                v-model="this.outputStock.merchant_name"
-                  label="Order From"
-               readonly
-                />
-              </VCol>
-      
-              <VCol
-                cols="12"
-                md="6"
-              >
-                <VTextField
-                  v-model="this.outputStock.shipped_date"
-                   type="date"
-                    label="Date"
-                    :min="today"
-                   
-                    
-                />
-              </VCol>
-            
-            <VCol
-                md="6"
-                cols="12"
-              >
-                <VTextField
-                 v-model="this.outputStock.so_status"
-                  label="SO Status"
-                  readonly
-                   
-                />
-              </VCol>
-              <VCol  md="6"
-                cols="12">
-                <!-- {{this.deliveryPersons}}
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VTextField
+                      v-model="this.outputStock.shipped_date"
+                      type="date"
+                      label="Date"
+                      :min="today"
+                      :rules="DateRules"
+                    />
+                  </VCol>
+
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                      v-model="this.outputStock.so_status"
+                      label="SO Status"
+                      readonly
+                    />
+                  </VCol>
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <!-- {{this.deliveryPersons}}
                 {{selectedDeliveryPerson}} -->
-                <VSelect
-                v-model="selectedDeliveryPerson" 
-                label="Select Delivery Person"
-                :items="this.deliveryPersons"
-                item-value="value"
-                item-title="text"
-                :rules="PersonRules"
-               />
+                    <VSelect
+                      v-model="selectedDeliveryPerson"
+                      label="Select Delivery Person"
+                      :items="this.deliveryPersons"
+                      item-value="value"
+                      item-title="text"
+                      :rules="PersonRules"
+                    />
 
-          
-                <!-- <VSelect v-model="selectedDeliveryPerson" label="Select Delivery Person">
+                    <!-- <VSelect v-model="selectedDeliveryPerson" label="Select Delivery Person">
     <VSelectItem
       v-for="person in deliveryPersons"
       :key="person.value"
@@ -278,87 +290,111 @@
       {{ person.text }}
     </VSelectItem>
   </VSelect> -->
-              </VCol>
-              <VCol cols="12">
-                
-              <VTable
-              :headers="headers"
-              :items="OutputStockDetails"
-                
-              >
-              <thead>
-                <tr>
-                  <th
-                  class="text-center"
-                    v-for="header in headers2"
-                    :key="header"
-                  >
-                    {{ header.text }}
-                  </th>
-                </tr>
-              </thead>
+                  </VCol>
+                  <VCol cols="12">
+                    <VTable
+                      :headers="headers"
+                      :items="OutputStockDetails"
+                    >
+                      <thead>
+                        <tr>
+                          <th
+                            class="text-center"
+                            v-for="header in headers2"
+                            :key="header"
+                          >
+                            {{ header.text }}
+                          </th>
+                        </tr>
+                      </thead>
 
-      <tbody>
-        <!-- {{filteredOutputstocks}} -->
-       <tr
-        v-for="(item,index) in this.outputStockproducts"
-        :key="index"
-      >
-      <td class="text-center">
-        {{item.brand_name}}
-      </td>
-       <td class="text-center">
-           {{item.sku_name}}
-          </td>
-            <td  class="text-center">
-           {{item.uom}}
-          </td>
-            <td class="text-center">
-          {{ item.quantity }}
-        </td>
-        <td class="text-center">{{ item.exchange == "" ? 0 : item.exchange }}</td>
-      
-        <td class="text-center">
-          <VChip
-        :color="resolveStatusVariant(item).color"
-        class="font-weight-medium"
-        size="small"
-      >
-        {{ item.warehouse_quantity >= 0 ? item.warehouse_quantity : 0}}
-      </VChip>
-          <!-- {{ item.available }} -->
-        </td>
-        <td class="text-center" :class="{ 'has-error': isQuantityExceeded(item.shipped_ordered, item.quantity, item.warehouse_quantity) }">
-          <VTextField   @keydown="preventDecimal"
+                      <tbody>
+                        <!-- {{filteredOutputstocks}} -->
+                        <tr
+                          v-for="(item, index) in this.outputStockproducts"
+                          :key="index"
+                        >
+                          <td class="text-center">
+                            {{ item.brand_name }}
+                          </td>
+                          <td class="text-center">
+                            {{ item.sku_name }}
+                          </td>
+                          <td class="text-center">
+                            {{ item.uom }}
+                          </td>
+                          <td class="text-center">
+                            {{ item.quantity }}
+                          </td>
+                          <td class="text-center">{{ item.exchange == '' ? 0 : item.exchange }}</td>
+                          <td class="text-center">
+                            {{ item.return }}
+                          </td>
+                          <td class="text-center">
+                            <VChip
+                              :color="resolveStatusVariant2(item).color"
+                              class="font-weight-medium"
+                              size="small"
+                            >
+                              {{ item.warehouse_quantity >= 0 ? item.warehouse_quantity : 0 }}
+                            </VChip>
+                            <!-- {{ item.available }} -->
+                          </td>
+                          <td
+                            class="text-center"
+                            :class="{
+                              'has-error': isQuantityExceeded(
+                                item.shipped_ordered,
+                                item.quantity,
+                                item.warehouse_quantity,
+                              ),
+                            }"
+                          >
+                            <VTextField
+                              @keydown="preventDecimal"
                               @paste="preventPaste"
                               type="number"
                               min="0"
-                               max="20000" :rules="shippedquantity" v-model="item.shipped_ordered" outlined dense />
-             
-          <!-- {{ item.carbs }} -->
-        </td>
-           <!-- <span v-if="isQuantityExceeded(item.shipped_ordered,item.ordered_quantity,item.warehouse_quantity)">
+                              max="20000"
+                              :rules="shippedquantity"
+                              v-model="item.shipped_ordered"
+                              outlined
+                              dense
+                            />
+
+                            <!-- {{ item.carbs }} -->
+                          </td>
+                          <!-- <span v-if="isQuantityExceeded(item.shipped_ordered,item.ordered_quantity,item.warehouse_quantity)">
                            
                           </span> -->
-         <td class="text-center" :class="{ 'has-error': isQuantityExceeded2(item.shipped_exchange, item.exchange) }">
-          <VTextField   @keydown="preventDecimal"
+                          <td
+                            class="text-center"
+                            :class="{ 'has-error': isQuantityExceeded2(item.shipped_exchange, item.exchange) }"
+                          >
+                            <VTextField
+                              @keydown="preventDecimal"
                               @paste="preventPaste"
                               type="number"
                               min="0"
-                               max="20000" :rules="shippedexchange"  v-model="item.shipped_exchange" outlined dense />
-    <!-- <span v-if="isQuantityExceeded2(item.shipped_exchange,item.exchange)" >
+                              max="20000"
+                              :rules="shippedexchange"
+                              v-model="item.shipped_exchange"
+                              outlined
+                              dense
+                            />
+                            <!-- <span v-if="isQuantityExceeded2(item.shipped_exchange,item.exchange)" >
     </span> -->
-          <!-- {{ item.carbs }} -->
-        </td>
-       
-        <!-- <td class="text-center">
+                            <!-- {{ item.carbs }} -->
+                          </td>
+
+                          <!-- <td class="text-center">
           <VTextField v-model="item.protein" outlined dense />
 
         
         </td> -->
-      </tr>
-      </tbody>   
-      <!-- <tfoot>
+                        </tr>
+                      </tbody>
+                      <!-- <tfoot>
         <tr>
            <td>
           {{this.totalshippedorder}}
@@ -368,24 +404,23 @@
         </td>
         </tr>
         </tfoot>      -->
-        </VTable>
-
-              </VCol>
-              <VCol
-                cols="12"
-                class="d-flex flex-wrap gap-4"
-              >
-              <!-- :disabled="validquan" -->
-                <VBtn @click="validateForm()" >Save</VBtn>
-                <VBtn @click="closedialog()" >Close</VBtn>
- <VProgressCircular
-                  :size="50"
-                  color="primary"
-                  indeterminate
-                  v-show="isProgress"
-                >
-                </VProgressCircular>
-                <!-- <VBtn
+                    </VTable>
+                  </VCol>
+                  <VCol
+                    cols="12"
+                    class="d-flex flex-wrap gap-4"
+                  >
+                    <!-- :disabled="validquan" -->
+                    <VBtn @click="validateForm()">Save</VBtn>
+                    <!-- <VBtn @click="closedialog()" >Close</VBtn> -->
+                    <VProgressCircular
+                      :size="50"
+                      color="primary"
+                      indeterminate
+                      v-show="isProgress"
+                    >
+                    </VProgressCircular>
+                    <!-- <VBtn
                   color="secondary"
                   variant="tonal"
                   type="reset"
@@ -393,32 +428,32 @@
                 >
                   Reset
                 </VBtn> -->
-              </VCol>
-            </VRow>
-          </VForm>
+                  </VCol>
+                </VRow>
+              </VForm>
 
-        <!-- </VCardText>
+              <!-- </VCardText>
       </VCard> -->
-    </VCol>  
-  </VRow>
-      </VCardText>
+            </VCol>
+          </VRow>
+        </VCardText>
       </VCard>
-            </VDialog>
+    </VDialog>
 
-             <VSnackbar
-      v-model="snackbar" :timeout="3000"
+    <VSnackbar
+      v-model="snackbar"
+      :timeout="3000"
       :color="color"
-      
     >
       {{ snackbarText }}
-     <!-- <VBtn text @click="snackbar = false">Close</VBtn> -->
+      <!-- <VBtn text @click="snackbar = false">Close</VBtn> -->
     </VSnackbar>
 
-        <VPagination
-  v-model="page"
-  :length="Math.ceil(filteredSalesHistory.length / pageSize)"
-  @input="updatePagination"
-/>
+    <VPagination
+      v-model="page"
+      :length="Math.ceil(filteredSalesHistory.length / pageSize)"
+      @input="updatePagination"
+    />
   </div>
 </template>
 
@@ -428,16 +463,15 @@ import servicescall from '@/Services'
 export default {
   mixins: [servicescall],
 
-    data(){
-        return{
-           validquan:false,
-       PersonRules: [
-         (v) => !!v || 'Delivery Person is required',
-      ],
-      loading:true,
-       shippedexchange: [(v) => v === 0 || (!!v && `${v}`.trim() !== '') || 'shippedexchange Quantity Is Required'],
-            shippedquantity: [(v) => v === 0 || (!!v && `${v}`.trim() !== '') || 'shipped Quantity Is Required'],
-       snackbar: false,
+  data() {
+    return {
+      validquan: false,
+      PersonRules: [v => !!v || 'Delivery Person is required'],
+      DateRules: [v => !!v || 'Shipped date is required'],
+      loading: true,
+      shippedexchange: [v => v === 0 || (!!v && `${v}`.trim() !== '') || 'shippedexchange Quantity Is Required'],
+      shippedquantity: [v => v === 0 || (!!v && `${v}`.trim() !== '') || 'shipped Quantity Is Required'],
+      snackbar: false,
       snackbarText: '',
       timeout: 6000, // milliseconds
       color: '', // or 'error', 'warning', 'info', etc.
@@ -445,87 +479,86 @@ export default {
       bottom: true,
       left: false,
       right: false,
-isProgress:false,
+      isProgress: false,
       selectedPurchaseOrder: null,
-        dialog: false,
-    Soid:'',
-    OutputStockDetails:[],
-    today: this.getFormattedDate(new Date()),
+      dialog: false,
+      Soid: '',
+      OutputStockDetails: [],
+      today: this.getFormattedDate(new Date()),
       outputStock: {
-        "so_id": "",
-        "so_number": "",
-        "merchant_id": "",
-        "merchant_code": "",
-        "merchant_name": "",
-        "total_cgst": "",
-        "total_sgst": "",
-        "sub_total": "",
-        "total_margin": "",
-        "total_so_amount": "",
-        "total_quantity": "",
-        "created_date": "",
-        "shipped_date": this.getFormattedDate(new Date()),
-        "so_status": "",
-        "products": [
-            {
-                "merchant_product_id": "",
-                "sku_name": "",
-                "hsn_code": "",
-                "mrp": "",
-                "margin": "",
-                "ordered_quantity": "",
-                "warehouse_quantity": "",
-                "uom": "",
-                "price_per_unit": "",
-                "taxable_amount": "",
-                "cgst": "",
-                "sgst": "",
-                "amount": "",
-              
-                "sgst_percentage":"",
-                "cgst_percentage":"",
-                "exchange":"",
-                "return":"",
-                "shipped_ordered":"",
-                "shipped_exchange":"",
-
-            },          
-        ],
-        "delivery_user_details":[
+        so_id: '',
+        so_number: '',
+        merchant_id: '',
+        merchant_code: '',
+        merchant_name: '',
+        total_cgst: '',
+        total_sgst: '',
+        sub_total: '',
+        total_margin: '',
+        total_so_amount: '',
+        total_quantity: '',
+        created_date: '',
+        shipped_date: this.getFormattedDate(new Date()),
+        so_status: '',
+        products: [
           {
-            "delivery_person":"",
-            "name":"",
-          }
-        ]
+            merchant_product_id: '',
+            sku_name: '',
+            hsn_code: '',
+            mrp: '',
+            margin: '',
+            ordered_quantity: '',
+            warehouse_quantity: '',
+            uom: '',
+            price_per_unit: '',
+            taxable_amount: '',
+            cgst: '',
+            sgst: '',
+            amount: '',
 
+            sgst_percentage: '',
+            cgst_percentage: '',
+            exchange: '',
+            return: '',
+            shipped_ordered: '',
+            shipped_exchange: '',
+          },
+        ],
+        delivery_user_details: [
+          {
+            delivery_person: '',
+            name: '',
+          },
+        ],
       },
-      outputStockproducts:[],
+      outputStockproducts: [],
       headers2: [
-        { text: 'Brand Name', value: 'brand_name'},
-        { text: 'SKU Name', value: 'sku_name'},
-        { text: 'UOM', value: 'uom'},
+        { text: 'Brand Name', value: 'brand_name' },
+        { text: 'SKU Name', value: 'sku_name' },
+        { text: 'UOM', value: 'uom' },
         { text: 'Ordered Quantity', value: 'quantity' },
         { text: 'Exchange Quantity', value: 'exchange_quantity' },
-      
+        { text: 'Return', value: 'return' },
+
         { text: 'Available', value: 'warehouse_quantity' },
         { text: 'Shipped Ordered', value: 'shipped_ordered' },
         { text: 'Shipped Exchanged', value: 'shipped_exchange' },
 
         // { text: 'Remarks', value: 'protein' },
       ],
-       selectedDeliveryPerson: null,
-       deliveryPersons: [],
-       deliveryUserDetails:[],
-            page: 1,
-    pageSize: 10,
-          loading2: false,
-            loaded: false,
-       loading: true,
-     saleshistory:[],
-       searchQuery:'',
-           dialog:false,
+      selectedDeliveryPerson: null,
+      deliveryPersons: [],
+      deliveryUserDetails: [],
+      page: 1,
+      pageSize: 10,
+      loading2: false,
+      loaded: false,
+      loading: true,
+      saleshistory: [],
+      salesdata: {},
+      searchQuery: '',
+      dialog: false,
       headers: [
-  
         { text: 'Sales Order', value: 'so_number' },
         { text: 'Order Date', value: 'created_date' },
         { text: 'Status', value: 'so_status' },
@@ -534,101 +567,95 @@ isProgress:false,
         { text: 'Order Value', value: 'total_so_amount' },
         { text: 'Action', value: 'actions', sortable: false },
       ],
-        }
-    },
-     computed: {
+    }
+  },
+  computed: {
     // ifoutputstock(){
     //   this.paginatedItems.map(item => item.)
     // },
     totalshippedorder() {
-      return this.outputStockproducts.reduce((total, item) => total + parseFloat(item.shipped_ordered || 0), 0);
+      return this.outputStockproducts.reduce((total, item) => total + parseFloat(item.shipped_ordered || 0), 0)
     },
     totalshippedexchange() {
-      return this.outputStockproducts.reduce((total, item) => total + parseFloat(item.shipped_exchange || 0), 0);
+      return this.outputStockproducts.reduce((total, item) => total + parseFloat(item.shipped_exchange || 0), 0)
     },
 
-   filteredOutputstocks() {
+    filteredOutputstocks() {
       // Filter purchaseHistory based on the condition
-      return this.outputStockproducts.filter(item => item.exchange_quantity > 0 || item.quantity > 0 );
+      return this.outputStockproducts.filter(item => item.exchange_quantity > 0 || item.quantity > 0)
     },
-   filteredSalesHistory() {
-      const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
-      return this.saleshistory.filter((item) => {
+    filteredSalesHistory() {
+      const lowerCaseQuery = this.searchQuery.toLowerCase().trim()
+      return this.saleshistory.filter(item => {
         // Filter based on search query
-        const matchesSearch = (
+        const matchesSearch =
           (item.so_number && item.so_number.toLowerCase().includes(lowerCaseQuery)) ||
           (item.created_date && item.created_date.toLowerCase().includes(lowerCaseQuery)) ||
           (item.so_status && item.so_status.toLowerCase().includes(lowerCaseQuery)) ||
           (item.merchant_name && item.merchant_name.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.total_so_amount && item.total_so_amount.toString().includes(lowerCaseQuery)) 
-         
-
-        );
+          (item.total_so_amount && item.total_so_amount.toString().includes(lowerCaseQuery))
         // Filter based on status
         // const matchesStatus = (
         //   item.so_status === 'Acknowledged' ||
         //   item.so_status === 'On Hold'
-        // //   item.so_status === 'Delivered' || 
-        // //   item.so_status === 'Received' || 
+        // //   item.so_status === 'Delivered' ||
+        // //   item.so_status === 'Received' ||
         // //   item.so_status === 'Shipped'
         // );
         // Return true if both search query and status match
         // return matchesSearch && matchesStatus;
-        return matchesSearch;
-      });
+        return matchesSearch
+      })
     },
-  
-     paginatedItems() {
-    const startIndex = (this.page - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    return this.filteredSalesHistory.slice(startIndex, endIndex);
+
+    paginatedItems() {
+      const startIndex = (this.page - 1) * this.pageSize
+      const endIndex = startIndex + this.pageSize
+      return this.filteredSalesHistory.slice(startIndex, endIndex)
+    },
+    showNoSalesAlert() {
+      // Check if any items have 'Acknowledged' or 'On Hold' status
+      return !this.saleshistory.some(item => item.so_status === 'Acknowledged' || item.so_status === 'On Hold')
+    },
   },
-  //  showNoSalesAlert() {
-  //     // Check if any items have 'Acknowledged' or 'On Hold' status
-  //     return !this.saleshistory.some(
-  //       item => item.so_status === 'Acknowledged' || item.so_status === 'On Hold'
-  //     );
-  //   },
-  },
-    mounted(){
-         this.Soid = this.$route.query.so_id
+  mounted() {
+    this.Soid = this.$route.query.so_id
     // console.log('Received po_id:', this.Soid);
     // this.getOutputstockdetails();
     // setTimeout(() => {
     //   this.loading = false; // Set loading to false when the operation is complete
     //   // console.log('deliveryPersons:', this.deliveryPersons);
     // }, 4500);
-      // this.getSalesorderdetails();
-       this.getSalesorderdetails()
-            .then(() => {
-              // Set loading to false when API call is successful
-              this.loading = false;
-            })
-            .catch((error) => {
-              // Handle any errors if the API call fails
-              console.error('Error fetching merchants:', error);
-              // You might want to set loading to false here as well
-              // Depending on how you want to handle API errors
-            });
+    // this.getSalesorderdetails();
+    this.getSalesorderdetails()
+      .then(() => {
+        // Set loading to false when API call is successful
+        this.loading = false
+      })
+      .catch(error => {
+        // Handle any errors if the API call fails
+        console.error('Error fetching merchants:', error)
+        // You might want to set loading to false here as well
+        // Depending on how you want to handle API errors
+      })
     //     setTimeout(() => {
     //   this.loading = false; // Set loading to false when the operation is complete
     // }, 4500);
-    },
-    methods:{
-       validateForm(){
-   this.$refs.purchaseOrderForm.validate().then(valid => {
+  },
+  methods: {
+    validateForm() {
+      this.$refs.purchaseOrderForm.validate().then(valid => {
         // console.log("form valid", valid.valid);
         if (valid.valid == true) {
-         
-          this.saveOutputstock();
-        }else{
-           this.snackbar = true;
-            this.snackbarText = "Please give all mandatory fields"
-            this.color = "on-background";
+          this.saveOutputstock()
+        } else {
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
         }
-      }); 
- },
-      preventPaste(event) {
+      })
+    },
+    preventPaste(event) {
       const clipboardData = event.clipboardData || window.clipboardData
       const pastedData = clipboardData.getData('text')
 
@@ -640,134 +667,153 @@ isProgress:false,
       }
     },
 
-     preventDecimal(event) {
-     if (event.key === '.' || event.key === ',' ||  event.key === '+' ||  event.key === '-' || event.keyCode === 189 || event.keyCode === 109) {
-        event.preventDefault();
+    preventDecimal(event) {
+      if (
+        event.key === '.' ||
+        event.key === ',' ||
+        event.key === '+' ||
+        event.key === '-' ||
+        event.keyCode === 189 ||
+        event.keyCode === 109
+      ) {
+        event.preventDefault()
       }
     },
 
-    saveOutputstock(){
+    saveOutputstock() {
       const statusMapping = {
-            'Draft': 1,
-            'Created': 2,
-            'Acknowledged': 3,
-            'Shipped': 4,
-            'Delivered':5
-          };
-          // this.outputStockproducts.filter(product => product.shipped_ordered > 0 || product.shipped_exchange > 0)
-       const postData = {
-          "so_id":  this.OutputStockDetails.so_id,
-          "so_number": this.outputStock.so_number, 
-          "so_status": statusMapping[this.outputStock.so_status] ,         
-          "merchant_id": this.OutputStockDetails.merchant_id,          
-          "merchant_code": this.OutputStockDetails.merchant_code,          
-          "merchant_name": this.outputStock.merchant_name,          
-          "total_cgst": this.OutputStockDetails.total_cgst,   
-          "total_sgst": this.OutputStockDetails.total_sgst,        
-          "sub_total": this.OutputStockDetails.sub_total,          
-          "total_margin": this.OutputStockDetails.total_margin,          
-          "total_so_amount": this.OutputStockDetails.total_so_amount,          
-          "total_quantity": this.OutputStockDetails.total_quantity,          
-          "created_date": this.OutputStockDetails.created_date,          
-          "shipped_date": this.outputStock.shipped_date,  
-          "total_shipped_ordered": `${this.totalshippedorder}`,
-          "total_shipped_exchanged": `${this.totalshippedexchange}`,
-          "products": this.outputStockproducts.map((product,index) => ({
-            "merchant_product_id": product.merchant_product_id,
-                  "sku_name": product.sku_name,
-                  "hsn_code": product.hsn_code,
-                  "mrp": product.mrp,
-                  "margin": product.margin,
-                  "margin_percentage": product.margin_percentage,
-                  // "ordered_quantity":  product.ordered_quantity,
-                  // "warehouse_quantity":  product.warehouse_quantity,
-                  "brand_name": product.brand_name,
-                  "quantity": product.quantity,
-                  "uom":  product.uom,
-                  "price_per_unit":  product.price_per_unit,
-                  "taxable_amount":  product.taxable_amount,
-                  "cgst":  product.cgst,
-                  "sgst":  product.sgst,
-                  "amount":  product.amount,                
-                  "sgst_percentage":  product.sgst_percentage,
-                  "cgst_percentage":  product.cgst_percentage,
-                  "exchange":  product.exchange,
-                  "return":  product.return,
-                  "rtv_reason": product.rtv_reason,
-                  "shipped_ordered":  `${product.shipped_ordered}`,
-                  "shipped_exchange":  `${product.shipped_exchange}`,
-          })),
-          "delivery_person": this.selectedDeliveryPerson,
-        };
-        // console.log('check the post data',postData);
-        const validationErrors = this.outputStockproducts.map(product => {       
-          // console.log('Shipped quan', product.shipped_ordered, ' Ordered Quan', product.ordered_quantity, ' Warehouse Quan', product.warehouse_quantity);
-        
-          return ( 
-            this.isQuantityExceeded(product.shipped_ordered, product.quantity, product.warehouse_quantity) || this.isQuantityExceeded2(product.shipped_exchange, product.exchange) );
-          // console.log('sit', exceeded);;
-      });
-      //  const validationErrors = this.outputStockproducts.map(product => {       
+        Draft: 1,
+        Created: 2,
+        Acknowledged: 3,
+        Shipped: 4,
+        Delivered: 5,
+      }
+      // this.outputStockproducts.filter(product => product.shipped_ordered > 0 || product.shipped_exchange > 0)
+      const postData = {
+        so_id: this.OutputStockDetails.so_id,
+        so_number: this.outputStock.so_number,
+        so_status: statusMapping[this.outputStock.so_status],
+        merchant_id: this.OutputStockDetails.merchant_id,
+        merchant_code: this.OutputStockDetails.merchant_code,
+        merchant_name: this.outputStock.merchant_name,
+        total_cgst: this.OutputStockDetails.total_cgst,
+        total_sgst: this.OutputStockDetails.total_sgst,
+        sub_total: this.OutputStockDetails.sub_total,
+        total_margin: this.OutputStockDetails.total_margin,
+        total_so_amount: this.OutputStockDetails.total_so_amount,
+        total_quantity: this.OutputStockDetails.total_quantity,
+        created_date: this.OutputStockDetails.created_date,
+        shipped_date: this.outputStock.shipped_date,
+        total_shipped_ordered: `${this.totalshippedorder}`,
+        total_shipped_exchanged: `${this.totalshippedexchange}`,
+        products: this.outputStockproducts.map((product, index) => ({
+          merchant_product_id: product.merchant_product_id,
+          sku_name: product.sku_name,
+          hsn_code: product.hsn_code,
+          mrp: product.mrp,
+          margin: product.margin,
+          margin_percentage: product.margin_percentage,
+          // "ordered_quantity":  product.ordered_quantity,
+          // "warehouse_quantity":  product.warehouse_quantity,
+          brand_name: product.brand_name,
+          quantity: product.quantity,
+          uom: product.uom,
+          price_per_unit: product.price_per_unit,
+          taxable_amount: product.taxable_amount,
+          cgst: product.cgst,
+          sgst: product.sgst,
+          amount: product.amount,
+          sgst_percentage: product.sgst_percentage,
+          cgst_percentage: product.cgst_percentage,
+          exchange: product.exchange,
+          return: product.return,
+          rtv_reason: product.rtv_reason,
+          shipped_ordered: `${product.shipped_ordered}`,
+          shipped_exchange: `${product.shipped_exchange}`,
+        })),
+        delivery_person: this.selectedDeliveryPerson,
+      }
+      // console.log('check the post data',postData);
+      const validationErrors = this.outputStockproducts.map(product => {
+        console.log(
+          'Shipped quan',
+          product.shipped_ordered,
+          ' Ordered Quan',
+          product.quantity,
+          ' Warehouse Quan',
+          product.warehouse_quantity,
+        )
+
+        return (
+          this.isQuantityExceeded(product.shipped_ordered, product.quantity, product.warehouse_quantity) ||
+          this.isQuantityExceeded2(product.shipped_exchange, product.exchange)
+        )
+      })
+
+      //  const validationErrors = this.outputStockproducts.map(product => {
       //  console.log('sit', this.isQuantityExceeded(product.shipped_ordered, product.ordered_quantity, product.warehouse_quantity));
       //   console.log('Shipped quan',product.shipped_ordered, ' Ordered Quan',product.ordered_quantity,' Warehouse Quan', product.warehouse_quantity);
       //   return (
-      //     this.isQuantityExceeded(product.shipped_ordered, product.ordered_quantity, product.warehouse_quantity) 
-      //     // this.isQuantityExceeded2(product.shipped_exchange, product.exchange)       
+      //     this.isQuantityExceeded(product.shipped_ordered, product.ordered_quantity, product.warehouse_quantity)
+      //     // this.isQuantityExceeded2(product.shipped_exchange, product.exchange)
       //   );
       // });
-    //  console.log('check', validationErrors.length);
-    //  console.log('Validation Error Length:', validationErrors.filter(error => error).length);
-       if (validationErrors.filter(error => error).length === 0) {
-         this.loading = true;
-    this.isProgress = true;
+      console.log('check', validationErrors.length)
+      console.log('Validation Error Length:', validationErrors.filter(error => error).length)
+      console.log(
+        'Validation Error :',
+        validationErrors.filter(error => error),
+      )
+      if (validationErrors.filter(error => error).length === 0) {
+        this.loading = true
+        this.isProgress = true
 
-            this.postOutputstock(postData).then((response)=>{
-            //  console.log('check the response',response);
-                // console.log('check the response',response.status);
-                  if (response.status == 1) {              
-                    this.snackbar = true;
-                    this.color = "primary";
-                    this.formData = {};
-                    this.isProgress = false;                   
-                    this.snackbarText = response.message;
-                     this.dialog=false;
-                    this.outputStockproducts=[];
-                      this.outputStock={};
-                       this.getSalesorderdetails()
-                          .then(() => {
-                            // Set loading to false when API call is successful
-                            this.loading = false;
-                          })
-                          .catch((error) => {
-                            // Handle any errors if the API call fails
-                            console.error('Error fetching merchants:', error);
-                            // You might want to set loading to false here as well
-                            // Depending on how you want to handle API errors
-                          });
+        this.postOutputstock(postData).then(response => {
+          //  console.log('check the response',response);
+          // console.log('check the response',response.status);
+          if (response.status == 1) {
+            this.snackbar = true
+            this.color = 'primary'
+            this.formData = {}
+            this.isProgress = false
+            this.snackbarText = response.message
+            this.dialog = false
+            this.selectedDeliveryPerson = null
+            this.outputStockproducts = []
+            // this.outputStock={};
+            this.getSalesorderdetails()
+              .then(() => {
+                // Set loading to false when API call is successful
+                this.loading = false
+              })
+              .catch(error => {
+                // Handle any errors if the API call fails
+                console.error('Error fetching merchants:', error)
+                // You might want to set loading to false here as well
+                // Depending on how you want to handle API errors
+              })
             //          setTimeout(() => {
             //             this.$router.push({
             //           name: 'Viewsaleshistory'
-            //         }); 
-            // }, 1500);   
-                    //  this.$router.push({
-                    //   name: 'Viewsaleshistory'
-                    // }); 
-                    // this.getInputstockdetails();  
-                  } else {          
-                      this.snackbar = true;
-                      this.color = "on-background";
-                       this.snackbarText  = "Please give proper data"
-                    };
-         })
-       }else{
-          this.snackbar = true;
-          this.color = "on-background";
-          this.snackbarText = "your quantities are exceeded"; 
-       }
-       
-
+            //         });
+            // }, 1500);
+            //  this.$router.push({
+            //   name: 'Viewsaleshistory'
+            // });
+            // this.getInputstockdetails();
+          } else {
+            this.snackbar = true
+            this.color = 'on-background'
+            this.snackbarText = 'Please give proper data'
+          }
+        })
+      } else {
+        this.snackbar = true
+        this.color = 'on-background'
+        this.snackbarText = 'your quantities are exceeded'
+      }
     },
-   getFormattedDate(date) {
+    getFormattedDate(date) {
       const year = date.getFullYear()
       const month = String(date.getMonth() + 1).padStart(2, '0')
       const day = String(date.getDate()).padStart(2, '0')
@@ -779,7 +825,7 @@ isProgress:false,
     //       // console.log('dates',response);
     //     this.OutputStockDetails = response.data
     //     //  console.log('check output dtock', this.OutputStockDetails);
-         
+
     //     this.outputStock.so_number = this.OutputStockDetails.so_number;
     //     this.outputStock.merchant_name = this.OutputStockDetails.merchant_name;
     //     this.outputStock.so_status = 'Shipped';
@@ -787,179 +833,135 @@ isProgress:false,
     //     console.log('check ',this.outputStockproducts);
     //     this.deliveryUserDetails = response.delivery_user_details;
     //     // console.log('delivery detials',this.deliveryUserDetails);
-        
+
     //      this.deliveryPersons = this.deliveryUserDetails.map(deliveryPerson => ({
     //         value: deliveryPerson.delivery_person,
     //         text: deliveryPerson.name
     //     }));
-   
+
     // })
     // },
 
-     resolveStatusVariant (itm){
+    resolveStatusVariant2(itm) {
       // console.log('check quan',itm.warehouse_quantity > itm.ordered_quantity)
       if (itm.warehouse_quantity >= itm.quantity)
         return {
           color: 'success',
           // text: 'Created',
-        }   
-      
-      
+        }
       else
         return {
-          color: 'error',
+          color: 'success',
           // text: 'Shared',
         }
-      },
-     deleteRow(item) {
+    },
+    deleteRow(item) {
       // Implement your logic to delete the row
-      const index = this.desserts.indexOf(item);
+      const index = this.desserts.indexOf(item)
       if (index !== -1) {
-        this.desserts.splice(index, 1);
+        this.desserts.splice(index, 1)
       }
     },
 
-      openproductdialog(){
-    // console.log('check the dialog')
-      this.dialog = true;
-   },
+    openproductdialog() {
+      // console.log('check the dialog')
+      this.dialog = true
+    },
     closeDialog() {
-      this.dialog = false;
+      this.dialog = false
     },
 
-isQuantityExceeded(sq, oq, wq) {
-    const minQuantity = Math.min(oq, wq);
-    if (sq > minQuantity && sq !== 0) { // Check if shipped quantity exceeds minQuantity and is not zero
-        this.snackbar = true;
-        this.color = "on-background";
-        this.snackbarText = "Shipped quantity cannot exceed ordered or warehouse quantity";
-        return true; // Return true if validation fails
-    }
-    return false; // Return false if validation passes
-},
-    isQuantityExceeded2(seq,eq){
-       if(seq !== "0" && seq > eq){
-        this.snackbar = true;
-        this.color = "on-background";
-        this.snackbarText = "Shipped quantity cannot exceed orderd quantity."
-        return true;
+    isQuantityExceeded(sq, oq, wq) {
+      const minQuantity = Math.min(oq, wq)
+      if (sq > minQuantity && sq !== 0) {
+        // Check if shipped quantity exceeds minQuantity and is not zero
+        this.snackbar = true
+        this.color = 'on-background'
+        this.snackbarText = 'Shipped quantity cannot exceed ordered or warehouse quantity'
+        return true // Return true if validation fails
       }
-        return false;
+      return false // Return false if validation passes
     },
-        updatePagination(page) {
-    this.page = page;
-  },
-          getPDFupdate(id){
-      this.loading2 = true;
-       window.open(id, '_blank');
-        this.loading2 = false;
-      // this.getPurchasePDF(id).then((response)=>{
-      //   console.log(response)
-      //   const pdfUrl = response.data.po_file;
-      //   this.loading2 = false;
-        
-      // })
+    isQuantityExceeded2(seq, eq) {
+      if (seq !== '0' && seq > eq) {
+        this.snackbar = true
+        this.color = 'on-background'
+        this.snackbarText = 'Shipped quantity cannot exceed orderd quantity.'
+        return true
+      }
+      return false
     },
-    closedialog(){
-          this.dialog=false;
-          this.outputStockproducts=[];
-            this.outputStock={};
-
+    updatePagination(page) {
+      this.page = page
     },
-      outputstock(item){
-          console.log('check the detials',item);
-          this.dialog=true;
-           this.outputStock.so_number = item.so_number;
-        this.outputStock.merchant_name = item.merchant_name;
-        this.outputStock.so_status = 'Shipped';
-        this.outputStockproducts = item.products;
-        console.log('check ',this.outputStockproducts);
-        //  this.$router.push({
-        //   name: 'Createwarehouseoutput', // Replace with the actual name of your route
-        //   query: { so_id: item.so_id }
-        // });
-          this.getOutputstock(item.so_id).then(response => {
-          // console.log('dates',response);
+    getPDFupdate(id) {
+      this.loading2 = true
+      window.open(id, '_blank')
+      this.loading2 = false
+    },
+    closedialog() {
+      this.dialog = false
+      this.outputStockproducts = []
+      this.outputStock = {}
+    },
+    outputstock(item) {
+      console.log('check the detials', item)
+      this.dialog = true
+      this.outputStock.so_number = item.so_number
+      this.outputStock.merchant_name = item.merchant_name
+      this.outputStock.so_status = 'Shipped'
+      this.outputStockproducts = item.products
+      console.log('check ', this.outputStockproducts)
+      //  this.$router.push({
+      //   name: 'Createwarehouseoutput', // Replace with the actual name of your route
+      //   query: { so_id: item.so_id }
+      // });
+      this.getOutputstock(item.so_id).then(response => {
+        // console.log('dates',response);
         this.OutputStockDetails = response.data
         //  console.log('check output dtock', this.OutputStockDetails);
-         
 
-        this.deliveryUserDetails = response.delivery_user_details;
+        this.deliveryUserDetails = response.delivery_user_details
         // console.log('delivery detials',this.deliveryUserDetails);
-        
-         this.deliveryPersons = this.deliveryUserDetails.map(deliveryPerson => ({
-            value: deliveryPerson.delivery_person,
-            text: deliveryPerson.name
-        }));
-   
-    })
-      },
-         resolveStatusVariant (status){
+
+        this.deliveryPersons = this.deliveryUserDetails.map(deliveryPerson => ({
+          value: deliveryPerson.delivery_person,
+          text: deliveryPerson.name,
+        }))
+      })
+    },
+    resolveStatusVariant(status) {
       if (status == 'Acknowledged')
         return {
           color: 'warning',
           // text: 'Acknowledged',
         }
-     
-      
-        
       else
         return {
           color: 'error',
           // text: 'Shared',
         }
-      },
-      getSalesorderdetails(){
-         return new Promise((resolve, reject) => {
-          this.getOutputSalesorders()
-            .then((response) => {
-              this.saleshistory = response.data;
-              this.saleshistory.reverse();
-          console.log('check sales res',this.saleshistory);
+    },
+    getSalesorderdetails() {
+      return new Promise((resolve, reject) => {
+        this.getOutputSalesorders()
+          .then(response => {
+            // this.salesdata = response;
+            //   console.log('check sales res', this.salesdata.status ,this.saleshistory);
+            this.saleshistory = response.data
+            this.saleshistory.reverse()
 
-              resolve(); // Resolve the promise when API call is successful
-            })
-            .catch((error) => {
-              console.error('Error fetching merchants:', error);
-              reject(error); // Reject the promise if there's an error
-            });
-        });
-        // this.getSalesorders().then((response)=>{
-        //   this.saleshistory = response.data;
-        //   this.saleshistory.reverse();
-        //   console.log('check sales res',this.saleshistory);
-
-        // })
-      },
-      //  onClick () {
-      //   this.loading = true
-
-      //   setTimeout(() => {
-      //     this.loading = false
-      //     this.loaded = true
-      //   }, 2000)
-      // },
-
-      // resolveStatusVariant (status){
-      // if (status == 'Acknowledged')
-      //   return {
-      //     color: 'warning',
-      //     text: 'Acknowledged',
-      //   }
-     
-      
-        
-      // else
-      //   return {
-      //     color: 'info',
-      //     text: 'Shared',
-      //   }
-      // },
-    }
+            resolve() // Resolve the promise when API call is successful
+          })
+          .catch(error => {
+            console.error('Error fetching merchants:', error)
+            reject(error) // Reject the promise if there's an error
+          })
+      })
+    },
+  },
 }
 </script>
 
-<style scoped>
-
-</style>>
-
+<style scoped></style>
+>

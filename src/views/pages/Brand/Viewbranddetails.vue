@@ -69,6 +69,11 @@
       </thead>
 
       <tbody>
+
+          <tr v-if="filteredBrands.length === 0">
+          <td colspan="16" class="text-center"><h1>No data found !</h1></td>
+        </tr>  
+
        <tr
         v-for="(item,index) in paginatedItems"
         :key="index"
@@ -551,12 +556,19 @@ export default {
      }
     },
     mounted(){
-        this.getAllBrands();
+        // this.getAllBrands();
       this.userRole = localStorage.getItem("userRole");
+       this.getAllBrands() 
+            .then(() => {             
+              this.loading = false;
+            }) 
+            .catch((error) => {             
+              console.error('Error fetching merchants:', error);            
+            });
+    //     setTimeout(() => {
+    //   this.loading = false; // Set loading to false when the operation is complete
+    // }, 3000);
 
-        setTimeout(() => {
-      this.loading = false; // Set loading to false when the operation is complete
-    }, 3000);
     },
     methods:{
       validateForm(){
@@ -646,12 +658,24 @@ export default {
     this.page = page;
   },
         getAllBrands(){
-            this.getBrands().then((response)=>{
-               
-                this.Brands = response.data;
-                //  console.log('Brands',this.Brands)
-                this.Brands.reverse();
-            })
+
+            // this.getBrands().then((response)=>{               
+            //     this.Brands = response.data;
+            //     //  console.log('Brands',this.Brands)
+            //     this.Brands.reverse();
+            // })
+                return new Promise((resolve, reject) => {
+                this.getBrands()
+                  .then((response) => {
+                    this.Brands = response.data;
+                    this.Brands.reverse();
+                    resolve(); // Resolve the promise when API call is successful
+                  })
+                  .catch((error) => {
+                    console.error('Error fetching merchants:', error);
+                    reject(error); // Reject the promise if there's an error
+                  });
+              });
         }
     }
 }

@@ -79,9 +79,12 @@
       </thead>
      
      
-      <tbody>
-      
+      <tbody>     
        
+        <tr v-if="filteredPurchaseOrder.length === 0">
+          <td colspan="16" class="text-center"><h1>No data found !</h1></td>
+        </tr>  
+
         <tr
           v-for="(item, index) in this.paginatedItems"
           :key="index"
@@ -161,6 +164,7 @@
   v-model="page"
   :length="Math.ceil(filteredPurchaseOrder.length / pageSize)"
   @input="updatePagination"
+       :max="maxPaginationPages"
 />
 
     <VDialog
@@ -907,6 +911,8 @@ export default {
 
   data() {
     return {
+          maxPaginationPages:5,
+
       searchQuery:'',
        page: 1,
     pageSize: 10,
@@ -1261,12 +1267,19 @@ calculatedPricePerUnit(){
     this.createdBy = localStorage.getItem('createdby')
     this.userIds = localStorage.getItem('userId')
     this.userRoles = localStorage.getItem('userRole')
-    this.getPurchaseorderdetails();
-    this.getBrands();
-     setTimeout(() => {
-      this.loading = false; // Set loading to false when the operation is complete
-    }, 4000); // Simulating a 2-second delay
-    //  this.loading = false;
+    this.getPurchaseorderdetails()
+      .then(() => {             
+              this.loading = false;
+            }) 
+            .catch((error) => {             
+              console.error('Error fetching merchants:', error);            
+            });
+
+    // this.getBrands();
+    //  setTimeout(() => {
+    //   this.loading = false; // Set loading to false when the operation is complete
+    // }, 4000); // Simulating a 2-second delay
+    // //  this.loading = false;
   },
   methods: {
      updatePagination(page) {
@@ -1590,11 +1603,25 @@ calculatedPricePerUnit(){
       this.dialog = false
     },
     getPurchaseorderdetails() {
-      this.getPurchaseorder(this.userIds, this.userRoles).then(response => {
-        // console.log('check the view purchase order', response)
-        this.purchaseorders = response.data;
-         this.purchaseorders.reverse();
-      })
+      // this.getPurchaseorder(this.userIds, this.userRoles).then(response => {
+      //   // console.log('check the view purchase order', response)
+      //   this.purchaseorders = response.data;
+      //    this.purchaseorders.reverse();
+      // })
+
+       return new Promise((resolve, reject) => {
+          this.getPurchaseorder(this.userIds, this.userRoles)
+            .then((response) => {
+              this.purchaseorders = response.data;
+              this.purchaseorders.reverse();
+              resolve(); // Resolve the promise when API call is successful
+            })
+            .catch((error) => {
+              console.error('Error fetching merchants:', error);
+              reject(error); // Reject the promise if there's an error
+            });
+        });
+
     },
     colorPOstatus(status) {
       if (status == 'Created')

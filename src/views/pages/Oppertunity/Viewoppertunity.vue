@@ -69,7 +69,12 @@
         </tr>
       </thead>
 
-      <tbody>        
+      <tbody>   
+        
+          <tr v-if="filteredProducts.length === 0">
+          <td colspan="16" class="text-center"><h1>No data found !</h1></td>
+        </tr>  
+
        <tr
         v-for="(item,index) in paginatedItems"
         :key="index"
@@ -138,7 +143,7 @@
           {{ item.bc_margin }}
         </td> -->
            
-    <td class="text-center" >
+         <td class="text-center" >
                <V-btn
                   icon
                   variant="text"
@@ -312,10 +317,18 @@ export default {
     },
     mounted(){
     // this.userid = localStorage.getItem('user_id');
-    this.getOpportunitiesdata();
-     setTimeout(() => {
-      this.loading = false; // Set loading to false when the operation is complete
-    }, 3000);
+    // this.getOpportunitiesdata();
+    //  setTimeout(() => {
+    //   this.loading = false; // Set loading to false when the operation is complete
+    // }, 3000);
+      this.getOpportunitiesdata()
+            .then(() => {             
+              this.loading = false;
+            }) 
+            .catch((error) => {             
+              console.error('Error fetching merchants:', error);            
+            });
+
     },
 methods:{
   resolveStatusVariant(itm){
@@ -341,11 +354,24 @@ methods:{
     this.page = page;
   },
   getOpportunitiesdata(){
-    this.getOppertunities().then((response)=>{
-      console.log('res',response);
-      this.opportunity = response.data.data;
-      this.opportunity.reverse();
-    }) 
+    // this.getOppertunities().then((response)=>{
+    //   console.log('res',response);
+    //   this.opportunity = response.data.data;
+    //   this.opportunity.reverse();
+    // })    
+      return new Promise((resolve, reject) => {
+          this.getOppertunities()
+            .then((response) => {
+              this.opportunity = response.data.data;
+              this.opportunity.reverse();
+              resolve(); // Resolve the promise when API call is successful
+            })
+            .catch((error) => {
+              console.error('Error fetching merchants:', error);
+              reject(error); // Reject the promise if there's an error
+            });
+        });
+
   },
   editProduct(item){ 
      this.$router.push({

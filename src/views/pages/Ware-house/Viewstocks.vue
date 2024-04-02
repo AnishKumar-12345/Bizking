@@ -67,7 +67,11 @@
       </thead>
 
       <tbody>
-          
+
+        <tr v-if="filteredStocks.length === 0">
+          <td colspan="16" class="text-center"><h1>No data found !</h1></td>
+        </tr>  
+
        <tr
       
             v-for="(item,index) in this.paginatedItems"
@@ -187,10 +191,16 @@ export default {
     mounted(){
    
  
-       this.getstocksdetails();
-           setTimeout(() => {
-              this.loading = false; // Set loading to false when the operation is complete
-            }, 4000);
+       this.getstocksdetails()
+        .then(() => {             
+              this.loading = false;
+            }) 
+            .catch((error) => {             
+              console.error('Error fetching merchants:', error);            
+            });
+          //  setTimeout(() => {
+          //     this.loading = false; // Set loading to false when the operation is complete
+          //   }, 4000);
     },
  
     methods:{
@@ -207,13 +217,26 @@ export default {
         
     //   },
       getstocksdetails(){
-        this.getAllstocks().then((response) =>{
-          // console.log('check the view stocks',response.data.data);
-          this.Allstocks = response.data.data;
-          console.log('check the view ALl History',this.Allstocks);
-          // this.Allstocks.reverse();     
+        // this.getAllstocks().then((response) =>{
+        //   // console.log('check the view stocks',response.data.data);
+        //   this.Allstocks = response.data.data;
+        //   console.log('check the view ALl History',this.Allstocks);
+        //   // this.Allstocks.reverse();   
 
-        })
+        // })
+
+        return new Promise((resolve, reject) => {
+                this.getAllstocks()
+                  .then((response) => {
+                    this.Allstocks = response.data.data;
+                    this.Allstocks.reverse();
+                    resolve(); // Resolve the promise when API call is successful
+                  })
+                  .catch((error) => {
+                    console.error('Error fetching merchants:', error);
+                    reject(error); // Reject the promise if there's an error
+                  });
+              });
       },
       colorQuantity (itm){
       if (itm >= 10)

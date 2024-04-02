@@ -105,6 +105,11 @@
       </thead>
 
       <tbody>
+
+        <tr v-if="filteredMerchant.length === 0">
+          <td colspan="16" class="text-center"><h1>No data found !</h1></td>
+        </tr>  
+
       <tr v-for="(item,index) in this.paginatedItems" :key="index">
        <td class="text-center">{{item.brand_name}}</td>
         <td  class="text-center">{{item.sku_name}}</td>
@@ -252,10 +257,16 @@ export default {
     },
     
     mounted(){
-      this.getMerchantdetails();
-     setTimeout(() => {
-              this.loading = false; // Set loading to false when the operation is complete
-            }, 4000);
+      this.getMerchantdetails()
+        .then(() => {             
+              this.loading = false;
+            }) 
+            .catch((error) => {             
+              console.error('Error fetching merchants:', error);            
+            });
+    //  setTimeout(() => {
+    //           this.loading = false; // Set loading to false when the operation is complete
+    //         }, 4000);
      
     },
     
@@ -296,11 +307,25 @@ this.loading2 = true;
   }
 },
      getMerchantdetails(){
-      this.getMerchants().then((response)=>{
+      // this.getMerchants().then((response)=>{
         
-        this.merchantName = response.data.data;
-        // console.log('mer',this.merchantName)
-      })
+      //   this.merchantName = response.data.data;
+      //   // console.log('mer',this.merchantName)
+      // })
+
+        return new Promise((resolve, reject) => {
+          this.getMerchants()
+            .then((response) => {
+              this.merchantName = response.data.data;
+              // this.opportunity.reverse();
+              resolve(); // Resolve the promise when API call is successful
+            })
+            .catch((error) => {
+              console.error('Error fetching merchants:', error);
+              reject(error); // Reject the promise if there's an error
+            });
+        });
+
      }
    },
  

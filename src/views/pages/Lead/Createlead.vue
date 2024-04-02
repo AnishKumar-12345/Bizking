@@ -63,6 +63,17 @@
                 cols="12"
               >
                  <VTextField
+                 v-model="saveLeads.email"
+                :rules="emailRules"
+                  label="Email"
+                />
+              </VCol>
+
+              <VCol
+                md="6"
+                cols="12"
+              >
+                 <VTextField
                  v-model="saveLeads.gst"
                 
                   label="GST"
@@ -267,6 +278,7 @@ export default {
           "name":"",
           "address":"",
           "pincode":"",
+          "email":"",
           "owner_name":"",
           "owner_phone":"",
           "poc_name":"",
@@ -319,6 +331,7 @@ export default {
             "lead_type":this.saveLeads.lead_type,
             "name":this.saveLeads.name,
             "address":this.saveLeads.address,
+            "email":this.saveLeads.email,
             "pincode":this.saveLeads.pincode,
             "owner_name":this.saveLeads.owner_name,
             "owner_phone":this.saveLeads.owner_phone,

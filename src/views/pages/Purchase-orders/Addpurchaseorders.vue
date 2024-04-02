@@ -1,5 +1,7 @@
 <template>
     <div>
+       
+
          <div v-if="loading"  class="loading-container">
       <VProgressLinear
             height="5"
@@ -109,6 +111,19 @@
                         color="#BA8B32"       
                         />   
                       </V-btn> -->
+                         <div v-if="loading2" id="app">
+                          <div id="loading-bg">
+                            <div class="loading-logo">
+                              <img src="../../../assets/images/logos/comlogo.jpeg" height="60" width="68" alt="Logo" />
+                            </div>
+                            <div class="loading">
+                              <div class="effect-1 effects"></div>
+                              <div class="effect-2 effects"></div>
+                              <div class="effect-3 effects"></div> 
+                            </div>
+                          </div>
+                        </div>
+                
               <VCol cols="12">
                  <div style="max-width:400px" >
                   <VTextField
@@ -124,6 +139,8 @@
                 />
                 </div>
                 <!-- {{AllBrandproducts}} -->
+              
+
       <VTable
        :headers="headers"
        :items="filteredBrandProducts"
@@ -143,6 +160,11 @@
       </thead>
 
       <tbody>
+
+         <tr v-if="filteredPurchaseOrder.length === 0">
+          <td colspan="16" class="text-center"><h1>No data found !</h1></td>
+        </tr>  
+
        <tr
         v-for="(item,index) in filteredPurchaseOrder"
         :key="index"    
@@ -343,7 +365,7 @@
         </VCardText>
       </VCard>
     </VCol>  
-  </VRow>
+       </VRow>
 
      <VSnackbar
       v-model="snackbar" :timeout="3500"
@@ -415,6 +437,7 @@ export default {
    data(){
     return{
           loading:true,
+          loading2:false,
           searchQuery:'',
 
       BrandRules: [
@@ -726,13 +749,21 @@ calculatedPricePerUnit(){
     },
     
     mounted(){
-      this.getBrandsdata();
+
+      this.getBrandsdata()
+       .then(() => {             
+              this.loading = false;
+            }) 
+            .catch((error) => {             
+              console.error('Error fetching merchants:', error);            
+            });
+
       this.createdBy = localStorage.getItem('createdby');
       this.userIds = localStorage.getItem('userId');
-     setTimeout(() => {
-            //  this.getPurchasehistorydetails();
-              this.loading = false; // Set loading to false when the operation is complete
-            }, 3000);
+    //  setTimeout(() => {
+    //         //  this.getPurchasehistorydetails();
+    //           this.loading = false; // Set loading to false when the operation is complete
+    //         }, 3000);
     },
     
    methods:{ 
@@ -910,22 +941,38 @@ calculatedPricePerUnit(){
 
       if (selectedBrand) {
         this.selectedBrandId = selectedBrand.brand_id;
+          this.loading2 = true;
         //  console.log('check the brandId',this.selectedBrandId);
         this.getBrandproducts(this.selectedBrandId).then((response)=>{
                   this.AllBrandproducts = response.data;
+                  this.loading2 = false;
+
                    console.log("BrandID",this.AllBrandproducts);
         })
         // Call your API method to get brand details using this.selectedBrandId
         // this.getBrandDetails();
       }
     },
-    getBrandsdata(){
-      this.getBrands().then((response)=>{
+    getBrandsdata(){  
+      // this.getBrands().then((response)=>{
         
-        // this.Brandname = response.data.map(e => e.brand_name)
-        this.Brandname = response.data;
-        // console.log('check the response', this.Brandname);
-      })
+      //   // this.Brandname = response.data.map(e => e.brand_name)
+      //   this.Brandname = response.data;
+      //   // console.log('check the response', this.Brandname);
+      // })
+
+       return new Promise((resolve, reject) => {
+          this.getBrands()
+            .then((response) => {
+              this.Brandname = response.data;
+              // this.opportunity.reverse();
+              resolve(); // Resolve the promise when API call is successful
+            })
+            .catch((error) => {
+              console.error('Error fetching merchants:', error);
+              reject(error); // Reject the promise if there's an error
+            });
+        });
     },
     //  addNewRow(item) {
     //   // Create a new row by cloning the existing item

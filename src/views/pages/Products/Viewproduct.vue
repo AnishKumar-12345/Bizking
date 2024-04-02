@@ -156,6 +156,11 @@
                       
             </td>
       </tr>
+
+       <tr v-if="filteredProducts.length === 0">
+          <td colspan="16" class="text-center"><h1>No data found !</h1></td>
+      </tr>  
+
       </tbody>        
         </VTable>
         <VPagination
@@ -579,11 +584,17 @@ export default {
       this.userRole = localStorage.getItem("userRole");
      
         // this.createdby =  localStorage.getItem('user_id');
-           this.getProductsdata();
-         setTimeout(() => {
-          
-              this.loading = false; // Set loading to false when the operation is complete
-            }, 3500);
+           this.getProductsdata()
+            .then(() => {             
+              this.loading = false;
+            }) 
+            .catch((error) => {             
+              console.error('Error fetching merchants:', error);            
+            });
+          //  setTimeout(() => {
+              
+          //         this.loading = false; // Set loading to false when the operation is complete
+          //   }, 3500);
             // this.getAllsales();
     },
     methods:{
@@ -946,12 +957,26 @@ computedSGST() {
     this.page = page;
   },
         getProductsdata(){
-            this.getProducts().then((response)=>{
-                this.products = response.data.data;
-                console.log('merchants',this.products)
+            // this.getProducts().then((response)=>{
+            //     this.products = response.data.data;
+            //     console.log('merchants',this.products)
 
-                this.products.reverse();
-            })
+            //     this.products.reverse();
+            // })
+
+            return new Promise((resolve, reject) => {
+                this.getProducts()
+                  .then((response) => {
+                    this.products = response.data.data;
+                    this.products.reverse();
+                    resolve(); // Resolve the promise when API call is successful
+                  })
+                  .catch((error) => {
+                    console.error('Error fetching merchants:', error);
+                    reject(error); // Reject the promise if there's an error
+                  });
+              });
+
         },
          getBranddetails(){
       this.getBrands().then((response)=>{

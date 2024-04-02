@@ -69,6 +69,11 @@
       </thead>
 
       <tbody>
+
+         <tr v-if="filteredMerchants.length === 0">
+          <td colspan="16" class="text-center"><h1>No data found !</h1></td>
+         </tr> 
+
        <tr
         v-for="(item,index) in paginatedItems"
         :key="index"
@@ -545,8 +550,9 @@ export default {
         //  setTimeout(() => {
         //       this.loading = false; // Set loading to false when the operation is complete
         //     }, 7000);
+
            this.getmerchants()
-            .then(() => {
+            .then(() => { 
               // Set loading to false when API call is successful
               this.loading = false;
             })
@@ -556,6 +562,7 @@ export default {
               // You might want to set loading to false here as well
               // Depending on how you want to handle API errors
             });
+
             this.getAllsales();
     },
     methods:{

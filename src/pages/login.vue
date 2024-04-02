@@ -73,10 +73,10 @@ const loginuser = () => {
         setTimeout(() => {
           router.push('/Dashboardhome')
         }, 1000)
-        localStorage.setItem('createdby', response.data.data.name)
-        localStorage.setItem('userId', response.data.data.user_id)
-        localStorage.setItem('userRole', response.data.data.user_role)
-        localStorage.setItem('user_id', response.data.data.user_id)
+        localStorage.setItem('createdby', response.data.data.name);
+        localStorage.setItem('userId', response.data.data.user_id);
+        localStorage.setItem('userRole', response.data.data.user_role);
+        localStorage.setItem('user_id', response.data.data.user_id);
         snackbar.value = {
           show: true,
           message: response.data.message,

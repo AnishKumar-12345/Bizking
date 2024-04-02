@@ -48,6 +48,10 @@
       </div>
     </div>
 
+    <div v-if="filteredProducts.length === 0">
+      <!-- <p>No data found.</p> -->
+    </div>
+
      <VTable 
      v-if="this.leadData != null"
        :headers="headers"
@@ -69,7 +73,10 @@
         </tr>
       </thead>
 
-      <tbody>        
+      <tbody>   
+        
+         
+
        <tr
         v-for="(item,index) in paginatedItems"
         :key="index"
@@ -155,6 +162,10 @@
                       
             </td>
       </tr>
+
+       <tr v-if="filteredProducts.length === 0">
+          <td colspan="16" class="text-center"><h1>No data found !</h1></td>
+        </tr>   
       </tbody>        
         </VTable>
           <VPagination
@@ -321,10 +332,14 @@ export default {
     },
     mounted(){
     this.userid = localStorage.getItem('user_id');
-    this.getLeaddata();
-     setTimeout(() => {
-      this.loading = false; // Set loading to false when the operation is complete
-    }, 3000);
+    // this.getLeaddata();
+    this.getLeaddata()
+            .then(() => {             
+              this.loading = false;
+            }) 
+            .catch((error) => {             
+              console.error('Error fetching merchants:', error);            
+            });
     },
 methods:{
   resolveStatusVariant(itm){
@@ -350,11 +365,23 @@ methods:{
     this.page = page;
   },
   getLeaddata(){
-    this.getLeads().then((response)=>{
-      console.log('res',response);
-      this.leadData = response.data.data;
-      this.leadData.reverse();
-    }) 
+    // this.getLeads().then((response)=>{
+    //   console.log('res',response);
+    //   this.leadData = response.data.data;
+    //   this.leadData.reverse();
+    // }) 
+      return new Promise((resolve, reject) => {
+          this.getLeads()
+            .then((response) => {
+              this.leadData = response.data.data;
+              this.leadData.reverse();
+              resolve(); // Resolve the promise when API call is successful
+            })
+            .catch((error) => {
+              console.error('Error fetching merchants:', error);
+              reject(error); // Reject the promise if there's an error
+            });
+        });
   },
   editProduct(item){ 
      this.$router.push({

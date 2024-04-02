@@ -70,6 +70,11 @@
       </thead>
 
       <tbody>
+
+        <tr v-if="filteredPurchaseHistory.length === 0">
+          <td colspan="16" class="text-center"><h1>No data found !</h1></td>
+        </tr>  
+
        <tr
         v-for="(item,index) in paginatedItems"
         :key="index"
@@ -221,16 +226,22 @@ export default {
        this.createdBy = localStorage.getItem('createdby');
        this.userIds = localStorage.getItem('userId');
        this.userRoles = localStorage.getItem('userRole')
-       this.getPurchasehistorydetails();
-           setTimeout(() => {
-            //  this.getPurchasehistorydetails();
-              this.loading = false; // Set loading to false when the operation is complete
-            }, 3000);
+       this.getPurchasehistorydetails()
+        .then(() => {             
+              this.loading = false;
+            }) 
+            .catch((error) => {             
+              console.error('Error fetching merchants:', error);            
+            });
+          //  setTimeout(() => {
+          //   //  this.getPurchasehistorydetails();
+          //     this.loading = false; // Set loading to false when the operation is complete
+          //   }, 3000);
     },
     methods:{
        updatePagination(page) {
-    this.page = page;
-  },
+        this.page = page;
+      },
       inputstock(itm){
         // console.log('check the detials',itm.po_id);
          this.$router.push({
@@ -241,13 +252,27 @@ export default {
         
       },
       getPurchasehistorydetails(){
-        this.getPurchaseorder(this.userIds,this.userRoles).then((response) =>{
-          // console.log('check the view purchase order',response.data);
-          this.purchaseHistory = response.data;
-          this.purchaseHistory.reverse();
-          console.log('check the view purchase History',this.purchaseHistory);
+        // this.getPurchaseorder(this.userIds,this.userRoles).then((response) =>{
+        //   // console.log('check the view purchase order',response.data);
+        //   this.purchaseHistory = response.data;
+        //   this.purchaseHistory.reverse();
+        //   console.log('check the view purchase History',this.purchaseHistory);
 
-        })
+        // })
+
+          return new Promise((resolve, reject) => {
+          this.getPurchaseorder(this.userIds,this.userRoles)
+            .then((response) => {
+              this.purchaseHistory = response.data;
+              this.purchaseHistory.reverse();
+              resolve(); // Resolve the promise when API call is successful
+            })
+            .catch((error) => {
+              console.error('Error fetching merchants:', error);
+              reject(error); // Reject the promise if there's an error
+            });
+        });
+        
       },
       resolveStatusVariant (status){
       if (status == 'Acknowledged')

@@ -68,6 +68,10 @@
       </thead>
 
       <tbody>
+         <tr v-if="filteredRTV.length === 0">
+          <td colspan="16" class="text-center"><h1>No data found !</h1></td>
+        </tr>  
+
         <tr
           v-for="(item, index) in this.paginatedItems"
           :key="index"
@@ -529,7 +533,7 @@ export default {
           (item.type && item.type.toLowerCase().includes(lowerCaseQuery)) ||
           (item.rtv_reason && item.rtv_reason.toLowerCase().includes(lowerCaseQuery)) ||
           (item.collected_date && item.collected_date.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.quantity && item.quantity.toLowerCase().includes(lowerCaseQuery))  ||
+          (item.quantity && item.quantity.toString().includes(lowerCaseQuery))  ||
           (item.warehouse_updated_date && item.warehouse_updated_date.toLowerCase().includes(lowerCaseQuery)) ||
           (item.send_to_brand_date && item.send_to_brand_date.toLowerCase().includes(lowerCaseQuery))
         );
@@ -542,10 +546,16 @@ export default {
   },
   },
   mounted() {
-    this.getRTVdatas();
-      setTimeout(() => {
-              this.loading = false; // Set loading to false when the operation is complete
-            }, 4000);
+    this.getRTVdatas()
+     .then(() => {             
+              this.loading = false;
+            }) 
+            .catch((error) => {             
+              console.error('Error fetching merchants:', error);            
+            });
+      // setTimeout(() => {
+      //         this.loading = false; // Set loading to false when the operation is complete
+      //       }, 4000);
     
   },
   methods: {
@@ -703,13 +713,26 @@ convertDateFormat(apiDate) {
       }
     },
     getRTVdatas() {
-      this.getrtvproducts().then(response => {
-        // console.log('check the rtv', response.data.data)
-        this.RTVdata = response.data.data;
-        console.log('check the rtv2', this.RTVdata);
+      // this.getrtvproducts().then(response => {
+      //   // console.log('check the rtv', response.data.data)
+      //   this.RTVdata = response.data.data;
+      //   console.log('check the rtv2', this.RTVdata);
 
-        this.RTVdata.reverse();
-      })
+      //   this.RTVdata.reverse();
+      // })
+
+       return new Promise((resolve, reject) => {
+                this.getrtvproducts()
+                  .then((response) => {
+                    this.RTVdata = response.data.data;
+                    this.RTVdata.reverse();
+                    resolve(); // Resolve the promise when API call is successful
+                  })
+                  .catch((error) => {
+                    console.error('Error fetching merchants:', error);
+                    reject(error); // Reject the promise if there's an error
+                  });
+              });
     },
   },
 }

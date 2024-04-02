@@ -107,6 +107,9 @@
                     </thead>
 
                     <tbody>
+                        <tr v-if="filteredSalesHistory.length === 0">
+          <td colspan="16" class="text-center"><h1>No data found !</h1></td>
+        </tr> 
                       <tr
                         v-for="(item, index) in paginatedItems"
                         :key="index"
@@ -196,9 +199,10 @@
                                 cols="12"
                                 md="4"
                               >
-                                <VTextField
+                                <VSelect
                                   v-model="this.workinfoupdate.visit_status"
                                   :rules="visitRules"
+                                  :items="['Scheduled','Not Visited','Talked Via Phone','Visited']"
                                   label="Visit Status"
                                 />
                               </VCol>
@@ -500,6 +504,7 @@ export default {
       this.updateLeads(this.Leadid).then(response => {
         console.log('check response', response.data.data.work_info)
         this.workInfo = response.data.data.work_info
+        this.workInfo.reverse();
         // this.saveLeads.poc_phone = response.data.data.poc_phone;
         // this.saveLeads.poc_phone = response.data.data.poc_phone;
       })

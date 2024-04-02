@@ -9,7 +9,7 @@
         @input="filterDesserts"
         placeholder="Enter search query"
       />
-    </div> -->
+    </div> --> 
   
     
     
@@ -124,6 +124,11 @@
       </thead>
 
       <tbody>
+
+        <tr v-if="filteredSalesHistory.length === 0">
+          <td colspan="16" class="text-center"><h1>No data found !</h1></td>
+        </tr>  
+
        <tr
         v-for="(item,index) in this.paginatedItems"
         :key="index"

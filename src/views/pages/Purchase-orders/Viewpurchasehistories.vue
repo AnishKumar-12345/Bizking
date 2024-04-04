@@ -101,8 +101,24 @@
         <td class="text-center">
           {{ item.brand_name == item.brand_name ? 'Mauriya Spiritual & Naturals(BIZKINGZ)' : item.brand_name }}
         </td>
-        <td  class="text-center " v-if="item.po_status != 'Received'">
+        <td  class="text-center " v-if="item.po_status != 'Received'" style="display:flex;justify-content:center;align-items:center;">
           <!-- {{item.actions}} -->
+           <VBtn
+                icon
+                variant="text"
+                color="error"
+                class="me-2"
+                size="small"                
+            >
+            <!-- Receive Stock -->
+              <VIcon
+              icon="material-symbols:cancel-outline"
+              color="error"
+              size="30"
+              @click="cancelstock(item)"
+              />
+            </VBtn>
+
             <VBtn
                 icon
                 variant="text"
@@ -153,6 +169,117 @@
   :length="Math.ceil(filteredPurchaseHistory.length / pageSize)"
   @input="updatePagination"
 />
+
+<VDialog
+  v-model="dialog"
+  max-width="400"
+  persistent
+>
+   <VCard
+        title="Cancel Order"
+        class="mb-2"
+      >
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- 👉 Form -->
+              <VForm
+                class="mt-4"
+                ref="purchaseOrderForm"
+              >
+                <VRow>
+                  <VCol
+                    md="12"
+                    cols="12"
+                  >
+                   Are you sure want to cancel the order ?
+                  </VCol>
+                  <VCol
+                  md="12"
+                    cols="12"
+                  >
+                    <VBtn @click="validateForm">Yes</VBtn> &nbsp;
+                    <!-- @click="resetdetails" -->
+                    <VBtn
+                      color="secondary"
+                      variant="tonal"
+                      @click="closeDialog()"
+                    >
+                      No
+                    </VBtn>
+                  </VCol>
+                </VRow>
+              </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+   </VCard>
+</VDialog>
+
+<VDialog
+  v-model="dialog2"
+  max-width="500"
+  persistent
+>
+   <VCard
+        title="Cancel Order"
+        class="mb-2"
+      >
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- 👉 Form -->
+              <VForm
+                class="mt-4"
+                ref="purchaseOrderForm2"
+              >
+                <VRow>
+                  <VCol
+                    md="12"
+                    cols="12"
+                  >
+                    <VTextarea
+                      v-model="this.cancelOrderdetails.cancel_reason"
+                      label="Cancel Reason"
+                      row-height="30"
+                      rows="4"
+                      variant="filled"
+                      auto-grow
+                      shaped
+                      :rules="workingRules"
+                    />
+                      
+                  </VCol>
+                  <VCol
+                  md="12"
+                    cols="12"
+                  >
+                    <VBtn @click="validateForm2">Save</VBtn> &nbsp;
+                    <!-- @click="resetdetails" -->
+                    <VBtn
+                      color="secondary"
+                      variant="tonal"
+                      @click="closeDialog2()"
+                    >
+                      No
+                    </VBtn>
+                  </VCol>
+                </VRow>
+              </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+   </VCard>
+</VDialog>
+
+  <VSnackbar
+      v-model="snackbar"
+      :timeout="2000"
+      :color="color"
+    >
+      {{ snackbarText }}
+      <!-- <VBtn text @click="snackbar = false">Close</VBtn> -->
+    </VSnackbar>
   </div>
 </template>
 
@@ -164,14 +291,32 @@ export default {
 
     data(){
         return{
+           snackbar: false,
+            snackbarText: '',
+            timeout: 6000, // milliseconds
+            color: '', // or 'error', 'warning', 'info', etc.
+            top: false,
+            bottom: true,
+            left: false,
+            right: false,
+          cancelOrderdetails:  {
+            "po_id":"",
+            "cancel_reason":"",           
+            "po_status":6            },
+          cancelOrder:{},
+          dialog:false,
+          dialog2:false,
+
           searchQuery:'',
           page: 1,
-    pageSize: 10,
+          pageSize: 10,
           userRoles:'',
           loading:true,
-    purchaseHistory:[],
-    userIds:'',
-    createdBy:'',
+          purchaseHistory:[],
+          userIds:'',
+          createdBy:'',
+           workingRules: [v => !!v || 'Cancel Reason is required'],
+
       headers: [
           { text: 'PO Number', value: 'po_number' },
           { text: 'Order Date', value: 'created_date' },
@@ -201,9 +346,10 @@ export default {
         );
         // Filter based on status
         const matchesStatus = (
-          item.po_status === 'Acknowledged' || 
-          item.po_status === 'Shared' || 
-          item.po_status === 'Received' 
+            item.po_status === 'Acknowledged'
+          // item.po_status === 'Acknowledged' || 
+          // item.po_status === 'Shared' || 
+          // item.po_status === 'Received' 
           // item.po_status === 'Shipped'
         );
         // Return true if both search query and status match
@@ -239,6 +385,67 @@ export default {
           //   }, 3000);
     },
     methods:{
+      validateForm2(){
+        this.$refs.purchaseOrderForm2.validate().then(valid => {
+              // console.log("form valid", valid.valid);
+              if (valid.valid == true) {
+              
+                this.cancelordersata();
+              }else{
+                this.snackbar = true;
+                  this.snackbarText = "Please give all mandatory fields"
+                  this.color = "on-background";
+              }
+            }); 
+      },
+      cancelordersata(){
+        console.log("check te data", this.cancelOrder.po_id);
+        const postData = {
+            "po_id":this.cancelOrder.po_id,
+            "cancel_reason":this.cancelOrderdetails.cancel_reason,           
+            "po_status":6   
+        }
+        console.log('check the data',postData);
+        this.Cancelpurchaseorder(postData).then((response)=>{
+          console.log('details data',response);
+           if (response.data.status == 1) {
+            this.snackbar = true;
+            this.color = 'primary';
+            this.cancelOrderdetails = {};
+            this.snackbarText = response.data.message;
+              this.getPurchasehistorydetails()
+              .then(() => {             
+                    this.loading = false;
+                  }) 
+                  .catch((error) => {             
+                    console.error('Error fetching merchants:', error);            
+                  });
+            this.dialog2 = false;          
+        } else {
+            this.snackbar = true;
+            this.color = 'on-background';
+        }
+        })
+
+      },
+      closeDialog2(){
+          this.dialog2=false;
+          this.cancelOrderdetails={};
+      },
+      validateForm(){    
+         this.dialog2=true;
+         this.dialog=false
+
+      },
+      closeDialog(){
+         this.dialog=false;
+      },
+      cancelstock(item){
+        this.dialog=true;
+        console.log('test',item);
+        this.cancelOrder=item;
+      //  this.validateForm(item);
+      },
        updatePagination(page) {
         this.page = page;
       },
@@ -277,12 +484,12 @@ export default {
       resolveStatusVariant (status){
       if (status == 'Acknowledged')
         return {
-          color: 'info',
+          color: 'warning',
           // text: 'Acknowledged',
         }
      else if(status == 'Shared')
      return{
-        color: 'warning',
+        color: 'info',
      }
       
         

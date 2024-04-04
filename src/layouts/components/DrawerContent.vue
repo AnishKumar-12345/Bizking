@@ -116,6 +116,7 @@ export default{
           icon: "carbon-sales-ops",
           children: [
             { id: 41, title: 'View Sales History', route: '/Viewsaleshistory' },           
+            { id: 51, title: 'Sales Orders', route: '/Salesordersdetails' },           
 
           ],
           expanded: false,

@@ -407,7 +407,48 @@
                 />
               </VCol>
 
-            
+             <VCol   
+                md="6"
+                cols="12"
+                >
+                <!-- this_year this_month -->
+                   <VSelect 
+                   :rules="selectDate"
+                   v-model="Salesdata.date_filter"
+                   :items="['Custom','Current Year','Current Month']"
+                   label="Select Date"
+               
+                />
+              </VCol>    
+
+              <VCol   
+               v-if="Salesdata.date_filter == 'Custom'"
+               md="6"
+               cols="12"
+               >
+                <VTextField
+                  v-model="Salesdata.start_date"                
+                  type="date"
+                  label="Start Date"
+                  :min="minDate"
+                  :max="maxDate"
+                  :rules="Daterules"
+                />
+              </VCol>
+                <VCol  
+                v-if="Salesdata.date_filter == 'Custom'"                 
+                 md="6"
+                cols="12"
+                >
+               <VTextField
+                  v-model="Salesdata.end_date"  
+                  type="date"
+                  label="End Date"
+                  :min="minDate1"
+                  :max="maxDate1"
+                  :rules="Daterules"
+                />
+              </VCol>    
 
               <VDivider />                
              
@@ -1000,6 +1041,10 @@ export default {
             (v) => !!v || 'Brand Name is required',
 
           ],
+           Daterules:[
+            (v) => !!v || 'Date is required',
+
+          ],
          reportsdata:{
                 "merchant_id":"",
                 "date_filter":"",
@@ -1009,6 +1054,11 @@ export default {
             Purchasedata:{
              
                 "date_filter":"",
+                "start_date":"",
+                "end_date":""
+            },
+            Salesdata:{
+               "date_filter":"",
                 "start_date":"",
                 "end_date":""
             },
@@ -1200,7 +1250,7 @@ export default {
           };
 
 
-       if (this.Purchasedata.date_filter === 'Custom') {
+          if (this.Purchasedata.date_filter === 'Custom') {
             this.Purchasedata.date_filter = "custom";
           } else if (this.Purchasedata.date_filter === 'Current Year') {
             this.Purchasedata.date_filter = "this_year";
@@ -1212,7 +1262,7 @@ export default {
              this.Purchasedata.end_date = this.getFormattedDate(new Date())
           }
 
-      this.isProgress7 = true;
+        this.isProgress7 = true;
 
         this.getPurchasesorderreport( statusMapping[this.selectPurchase],this.Purchasedata.date_filter,this.Purchasedata.start_date,this.Purchasedata.end_date).then((response)=>{
           // console.log(response);
@@ -1705,13 +1755,25 @@ export default {
 
   console.log('check ', statusMapping[this.selectSales] );
    this.isProgress2 = true;
-      this.salesstocksreport(statusMapping[this.selectSales]).then((response)=>{
+
+    if (this.Salesdata.date_filter === 'Custom') {
+            this.Salesdata.date_filter = "custom";
+          } else if (this.Salesdata.date_filter === 'Current Year') {
+            this.Salesdata.date_filter = "this_year";
+            this.Salesdata.start_date = this.getFormattedDate(new Date())
+             this.Salesdata.end_date = this.getFormattedDate(new Date())
+          } else if (this.Salesdata.date_filter === 'Current Month') {
+            this.Salesdata.date_filter = "this_month";
+               this.Salesdata.start_date = this.getFormattedDate(new Date())
+             this.Salesdata.end_date = this.getFormattedDate(new Date())
+          }
+      this.salesstocksreport(statusMapping[this.selectSales],this.Salesdata.date_filter,this.Salesdata.start_date,this.Salesdata.end_date).then((response)=>{
         console.log('check the response',response);
           if(response.data.status == 0){
                this.isProgress2 = false;
             this.dialog3 = false;   
              this.selectSales=null;
-           
+            this.Salesdata={};
            this.snackbar = true;
             this.color = "on-background";
             this.snackbarText = response.data.message;
@@ -1720,6 +1782,8 @@ export default {
            this.isProgress2 = false;
             this.dialog3 = false;   
               this.selectSales=null;
+            this.Salesdata={};
+
           //  this.loading = true;
          
             // this.reportsMerchant = response.data;

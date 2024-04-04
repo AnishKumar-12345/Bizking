@@ -108,7 +108,7 @@
           <td class="text-center">&#8377;{{ item.total_po_amount }}</td>
           <td class="text-center" style="display:flex;justify-content:center;align-items:center;">
             <VBtn
-              v-if="item.po_status != 'Acknowledged' && item.po_status != 'Shared' &&  item.po_status != 'Received'"
+              v-if="item.po_status != 'Acknowledged' && item.po_status != 'Shared' &&  item.po_status != 'Received' && item.po_status != 'Cancelled'"
               icon
               variant="text"
               color="default"
@@ -124,7 +124,7 @@
             </VBtn>
            
             <VBtn
-              v-if="item.po_status == 'Acknowledged' || item.po_status == 'Shared' || item.po_status == 'Received'"
+              v-if="item.po_status == 'Acknowledged' || item.po_status == 'Shared' || item.po_status == 'Received' || item.po_status == 'Cancelled'"
               icon
               variant="text"
               color="default"
@@ -1649,9 +1649,14 @@ calculatedPricePerUnit(){
           color: 'success',
           // text: 'Acknowledged',
         }
-      else
+         else if (status == 'Shared')
         return {
           color: 'info',
+          // text: 'Acknowledged',
+        }
+      else
+        return {
+          color: 'error',
           // text: 'Shared',
         }
     },

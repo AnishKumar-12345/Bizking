@@ -543,9 +543,9 @@ export default {
               return err.response;
             });
           },
-         salesstocksreport(id){
+         salesstocksreport(id,filter,startdate,enddate){
             return axios
-            .get(this.url +"bizkingz/services/api/reports/sales_orders?type="+id, {
+            .get(this.url +"bizkingz/services/api/reports/sales_orders?type="+id+"&date_filter="+filter+"&start_date="+startdate+"&end_date="+enddate, {
               // headers: {
               //   "accept": "*/*",
               //   "Content-Type": "application/json",
@@ -781,6 +781,24 @@ export default {
           getOppertunities(){
             return axios
             .get(this.url +"bizkingz/services/api/opportunities/getAllOpportunities", {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          Cancelpurchaseorder(reqbody){
+            return axios
+            .post(this.url +"bizkingz/services/api/purchase/cancel",reqbody, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",

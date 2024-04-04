@@ -85,8 +85,18 @@
             </div>
           </div>
         </div>
-      <VTable
-      
+
+         <div class="d-flex justify-end mt-4">
+              <VBtn
+                  v-if="selectedmerchants !== null"
+                  color="primary"
+                  @click="openEditDialog(this.selectedMerchantId )"
+                >
+                  Edit Selected Merchant
+                </VBtn>
+          </div>
+
+      <VTable      
        :headers="headers"
        :items="this.paginatedItems "
         
@@ -117,6 +127,7 @@
           <td  class="text-center">{{item.physical_soh}}</td>
            <td  class="text-center">{{item.closing}}</td>
             <td  class="text-center">{{item.opening}}</td>
+           
             <!-- <td class="text-center">
               <V-btn
                   icon
@@ -139,6 +150,7 @@
       </tbody>
          
         </VTable>
+
         <VPagination
           v-model="page"
           :length="Math.ceil(filteredMerchant.length / pageSize)"
@@ -169,6 +181,26 @@
     </VCol>  
   </VRow>
 
+ <VDialog v-model="editDialog" max-width="800px">
+    <VCard>
+      <VCardTitle>Edit Stock Data</VCardTitle>
+      <VCardContent>
+        <!-- Table to display item's data -->
+        <!-- <VTable :items="[selectedMerchantData]">
+          <template v-slot:items="props">
+            <tr v-for="(value, key) in props.item" :key="key">
+              <td>{{ key }}</td>
+              <td>{{ value }}</td>
+            </tr>
+          </template>
+        </VTable> -->
+      </VCardContent>
+      <VCardActions>
+        <VBtn @click="editDialog = false">Close</VBtn>
+      </VCardActions>
+    </VCard>
+  </VDialog>
+
      <VSnackbar
       v-model="snackbar" :timeout="3500"
       :color="color"
@@ -193,6 +225,20 @@ export default {
   },
    data(){
     return{
+      dialogHeaders: [
+        { text: 'Brand Name', value: 'brand_name' },
+        { text: 'SKU', value: 'sku_name' },
+        { text: 'UOM', value: 'uom' },
+        { text: 'Physical SOH', value: 'physical_soh' },
+        { text: 'Closing', value: 'closing' },
+        { text: 'Opening', value: 'opening' },
+      ],
+      editDialog: false,
+      editedItem: {
+        physical_soh: null,
+        closing: null,
+        opening: null,
+      },
       loading:true,
       loading2:false,
         searchQuery:'',
@@ -239,7 +285,7 @@ export default {
           (item.uom && item.uom.toLowerCase().includes(lowerCaseQuery)) ||
           (item.physical_soh && item.physical_soh.toLowerCase().includes(lowerCaseQuery)) ||
           (item.closing && item.closing.toLowerCase().includes(lowerCaseQuery)) || 
-            (item.opening && item.opening.toLowerCase().includes(lowerCaseQuery))  
+          (item.opening && item.opening.toLowerCase().includes(lowerCaseQuery))  
         );
       });
     },
@@ -252,7 +298,7 @@ export default {
        merchants(){
         return this.merchantName.map(a => a.merchant_uid
            );
-    }
+    },   
     
     },
     
@@ -271,6 +317,21 @@ export default {
     },
     
    methods:{ 
+     openEditDialog(id) {
+      console.log("Merchant_id",id);
+       this.editDialog = true;
+    },
+    //  saveChanges() {
+    //   if (this.selectedMerchantData) {
+    //     // Update the selected merchant's data with edited values
+    //     this.selectedMerchantData.physical_soh = this.editedItem.physical_soh;
+    //     this.selectedMerchantData.closing = this.editedItem.closing;
+    //     this.selectedMerchantData.opening = this.editedItem.opening;
+
+    //     // Close the dialog
+    //     this.editDialog = false;
+    //   }
+    // },
    handleMerchantSelection() {
     //  console.log("Selected Merchant:", this.selectedmerchants);
      const selectedMerchant = this.merchantName.find(
@@ -282,7 +343,7 @@ export default {
   if (selectedMerchant) {
     this.selectedMerchantId = selectedMerchant.merchant_id;
     // console.log('Selected Merchant ID:', this.selectedMerchantId);
-this.loading2 = true;
+    this.loading2 = true;
     // Now that you have the selected merchant ID, you can perform further actions, such as calling an API method to get brand details.
     this.getMerchantproductsstock(this.selectedMerchantId)
       .then((response) => {
@@ -306,6 +367,10 @@ this.loading2 = true;
       });
   }
 },
+updatePagination(page) {
+          this.page = page;
+        },
+          
      getMerchantdetails(){
       // this.getMerchants().then((response)=>{
         

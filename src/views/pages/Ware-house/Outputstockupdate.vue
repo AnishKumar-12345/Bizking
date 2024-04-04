@@ -39,7 +39,7 @@
 
     <!-- v-if="showNoSalesAlert" -->
 
-    <VRow v-if="this.saleshistory == ''">
+    <VRow v-if="!saleshistory || saleshistory.length === 0">
       <VCol cols="12">
         <VCard title="Output Stocks View">
           <VCardText>
@@ -104,9 +104,9 @@
 
       <tbody>
 
-          <tr v-if="filteredSalesHistory.length === 0">
+          <!-- <tr v-if="filteredSalesHistory.length === 0">
           <td colspan="16" class="text-center"><h1>No data found !</h1></td>
-        </tr>  
+        </tr>   -->
 
         <tr
           v-for="(item, index) in this.paginatedItems"
@@ -946,9 +946,12 @@ export default {
       return new Promise((resolve, reject) => {
         this.getOutputSalesorders()
           .then(response => {
+                    console.log('check sales res', response);
             // this.salesdata = response;
             //   console.log('check sales res', this.salesdata.status ,this.saleshistory);
-            this.saleshistory = response.data
+            this.saleshistory = response.data || [];
+      
+
             this.saleshistory.reverse()
 
             resolve() // Resolve the promise when API call is successful

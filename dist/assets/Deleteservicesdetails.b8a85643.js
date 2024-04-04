@@ -1,1 +1,0 @@
-import{_ as e,o as t,c,g as s,r as a}from"./index.cd2cf128.js";const l={};function _(n,o){return t(),c("div",null," Template will Integrate Shortly ! ")}const i=e(l,[["render",_]]),p={components:{Deleteservice:i}};function d(n,o,f,m,u,v){const r=a("Deleteservice");return t(),c("div",null,[s(r)])}const x=e(p,[["render",d]]);export{x as default};

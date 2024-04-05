@@ -13,7 +13,7 @@ export default{
 //  Index,
 
 //  },
- 
+  
   data(){
     return{
       userRole: '',
@@ -120,7 +120,18 @@ export default{
 
           ],
           expanded: false,
-        },     
+        },   
+          {
+          id: 14,
+          title: 'Accounts',
+          icon: "material-symbols:payments-outline-sharp",
+          children: [
+            { id: 52, title: 'Merchant Payments', route: '/Merchantpaymentsdata' },           
+            // { id: 51, title: 'Sales Orders', route: '/Salesordersdetails' },           
+
+          ],
+          expanded: false,
+        },    
         {
           id: 10,
           title: 'Warehouse',

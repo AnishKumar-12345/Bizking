@@ -92,7 +92,7 @@
                   color="primary"
                   @click="openEditDialog(this.selectedMerchantId )"
                 >
-                  Edit Selected Merchant
+                  Edit Merchant
                 </VBtn>
           </div>
 
@@ -157,22 +157,7 @@
           @input="updatePagination"
         />
               </VCol>
-
-              <!-- <VCol
-                cols="12"
-                class="d-flex flex-wrap gap-4"
-              >
-                <VBtn @click="validateForm">Save</VBtn>
-  
-                <VBtn 
-                  color="secondary"
-                  variant="tonal"
-                  @click="resetdetails()"
-                
-                >
-                  Reset
-                </VBtn>
-              </VCol> -->
+          
             </VRow>
           </VForm>
 
@@ -181,10 +166,75 @@
     </VCol>  
   </VRow>
 
- <VDialog v-model="editDialog" max-width="800px">
+ <VDialog v-model="editDialog" max-width="800px" persistent>
     <VCard>
       <VCardTitle>Edit Stock Data</VCardTitle>
       <VCardContent>
+         <div v-if="loading3" id="app">
+          <div id="loading-bg">
+            <div class="loading-logo">
+              <img src="../../../assets/images/logos/comlogo.jpeg" height="60" width="68" alt="Logo" />
+            </div>
+            <div class="loading">
+              <div class="effect-1 effects"></div>
+              <div class="effect-2 effects"></div>
+              <div class="effect-3 effects"></div>
+            </div>
+          </div>
+        </div>
+
+          <VTable      
+       :headers="headers"
+       :items="this.paginatededitItems "
+        
+      >
+           
+       <thead>
+        <tr>
+          <th
+           class="text-center"
+            v-for="header in headers2"
+            :key="header"
+          >
+            {{ header.text }}
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <!-- <tr v-if="filteredMerchant.length === 0">
+          <td colspan="16" class="text-center"><h1>No data found !</h1></td>
+        </tr>   -->
+
+      <tr v-for="(item,index) in this.paginatededitItems" :key="index">
+       <td class="text-center">{{item.brand_name}}</td>
+        <td  class="text-center">{{item.sku_name}}</td>
+         <td  class="text-center">{{item.uom}}</td>
+          <td  class="text-center">
+            <VTextField
+            v-model="item.physical_soh"
+            />
+            <!-- {{item.physical_soh}} -->
+          </td>
+           <td  class="text-center">
+             <VTextField
+            v-model="item.closing"
+            />
+            <!-- {{item.closing}} -->
+            </td>
+            <td  class="text-center">
+               <VTextField
+            v-model="item.opening"
+            />
+              <!-- {{item.opening}} -->
+              </td>
+           
+          
+      </tr>
+      </tbody>
+         
+        </VTable>
         <!-- Table to display item's data -->
         <!-- <VTable :items="[selectedMerchantData]">
           <template v-slot:items="props">
@@ -196,6 +246,7 @@
         </VTable> -->
       </VCardContent>
       <VCardActions>
+        <VBtn @click="validateForm()">Save</VBtn>
         <VBtn @click="editDialog = false">Close</VBtn>
       </VCardActions>
     </VCard>
@@ -241,6 +292,8 @@ export default {
       },
       loading:true,
       loading2:false,
+      loading3:false,
+
         searchQuery:'',
        page: 1,
     pageSize: 10,
@@ -253,6 +306,7 @@ export default {
       left: false,
       right: false,
       marchantstocksdata:[],
+      editmarchantstocksdata:[],
      selectedmerchants:null,
       merchantName:[],
       stockUpdatedate:null,  
@@ -271,11 +325,45 @@ export default {
 
 
       ],
+ headers2: [
+        // { text: 'Purchase Order', value: 'po' },
+        { text: 'Brand Name', value: 'brand_name' },
+        { text: 'SKU', value: 'sku_name' },
+        { text: 'UOM', value: 'uom' },
+     
 
+        { text: 'Physical SOH', value: 'physical_soh'},
+        { text: 'Closing', value: 'closing' },
+        { text: 'Opening', value: 'opening' },        
+      
+        // { text: 'Actions', value: 'action' }, 
+
+
+      ],
     }
    },
   
      computed: {  
+        filterededitMerchant(){
+         const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
+      return this.editmarchantstocksdata.filter((item) => {
+        return (
+          (item.brand_name && item.brand_name.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.sku_name && item.sku_name.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.uom && item.uom.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.physical_soh && item.physical_soh.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.closing && item.closing.toLowerCase().includes(lowerCaseQuery)) || 
+          (item.opening && item.opening.toLowerCase().includes(lowerCaseQuery))  
+        );
+      });
+    },
+     paginatededitItems() {  
+ 
+  const startIndex = (this.page - 1) * this.pageSize;
+  const endIndex = startIndex + this.pageSize;
+  return this.filterededitMerchant.slice(startIndex, endIndex);
+},
+
       filteredMerchant(){
          const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
       return this.marchantstocksdata.filter((item) => {
@@ -320,6 +408,27 @@ export default {
      openEditDialog(id) {
       console.log("Merchant_id",id);
        this.editDialog = true;
+        this.loading3 = true;
+          this.getMerchantproductsstock(id)
+            .then((response) => {
+              console.log("Merchant Products:", response);
+            
+              // Handle the response accordingly
+              if(response.status == 1){
+                // this.stockUpdatedate = response.data.stock_updated_date;
+                this.editmarchantstocksdata = response.data.products;
+                  this.loading3 = false; 
+              }else{
+                this.editmarchantstocksdata = [];
+                  this.snackbar = true;
+                  this.snackbarText = response.message;
+                  this.color = "on-background";
+              }
+            })
+            .catch((error) => {
+              console.error("Error fetching merchant products:", error);
+              // Handle errors
+            });
     },
     //  saveChanges() {
     //   if (this.selectedMerchantData) {

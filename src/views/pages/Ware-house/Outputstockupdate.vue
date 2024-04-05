@@ -80,6 +80,10 @@
         </div>
       </div>
     </div>
+
+    <div v-if="savingOutputStock" class="loader-wrapper">
+      <div class="loader"></div>
+    </div>
     <!-- v-if="!showNoSalesAlert" -->
     <!-- hasOwnProperty('cboqs') -->
     <VTable
@@ -150,7 +154,7 @@
                 icon="mdi-invoice-receive-outline"
                 color="success"
                 size="30"
-                @click="outputstock(item)"
+                @click="outputstocks(item)"
               />
             </VBtn>
 
@@ -412,7 +416,7 @@
                   >
                     <!-- :disabled="validquan" -->
                     <VBtn @click="validateForm()">Save</VBtn>
-                    <!-- <VBtn @click="closedialog()" >Close</VBtn> -->
+                    <VBtn @click="closedialog()" >Close</VBtn>
                     <VProgressCircular
                       :size="50"
                       color="primary"
@@ -465,6 +469,7 @@ export default {
 
   data() {
     return {
+        savingOutputStock: false,
       validquan: false,
       PersonRules: [v => !!v || 'Delivery Person is required'],
       DateRules: [v => !!v || 'Shipped date is required'],
@@ -765,20 +770,24 @@ export default {
         validationErrors.filter(error => error),
       )
       if (validationErrors.filter(error => error).length === 0) {
-        this.loading = true
-        this.isProgress = true
-
+        this.loading = true;
+        // this.isProgress = true
+        this.savingOutputStock = true;
+         this.dialog = false;
         this.postOutputstock(postData).then(response => {
+           
           //  console.log('check the response',response);
           // console.log('check the response',response.status);
           if (response.status == 1) {
+             this.savingOutputStock = false;
             this.snackbar = true
             this.color = 'primary'
             this.formData = {}
-            this.isProgress = false
+            // this.isProgress = false
             this.snackbarText = response.message
-            this.dialog = false
             this.selectedDeliveryPerson = null
+        this.loading = false;
+
             this.outputStockproducts = []
             // this.outputStock={};
             this.getSalesorderdetails()
@@ -802,12 +811,14 @@ export default {
             // });
             // this.getInputstockdetails();
           } else {
+             this.savingOutputStock = false;
             this.snackbar = true
             this.color = 'on-background'
             this.snackbarText = 'Please give proper data'
           }
         })
       } else {
+         this.savingOutputStock = false;
         this.snackbar = true
         this.color = 'on-background'
         this.snackbarText = 'your quantities are exceeded'
@@ -901,10 +912,11 @@ export default {
     },
     closedialog() {
       this.dialog = false
-      this.outputStockproducts = []
-      this.outputStock = {}
+      this.deliveryPersons = [];
+      this.outputStockproducts = [];
+      this.outputStock = {};
     },
-    outputstock(item) {
+    outputstocks(item) {
       console.log('check the detials', item)
       this.dialog = true
       this.outputStock.so_number = item.so_number
@@ -918,10 +930,10 @@ export default {
       // });
       this.getOutputstock(item.so_id).then(response => {
         // console.log('dates',response);
-        this.OutputStockDetails = response.data
+        this.OutputStockDetails = response.data;
         //  console.log('check output dtock', this.OutputStockDetails);
 
-        this.deliveryUserDetails = response.delivery_user_details
+        this.deliveryUserDetails = response.delivery_user_details;
         // console.log('delivery detials',this.deliveryUserDetails);
 
         this.deliveryPersons = this.deliveryUserDetails.map(deliveryPerson => ({
@@ -966,5 +978,31 @@ export default {
 }
 </script>
 
-<style scoped></style>
->
+<style scoped>
+.loader-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Transparent black background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Ensure it's on top of everything */
+}
+
+.loader {
+  border: 8px solid #f3f3f3; /* Light grey */
+  border-top: 8px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>

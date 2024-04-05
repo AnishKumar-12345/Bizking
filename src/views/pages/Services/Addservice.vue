@@ -17,7 +17,7 @@
                 <VSelect
                  
                   label="Service Type"
-                  
+                  :items="['Margin','Margin + Fee','Fee']" 
                 />
               </VCol>
 
@@ -29,7 +29,7 @@
               >
                 <VTextField
                 
-                  label="Store Name"
+                  label="Service Name"
                
                 />
               </VCol>
@@ -40,7 +40,7 @@
               >
                 <VTextField
                 
-                  label="Lead Handler"
+                  label="Service Value"
                 />
               </VCol>
             
@@ -50,11 +50,11 @@
               >
                  <VTextField
                 
-                  label="Store Address"
+                  label="Service Details"
                 />
               </VCol>
 
-              <VCol
+              <!-- <VCol
                 md="6"
                 cols="12"
               >
@@ -118,7 +118,7 @@
                   label="Decision Authority"
                   :items="['POC','Owner']"
                 />
-              </VCol>
+              </VCol> -->
               <VCol
                 cols="12"
                 class="d-flex flex-wrap gap-4"

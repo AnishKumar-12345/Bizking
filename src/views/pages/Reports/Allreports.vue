@@ -221,6 +221,36 @@
       </VCard>
     </VCol>  
 
+<!-- Merchant Payment Report -->
+ <!-- <VCol
+        cols="12"
+        md="4"
+      >
+        <VCard
+        title="Merchant Payment Report"
+        class="position-relative"
+      >
+        <VCardText>
+          <h4 class="text-4xl font-weight-medium text-primary">
+                    <VIcon size="50" start icon="line-md:downloading-loop" />
+
+          </h4> <br>
+       
+          <VBtn size="small" @click="openMerchantpayment()">
+            Get Reports
+          </VBtn>
+        </VCardText>
+
+   
+        <VImg
+          :src="triangleBg"
+          class="triangle-bg flip-in-rtl"
+        />
+          <img src="@/assets/images/avatars/avatar-12.png"  class="trophy5">
+
+      </VCard>
+    </VCol>   -->
+
 <!-- User Store Logins -->
     <!-- <VCol
         cols="12"
@@ -958,6 +988,74 @@
         </VCard>
      </VDialog>
 
+ <VDialog
+        v-model="dialog10"
+        max-width="1000"
+      >
+    
+        <VCard
+          title="User Store"
+          class="mb-2"
+        >
+          <VCardText>
+            <VRow>
+              <VCol cols="12">
+                <!-- 👉 Form -->
+              <VForm class="mt-6" ref="purchaseOrderForm9">
+              <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
+              </VCheckbox> -->
+              <VRow>
+      
+                <VCol
+                  md="6"
+                  cols="12"
+                >
+          
+                
+                  <VAutocomplete
+                   v-model="selectedmerchants4"
+                    :items="merchantName" 
+                    item-value="value"
+                    item-title="text"
+                    :rules="storeMerchant"
+                    label="Store or Merchant"
+                    :menu-props="{ maxHeight: 200 }"        
+                    no-underline              
+                  />
+                
+                </VCol>        
+
+                <VDivider />              
+              
+
+                <VCol
+                  cols="12"
+                  class="d-flex flex-wrap gap-4"
+                >
+                  <VBtn @click="validateForm9()">Get</VBtn>
+          
+                  <VBtn @click="closeMerchantpayment()">Close</VBtn>
+
+                  <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
+                  <VProgressCircular
+                  :size="50"
+                  color="primary"
+                  indeterminate
+                  v-show="isProgress8"
+                >
+                </VProgressCircular>
+
+                
+                </VCol>
+              
+              </VRow>
+            </VForm>
+              </VCol>
+            </VRow>
+          </VCardText>
+        </VCard>
+     </VDialog>
+
       <VSnackbar
       v-model="snackbar" :timeout="3500"
       :color="color"
@@ -1004,6 +1102,7 @@ export default {
       isProgress6:false,
       isProgress7:false,
       isProgress8:false,
+      isProgress9:false,
 
       
         loading:true,
@@ -1015,6 +1114,7 @@ export default {
         dialog7:false,
         dialog8:false,
         dialog9:false,
+        dialog10:false,
 
         selectdatepicker:null,
         merchantName:[],
@@ -1024,6 +1124,7 @@ export default {
         selectedmerchants:null,
         selectedmerchants2:null,
         selectedmerchants3:null,
+        selectedmerchants4:null,
 
         selectedBrand:null,
         selectedBrand2:null,
@@ -1133,6 +1234,14 @@ export default {
           }, 3000);
    },
    methods:{
+    openMerchantpayment(){
+      this.dialog10 = true;
+    },
+    closeMerchantpayment(){
+       this.dialog10 = false;
+      this.selectedmerchants4='';
+
+    },
     validateForm8(){
       this.$refs.purchaseOrderForm8.validate().then(valid => {
         // console.log("form valid", valid.valid);

@@ -832,5 +832,59 @@ export default {
               return err.response;
             });
           },
+             getOppertunitydetails(reqbody){
+            return axios
+            .get(this.url +"bizkingz/services/api/opportunities/getAllOpportunityDetails?opportunity_id="+reqbody, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          updateOppertunitydetails(reqbody){
+            return axios
+            .post(this.url +"bizkingz/services/api/opportunities/updateOpportunity",reqbody, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          AddOppertunityinfo(reqbody){
+            return axios
+            .post(this.url +"bizkingz/services/api/opportunities/addOpportunityInfo",reqbody, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
     }
 }

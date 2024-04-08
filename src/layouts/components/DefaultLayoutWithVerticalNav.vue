@@ -6,6 +6,7 @@ import { VerticalNavLayout } from '@layouts'
 import Footer from '@/layouts/components/Footer.vue'
 import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'
+import Notification from '@/layouts/components/Notification.vue'
 </script>
 
 <template>
@@ -35,7 +36,7 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
         />
       </a> -->
       <NavbarThemeSwitcher />
-      <VBtn
+      <!-- <VBtn
         icon
         variant="text"
         color="default"
@@ -45,8 +46,9 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
         <VIcon
           icon="mdi-bell-outline"
           size="24"
-        />
-      </VBtn>
+        /> 
+      </VBtn> -->
+      <Notification/> &nbsp;  &nbsp; 
       <UserProfile />
     </template>
 

@@ -9,6 +9,8 @@ import authV1Tree from '@/assets/images/pages/auth-v1-tree.png'
 import { ref, computed } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+// import Notification from '@/components/Notification.vue';
+import store from '../Stores';
 
 const router = useRouter()
 const form = ref({
@@ -77,6 +79,10 @@ const loginuser = () => {
         localStorage.setItem('userId', response.data.data.user_id);
         localStorage.setItem('userRole', response.data.data.user_role);
         localStorage.setItem('user_id', response.data.data.user_id);
+
+        // Store notifications
+        store.commit('setNotifications', response.data.notifications_details);
+
         snackbar.value = {
           show: true,
           message: response.data.message,

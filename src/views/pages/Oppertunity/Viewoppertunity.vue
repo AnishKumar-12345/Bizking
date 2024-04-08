@@ -374,9 +374,10 @@ methods:{
 
   },
   editProduct(item){ 
+    console.log('check id',item);
      this.$router.push({
-          name: 'Leadbasicdataview', // Replace with the actual name of your route
-          query: { lead_id: item.lead_id } 
+          name: 'Oppertunitybasicdataview', // Replace with the actual name of your route
+          query: { opportunity_id: item.opportunity_id } 
         });
   }
 }

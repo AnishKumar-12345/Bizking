@@ -38,11 +38,11 @@ export default{
         }, 
          {
           id: 3,
-          title: 'Oppertunity',
+          title: 'Opportunity',
           icon: "ic:baseline-connect-without-contact",
           children: [
             //  { id: 25, title: 'Add Oppertunity', route: '/Updateoppertunities' },
-            { id: 23, title: 'View Oppertunity', route: '/Viewoppertunities' },
+            { id: 23, title: 'View Opportunity', route: '/Viewoppertunities' },
             // { id: 24, title: 'Generate Quote', route: '/Oppertunitygeneratequote' },
               // { id: 26, title: 'Close Oppertunity', route: '/Closealloppertunities' },
          ],

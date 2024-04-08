@@ -20,7 +20,7 @@
             <VForm
               class="mt-6"
               ref="purchaseOrderForm"
-            >
+            > 
               <VRow>
                  <VCol
                   cols="12"
@@ -286,6 +286,8 @@ export default {
       }
 
       const postdata = {
+        lead_type: this.saveLeads.lead_type,
+        user_id:this.saveLeads.user_id,
         name: this.saveLeads.name,
         address: this.saveLeads.address,
         email: this.saveLeads.email,
@@ -335,6 +337,7 @@ export default {
           this.updateLeads(this.Leadid).then(response => {
               console.log('check response', response.data.data)
               this.saveLeads.lead_type = response.data.data.lead_type
+              this.saveLeads.user_id = response.data.data.user_id
               this.saveLeads.address = response.data.data.address
               this.saveLeads.email = response.data.data.email
               this.saveLeads.decision_authority = response.data.data.decision_authority

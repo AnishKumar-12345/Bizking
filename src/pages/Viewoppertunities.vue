@@ -38,7 +38,7 @@ export default {
             activeTab:'',
              tabs : [
                 {
-                    title: 'View Oppertunity',
+                    title: 'View Opportunity',
                     icon: 'mdi-account-outline',
                     tab: 'account',
                 },                

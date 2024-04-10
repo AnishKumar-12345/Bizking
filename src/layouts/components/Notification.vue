@@ -1,5 +1,5 @@
 <template>
-  <VBadge v-bind="avatarBadgeProps" overlap>
+  <VBadge v-bind="avatarBadgeProps" color="error" overlap>
     <template #badge>
       <span class="badge-counter" color="primary">{{ countUnreadNotifications }}</span>
     </template>

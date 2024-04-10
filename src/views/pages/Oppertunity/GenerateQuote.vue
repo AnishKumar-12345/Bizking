@@ -67,12 +67,15 @@
         <td class="text-center">
           {{ item.uom }}
         </td>
-   
+   <td class="text-center">{{ item.final_ret }}</td>
+        <td class="text-center">
+          {{ item.pitch_from }}
+        </td>
           <td class="text-center">
             <!-- Select Field -->
             <VTextField
               v-model="item.inputs"                       
-           
+              :rules="marginrules"
             />
           </td>
         <!-- <td class="text-center">
@@ -218,13 +221,18 @@ export default {
                 {text:'Brand Name',value:'brand_name'},
                 {text:'Product Name',value:'sku_name'},
                 {text:'UOM',value:'uom'},               
+                {text:'Final Retails',value:'final_ret'},               
+                {text:'Pitch From',value:'pitch_from'},               
           
-                {text:'Input',value:'inputs'},
+                {text:'Margin',value:'inputs'},
 
             ]
         }
     },
     computed:{
+      marginrules(){
+        
+      },
        filteredProducts(){
          const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
         return this.quotesdata.filter((item) => {

@@ -121,7 +121,7 @@ const userRole = localStorage.getItem('userRole');
               />
             </template>
 
-            <VListItemTitle>Change Password</VListItemTitle>
+            <VListItemTitle>Update Password</VListItemTitle>
           </VListItem>
 
           <!-- 👉 Logout -->

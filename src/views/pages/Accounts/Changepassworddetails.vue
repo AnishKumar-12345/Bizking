@@ -80,11 +80,11 @@ export default {
         return{
             Newpasswordrules: [
                     (v) => !!v || 'New Password is required',
-                     (v) => (v && v.length >= 8 && v.length <= 15) || 'Passwords length should be 8 to 15',
+                     (v) => (v && v.length >= 5 && v.length <= 15) || 'Passwords length should be 5 to 15',
                 ],
                   Conpasswordrules: [
                     (v) => !!v || 'Confirm Password is required',
-                    (v) => (v && v.length >= 8 && v.length <= 15) || 'Passwords length should be 8 to 15',
+                    (v) => (v && v.length >= 5 && v.length <= 15) || 'Passwords length should be 5 to 15',
                 ],
             newPassword: '',
             confirmPassword: '',

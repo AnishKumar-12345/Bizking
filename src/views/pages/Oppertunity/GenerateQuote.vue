@@ -1,7 +1,32 @@
 <template>
    <div>
-     
-                 <VTable 
+
+       <div v-if="loading" id="app">
+      <div id="loading-bg">
+        <div class="loading-logo">
+          <img src="../../../assets/images/logos/comlogo.jpeg" height="60" width="68" alt="Logo" />
+        </div>
+        <div class="loading">
+          <div class="effect-1 effects"></div>
+          <div class="effect-2 effects"></div>
+          <div class="effect-3 effects"></div>
+        </div>
+      </div>
+    </div>
+<div style="max-width:400px">
+      <VTextField
+      class="mb-3"
+        v-model="searchQuery"        
+        density="compact"
+        variant="solo"
+        label="Search"
+        append-inner-icon="mdi-magnify"
+        single-line 
+        hide-details
+    
+    />
+    </div>
+      <VTable 
        :headers="headers"
         :items="oppitems"
         item-key="brand_name"
@@ -23,17 +48,33 @@
 
       <tbody>        
        <tr
-        v-for="(item,index) in oppitems"
+        v-for="(item,index) in paginatedItems"
         :key="index"
 
          
-      >       
+      >      
+       <td class="text-center">
+            <!-- Checkbox -->
+            <VCheckbox
+              v-model="item.selected"
+           
+              color="primary"
+            ></VCheckbox>
+          </td> 
         <td class="text-center">{{ item.brand_name }}</td>
 
         <td class="text-center">{{ item.sku_name }}</td>
         <td class="text-center">
           {{ item.uom }}
         </td>
+   
+          <td class="text-center">
+            <!-- Select Field -->
+            <VTextField
+              v-model="item.inputs"                       
+           
+            />
+          </td>
         <!-- <td class="text-center">
            
         {{ item.hsn_code }}
@@ -61,7 +102,7 @@
         </td> -->
           
           
-    <td class="text-center">
+    <!-- <td class="text-center">
               <V-btn
                   icon
                   variant="text"
@@ -78,11 +119,16 @@
                         />   
                       </V-btn>     
                       
-            </td>
+            </td> -->
       </tr>
       </tbody>        
                  </VTable>
-               
+                 <VPagination
+            v-model="page"
+            :length="Math.ceil(filteredProducts.length / pageSize)"
+            @input="updatePagination"
+               :max="maxPaginationPages"
+            /> 
      
    </div>
 </template>
@@ -92,77 +138,35 @@ export default {
     mixins: [servicescall], 
     data(){
         return{
-          oppitems : [
-            {
-              brand_name: 'Frozen Yogurt',
-              sku_name: 159,
-              uom: 6,
-              hsn_code: "Text",
-            //   mrp: 4,
-
-            //   status: 'active',
-            
-            },
-            {
-              brand_name: 'Ice cream sandwich',
-              sku_name: 237,
-              uom: 6,
-              hsn_code: "Text",
-            //   mrp: 4,
-            //    status: 'active',
-            },
-            {
-              brand_name: 'Eclair',
-              sku_name: 262,
-              uom: 6,
-              hsn_code: "Text",
-            //   mrp: 4,
-            //    status: 'active',
-            },
-            {
-              brand_name: 'Cupcake',
-              sku_name: 305,
-              uom: 6,
-              hsn_code: "Text",
-            //   mrp: 4,
-            //    status: 'active',
-            },
-            {
-              brand_name: 'Gingerbread',
-              sku_name: 356,
-              uom: 6,
-              hsn_code: "Text",
-            //   mrp: 4,
-            //    status: 'active',
-            },
-          ],
+          quotesdata : [],            
+         
           maxPaginationPages:5,
             storerules:[
           (v) => !!v || 'Store Address is required',
          ],
-       mrprules: [
-         (v) => !!v || 'MRP is required',
-      ],
-       namerules: [
-         (v) => !!v || 'Name is required',
-      ],
-       uomRules: [
-         (v) => !!v || 'UOM is required',
-      ],
-      //  hsnRules: [
-      //          (v) => !!v || "HSN is required",
-     
-      // ],
-       pinrules: [
-         (v) => !!v || 'PIN is required',
-      ],
-       phonerules: [
-         (v) => !!v || " Mobile  is required",
-        (v) => /^[0-9]+$/.test(v) || "only number are accepted",
-        (v) =>
-          (v && v.length <= 10 && v.length >= 10) ||
-          "Mobile must be  10 number",
-      ],
+            mrprules: [
+              (v) => !!v || 'MRP is required',
+            ],
+            namerules: [
+              (v) => !!v || 'Name is required',
+            ],
+            uomRules: [
+              (v) => !!v || 'UOM is required',
+            ],
+            //  hsnRules: [
+            //          (v) => !!v || "HSN is required",
+          
+            // ],
+            pinrules: [
+              (v) => !!v || 'PIN is required',
+            ],
+            phonerules: [
+              (v) => !!v || " Mobile  is required",
+              (v) => /^[0-9]+$/.test(v) || "only number are accepted",
+              (v) =>
+                (v && v.length <= 10 && v.length >= 10) ||
+                "Mobile must be  10 number",
+            ],
            snackbar: false,
       snackbarText: '',
       timeout: 6000, // milliseconds
@@ -190,7 +194,6 @@ export default {
               "total_given_margin": "",
               "sgst": "",
               "cgst": "",
-
               "pitch_from": "",
               // "decision_authority": "",
               "final_retail_cp": "",
@@ -208,37 +211,75 @@ export default {
             selectedBrand:null,
             userRole:'',
             createdby:'',
+            loading:true,
+
             headers:[
-               {text:'Service Details',value:'brand_name'},
-                {text:'Charge Type',value:'sku_name'},
-                {text:'value',value:'uom'},
-                // {text:'Notes',value:'hsn_code'},
-                // {text:'Location',value:'mrp'},
-                // {text:'Status',value:'status'},
-                // {text:'Total Given Margin',value:'total_given_margin'},
-                // {text:'SGST',value:'sgst'},
-                // {text:'CGST',value:'cgst'},
-                // {text:'Pitch From',value:'pitch_from'},            
-                // {text:'Final Retail CP',value:'final_retail_cp'},
-                // {text:'Final Retail',value:'final_ret'},
-                //  {text:'BK Profit',value:'bk_profit'},
-                // {text:'Bizking CP Final',value:'bizkingz_cp_final'},
-                // {text:'BC Margin Amount',value:'bc_margin_amt'},
-                // {text:'BC Margin',value:'bc_margin'},
-                // {text:'Location',value:'location'},
-                // {text:'Area Pincode',value:'area_pincode'},
-                {text:'Action',value:'actions'},
+                {text:'Select',value:'actions'},
+                {text:'Brand Name',value:'brand_name'},
+                {text:'Product Name',value:'sku_name'},
+                {text:'UOM',value:'uom'},               
+          
+                {text:'Input',value:'inputs'},
+
             ]
         }
     },
+    computed:{
+       filteredProducts(){
+         const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
+        return this.quotesdata.filter((item) => {
+        return (
+          // (item.lead_no && item.lead_no.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.brand_name && item.brand_name.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.sku_name && item.sku_name.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.uom && item.uom.toLowerCase().includes(lowerCaseQuery))          
+      
+
+        );
+      });
+    },
+
+        paginatedItems() {
+          const startIndex = (this.page - 1) * this.pageSize;
+          const endIndex = startIndex + this.pageSize;
+          return this.filteredProducts.slice(startIndex, endIndex);
+        },
+    },
+    mounted(){
+         this.getQuotesdata()
+            .then(() => {             
+              this.loading = false;
+            }) 
+            .catch((error) => {             
+              console.error('Error fetching merchants:', error);            
+            });
+    },
 methods:{
-  editOppertunity(item){
-    // console.log('check oppertunity',item);
-    this.$router.push({
-          name: 'Updateoppertunities', // Replace with the actual name of your route
-          // query: { po_id: itm.po_id }
+   updatePagination(page) {
+    this.page = page;
+  },
+  getQuotesdata(){
+        return new Promise((resolve, reject) => {
+          this.Quotesdata()
+            .then((response) => {
+              console.log('check',response);
+              this.quotesdata = response.data.data;
+              this.quotesdata.reverse();
+              resolve(); // Resolve the promise when API call is successful
+            })
+            .catch((error) => {
+              console.error('Error fetching merchants:', error);
+              reject(error); // Reject the promise if there's an error
+            });
         });
-  }
+  },
+  // editOppertunity(item){
+  //   // console.log('check oppertunity',item);
+  //   this.$router.push({
+  //         name: 'Updateoppertunities', // Replace with the actual name of your route
+  //         // query: { po_id: itm.po_id }
+  //       });
+  // }
 }
 
 }

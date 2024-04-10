@@ -111,6 +111,19 @@ const userRole = localStorage.getItem('userRole');
           <!-- Divider -->
           <VDivider class="my-2" />
 
+           <!-- 👉 Change Password -->
+          <VListItem to="/Changepassword">
+            <template #prepend>
+              <VIcon
+                class="me-2"
+                icon="carbon:password"
+                size="22"
+              />
+            </template>
+
+            <VListItemTitle>Change Password</VListItemTitle>
+          </VListItem>
+
           <!-- 👉 Logout -->
           <VListItem to="/login">
             <template #prepend>

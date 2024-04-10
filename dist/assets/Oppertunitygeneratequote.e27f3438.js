@@ -1,1 +1,0 @@
-import{G as t}from"./GenerateQuote.2cefd81c.js";import{_ as o,o as r,c as n,g as a,r as s}from"./index.502c6c44.js";import"./Services.c7eeb436.js";import"./index.2bd8ddc8.js";import"./VTable.35e306ec.js";const c={components:{GenerateQuote:t}};function p(m,_,i,u,f,l){const e=s("GenerateQuote");return r(),n("div",null,[a(e)])}const g=o(c,[["render",p]]);export{g as default};

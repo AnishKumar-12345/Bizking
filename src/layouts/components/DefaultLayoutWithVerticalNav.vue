@@ -35,6 +35,7 @@ import Notification from '@/layouts/components/Notification.vue'
           icon="mdi-github"
         />
       </a> -->
+      
       <NavbarThemeSwitcher />
       <!-- <VBtn
         icon

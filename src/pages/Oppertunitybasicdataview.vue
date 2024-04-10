@@ -27,6 +27,9 @@
       <VWindowItem value="notification">
         <Oppertunityworkinfo />
       </VWindowItem>
+        <VWindowItem value="quote">
+        <GenerateQuote />
+      </VWindowItem>
     </VWindow>
     </div>
 </template>
@@ -35,13 +38,15 @@ import { useRoute } from 'vue-router'
 import { ref, onMounted } from 'vue';
 import Oppertunitybasicdata from '@/views/pages/Oppertunity/Oppertunitybasicdata.vue'
 import Oppertunityworkinfo from '@/views/pages/Oppertunity/Oppertunityworkinfo.vue'
+import GenerateQuote from '@/views/pages/Oppertunity/GenerateQuote.vue'
 
 // import AccountSettingsAccount from '@/views/pages/account-settings/AccountSettingsAccount.vue'
 // import AccountSettingsNotification from '@/views/pages/account-settings/AccountSettingsNotification.vue'
 export default {
     components:{
         Oppertunitybasicdata,
-        Oppertunityworkinfo
+        Oppertunityworkinfo,
+        GenerateQuote
     },
     data(){
         return{
@@ -58,11 +63,11 @@ export default {
                   icon: 'mdi-lock-open-outline',
                   tab: 'notification',
                 },
-                // {
-                //     title: 'Work Info History',
-                //     icon: 'mdi-bell-outline',
-                //     tab: 'notification',
-                // },
+                {
+                    title: 'Quote generation',
+                    icon: 'mdi-bell-outline',
+                    tab: 'quote',
+                },
 ]
         }
     },

@@ -886,5 +886,41 @@ export default {
               return err.response;
             });
           },
+          Changepasswords(reqbody){
+            return axios
+            .post(this.url +"bizkingz/services/api/users/changePassword",reqbody, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          }, 
+          Quotesdata(){
+            return axios
+            .get(this.url +"bizkingz/services/api/quotes/products", {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
     }
 }

@@ -159,7 +159,7 @@ const loginuser = () => {
                 :append-inner-icon="isPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
                 @click:append-inner="isPasswordVisible = !isPasswordVisible"
                 :rules="passwordrules"
-              />
+               />
               <!-- <span v-if="!isPasswordValid" class="error-message">Password must be at least 6 characters</span> -->
               <!-- remember me checkbox -->
               <!-- <div class="d-flex align-center justify-space-between flex-wrap mt-1 mb-4">
@@ -192,12 +192,12 @@ const loginuser = () => {
               cols="12"
               class="text-center text-base"
             >
-              <span>New on our platform?</span>
+              <span>Forget Password?</span>
               <RouterLink
                 class="text-primary ms-2"
                 :to="{ name: 'register' }"
               >
-                Create an account
+                Change Password
               </RouterLink>
             </VCol> -->
 

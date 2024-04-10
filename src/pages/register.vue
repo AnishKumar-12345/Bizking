@@ -26,7 +26,7 @@ const isPasswordVisible = ref(false)
       class="auth-card pa-4 pt-7"
       max-width="448"
     >
-      <VCardItem class="justify-center">
+      <!-- <VCardItem class="justify-center">
         <template #prepend>
           <div class="d-flex">
             <div v-html="logo" />
@@ -36,15 +36,15 @@ const isPasswordVisible = ref(false)
         <VCardTitle class="font-weight-semibold text-2xl text-uppercase">
           Materio
         </VCardTitle>
-      </VCardItem>
+      </VCardItem> -->
 
       <VCardText class="pt-2">
         <h5 class="text-h5 font-weight-semibold mb-1">
-          Adventure starts here 🚀
+          Change Your Password Here 🚀
         </h5>
-        <p class="mb-0">
+        <!-- <p class="mb-0">
           Make your app management easy and fun!
-        </p>
+        </p> -->
       </VCardText>
 
       <VCardText>

@@ -1,5 +1,5 @@
 <template>
-  <VBadge v-bind="avatarBadgeProps" color="red" overlap>
+  <VBadge v-bind="avatarBadgeProps" overlap>
     <template #badge>
       <span class="badge-counter" color="primary">{{ countUnreadNotifications }}</span>
     </template>
@@ -47,6 +47,7 @@
             </template>
             <VListItemTitle class="font-weight-bold" style="font-size: 16px;">{{ notification.action }}</VListItemTitle>
             <VListItemSubtitle style="font-size: 12px;">{{ notification.message }}</VListItemSubtitle>
+            <VListItemSubtitle style="font-size: 10px;">{{ notification.created_date }}</VListItemSubtitle>
                <VDivider class="my-2" />
           </VListItem>
         </VList>

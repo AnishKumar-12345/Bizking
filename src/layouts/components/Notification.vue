@@ -17,7 +17,8 @@
       <!-- SECTION Menu -->
       <VMenu
         activator="parent"
-        width="400"
+        width="450"
+        height="400"
         location="bottom end"
         offset="14px"
       >

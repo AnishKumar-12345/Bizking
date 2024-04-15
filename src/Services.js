@@ -922,5 +922,23 @@ export default {
               return err.response;
             });
           },
+          getSalesmerchant(reqbody){
+            return axios
+            .get(this.url +"bizkingz/services/api/merchants/getSalesMerchants?user_id="+reqbody, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
     }
 }

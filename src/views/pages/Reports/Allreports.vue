@@ -222,7 +222,7 @@
     </VCol>  
 
 <!-- Merchant Payment Report -->
- <!-- <VCol
+ <VCol
         cols="12"
         md="4"
       >
@@ -246,10 +246,10 @@
           :src="triangleBg"
           class="triangle-bg flip-in-rtl"
         />
-          <img src="@/assets/images/avatars/avatar-12.png"  class="trophy5">
+          <img src="@/assets/images/avatars/avatar-18.png"  class="trophy7">
 
       </VCard>
-    </VCol>   -->
+    </VCol>  
 
 <!-- User Store Logins -->
     <!-- <VCol
@@ -988,7 +988,8 @@
         </VCard>
      </VDialog>
 
- <VDialog
+<!-- merchant payment dialog -->
+    <VDialog
         v-model="dialog10"
         max-width="1000"
       >
@@ -1009,22 +1010,61 @@
                 <VCol
                   md="6"
                   cols="12"
-                >
-          
-                
+                >          
+           
                   <VAutocomplete
-                   v-model="selectedmerchants4"
-                    :items="merchantName" 
+                   v-model="selectedSalesuser"
+                    :items="userstorenames" 
                     item-value="value"
                     item-title="text"
-                    :rules="storeMerchant"
-                    label="Store or Merchant"
+                    :rules="salesdata"
+                    label="Sales User"
+                    :menu-props="{ maxHeight: 200 }"        
+                    no-underline  
+                    @update:model-value="handleuserSelection(selectedSalesuser)"            
+                  />  
+                   <VProgressCircular
+                  :size="50"
+                  color="primary"
+                  indeterminate
+                  v-show="isProgress10"
+                >
+                </VProgressCircular>              
+                </VCol>        
+             
+                 <VCol
+                  md="6"
+                  cols="12"
+                >          
+           
+                  <VAutocomplete
+                   v-model="selectedSalesMerchant"
+                    :items="getmerchantdata" 
+                    item-value="value"
+                    item-title="text"
+                    :rules="salesdata"
+                    label="Sales Merchant"
                     :menu-props="{ maxHeight: 200 }"        
                     no-underline              
-                  />
-                
-                </VCol>        
+                  />                
+                </VCol> 
 
+                 <VCol
+                  md="6"
+                  cols="12"
+                >          
+           
+                  <VAutocomplete
+                   v-model="selectedSalesMerchant"
+                    :items="['Overall','Invoice Wise']" 
+                    item-value="value"
+                    item-title="text"
+                    :rules="salesdata"
+                    label="Select"
+                    :menu-props="{ maxHeight: 200 }"        
+                    no-underline              
+                  />                
+                </VCol> 
                 <VDivider />              
               
 
@@ -1103,6 +1143,7 @@ export default {
       isProgress7:false,
       isProgress8:false,
       isProgress9:false,
+      isProgress10:false,
 
       
         loading:true,
@@ -1117,6 +1158,7 @@ export default {
         dialog10:false,
 
         selectdatepicker:null,
+        salesUsers:[],
         merchantName:[],
         userstorenames:[],
         reportsMerchant:[],
@@ -1125,10 +1167,15 @@ export default {
         selectedmerchants2:null,
         selectedmerchants3:null,
         selectedmerchants4:null,
-
+        selectedSalesuser:null,
+        getmerchantdata:[],
+        selectedSalesMerchant:null,
         selectedBrand:null,
         selectedBrand2:null,
+          salesdata:[
+              (v) => !!v || 'Sales user is required',
 
+          ],
           salesRules: [
               (v) => !!v || 'Sales is required',
             ],
@@ -1234,6 +1281,30 @@ export default {
           }, 3000);
    },
    methods:{
+    handleuserSelection(itm){
+      console.log('check id',itm);
+      this.isProgress10 = true;
+      this.getSalesmerchant(itm).then((response)=>{
+        console.log('check response data',response);
+        if(response.data.status == 1){
+       this.isProgress10 = false;
+        this.getmerchantdata = response.data.data.map(merchant =>({
+                  value:merchant.merchant_id,
+                  text:merchant.merchant_uid
+              }))
+            this.snackbar = true;
+            this.snackbarText = response.data.message;
+            this.color = "primary";
+        }else{
+       this.isProgress10 = false;
+
+          this.snackbar = true;
+            this.snackbarText = response.data.message;
+            this.color = "on-background";
+        }
+       
+      })
+    },
     openMerchantpayment(){
       this.dialog10 = true;
     },
@@ -1324,16 +1395,22 @@ export default {
         //     text: sales.name
         // }));
 
-         this.userstorenames = [
-          { value: "all", text: "All" },
-          ...response.data.data.map(brand => ({
+        //  this.userstorenames = [
+        //   { value: "all", text: "All" },
+        //   ...response.data.data.map(brand => ({
+        //     value: brand.user_id,
+        //     text: brand.name
+        //   }))
+        // ];
+        this.userstorenames = response.data.data.map(brand => ({
             value: brand.user_id,
             text: brand.name
           }))
-        ];
+
            console.log('sales',this.userstorenames); 
 
       })
+      
     },
 
      validateForm7(){
@@ -2055,6 +2132,12 @@ export default {
   inline-size: 5rem;
   inset-block-end: -1rem;
   inset-inline-end: 2rem;
+}
+.trophy7{
+   position: absolute;
+  inline-size: 5rem;
+  inset-block-end: -0.2rem;
+  inset-inline-end:-0.2rem;
 }
 .trophy6{
     position: absolute;

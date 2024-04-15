@@ -133,10 +133,10 @@ export default {
             }
             console.log('chec password',postData);
             this.Changepasswords(postData).then((Response)=>{
-                // console.log('check response',Response)
+                console.log('check response',Response)
                 if(Response.data.status == 1){
                     this.snackbar = true;            
-                    this.snackbarText = Response.data.message;
+                    this.snackbarText = Response.data.messgae;
                     this.color = "primary";
                     this.newPassword = '';
                     this.confirmPassword = '';

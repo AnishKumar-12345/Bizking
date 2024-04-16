@@ -958,7 +958,7 @@ export default {
       return new Promise((resolve, reject) => {
         this.getOutputSalesorders()
           .then(response => {
-                    console.log('check sales res', response);
+                    // console.log('check sales res', response);
             // this.salesdata = response;
             //   console.log('check sales res', this.salesdata.status ,this.saleshistory);
             this.saleshistory = response.data || [];

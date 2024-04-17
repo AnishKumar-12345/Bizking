@@ -99,6 +99,9 @@
           {{ item.brand_connect }}
         </td>
         <td class="text-center">
+          {{ item.bk_brand_poc }}
+        </td>
+        <td class="text-center">
           {{ item.email_id }}
         </td>
          <td class="text-center">
@@ -378,8 +381,9 @@
             
 
 
-              <VCol            
+              <VCol         
             
+                 md="6"
                 cols="12"
               >
            
@@ -387,6 +391,20 @@
                   v-model=" this.saveBrand.address "               
                  
                   label="Brand Address"
+                 
+                />
+              </VCol>
+                <VCol         
+            
+                 md="6"
+                cols="12"
+              >
+           
+                <VTextField
+                   v-model="this.saveBrand.bk_brand_poc" 
+                 
+                  label="Brand POC From BK"
+       :rules="BrandBKrules"
                  
                 />
               </VCol>
@@ -402,6 +420,13 @@
 
                
               </VCol>
+                 <VProgressCircular
+                  :size="50"
+                  color="primary"
+                  indeterminate
+                  v-show="isProgress"
+                >
+                </VProgressCircular>
             </VRow>
           </VForm>
             </VCol>
@@ -427,6 +452,7 @@ export default {
     mixins: [servicescall],
     data(){
         return{
+          isProgress:false,
           userRole:"",
           loading:true,
            snackbar: false,
@@ -462,6 +488,7 @@ export default {
               "address":"",
               "location":"",
               "area_pincode":"",
+              "bk_brand_poc":"",
             },
 
              storerules:[
@@ -471,7 +498,10 @@ export default {
               uidrules: [
                 (v) => !!v || 'UID is required',
               ],
-
+              BrandBKrules: [
+                      (v) => !!v || 'Brand POC From BK is required',
+                    
+                    ],
               namerules: [
                 (v) => !!v || 'Name is required',
               ],
@@ -503,6 +533,7 @@ export default {
                 {text:'Brand Code',value:'brand_code'},
                 {text:'Brand Category',value:'brand_category'},
                 {text:'Brand Connect',value:'brand_connect'},
+                {text:'BK Brand POC',value:'bk_brand_poc'},
                 {text:'Email',value:'email_id'},
                 {text:'Status',value:'status'},           
                 {text:'Owner Name',value:'owner_name'},
@@ -529,6 +560,7 @@ export default {
           (item.brand_code && item.brand_code.toLowerCase().includes(lowerCaseQuery)) ||
           (item.brand_category && item.brand_category.toLowerCase().includes(lowerCaseQuery)) ||
           (item.brand_connect && item.brand_connect.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.bk_brand_poc && item.bk_brand_poc.toLowerCase().includes(lowerCaseQuery)) ||
           (item.email_id && item.email_id.toLowerCase().includes(lowerCaseQuery))|| 
           (item.owner_name && item.owner_name.toLowerCase().includes(lowerCaseQuery)) ||
           (item.owner_phone && item.owner_phone.toLowerCase().includes(lowerCaseQuery))  ||
@@ -598,12 +630,13 @@ export default {
           "brand_connect": this.saveBrand.brand_connect,
           "brand_category":  this.saveBrand.brand_category,
           "email_id": this.saveBrand.email_id,
-     
-          "brand_id": this.saveBrand.brand_id ,       
+          "bk_brand_poc": this.saveBrand.bk_brand_poc,
+          "brand_id": this.saveBrand.brand_id ,     
        
           "status": this.saveBrand.status === "Active" ? "1" : "0"
       }
         console.log('post',postData);
+        this.isProgress = true;
       this.updateBrands(postData).then((response)=>{
          if(response.data.status == 1){
               this.snackbarText = response.data.message;
@@ -612,10 +645,14 @@ export default {
               this.dialog=false;
               this.saveBrand={};
               this.getAllBrands();
+        this.isProgress = false;
+
               }else{
               this.snackbarText = response.data.message;
               this.color = "on-background";
               this.snackbar = true;
+        this.isProgress = false;
+
               }
       })
     },
@@ -641,7 +678,7 @@ export default {
         this.saveBrand.address = item.address;
         this.saveBrand.location = item.location;
         this.saveBrand.area_pincode = item.area_pincode;
-
+        this.saveBrand.bk_brand_poc = item.bk_brand_poc;
       },
        resolveStatusVariant(itm){
         if(itm == 1){

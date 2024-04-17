@@ -199,7 +199,7 @@ export default {
       authrules: [v => !!v || 'Authority is required'],
       namerules1: [
         v => !!v || 'Name is required',
-    
+         (v) => /^[a-z A-Z]+$/.test(v) || 'Only letters are allowed in the name'
       ],
       gstrules: [v => !!v || 'GST is required'],
 

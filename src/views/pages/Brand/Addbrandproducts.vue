@@ -208,6 +208,18 @@
                  :rules="storerules"
                 />
               </VCol>
+                <VCol  
+                md="6"
+                cols="12"
+              >
+                              
+                <VTextField
+                v-model="this.saveBrand.bk_brand_poc" 
+                 
+                  label="Brand POC From BK"
+                 :rules="BrandBKrules"
+                />
+              </VCol>
               <VCol
                 cols="12"
                 class="d-flex flex-wrap gap-4"
@@ -295,6 +307,7 @@ export default {
           "brand_category": "",
           "email_id": "",
           "created_by":"",
+          "bk_brand_poc":"",
          },
          
          storerules:[
@@ -307,6 +320,10 @@ export default {
 
        namerules: [
          (v) => !!v || 'Name is required',
+       
+      ],
+      BrandBKrules: [
+         (v) => !!v || 'Brand POC From BK is required',
        
       ],
   namerules1: [
@@ -371,7 +388,8 @@ export default {
           "brand_connect": this.saveBrand.brand_connect,
           "brand_category": this.saveBrand.brand_category,
           "email_id":  this.saveBrand.email_id ,
-          "created_by": this.userid
+          "created_by": this.userid,
+          "bk_brand_poc":this.saveBrand.bk_brand_poc
       }
       this.Addbranddata(postData).then((response)=>{
         console.log('resp',response);

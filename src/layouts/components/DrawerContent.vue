@@ -38,11 +38,11 @@ export default{
         }, 
          {
           id: 3,
-          title: 'Opportunity',
+          title: 'Oppertunity',
           icon: "ic:baseline-connect-without-contact",
           children: [
             //  { id: 25, title: 'Add Oppertunity', route: '/Updateoppertunities' },
-            { id: 23, title: 'View Opportunity', route: '/Viewoppertunities' },
+            { id: 23, title: 'View Oppertunity', route: '/Viewoppertunities' },
             // { id: 24, title: 'Generate Quote', route: '/Oppertunitygeneratequote' },
               // { id: 26, title: 'Close Oppertunity', route: '/Closealloppertunities' },
          ],
@@ -158,9 +158,9 @@ export default{
           expanded: false,
         },
           {
-          id: 14,
+          id: 15,
           title: 'Reports',
-          icon: "carbon:store",
+          icon: "iconoir:reports",
           route: '/Allreportsdata',
           expanded: false,
           // children: [
@@ -207,8 +207,8 @@ computed: {
       // Filter items for Sales Associate
       const allowedTitles = ["Dashboard", "Product"];
       
-      console.log('Allowed Titles:', allowedTitles);
-      
+      // console.log('Allowed Titles:', allowedTitles);
+      console.log("set",this.parentItems.filter(item => item.title));
       const filteredItems = this.parentItems.filter((item) => {
         const isAllowed = allowedTitles.includes(item.title);
         console.log(`Title: ${item.title}, Allowed: ${isAllowed}`);
@@ -249,11 +249,11 @@ computed: {
       // Filter items for Business Development Manager
       const allowedTitles = ["Dashboard", "Warehouse","Sales"];
       
-      // console.log('Allowed Titles:', allowedTitles);
+      console.log('Allowed Titles:', allowedTitles);
       
       const filteredItems = this.parentItems.filter((item) => {
         const isAllowed = allowedTitles.includes(item.title);
-        // console.log(`Title: ${item.title}, Allowed: ${isAllowed}`);
+        console.log(`Title: ${item.title}, Allowed: ${isAllowed}`);
         return isAllowed;
       });
       

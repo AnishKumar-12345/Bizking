@@ -9,13 +9,13 @@
      <VDivider />
      
     <VWindow
-      v-model="activeTab"
+      v-model="activeTab" 
       class="mt-5 disable-tab-transition"
       :touch="false"
     >
       <!-- Account -->
       <VWindowItem value="account">
-        <Viewstocks/>
+        <Viewstocks/>      
       </VWindowItem>
 
     
@@ -49,10 +49,11 @@ export default {
         }
     },
     mounted(){
-        this.currentroute = useRoute()
+        this.currentroute = useRoute();
         this.activeTab = ref(this.currentroute.params.tab);
          this.activeTab = this.tabs[0].tab;
     }
+   
 }
 </script>
 <style lang="scss">

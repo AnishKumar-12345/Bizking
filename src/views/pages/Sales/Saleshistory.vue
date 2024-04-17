@@ -161,7 +161,24 @@
            <td class="text-center">
           {{ item.total_so_amount }}
         </td>
-        <td class="text-center">
+        <td class="text-center" >
+           <VBtn   
+              v-if="item.so_status == 'Delivered'"
+              icon
+              variant="text"
+              color="default"
+              class="me-2"
+              size="x-small"
+              @click="getImageupdate(item.pod_image)"
+            >
+              <VIcon
+                color="success"
+                icon="ic:twotone-photo-camera-back"
+                size="26"
+              />
+            </VBtn>
+        </td>
+        <td class="text-center" >
            <VBtn
 
              v-if="item.so_status == 'Shipped' || item.so_status == 'Delivered'"
@@ -282,6 +299,7 @@ export default {
         { text: 'Order From', value: 'merchant_name' },
         { text: 'Shipped To', value: 'merchant_name' },
         { text: 'Order Value', value: 'total_so_amount' },
+        { text: 'POD', value: 'pod_image'},
         { text: 'Delivery Challan', value: 'delivery_challan_file' },
         { text: 'Invoice', value: 'invoice_file' },
 
@@ -347,6 +365,11 @@ export default {
     methods:{
         updatePagination(page) {
     this.page = page;
+  },
+  getImageupdate(id){
+     this.loading2 = true;
+       window.open(id, '_blank');
+        this.loading2 = false;
   },
   getPDFinvoice(id){
      this.loading2 = true;

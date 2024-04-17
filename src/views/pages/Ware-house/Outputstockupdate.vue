@@ -38,7 +38,7 @@
     </div>
 
     <!-- v-if="showNoSalesAlert" -->
-
+<!-- 
     <VRow v-if="!saleshistory || saleshistory.length === 0">
       <VCol cols="12">
         <VCard title="Output Stocks View">
@@ -58,9 +58,22 @@
           </VCardText>
         </VCard>
       </VCol>
-    </VRow>
+    </VRow> -->
 
-    <div
+  
+<!-- <div>{{outputSalesOrders}}</div> -->
+ <!-- <h1>Output Sales Orders:</h1>
+      <ul>
+        <li v-for="(order, index) in outputSalesOrders.data" :key="index">
+          {{ order.so_number }} 
+        </li>
+      </ul> -->
+    <div v-if="savingOutputStock" class="loader-wrapper">
+      <div class="loader"></div>
+    </div>
+    <!-- v-if="!showNoSalesAlert" -->
+    <!-- hasOwnProperty('cboqs') -->
+      <div
       v-if="loading"
       id="app"
     >
@@ -81,11 +94,69 @@
       </div>
     </div>
 
-    <div v-if="savingOutputStock" class="loader-wrapper">
-      <div class="loader"></div>
-    </div>
-    <!-- v-if="!showNoSalesAlert" -->
-    <!-- hasOwnProperty('cboqs') -->
+<VTable>
+   <thead>
+        <tr>
+          <th
+            class="text-center"
+            v-for="header in headers"
+            :key="header"
+          >
+            {{ header.text }}
+          </th>
+        </tr>
+      </thead>
+        <tbody>
+          <tr v-for="item  in paginatedItems" :key="item.so_status">
+          <td class="text-center">{{ item.so_number }}</td>
+          <td class="text-center">{{ item.created_date }}</td>
+          <td class="text-center"> <VChip
+              :color="resolveStatusVariant(item.so_status).color"
+              class="font-weight-medium"
+              size="small"
+            >
+              {{ item.so_status }}
+              <!-- {{ item.fat }} -->
+            </VChip></td>
+          <td class="text-center">{{ item.merchant_name }}</td>
+          <td class="text-center">{{ item.merchant_name }}</td>
+          <td class="text-center">{{ item.total_so_amount }}</td>
+          <td class="text-center">  <VBtn
+              v-if="item.so_status != 'Shipped' && item.so_status != 'Delivered'"
+              icon
+              variant="text"
+              color="success"
+              class="me-2"
+              size="small"
+            >
+              <!-- Receive Stock -->
+              <VIcon
+                icon="mdi-invoice-receive-outline"
+                color="success"
+                size="30"
+                @click="outputstocks(item)"
+              />
+            </VBtn>
+
+            <VBtn
+              v-if="item.so_status == 'Shipped' || item.so_status == 'Delivered'"
+              icon
+              variant="text"
+              color="default"
+              class="me-2"
+              size="x-small"
+              @click="getPDFupdate(item.delivery_challan_file)"
+            >
+              <VIcon
+                color="error"
+                icon="iwwa:file-pdf"
+                size="26"
+              />
+            </VBtn></td>
+         
+          </tr>
+        </tbody>
+</VTable>
     <VTable
       v-if="this.saleshistory != ''"
       :headers="headers"
@@ -111,10 +182,9 @@
           <!-- <tr v-if="filteredSalesHistory.length === 0">
           <td colspan="16" class="text-center"><h1>No data found !</h1></td>
         </tr>   -->
-
+<!-- v-for="(item, index) in outputSalesOrders.data" :key="index" -->
         <tr
-          v-for="(item, index) in this.paginatedItems"
-          :key="index"
+          
         >
           <td class="text-center">{{ item.so_number }}</td>
           <td class="text-center">
@@ -296,9 +366,29 @@
   </VSelect> -->
                   </VCol>
                   <VCol cols="12">
+                      <div
+      v-if="loading3"
+      id="app"
+    >
+      <div id="loading-bg">
+        <div class="loading-logo">
+          <img
+            src="../../../assets/images/logos/comlogo.jpeg"
+            height="60"
+            width="68"
+            alt="Logo"
+          />
+        </div>
+        <div class="loading">
+          <div class="effect-1 effects"></div>
+          <div class="effect-2 effects"></div>
+          <div class="effect-3 effects"></div>
+        </div>
+      </div>
+    </div>
                     <VTable
                       :headers="headers"
-                      :items="OutputStockDetails"
+                      :items="Salesorderdetails"
                     >
                       <thead>
                         <tr>
@@ -315,7 +405,7 @@
                       <tbody>
                         <!-- {{filteredOutputstocks}} -->
                         <tr
-                          v-for="(item, index) in this.outputStockproducts"
+                          v-for="(item, index) in this.Salesorderdetails"
                           :key="index"
                         >
                           <td class="text-center">
@@ -473,7 +563,7 @@ export default {
       validquan: false,
       PersonRules: [v => !!v || 'Delivery Person is required'],
       DateRules: [v => !!v || 'Shipped date is required'],
-      loading: true,
+      // loading: true,
       shippedexchange: [v => v === 0 || (!!v && `${v}`.trim() !== '') || 'shippedexchange Quantity Is Required'],
       shippedquantity: [v => v === 0 || (!!v && `${v}`.trim() !== '') || 'shipped Quantity Is Required'],
       snackbar: false,
@@ -484,11 +574,14 @@ export default {
       bottom: true,
       left: false,
       right: false,
+      loading3:false,
       isProgress: false,
       selectedPurchaseOrder: null,
       dialog: false,
       Soid: '',
       OutputStockDetails: [],
+      filteredsalesdata:[],
+      Salesorderdetails:[],
       today: this.getFormattedDate(new Date()),
       outputStock: {
         so_id: '',
@@ -554,6 +647,7 @@ export default {
       selectedDeliveryPerson: null,
       deliveryPersons: [],
       deliveryUserDetails: [],
+      filtereddata:[],
       page: 1,
       pageSize: 10,
       loading2: false,
@@ -575,23 +669,28 @@ export default {
     }
   },
   computed: {
+     outputSalesOrders() {
+      return this.$store.state.outputSalesOrders;
+    },
     // ifoutputstock(){
     //   this.paginatedItems.map(item => item.)
     // },
     totalshippedorder() {
-      return this.outputStockproducts.reduce((total, item) => total + parseFloat(item.shipped_ordered || 0), 0)
+      return this.Salesorderdetails.reduce((total, item) => total + parseFloat(item.shipped_ordered || 0), 0)
     },
     totalshippedexchange() {
-      return this.outputStockproducts.reduce((total, item) => total + parseFloat(item.shipped_exchange || 0), 0)
+      return this.Salesorderdetails.reduce((total, item) => total + parseFloat(item.shipped_exchange || 0), 0)
     },
 
     filteredOutputstocks() {
       // Filter purchaseHistory based on the condition
-      return this.outputStockproducts.filter(item => item.exchange_quantity > 0 || item.quantity > 0)
+      return this.Salesorderdetails.filter(item => item.exchange_quantity > 0 || item.quantity > 0)
     },
     filteredSalesHistory() {
+    //  const postdata = this.outputSalesOrders.data.filter(order=>order.so_number);
+    //  console.log('tbf',postdata);
       const lowerCaseQuery = this.searchQuery.toLowerCase().trim()
-      return this.saleshistory.filter(item => {
+      return this.filteredsalesdata.filter(item => {
         // Filter based on search query
         const matchesSearch =
           (item.so_number && item.so_number.toLowerCase().includes(lowerCaseQuery)) ||
@@ -625,6 +724,8 @@ export default {
   },
   mounted() {
     this.Soid = this.$route.query.so_id
+    // this.fetchOutputSalesOrders();
+    // this.fetchOutputSalesOrders();
     // console.log('Received po_id:', this.Soid);
     // this.getOutputstockdetails();
     // setTimeout(() => {
@@ -632,22 +733,47 @@ export default {
     //   // console.log('deliveryPersons:', this.deliveryPersons);
     // }, 4500);
     // this.getSalesorderdetails();
-    this.getSalesorderdetails()
-      .then(() => {
-        // Set loading to false when API call is successful
-        this.loading = false
-      })
-      .catch(error => {
-        // Handle any errors if the API call fails
-        console.error('Error fetching merchants:', error)
-        // You might want to set loading to false here as well
-        // Depending on how you want to handle API errors
-      })
+    // this.getSalesorderdetails()
+    //   .then(() => {
+    //     // Set loading to false when API call is successful
+    //     this.loading = false
+    //   })
+    //   .catch(error => {
+    //     // Handle any errors if the API call fails
+    //     console.error('Error fetching merchants:', error)
+    //     // You might want to set loading to false here as well
+    //     // Depending on how you want to handle API errors
+    //   })
     //     setTimeout(() => {
     //   this.loading = false; // Set loading to false when the operation is complete
     // }, 4500);
   },
+   created() {
+    // console.log('test it created');
+    this.fetchOutputSalesOrders().then(()=>{
+      this.loading=false
+    }).catch(error=>{
+      console.error('Error fetching merchants:', error)
+    })
+  },
   methods: {
+   fetchOutputSalesOrders() {
+    this.loading = true; // Set loading to true before API call
+    return new Promise((resolve, reject) => {
+      this.$store.dispatch('getOutputSaleOrdersdata')
+        .then((response) => {
+          console.log('check details', response);
+          this.filteredsalesdata = response.data;
+          this.loading = false; // Set loading to false after API call
+          resolve(response); // Resolve the promise with response
+        })
+        .catch(error => {
+          console.error('Error fetching output sales orders:', error);
+          this.loading = false; // Set loading to false on error
+          reject(error); // Reject the promise with error
+        });
+    });
+   },
     validateForm() {
       this.$refs.purchaseOrderForm.validate().then(valid => {
         // console.log("form valid", valid.valid);
@@ -709,9 +835,10 @@ export default {
         total_quantity: this.OutputStockDetails.total_quantity,
         created_date: this.OutputStockDetails.created_date,
         shipped_date: this.outputStock.shipped_date,
+        is_empty: this.outputStock.is_empty,
         total_shipped_ordered: `${this.totalshippedorder}`,
         total_shipped_exchanged: `${this.totalshippedexchange}`,
-        products: this.outputStockproducts.map((product, index) => ({
+        products: this.Salesorderdetails.map((product, index) => ({
           merchant_product_id: product.merchant_product_id,
           sku_name: product.sku_name,
           hsn_code: product.hsn_code,
@@ -738,8 +865,8 @@ export default {
         })),
         delivery_person: this.selectedDeliveryPerson,
       }
-      // console.log('check the post data',postData);
-      const validationErrors = this.outputStockproducts.map(product => {
+      console.log('check the post data',postData);
+      const validationErrors = this.Salesorderdetails.map(product => {
         console.log(
           'Shipped quan',
           product.shipped_ordered,
@@ -763,8 +890,8 @@ export default {
       //     // this.isQuantityExceeded2(product.shipped_exchange, product.exchange)
       //   );
       // });
-      console.log('check', validationErrors.length)
-      console.log('Validation Error Length:', validationErrors.filter(error => error).length)
+      // console.log('check', validationErrors.length)
+      // console.log('Validation Error Length:', validationErrors.filter(error => error).length)
       console.log(
         'Validation Error :',
         validationErrors.filter(error => error),
@@ -786,21 +913,20 @@ export default {
             // this.isProgress = false
             this.snackbarText = response.message
             this.selectedDeliveryPerson = null
-        this.loading = false;
-
-            this.outputStockproducts = []
+            this.loading = false;
+            this.Salesorderdetails = []
+      //       console.log('text',this.outputSalesOrders.data);
+      //        const indexToRemove = this.outputSalesOrders.data.findIndex(order => order.so_status === "Acknowledged");
+      // if (indexToRemove !== -1) {
+      //   this.outputSalesOrders.data.splice(indexToRemove, 1); // Remove the object at index
+      // }
+      // console.log('tedrs',indexToRemove)
             // this.outputStock={};
-            this.getSalesorderdetails()
-              .then(() => {
-                // Set loading to false when API call is successful
-                this.loading = false
-              })
-              .catch(error => {
-                // Handle any errors if the API call fails
-                console.error('Error fetching merchants:', error)
-                // You might want to set loading to false here as well
-                // Depending on how you want to handle API errors
-              })
+            this.fetchOutputSalesOrders().then(()=>{
+              this.loading=false
+            }).catch(error=>{
+              console.error('Error fetching merchants:', error)
+            })
             //          setTimeout(() => {
             //             this.$router.push({
             //           name: 'Viewsaleshistory'
@@ -913,26 +1039,30 @@ export default {
     closedialog() {
       this.dialog = false
       this.deliveryPersons = [];
-      this.outputStockproducts = [];
+      this.Salesorderdetails = [];
       this.outputStock = {};
     },
     outputstocks(item) {
       console.log('check the detials', item)
       this.dialog = true
       this.outputStock.so_number = item.so_number
+      this.outputStock.is_empty = item.is_empty
       this.outputStock.merchant_name = item.merchant_name
       this.outputStock.so_status = 'Shipped'
-      this.outputStockproducts = item.products
-      console.log('check ', this.outputStockproducts)
+      // this.outputStockproducts = item.products
+      // console.log('check ', this.outputStockproducts)
       //  this.$router.push({
       //   name: 'Createwarehouseoutput', // Replace with the actual name of your route
       //   query: { so_id: item.so_id }
       // });
+      this.loading3 = true;
       this.getOutputstock(item.so_id).then(response => {
-        // console.log('dates',response);
+        console.log('dates',response);
+      this.loading3 = false;
+
         this.OutputStockDetails = response.data;
         //  console.log('check output dtock', this.OutputStockDetails);
-
+        this.Salesorderdetails = response.data.products;
         this.deliveryUserDetails = response.delivery_user_details;
         // console.log('delivery detials',this.deliveryUserDetails);
 
@@ -954,26 +1084,26 @@ export default {
           // text: 'Shared',
         }
     },
-    getSalesorderdetails() {
-      return new Promise((resolve, reject) => {
-        this.getOutputSalesorders()
-          .then(response => {
-                    // console.log('check sales res', response);
-            // this.salesdata = response;
-            //   console.log('check sales res', this.salesdata.status ,this.saleshistory);
-            this.saleshistory = response.data || [];
+    // getSalesorderdetails() {
+    //   return new Promise((resolve, reject) => {
+    //     this.getOutputSalesorders()
+    //       .then(response => {
+    //                 // console.log('check sales res', response);
+    //         // this.salesdata = response;
+    //         //   console.log('check sales res', this.salesdata.status ,this.saleshistory);
+    //         this.saleshistory = response.data || [];
       
 
-            this.saleshistory.reverse()
+    //         this.saleshistory.reverse()
 
-            resolve() // Resolve the promise when API call is successful
-          })
-          .catch(error => {
-            console.error('Error fetching merchants:', error)
-            reject(error) // Reject the promise if there's an error
-          })
-      })
-    },
+    //         resolve() // Resolve the promise when API call is successful
+    //       })
+    //       .catch(error => {
+    //         console.error('Error fetching merchants:', error)
+    //         reject(error) // Reject the promise if there's an error
+    //       })
+    //   })
+    // },
   },
 }
 </script>

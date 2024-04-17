@@ -240,7 +240,7 @@ export default {
         authrules: [
          (v) => !!v || 'Decision Authority is required',
        
-      ],
+      ], 
       namerules1: [
          (v) => !!v || 'POC name is required',
          (v) => /^[a-z A-Z]+$/.test(v) || 'Only letters are allowed in the name'

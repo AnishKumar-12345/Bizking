@@ -154,8 +154,32 @@
                   :items="this.salesdata"
                 item-value="value"
                 item-title="text"
-                 :rules="namerules"
+                 :rules="salespersonr"
                   required
+                />
+              </VCol>
+               <VCol            
+                 md="6"
+                cols="12"
+              >
+              <!-- {{this.salesdata}} -->
+                <VTextField
+                  v-model="this.saveMerchant.longitude"               
+                 
+                  label="Longitude"
+                 :rules="Logitude"
+                />
+              </VCol>
+               <VCol            
+                 md="6"
+                cols="12"
+              >
+              <!-- {{this.salesdata}} -->
+                <VTextField
+                  v-model="this.saveMerchant.latitude"               
+                 
+                  label="Latitude"
+                 :rules="latitude"
                 />
               </VCol>
               <VCol            
@@ -256,8 +280,28 @@ export default {
           "shop_type": "",
           "location": "",
           "created_by": "",
-          "sales_person": ""
+          "sales_person": "",
+          "longitude":"",
+          "latitude":"",
          },
+        //  Logitude:[
+        //   (v) => !!v || 'Longitude is required',
+        //   (v) => /^[0-9]+$/.test(v) || "only number are accepted",
+
+        //  ],
+        //    latitude:[
+        //   (v) => !!v || 'Latitude is required',
+        //  ],
+         Logitude: [
+  (v) => !!v || 'Longitude is required',
+  (v) => /^\s*-?(\d+(\.\d+)?|[0-8]?\d(\.\d+)?|90(\.0+)?)\s*$/.test(v) || 'Invalid Longitude Format',
+],
+
+latitude: [
+  (v) => !!v || 'Latitude is required',
+  (v) => /^\s*-?([0-8]?\d(\.\d+)?|90(\.0+)?|[1-8]?\d(\.\d+)?|89(\.999+)?|[1-8]\d(\.\d+)?|90\.0+?)\s*$/.test(v) || 'Invalid Latitude Format',
+],
+
          storerules:[
           (v) => !!v || 'Store Address is required',
          ],
@@ -266,6 +310,12 @@ export default {
       ],
        namerules: [
          (v) => !!v || 'Name is required',
+         (v) => /^[a-z A-Z]+$/.test(v) || 'Only letters are allowed in the name'
+
+      ],
+      salespersonr:[
+         (v) => !!v || 'Name is required',
+
       ],
        gstrules: [
                (v) => !!v || "GST is required",
@@ -319,7 +369,10 @@ export default {
           "shop_type": this.saveMerchant.shop_type,
           "location": this.saveMerchant.location,
           "created_by":  this.userid ,
-          "sales_person": this.saveMerchant.sales_person
+          "sales_person": this.saveMerchant.sales_person,
+          "latitude": this.saveMerchant.latitude,
+          "longitude": this.saveMerchant.longitude,
+
       }
       this.addOnboardmerchant(postData).then((response)=>{
         console.log('resp',response);

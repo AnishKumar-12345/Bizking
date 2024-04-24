@@ -374,7 +374,8 @@ methods:{
 
   },
   editProduct(item){ 
-    console.log('check id',item);
+     this.$store.commit('setSelectedItem', item);
+     console.log('check id',item);
      this.$router.push({
           name: 'Oppertunitybasicdataview', // Replace with the actual name of your route
           query: { opportunity_id: item.opportunity_id } 

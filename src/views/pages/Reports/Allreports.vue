@@ -1,258 +1,373 @@
 <template>
   <div>
-     <div v-if="loading"  class="loading-container">
+    <div
+      v-if="loading"
+      class="loading-container"
+    >
       <VProgressLinear
-            height="5"
-            color="primary"
-            indeterminate
-            class="custom-loader"  
-            full-width              
-        />          
-     </div>
-
-     <VRow>  
-<!-- Merchant Products report -->
-    <VCol
-      cols="12"
-      md="4"
-    >
-       <VCard
-      title="Merchant Products"
-      class="position-relative"
-    >
-      <VCardText>
-        <h4 class="text-4xl font-weight-medium text-primary">
-                  <VIcon size="50" start icon="line-md:downloading-loop" />
-
-        </h4> <br>
-        <!-- <p>🎉</p> -->
-        <VBtn size="small" @click="openMPR()">
-          Get Reports
-        </VBtn>
-      </VCardText>
-
-      <!-- Triangle Background -->
-      <VImg
-        :src="triangleBg"
-        class="triangle-bg flip-in-rtl"
+        height="5"
+        color="primary"
+        indeterminate
+        class="custom-loader"
+        full-width
       />
-        <img src="@/assets/images/avatars/avatar-14.png"  class="trophy2">
+    </div>
 
-    </VCard>
-    </VCol>  
-
-<!-- Merchant Product Sales report -->
-    <VCol
-      cols="12"
-      md="4"
-    >
-       <VCard
-      title="Merchant Product Sales"
-      class="position-relative"
-    >
-      <VCardText>
-        <h4 class="text-4xl font-weight-medium text-primary">
-         <VIcon size="50" start icon="line-md:downloading-loop" />
-
-        </h4> <br>
-        <!-- <p>🎉</p> -->
-        <VBtn size="small" @click="openMPS()">
-          Get Reports
-        </VBtn>
-      </VCardText>
-
-      <!-- Triangle Background -->
-      <VImg
-        :src="triangleBg"
-        class="triangle-bg flip-in-rtl"
-      />
-        <img src="@/assets/images/avatars/avatar-16.png" class="trophy4">
-
-    </VCard>
-    </VCol>   
-
-<!-- Merchant Stock Inventory report -->
-    <VCol
-      cols="12"
-      md="4"
-    >
-       <VCard
-      title="Merchant Stock Inventory"
-      class="position-relative"
-    >
-      <VCardText>
-        <h4 class="text-4xl font-weight-medium text-primary">
-                  <VIcon size="50" start icon="line-md:downloading-loop" />
-
-        </h4> <br>
-        <!-- <p>🎉</p> -->
-        <VBtn size="small" @click="openMSI()">
-          Get Reports
-        </VBtn>
-      </VCardText>
-
-      <!-- Triangle Background -->
-      <VImg
-        :src="triangleBg"
-        class="triangle-bg flip-in-rtl"
-      />
-        <img src="@/assets/images/avatars/avatar-11.png"  class="trophy">
-
-    </VCard>
-    </VCol>  
-
-<!-- sales orders report -->
-    <VCol
-      cols="12"
-      md="4"
-    >
-      <VCard
-      title="Sales Orders"
-      class="position-relative"
-    >
-      <VCardText>
-        <h4 class="text-4xl font-weight-medium text-primary">
-                  <VIcon size="50" start icon="line-md:downloading-loop" />
-
-        </h4> <br>
-        <!-- <p>🎉</p> -->
-        <VBtn size="small"  @click="openSales()">
-          Get Reports
-        </VBtn>
-      </VCardText>
-
-      <!-- Triangle Background -->
-      <VImg
-        :src="triangleBg"
-        class="triangle-bg flip-in-rtl"
-      />
-    <img src="@/assets/images/avatars/avatar-15.png" class="trophy1">
-      <img :src="avatarg" class="avatarg">
-    </VCard>
-    </VCol> 
-
-<!-- Warehouse Stock Inventory report -->
-     <VCol
-      cols="12"
-      md="4"
-    >
-       <VCard
-      title="Warehouse Stock Inventory"
-      class="position-relative"
-    >
-      <VCardText>
-        <h4 class="text-4xl font-weight-medium text-primary">
-                  <VIcon size="50" start icon="line-md:downloading-loop" />
-
-        </h4> <br>
-        <!-- <p>🎉</p> -->
-        <VBtn size="small" @click="openWSI()">
-          Get Reports
-        </VBtn>
-      </VCardText>
-
-      <!-- Triangle Background -->
-      <VImg
-        :src="triangleBg"
-        class="triangle-bg flip-in-rtl"
-      />
-        <img src="@/assets/images/avatars/avatar-9.png"  class="trophy">
-
-    </VCard>
-    </VCol>  
-
-<!-- Brand Products report -->
-    <VCol
+    <VRow>
+      <!-- Merchant Products report -->
+      <VCol
         cols="12"
         md="4"
       >
         <VCard
-        title="Brand Products"
-        class="position-relative"
-      >
-        <VCardText>
-          <h4 class="text-4xl font-weight-medium text-primary">
-                    <VIcon size="50" start icon="line-md:downloading-loop" />
+          title="Merchant Products"
+          class="position-relative"
+        >
+          <VCardText>
+            <h4 class="text-4xl font-weight-medium text-primary">
+              <VIcon
+                size="50"
+                start
+                icon="line-md:downloading-loop"
+              />
+            </h4>
+            <br />
+            <!-- <p>🎉</p> -->
+            <VBtn
+              size="small"
+              @click="openMPR()"
+            >
+              Get Reports
+            </VBtn>
+          </VCardText>
 
-          </h4> <br>
-          <!-- <p>🎉</p> -->
-          <VBtn size="small" @click="openBrand()">
-            Get Reports
-          </VBtn>
-        </VCardText>
+          <!-- Triangle Background -->
+          <VImg
+            :src="triangleBg"
+            class="triangle-bg flip-in-rtl"
+          />
+          <img
+            src="@/assets/images/avatars/avatar-14.png"
+            class="trophy2"
+          />
+        </VCard>
+      </VCol>
 
-        <!-- Triangle Background -->
-        <VImg
-          :src="triangleBg"
-          class="triangle-bg flip-in-rtl"
-        />
-          <img src="@/assets/images/avatars/avatar-10.png"  class="trophy">
-
-      </VCard>
-    </VCol>  
-
-<!-- Purchase Orders -->
-    <VCol
+      <!-- Merchant Product Sales report -->
+      <VCol
         cols="12"
         md="4"
       >
         <VCard
-        title="Purchase Orders"
-        class="position-relative"
-      >
-        <VCardText>
-          <h4 class="text-4xl font-weight-medium text-primary">
-                    <VIcon size="50" start icon="line-md:downloading-loop" />
+          title="Merchant Product Sales"
+          class="position-relative"
+        >
+          <VCardText>
+            <h4 class="text-4xl font-weight-medium text-primary">
+              <VIcon
+                size="50"
+                start
+                icon="line-md:downloading-loop"
+              />
+            </h4>
+            <br />
+            <!-- <p>🎉</p> -->
+            <VBtn
+              size="small"
+              @click="openMPS()"
+            >
+              Get Reports
+            </VBtn>
+          </VCardText>
 
-          </h4> <br>
-       
-          <VBtn size="small" @click="openPurchase()">
-            Get Reports
-          </VBtn>
-        </VCardText>
+          <!-- Triangle Background -->
+          <VImg
+            :src="triangleBg"
+            class="triangle-bg flip-in-rtl"
+          />
+          <img
+            src="@/assets/images/avatars/avatar-16.png"
+            class="trophy4"
+          />
+        </VCard>
+      </VCol>
 
-   
-        <VImg
-          :src="triangleBg"
-          class="triangle-bg flip-in-rtl"
-        />
-          <img src="@/assets/images/avatars/avatar-12.png"  class="trophy5">
-
-      </VCard>
-    </VCol>  
-
-<!-- Merchant Payment Report -->
- <VCol
+      <!-- Merchant Stock Inventory report -->
+      <VCol
         cols="12"
         md="4"
       >
         <VCard
-        title="Merchant Payment Report"
-        class="position-relative"
+          title="Merchant Stock Inventory"
+          class="position-relative"
+        >
+          <VCardText>
+            <h4 class="text-4xl font-weight-medium text-primary">
+              <VIcon
+                size="50"
+                start
+                icon="line-md:downloading-loop"
+              />
+            </h4>
+            <br />
+            <!-- <p>🎉</p> -->
+            <VBtn
+              size="small"
+              @click="openMSI()"
+            >
+              Get Reports
+            </VBtn>
+          </VCardText>
+
+          <!-- Triangle Background -->
+          <VImg
+            :src="triangleBg"
+            class="triangle-bg flip-in-rtl"
+          />
+          <img
+            src="@/assets/images/avatars/avatar-11.png"
+            class="trophy"
+          />
+        </VCard>
+      </VCol>
+
+      <!-- sales orders report -->
+      <VCol
+        cols="12"
+        md="4"
       >
-        <VCardText>
-          <h4 class="text-4xl font-weight-medium text-primary">
-                    <VIcon size="50" start icon="line-md:downloading-loop" />
+        <VCard
+          title="Sales Orders"
+          class="position-relative"
+        >
+          <VCardText>
+            <h4 class="text-4xl font-weight-medium text-primary">
+              <VIcon
+                size="50"
+                start
+                icon="line-md:downloading-loop"
+              />
+            </h4>
+            <br />
+            <!-- <p>🎉</p> -->
+            <VBtn
+              size="small"
+              @click="openSales()"
+            >
+              Get Reports
+            </VBtn>
+          </VCardText>
 
-          </h4> <br>
-       
-          <VBtn size="small" @click="openMerchantpayment()">
-            Get Reports
-          </VBtn>
-        </VCardText>
+          <!-- Triangle Background -->
+          <VImg
+            :src="triangleBg"
+            class="triangle-bg flip-in-rtl"
+          />
+          <img
+            src="@/assets/images/avatars/avatar-15.png"
+            class="trophy1"
+          />
+          <img
+            :src="avatarg"
+            class="avatarg"
+          />
+        </VCard>
+      </VCol>
 
-   
-        <VImg
-          :src="triangleBg"
-          class="triangle-bg flip-in-rtl"
-        />
-          <img src="@/assets/images/avatars/avatar-18.png"  class="trophy7">
+      <!-- Warehouse Stock Inventory report -->
+      <VCol
+        cols="12"
+        md="4"
+      >
+        <VCard
+          title="Warehouse Stock Inventory"
+          class="position-relative"
+        >
+          <VCardText>
+            <h4 class="text-4xl font-weight-medium text-primary">
+              <VIcon
+                size="50"
+                start
+                icon="line-md:downloading-loop"
+              />
+            </h4>
+            <br />
+            <!-- <p>🎉</p> -->
+            <VBtn
+              size="small"
+              @click="openWSI()"
+            >
+              Get Reports
+            </VBtn>
+          </VCardText>
 
-      </VCard>
-    </VCol>  
+          <!-- Triangle Background -->
+          <VImg
+            :src="triangleBg"
+            class="triangle-bg flip-in-rtl"
+          />
+          <img
+            src="@/assets/images/avatars/avatar-9.png"
+            class="trophy"
+          />
+        </VCard>
+      </VCol>
 
-<!-- User Store Logins -->
-    <!-- <VCol
+      <!-- Brand Products report -->
+      <VCol
+        cols="12"
+        md="4"
+      >
+        <VCard
+          title="Brand Products"
+          class="position-relative"
+        >
+          <VCardText>
+            <h4 class="text-4xl font-weight-medium text-primary">
+              <VIcon
+                size="50"
+                start
+                icon="line-md:downloading-loop"
+              />
+            </h4>
+            <br />
+            <!-- <p>🎉</p> -->
+            <VBtn
+              size="small"
+              @click="openBrand()"
+            >
+              Get Reports
+            </VBtn>
+          </VCardText>
+
+          <!-- Triangle Background -->
+          <VImg
+            :src="triangleBg"
+            class="triangle-bg flip-in-rtl"
+          />
+          <img
+            src="@/assets/images/avatars/avatar-10.png"
+            class="trophy"
+          />
+        </VCard>
+      </VCol>
+
+      <!-- Purchase Orders -->
+      <VCol
+        cols="12"
+        md="4"
+      >
+        <VCard
+          title="Purchase Orders"
+          class="position-relative"
+        >
+          <VCardText>
+            <h4 class="text-4xl font-weight-medium text-primary">
+              <VIcon
+                size="50"
+                start
+                icon="line-md:downloading-loop"
+              />
+            </h4>
+            <br />
+
+            <VBtn
+              size="small"
+              @click="openPurchase()"
+            >
+              Get Reports
+            </VBtn>
+          </VCardText>
+
+          <VImg
+            :src="triangleBg"
+            class="triangle-bg flip-in-rtl"
+          />
+          <img
+            src="@/assets/images/avatars/avatar-12.png"
+            class="trophy5"
+          />
+        </VCard>
+      </VCol>
+
+      <!-- GST Report -->
+      <VCol
+        cols="12"
+        md="4"
+      >
+        <VCard
+          title="GST Report"
+          class="position-relative"
+        >
+          <VCardText>
+            <h4 class="text-4xl font-weight-medium text-primary">
+              <VIcon
+                size="50"
+                start
+                icon="line-md:downloading-loop"
+              />
+            </h4>
+            <br />
+
+            <VBtn
+              size="small"
+              @click="opengstreport()"
+            >
+              Get Reports
+            </VBtn>
+          </VCardText>
+
+          <VImg
+            :src="triangleBg"
+            class="triangle-bg flip-in-rtl"
+          />
+          <img
+            src="@/assets/images/avatars/avatar-19.png"
+            class="trophy10"
+          />
+        </VCard>
+      </VCol>
+
+      <!-- Merchant Payment Report -->
+      <VCol
+        cols="12"
+        md="4"
+      >
+        <VCard
+          title="Merchant Payment Report"
+          class="position-relative"
+        >
+          <VCardText>
+            <h4 class="text-4xl font-weight-medium text-primary">
+              <VIcon
+                size="50"
+                start
+                icon="line-md:downloading-loop"
+              />
+            </h4>
+            <br />
+
+            <VBtn
+              size="small"
+              @click="openMerchantpayment()"
+            >
+              Get Reports
+            </VBtn>
+          </VCardText>
+
+          <VImg
+            :src="triangleBg"
+            class="triangle-bg flip-in-rtl"
+          />
+          <img
+            src="@/assets/images/avatars/avatar-18.png"
+            class="trophy7"
+          />
+        </VCard>
+      </VCol>
+
+      <!-- User Store Logins -->
+      <!-- <VCol
         cols="12"
         md="4"
       >
@@ -280,16 +395,13 @@
 
       </VCard>
     </VCol>  -->
+    </VRow>
 
-
-  </VRow>
-
-<!-- Merchant Product Sales Dialog -->
+    <!-- Merchant Product Sales Dialog -->
     <VDialog
       v-model="dialog2"
       max-width="1000"
     >
-   
       <VCard
         title="Merchant Product Sales"
         class="mb-2"
@@ -298,118 +410,109 @@
           <VRow>
             <VCol cols="12">
               <!-- 👉 Form -->
-             <VForm class="mt-6" ref="purchaseOrderForm1">
-            <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
+              <VForm
+                class="mt-6"
+                ref="purchaseOrderForm1"
+              >
+                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
            
             </VCheckbox> -->
-            <VRow>
-    
-              <VCol
-                md="6"
-                cols="12"
-              >
-        
-               
-                <VAutocomplete
-                  v-model="selectedmerchants"
-                  :items="merchantName" 
-                   item-value="value"
-                  item-title="text"
-                  :rules="storeMerchant"
-                  label="Store or Merchant"
-                  :menu-props="{ maxHeight: 200 }"        
-                  no-underline
-                  v-if="!selectAll"
-                />
-                 <VTextField
-                    v-model="selectedmerchants"
-                    label="Store or Merchant"
-                    v-if="selectAll" 
-                    disabled
-                  />
-              </VCol>
-               <VCol   
-                md="6"
-                cols="12"
-                >
-                <!-- this_year this_month -->
-                   <VSelect 
-                   :rules="selectDate"
-                   v-model="reportsdata.date_filter"
-                   :items="['Custom','Current Year','Current Month']"
-                   label="Select Date"
-               
-                />
-              </VCol>         
-           
+                <VRow>
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VAutocomplete
+                      v-model="selectedmerchants"
+                      :items="merchantName"
+                      item-value="value"
+                      item-title="text"
+                      :rules="storeMerchant"
+                      label="Store or Merchant"
+                      :menu-props="{ maxHeight: 200 }"
+                      no-underline
+                      v-if="!selectAll"
+                    />
+                    <VTextField
+                      v-model="selectedmerchants"
+                      label="Store or Merchant"
+                      v-if="selectAll"
+                      disabled
+                    />
+                  </VCol>
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <!-- this_year this_month -->
+                    <VSelect
+                      :rules="selectDate"
+                      v-model="reportsdata.date_filter"
+                      :items="['Custom', 'Current Year', 'Current Month']"
+                      label="Select Date"
+                    />
+                  </VCol>
 
-             <VCol   
-               v-if="reportsdata.date_filter == 'Custom'"
-               md="6"
-               cols="12"
-               >
-                <VTextField
-                  v-model="reportsdata.start_date"                
-                  type="date"
-                  label="Start Date"
-                  :min="minDate"
-                  :max="maxDate"
-                />
-              </VCol>
-                <VCol  
-                v-if="reportsdata.date_filter == 'Custom'"                 
-                 md="6"
-                cols="12"
-                >
-               <VTextField
-                  v-model="reportsdata.end_date"  
-                  type="date"
-                  label="End Date"
-                  :min="minDate1"
-                  :max="maxDate1"
-                />
-              </VCol>    
+                  <VCol
+                    v-if="reportsdata.date_filter == 'Custom'"
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                      v-model="reportsdata.start_date"
+                      type="date"
+                      label="Start Date"
+                      :min="minDate"
+                      :max="maxDate"
+                    />
+                  </VCol>
+                  <VCol
+                    v-if="reportsdata.date_filter == 'Custom'"
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                      v-model="reportsdata.end_date"
+                      type="date"
+                      label="End Date"
+                      :min="minDate1"
+                      :max="maxDate1"
+                    />
+                  </VCol>
 
+                  <VDivider />
+                  <VCol cols="12"> </VCol>
 
-              <VDivider />                 
-              <VCol cols="12">         
-                 
-              </VCol>
+                  <VCol
+                    cols="12"
+                    class="d-flex flex-wrap gap-4"
+                  >
+                    <VBtn @click="validateForm1()">Get</VBtn>
 
-              <VCol
-                cols="12"
-                class="d-flex flex-wrap gap-4"
-              >
-                <VBtn @click="validateForm1()">Get</VBtn>
-                
-                <VBtn @click="closereport()">Close</VBtn>
+                    <VBtn @click="closereport()">Close</VBtn>
 
-                <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
-                <VProgressCircular
-                :size="50"
-                color="primary"
-                indeterminate
-                v-show="isProgress"
-              >
-              </VProgressCircular>
-
-              
-              </VCol>
-             
-            </VRow>
-          </VForm>
+                    <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
+                    <VProgressCircular
+                      :size="50"
+                      color="primary"
+                      indeterminate
+                      v-show="isProgress"
+                    >
+                    </VProgressCircular>
+                  </VCol>
+                </VRow>
+              </VForm>
             </VCol>
           </VRow>
         </VCardText>
       </VCard>
     </VDialog>
 
-<!-- sales orders Dialog -->
+    <!-- sales orders Dialog -->
     <VDialog
       v-model="dialog3"
       max-width="1000"
     >
-   
       <VCard
         title="Sales Orders"
         class="mb-2"
@@ -418,404 +521,356 @@
           <VRow>
             <VCol cols="12">
               <!-- 👉 Form -->
-             <VForm class="mt-6" ref="purchaseOrderForm2">
-            <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
+              <VForm
+                class="mt-6"
+                ref="purchaseOrderForm2"
+              >
+                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
            
             </VCheckbox> -->
-            <VRow>  
-              
-               <VCol   
-                md="6"
-                cols="12"
-                >
-                <!-- this_year this_month -->
-                   <VSelect 
-                  v-model="selectSales"
-                   :items="['All','Acknowledged','Shipped','Delivered']"
-                   label="Select"
-               :rules="salesRules"
-                />
-              </VCol>
+                <VRow>
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <!-- this_year this_month -->
+                    <VSelect
+                      v-model="selectSales"
+                      :items="['All', 'Acknowledged', 'Shipped', 'Delivered']"
+                      label="Select"
+                      :rules="salesRules"
+                    />
+                  </VCol>
 
-             <VCol   
-                md="6"
-                cols="12"
-                >
-                <!-- this_year this_month -->
-                   <VSelect 
-                   :rules="selectDate"
-                   v-model="Salesdata.date_filter"
-                   :items="['Custom','Current Year','Current Month']"
-                   label="Select Date"
-               
-                />
-              </VCol>    
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <!-- this_year this_month -->
+                    <VSelect
+                      :rules="selectDate"
+                      v-model="Salesdata.date_filter"
+                      :items="['Custom', 'Current Year', 'Current Month']"
+                      label="Select Date"
+                    />
+                  </VCol>
 
-              <VCol   
-               v-if="Salesdata.date_filter == 'Custom'"
-               md="6"
-               cols="12"
-               >
-                <VTextField
-                  v-model="Salesdata.start_date"                
-                  type="date"
-                  label="Start Date"
-                  :min="minDate"
-                  :max="maxDate"
-                  :rules="Daterules"
-                />
-              </VCol>
-                <VCol  
-                v-if="Salesdata.date_filter == 'Custom'"                 
-                 md="6"
-                cols="12"
-                >
-               <VTextField
-                  v-model="Salesdata.end_date"  
-                  type="date"
-                  label="End Date"
-                  :min="minDate1"
-                  :max="maxDate1"
-                  :rules="Daterules"
-                />
-              </VCol>    
+                  <VCol
+                    v-if="Salesdata.date_filter == 'Custom'"
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                      v-model="Salesdata.start_date"
+                      type="date"
+                      label="Start Date"
+                      :min="minDate"
+                      :max="maxDate"
+                      :rules="Daterules"
+                    />
+                  </VCol>
+                  <VCol
+                    v-if="Salesdata.date_filter == 'Custom'"
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                      v-model="Salesdata.end_date"
+                      type="date"
+                      label="End Date"
+                      :min="minDate1"
+                      :max="maxDate1"
+                      :rules="Daterules"
+                    />
+                  </VCol>
 
-              <VDivider />                
-             
+                  <VDivider />
 
-              <VCol
-                cols="12"
-                class="d-flex flex-wrap gap-4"
-              >
-                <VBtn @click="validateForm2()">Get</VBtn>
-               
-                <VBtn @click="closeSales()">Close</VBtn>
+                  <VCol
+                    cols="12"
+                    class="d-flex flex-wrap gap-4"
+                  >
+                    <VBtn @click="validateForm2()">Get</VBtn>
 
-                <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
-                <VProgressCircular
-                :size="50"
-                color="primary"
-                indeterminate
-                v-show="isProgress2"
-              >
-              </VProgressCircular>
+                    <VBtn @click="closeSales()">Close</VBtn>
 
-              
-              </VCol>
-             
-            </VRow>
-          </VForm>
+                    <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
+                    <VProgressCircular
+                      :size="50"
+                      color="primary"
+                      indeterminate
+                      v-show="isProgress2"
+                    >
+                    </VProgressCircular>
+                  </VCol>
+                </VRow>
+              </VForm>
             </VCol>
           </VRow>
         </VCardText>
       </VCard>
     </VDialog>
 
-<!-- Merchant Stock Inventory Dialog -->
+    <!-- Merchant Stock Inventory Dialog -->
     <VDialog
-        v-model="dialog4"
-        max-width="1000"
+      v-model="dialog4"
+      max-width="1000"
+    >
+      <VCard
+        title="Merchant Stock Inventory"
+        class="mb-2"
       >
-    
-        <VCard
-          title="Merchant Stock Inventory"
-          class="mb-2"
-        >
-          <VCardText>
-            <VRow>
-              <VCol cols="12">
-                <!-- 👉 Form -->
-              <VForm class="mt-6" ref="purchaseOrderForm3">
-              <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- 👉 Form -->
+              <VForm
+                class="mt-6"
+                ref="purchaseOrderForm3"
+              >
+                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
             
               </VCheckbox> -->
-              <VRow>
-      
-                <VCol
-                  md="6"
-                  cols="12"
-                >
-          
-                
-                  <VAutocomplete
-                    v-model="selectedmerchants2"
-                    :items="merchantName" 
-                    item-value="value"
-                    item-title="text"
-                    :rules="storeMerchant"
-                    label="Store or Merchant"
-                    :menu-props="{ maxHeight: 200 }"        
-                    no-underline
-                  
-                  />
-                
-                </VCol>           
+                <VRow>
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VAutocomplete
+                      v-model="selectedmerchants2"
+                      :items="merchantName"
+                      item-value="value"
+                      item-title="text"
+                      :rules="storeMerchant"
+                      label="Store or Merchant"
+                      :menu-props="{ maxHeight: 200 }"
+                      no-underline
+                    />
+                  </VCol>
 
-              
-            
+                  <VDivider />
 
-                
+                  <VCol
+                    cols="12"
+                    class="d-flex flex-wrap gap-4"
+                  >
+                    <VBtn @click="validateForm3()">Get</VBtn>
 
+                    <VBtn @click="closemreport()">Close</VBtn>
 
-                <VDivider />                 
-              
-
-                <VCol
-                  cols="12"
-                  class="d-flex flex-wrap gap-4"
-                >
-                  <VBtn @click="validateForm3()">Get</VBtn>
-          
-                  <VBtn @click="closemreport()">Close</VBtn>
-
-                  <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
-                  <VProgressCircular
-                  :size="50"
-                  color="primary"
-                  indeterminate
-                  v-show="isProgress3"
-                >
-                </VProgressCircular>
-
-                
-                </VCol>
-              
-              </VRow>
-            </VForm>
-              </VCol>
-            </VRow>
-          </VCardText>
-        </VCard>
+                    <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
+                    <VProgressCircular
+                      :size="50"
+                      color="primary"
+                      indeterminate
+                      v-show="isProgress3"
+                    >
+                    </VProgressCircular>
+                  </VCol>
+                </VRow>
+              </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+      </VCard>
     </VDialog>
 
-<!-- Warehouse Stock Inventory Dialog -->
+    <!-- Warehouse Stock Inventory Dialog -->
     <VDialog
-        v-model="dialog5"
-        max-width="1000"
+      v-model="dialog5"
+      max-width="1000"
+    >
+      <VCard
+        title="Warehouse Stock Inventory"
+        class="mb-2"
       >
-    
-        <VCard
-          title="Warehouse Stock Inventory"
-          class="mb-2"
-        >
-          <VCardText>
-            <VRow>
-              <VCol cols="12">
-                <!-- 👉 Form -->
-              <VForm class="mt-6" ref="purchaseOrderForm4">
-              <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- 👉 Form -->
+              <VForm
+                class="mt-6"
+                ref="purchaseOrderForm4"
+              >
+                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
             
               </VCheckbox> -->
-              <VRow>
-      
-                <VCol
-                  md="6"
-                  cols="12"
-                >
-          
-                
-                  <VAutocomplete
-                    v-model="selectedBrand"
-                    :items="Brandname" 
-                    item-value="value"
-                    item-title="text"
-                    :rules="storeBrand"
-                    label="Brand Names"
-                    :menu-props="{ maxHeight: 200 }"        
-                    no-underline                
-                  />
-                
-                </VCol>           
+                <VRow>
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VAutocomplete
+                      v-model="selectedBrand"
+                      :items="Brandname"
+                      item-value="value"
+                      item-title="text"
+                      :rules="storeBrand"
+                      label="Brand Names"
+                      :menu-props="{ maxHeight: 200 }"
+                      no-underline
+                    />
+                  </VCol>
 
-              
-            
+                  <VDivider />
 
-                
+                  <VCol
+                    cols="12"
+                    class="d-flex flex-wrap gap-4"
+                  >
+                    <VBtn @click="validateForm4()">Get</VBtn>
 
+                    <VBtn @click="closewreport()">Close</VBtn>
 
-                <VDivider />                 
-              
-
-                <VCol
-                  cols="12"
-                  class="d-flex flex-wrap gap-4"
-                >
-                  <VBtn @click="validateForm4()">Get</VBtn>
-          
-                  <VBtn @click="closewreport()">Close</VBtn>
-
-                  <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
-                  <VProgressCircular
-                  :size="50"
-                  color="primary"
-                  indeterminate
-                  v-show="isProgress4"
-                >
-                </VProgressCircular>
-
-                
-                </VCol>
-              
-              </VRow>
-            </VForm>
-              </VCol>
-            </VRow>
-          </VCardText>
-        </VCard>
+                    <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
+                    <VProgressCircular
+                      :size="50"
+                      color="primary"
+                      indeterminate
+                      v-show="isProgress4"
+                    >
+                    </VProgressCircular>
+                  </VCol>
+                </VRow>
+              </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+      </VCard>
     </VDialog>
 
-<!-- Brand Products Dialog -->
+    <!-- Brand Products Dialog -->
     <VDialog
-        v-model="dialog6"
-        max-width="1000"
+      v-model="dialog6"
+      max-width="1000"
+    >
+      <VCard
+        title="Brand Products"
+        class="mb-2"
       >
-    
-        <VCard
-          title="Brand Products"
-          class="mb-2"
-        >
-          <VCardText>
-            <VRow>
-              <VCol cols="12">
-                <!-- 👉 Form -->
-              <VForm class="mt-6" ref="purchaseOrderForm5">
-              <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- 👉 Form -->
+              <VForm
+                class="mt-6"
+                ref="purchaseOrderForm5"
+              >
+                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
               </VCheckbox> -->
-              <VRow>
-      
-                <VCol
-                  md="6"
-                  cols="12"
-                >
-          
-                
-                  <VAutocomplete
-                    v-model="selectedBrand2"
-                    :items="Brandname" 
-                    item-value="value"
-                    item-title="text"
-                    :rules="storeBrand"
-                    label="Brand Names"
-                    :menu-props="{ maxHeight: 200 }"        
-                    no-underline                
-                  />
-                
-                </VCol>        
+                <VRow>
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VAutocomplete
+                      v-model="selectedBrand2"
+                      :items="Brandname"
+                      item-value="value"
+                      item-title="text"
+                      :rules="storeBrand"
+                      label="Brand Names"
+                      :menu-props="{ maxHeight: 200 }"
+                      no-underline
+                    />
+                  </VCol>
 
-                <VDivider />              
-              
+                  <VDivider />
 
-                <VCol
-                  cols="12"
-                  class="d-flex flex-wrap gap-4"
-                >
-                  <VBtn @click="validateForm5()">Get</VBtn>
-          
-                  <VBtn @click="closeBreport()">Close</VBtn>
+                  <VCol
+                    cols="12"
+                    class="d-flex flex-wrap gap-4"
+                  >
+                    <VBtn @click="validateForm5()">Get</VBtn>
 
-                  <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
-                  <VProgressCircular
-                  :size="50"
-                  color="primary"
-                  indeterminate
-                  v-show="isProgress4"
-                >
-                </VProgressCircular>
+                    <VBtn @click="closeBreport()">Close</VBtn>
 
-                
-                </VCol>
-              
-              </VRow>
-            </VForm>
-              </VCol>
-            </VRow>
-          </VCardText>
-        </VCard>
+                    <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
+                    <VProgressCircular
+                      :size="50"
+                      color="primary"
+                      indeterminate
+                      v-show="isProgress4"
+                    >
+                    </VProgressCircular>
+                  </VCol>
+                </VRow>
+              </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+      </VCard>
     </VDialog>
 
-<!-- Merhant Products Dialog -->
+    <!-- Merhant Products Dialog -->
     <VDialog
-        v-model="dialog7"
-        max-width="1000"
+      v-model="dialog7"
+      max-width="1000"
+    >
+      <VCard
+        title="Merchant Products "
+        class="mb-2"
       >
-    
-        <VCard
-          title="Merchant Products "
-          class="mb-2"
-        >
-          <VCardText>
-            <VRow>
-              <VCol cols="12">
-                <!-- 👉 Form -->
-              <VForm class="mt-6" ref="purchaseOrderForm6">
-              <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- 👉 Form -->
+              <VForm
+                class="mt-6"
+                ref="purchaseOrderForm6"
+              >
+                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
             
               </VCheckbox> -->
-              <VRow>
-      
-                <VCol
-                  md="6"
-                  cols="12"
-                >
-          
-                
-                  <VAutocomplete
-                    v-model="selectedmerchants3"
-                    :items="merchantName" 
-                    item-value="value"
-                    item-title="text"
-                    :rules="storeMerchant"
-                    label="Store or Merchant"
-                    :menu-props="{ maxHeight: 200 }"        
-                    no-underline
-                  
-                  />
-                
-                </VCol>           
+                <VRow>
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VAutocomplete
+                      v-model="selectedmerchants3"
+                      :items="merchantName"
+                      item-value="value"
+                      item-title="text"
+                      :rules="storeMerchant"
+                      label="Store or Merchant"
+                      :menu-props="{ maxHeight: 200 }"
+                      no-underline
+                    />
+                  </VCol>
 
-              
-            
+                  <VDivider />
 
-                
+                  <VCol
+                    cols="12"
+                    class="d-flex flex-wrap gap-4"
+                  >
+                    <VBtn @click="validateForm6()">Get</VBtn>
 
+                    <VBtn @click="closeMPreport()">Close</VBtn>
 
-                <VDivider />                 
-              
-
-                <VCol
-                  cols="12"
-                  class="d-flex flex-wrap gap-4"
-                >
-                  <VBtn @click="validateForm6()">Get</VBtn>
-          
-                  <VBtn @click="closeMPreport()">Close</VBtn>
-
-                  <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
-                  <VProgressCircular
-                  :size="50"
-                  color="primary"
-                  indeterminate
-                  v-show="isProgress6"
-                >
-                </VProgressCircular>
-
-                
-                </VCol>
-              
-              </VRow>
-            </VForm>
-              </VCol>
-            </VRow>
-          </VCardText>
-        </VCard>
+                    <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
+                    <VProgressCircular
+                      :size="50"
+                      color="primary"
+                      indeterminate
+                      v-show="isProgress6"
+                    >
+                    </VProgressCircular>
+                  </VCol>
+                </VRow>
+              </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+      </VCard>
     </VDialog>
 
-<!-- Puchase orders Dialog -->
-     <VDialog
+    <!-- Puchase orders Dialog -->
+    <VDialog
       v-model="dialog8"
       max-width="1000"
     >
-   
       <VCard
         title="Purchase Orders"
         class="mb-2"
@@ -824,291 +879,388 @@
           <VRow>
             <VCol cols="12">
               <!-- 👉 Form -->
-             <VForm class="mt-6" ref="purchaseOrderForm7">
-            <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
+              <VForm
+                class="mt-6"
+                ref="purchaseOrderForm7"
+              >
+                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
            
             </VCheckbox> -->
-            <VRow>  
-              
-               <VCol   
-                md="6"
-                cols="12"
-                >
-                <!-- this_year this_month -->
-                   <VSelect 
-                  v-model="selectPurchase"
-                   :items="['All','Acknowledged','Shared','Received']"
-                   label="Select"
-               :rules="salesRules"
-                />
-              </VCol>
+                <VRow>
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <!-- this_year this_month -->
+                    <VSelect
+                      v-model="selectPurchase"
+                      :items="['All', 'Acknowledged', 'Shared', 'Received']"
+                      label="Select"
+                      :rules="salesRules"
+                    />
+                  </VCol>
 
-             <VCol   
-                md="6"
-                cols="12"
-                >
-                <!-- this_year this_month -->
-                   <VSelect 
-                   :rules="selectDate"
-                   v-model="Purchasedata.date_filter"
-                   :items="['Custom','Current Year','Current Month']"
-                   label="Select Date"
-               
-                />
-              </VCol>         
-           
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <!-- this_year this_month -->
+                    <VSelect
+                      :rules="selectDate"
+                      v-model="Purchasedata.date_filter"
+                      :items="['Custom', 'Current Year', 'Current Month']"
+                      label="Select Date"
+                    />
+                  </VCol>
 
-             <VCol   
-               v-if="Purchasedata.date_filter == 'Custom'"
-               md="6"
-               cols="12"
-               >
-                <VTextField
-                  v-model="Purchasedata.start_date"                
-                  type="date"
-                  label="Start Date"
-                  :min="minDate"
-                  :max="maxDate"
-                />
-              </VCol>
-                <VCol  
-                v-if="Purchasedata.date_filter == 'Custom'"                 
-                 md="6"
-                cols="12"
-                >
-               <VTextField
-                  v-model="Purchasedata.end_date"  
-                  type="date"
-                  label="End Date"
-                  :min="minDate1"
-                  :max="maxDate1"
-                />
-              </VCol>    
+                  <VCol
+                    v-if="Purchasedata.date_filter == 'Custom'"
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                      v-model="Purchasedata.start_date"
+                      type="date"
+                      label="Start Date"
+                      :min="minDate"
+                      :max="maxDate"
+                    />
+                  </VCol>
+                  <VCol
+                    v-if="Purchasedata.date_filter == 'Custom'"
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                      v-model="Purchasedata.end_date"
+                      type="date"
+                      label="End Date"
+                      :min="minDate1"
+                      :max="maxDate1"
+                    />
+                  </VCol>
 
- 
-            
+                  <VDivider />
 
-              <VDivider />                
-             
+                  <VCol
+                    cols="12"
+                    class="d-flex flex-wrap gap-4"
+                  >
+                    <VBtn @click="validateForm7()">Get</VBtn>
 
-              <VCol
-                cols="12"
-                class="d-flex flex-wrap gap-4"
-              >
-                <VBtn @click="validateForm7()">Get</VBtn>
-               
-                <VBtn @click="closePurchase()">Close</VBtn>
+                    <VBtn @click="closePurchase()">Close</VBtn>
 
-                <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
-                <VProgressCircular
-                :size="50"
-                color="primary"
-                indeterminate
-                v-show="isProgress7"
-              >
-              </VProgressCircular>
-
-              
-              </VCol>
-             
-            </VRow>
-          </VForm>
+                    <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
+                    <VProgressCircular
+                      :size="50"
+                      color="primary"
+                      indeterminate
+                      v-show="isProgress7"
+                    >
+                    </VProgressCircular>
+                  </VCol>
+                </VRow>
+              </VForm>
             </VCol>
           </VRow>
         </VCardText>
       </VCard>
-     </VDialog>
+    </VDialog>
 
-<!-- User Store Dialog -->
-     <VDialog
-        v-model="dialog9"
-        max-width="1000"
-      >
-    
-        <VCard
-          title="User Store"
-          class="mb-2"
-        >
-          <VCardText>
-            <VRow>
-              <VCol cols="12">
-                <!-- 👉 Form -->
-              <VForm class="mt-6" ref="purchaseOrderForm8">
-              <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
-              </VCheckbox> -->
-              <VRow>
-      
-                <VCol
-                  md="6"
-                  cols="12"
-                >
-          
-                
-                  <VAutocomplete
-                    v-model="userStoredata"
-                    :items="userstorenames" 
-                    item-value="value"
-                    item-title="text"
-                    :rules="storeBrand"
-                    label="Sales Persons"
-                    :menu-props="{ maxHeight: 200 }"        
-                    no-underline                
-                  />
-                
-                </VCol>        
-
-                <VDivider />              
-              
-
-                <VCol
-                  cols="12"
-                  class="d-flex flex-wrap gap-4"
-                >
-                  <VBtn @click="validateForm8()">Get</VBtn>
-          
-                  <VBtn @click="closeUserLoginreport()">Close</VBtn>
-
-                  <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
-                  <VProgressCircular
-                  :size="50"
-                  color="primary"
-                  indeterminate
-                  v-show="isProgress8"
-                >
-                </VProgressCircular>
-
-                
-                </VCol>
-              
-              </VRow>
-            </VForm>
-              </VCol>
-            </VRow>
-          </VCardText>
-        </VCard>
-     </VDialog>
-
-<!-- merchant payment dialog -->
+    <!-- User Store Dialog -->
     <VDialog
-        v-model="dialog10"
-        max-width="1000"
+      v-model="dialog9"
+      max-width="1000"
+    >
+      <VCard
+        title="User Store"
+        class="mb-2"
       >
-    
-        <VCard
-          title="User Store"
-          class="mb-2"
-        >
-          <VCardText>
-            <VRow>
-              <VCol cols="12">
-                <!-- 👉 Form -->
-              <VForm class="mt-6" ref="purchaseOrderForm9">
-              <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- 👉 Form -->
+              <VForm
+                class="mt-6"
+                ref="purchaseOrderForm8"
+              >
+                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
               </VCheckbox> -->
-              <VRow>
-      
-                <VCol
-                  md="6"
-                  cols="12"
-                >          
-           
-                  <VAutocomplete
-                   v-model="selectedSalesuser"
-                    :items="userstorenames" 
-                    item-value="value"
-                    item-title="text"
-                    :rules="salesdata"
-                    label="Sales User"
-                    :menu-props="{ maxHeight: 200 }"        
-                    no-underline  
-                    @update:model-value="handleuserSelection(selectedSalesuser)"            
-                  />  
-                   <VProgressCircular
-                  :size="50"
-                  color="primary"
-                  indeterminate
-                  v-show="isProgress10"
-                >
-                </VProgressCircular>              
-                </VCol>        
-             
-                 <VCol
-                  md="6"
-                  cols="12"
-                >          
-           
-                  <VAutocomplete
-                   v-model="selectedSalesMerchant"
-                    :items="getmerchantdata" 
-                    item-value="value"
-                    item-title="text"
-                    :rules="salesdata"
-                    label="Sales Merchant"
-                    :menu-props="{ maxHeight: 200 }"        
-                    no-underline              
-                  />                
-                </VCol> 
+                <VRow>
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VAutocomplete
+                      v-model="userStoredata"
+                      :items="userstorenames"
+                      item-value="value"
+                      item-title="text"
+                      :rules="storeBrand"
+                      label="Sales Persons"
+                      :menu-props="{ maxHeight: 200 }"
+                      no-underline
+                    />
+                  </VCol>
 
-                 <VCol
-                  md="6"
-                  cols="12"
-                >          
-           
-                  <VAutocomplete
-                   v-model="selectedSalesMerchant"
-                    :items="['Overall','Invoice Wise']" 
-                    item-value="value"
-                    item-title="text"
-                    :rules="salesdata"
-                    label="Select"
-                    :menu-props="{ maxHeight: 200 }"        
-                    no-underline              
-                  />                
-                </VCol> 
-                <VDivider />              
-              
+                  <VDivider />
 
-                <VCol
-                  cols="12"
-                  class="d-flex flex-wrap gap-4"
-                >
-                  <VBtn @click="validateForm9()">Get</VBtn>
-          
-                  <VBtn @click="closeMerchantpayment()">Close</VBtn>
+                  <VCol
+                    cols="12"
+                    class="d-flex flex-wrap gap-4"
+                  >
+                    <VBtn @click="validateForm8()">Get</VBtn>
 
-                  <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
-                  <VProgressCircular
-                  :size="50"
-                  color="primary"
-                  indeterminate
-                  v-show="isProgress8"
-                >
-                </VProgressCircular>
+                    <VBtn @click="closeUserLoginreport()">Close</VBtn>
 
-                
-                </VCol>
-              
-              </VRow>
-            </VForm>
-              </VCol>
-            </VRow>
-          </VCardText>
-        </VCard>
-     </VDialog>
+                    <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
+                    <VProgressCircular
+                      :size="50"
+                      color="primary"
+                      indeterminate
+                      v-show="isProgress8"
+                    >
+                    </VProgressCircular>
+                  </VCol>
+                </VRow>
+              </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+      </VCard>
+    </VDialog>
 
-      <VSnackbar
-      v-model="snackbar" :timeout="3500"
-      :color="color"
-      
+    <!-- merchant payment dialog -->
+    <VDialog
+      v-model="dialog10"
+      max-width="1000"
+    >
+      <VCard
+        title="Merchant Payment Report"
+        class="mb-2"
       >
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- 👉 Form -->
+              <VForm
+                class="mt-6"
+                ref="purchaseOrderForm9"
+              >
+                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
+              </VCheckbox> -->
+                <VRow>
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                 
+                    <VAutocomplete
+                      v-model="selectedSalesuser"
+                      :items="userstorenames"
+                      item-value="value"
+                      item-title="text"
+                      :rules="salesdata"
+                      label="Sales User"
+                      :menu-props="{ maxHeight: 200 }"
+                      no-underline
+                      @update:model-value="handleuserSelection(selectedSalesuser)"
+                    />
+                    <VProgressCircular
+                      :size="50"
+                      color="primary"
+                      indeterminate
+                      v-show="isProgress10"
+                    >
+                    </VProgressCircular>
+                  </VCol>
+
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VAutocomplete
+                      v-model="selectedSalesMerchant"
+                      :items="getmerchantdata"
+                      item-value="value"
+                      item-title="text"
+                      :rules="salesdata"
+                      label="Sales Merchant"
+                      :menu-props="{ maxHeight: 200 }"
+                      no-underline
+                    />
+                  </VCol>
+
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VAutocomplete
+                      v-model="selectedReportype"
+                      :items="['Invoice Wise']"
+                      item-value="value"
+                      item-title="text"
+                      :rules="salesdata"
+                      label="Report Type"
+                      :menu-props="{ maxHeight: 200 }"
+                      no-underline
+                    />
+                  </VCol>
+
+                   <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                      v-model="startDate1"
+                      type="date"
+                      label="Start Date"
+                      :min="minDate"
+                      :max="maxDate"
+                      :rules="Daterules"
+                    />
+                  </VCol>
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                      v-model="endDate1"
+                      type="date"
+                      label="End Date"
+                      :min="minDate1"
+                      :max="maxDate1"
+                      :rules="Daterules"
+                    />
+                  </VCol>
+                  <VDivider />
+
+                  <VCol
+                    cols="12"
+                    class="d-flex flex-wrap gap-4"
+                  >
+                    <VBtn @click="validateForm9()">Get</VBtn>
+
+                    <VBtn @click="closeMerchantpayment()">Close</VBtn>
+
+                    <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
+                    <VProgressCircular
+                      :size="50"
+                      color="primary"
+                      indeterminate
+                      v-show="isProgress9"
+                    >
+                    </VProgressCircular>
+                  </VCol>
+                </VRow>
+              </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+      </VCard>
+    </VDialog>
+
+    <!-- GST Report Dialog -->
+    <VDialog
+      v-model="dialog11"
+      max-width="1000"
+    >
+      <VCard
+        title="GST Report"
+        class="mb-2"
+      >
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- 👉 Form -->
+              <VForm
+                class="mt-6"
+                ref="purchaseOrderForm10"
+              >
+                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
+           
+            </VCheckbox> -->
+                <VRow>
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <!-- this_year this_month -->
+                    <VSelect
+                      v-model="selectGST"
+                      :items="['Invoice Wise', 'Product Wise']"
+                      label="Select"
+                      :rules="GSTrules"
+                    />
+                  </VCol>
+
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                      v-model="startDate"
+                      type="date"
+                      label="Start Date"
+                      :min="minDate"
+                      :max="maxDate"
+                      :rules="Daterules"
+                    />
+                  </VCol>
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                      v-model="endDate"
+                      type="date"
+                      label="End Date"
+                      :min="minDate1"
+                      :max="maxDate1"
+                      :rules="Daterules"
+                    />
+                  </VCol>
+
+                  <VDivider />
+
+                  <VCol
+                    cols="12"
+                    class="d-flex flex-wrap gap-4"
+                  >
+                    <VBtn @click="validateForm10()">Get</VBtn>
+
+                    <VBtn @click="closeGSTreport()">Close</VBtn>
+
+                    <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
+                    <VProgressCircular
+                      :size="50"
+                      color="primary"
+                      indeterminate
+                      v-show="isProgress11"
+                    >
+                    </VProgressCircular>
+                  </VCol>
+                </VRow>
+              </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+      </VCard>
+    </VDialog>
+
+    <VSnackbar
+      v-model="snackbar"
+      :timeout="3500"
+      :color="color"
+    >
       {{ snackbarText }}
-     <!-- <VBtn text @click="snackbar = false">Close</VBtn> -->
-      </VSnackbar> 
+      <!-- <VBtn text @click="snackbar = false">Close</VBtn> -->
+    </VSnackbar>
   </div>
 </template>
 
 <script>
-import servicescall from "@/Services";
+import servicescall from '@/Services'
 // import VueExcelXlsx from 'vue-excel-xlsx';
 import { useTheme } from 'vuetify'
 import triangleDark from '@/assets/images/misc/triangle-dark.png'
@@ -1119,12 +1271,17 @@ export default {
     // VueExcelXlsx,
   },
 
-   data(){
-    return{
-      userStoredata:null,
-      selectSales:null,
-      selectPurchase:null,
-     
+  data() {
+    return {
+      userStoredata: null,
+      selectSales: null,
+      selectPurchase: null,
+      selectGST: null,
+      startDate: null,
+      endDate: null,
+       startDate1: null,
+      endDate1: null,
+      
       snackbar: false,
       snackbarText: '',
       timeout: 6000, // milliseconds
@@ -1134,262 +1291,444 @@ export default {
       left: false,
       right: false,
 
-      isProgress:false,
-      isProgress2:false,
-      isProgress3:false,
-      isProgress4:false,
-      isProgress5:false,
-      isProgress6:false,
-      isProgress7:false,
-      isProgress8:false,
-      isProgress9:false,
-      isProgress10:false,
+      isProgress: false,
+      isProgress2: false,
+      isProgress3: false,
+      isProgress4: false,
+      isProgress5: false,
+      isProgress6: false,
+      isProgress7: false,
+      isProgress8: false,
+      isProgress9: false,
+      isProgress10: false,
+      isProgress11: false,
 
-      
-        loading:true,
-        dialog2:false,
-        dialog3:false,
-        dialog4:false,
-        dialog5:false,
-        dialog6:false,
-        dialog7:false,
-        dialog8:false,
-        dialog9:false,
-        dialog10:false,
+      loading: true,
+      dialog2: false,
+      dialog3: false,
+      dialog4: false,
+      dialog5: false,
+      dialog6: false,
+      dialog7: false,
+      dialog8: false,
+      dialog9: false,
+      dialog10: false,
+      dialog11: false,
 
-        selectdatepicker:null,
-        salesUsers:[],
-        merchantName:[],
-        userstorenames:[],
-        reportsMerchant:[],
-        selectAll: false,
-        selectedmerchants:null,
-        selectedmerchants2:null,
-        selectedmerchants3:null,
-        selectedmerchants4:null,
-        selectedSalesuser:null,
-        getmerchantdata:[],
-        selectedSalesMerchant:null,
-        selectedBrand:null,
-        selectedBrand2:null,
-          salesdata:[
-              (v) => !!v || 'Sales user is required',
+      selectdatepicker: null,
+      salesUsers: [],
+      merchantName: [],
+      userstorenames: [],
+      reportsMerchant: [],
+      selectAll: false,
+      selectedmerchants: null,
+      selectedmerchants2: null,
+      selectedmerchants3: null,
+      selectedmerchants4: null,
+      selectedSalesuser: null,
+      getmerchantdata: [],
+      selectedSalesMerchant: null,
+      selectedReportype: null,
+      selectedBrand: null,
+      selectedBrand2: null,
+      salesdata: [v => !!v || 'Sales user is required'],
+      salesRules: [v => !!v || 'Sales is required'],
+      storeMerchant: [v => !!v || 'Store & Merchant is required'],
+      selectDate: [v => !!v || 'Select Date is required'],
+      storeBrand: [v => !!v || 'Brand Name is required'],
+      Daterules: [v => !!v || 'Date is required'],
+      GSTrules: [v => !!v || 'This Field is required'],
+      reportsdata: {
+        merchant_id: '',
+        date_filter: '',
+        start_date: '',
+        end_date: '',
+      },
+      Purchasedata: {
+        date_filter: '',
+        start_date: '',
+        end_date: '',
+      },
+      Salesdata: {
+        date_filter: '',
+        start_date: '',
+        end_date: '',
+      },
+      today: this.getFormattedDate(new Date()),
+      todays: this.getFormattedDates(new Date()),
+      maxDate: this.getFormattedDate(new Date()),
+      minDate: '1900-01-01',
+      maxDate1: this.getFormattedDate(new Date()),
+      minDate1: '1900-01-01',
 
-          ],
-          salesRules: [
-              (v) => !!v || 'Sales is required',
-            ],
-          storeMerchant: [
-            (v) => !!v || 'Store & Merchant is required',
-          ],
-          selectDate: [
-            (v) => !!v || 'Select Date is required',
-          ],
-          storeBrand:[
-            (v) => !!v || 'Brand Name is required',
-
-          ],
-           Daterules:[
-            (v) => !!v || 'Date is required',
-
-          ],
-         reportsdata:{
-                "merchant_id":"",
-                "date_filter":"",
-                "start_date":"",
-                "end_date":""
-            },
-            Purchasedata:{
-             
-                "date_filter":"",
-                "start_date":"",
-                "end_date":""
-            },
-            Salesdata:{
-               "date_filter":"",
-                "start_date":"",
-                "end_date":""
-            },
-                today: this.getFormattedDate(new Date()),
-                todays: this.getFormattedDates(new Date()),
-                maxDate: this.getFormattedDate(new Date()), 
-                minDate: '1900-01-01', 
-                maxDate1: this.getFormattedDate(new Date()), 
-                minDate1: '1900-01-01', 
-
-        jsonfields: [
-          {
-            label: "Closing",
-            field: "Closing",
-          },
-         {
-          label: "Date",
-          field: "Date",
-          },
-         {
-          label: "Merchant Name",
-          field: "Merchant Name",
-         },
-         {
-          label: "Merchant UID",
-          field: "Merchant UID",
-         },
-         {
-          label: "Opening",
-          field: "Opening",
-          },
-         {
-          label: "Physical SOH",
-          field: "Physical SOH",
-          },
-         {
-          label: "SA Name",
-          field: "SA Name",
-         },
-         {
-          label: "SKU Name",
-          field: "SKU Name",
-          },
-         {
-          label: "Sale",
-          field: "Sale",
-         },
+      jsonfields: [
+        {
+          label: 'Closing',
+          field: 'Closing',
+        },
+        {
+          label: 'Date',
+          field: 'Date',
+        },
+        {
+          label: 'Merchant Name',
+          field: 'Merchant Name',
+        },
+        {
+          label: 'Merchant UID',
+          field: 'Merchant UID',
+        },
+        {
+          label: 'Opening',
+          field: 'Opening',
+        },
+        {
+          label: 'Physical SOH',
+          field: 'Physical SOH',
+        },
+        {
+          label: 'SA Name',
+          field: 'SA Name',
+        },
+        {
+          label: 'SKU Name',
+          field: 'SKU Name',
+        },
+        {
+          label: 'Sale',
+          field: 'Sale',
+        },
       ],
     }
-   },
-   watch: {
-  'reportsdata.start_date': function(newDate) {
-    // Update maxDate to disable future dates after selecting a start date
-    this.maxDate = newDate ? newDate : this.getFormattedDate(new Date());
-  }
-},
-  computed:{
-    vuetifyTheme(){
-      return useTheme();
-    },
-    triangleBg(){
-  return this.vuetifyTheme.global.name.value === 'light' ? triangleLight : triangleDark
-
-    }
   },
-   mounted(){
-    this.getAllsales();
-    this.getMerchantdetails();
-    this.getBrandsdata();
-        setTimeout(() => {
-              this.loading = false; 
-          }, 3000);
-   },
-   methods:{
-    handleuserSelection(itm){
-      console.log('check id',itm);
-      this.isProgress10 = true;
-      this.getSalesmerchant(itm).then((response)=>{
-        console.log('check response data',response);
-        if(response.data.status == 1){
-       this.isProgress10 = false;
-        this.getmerchantdata = response.data.data.map(merchant =>({
-                  value:merchant.merchant_id,
-                  text:merchant.merchant_uid
-              }))
-            this.snackbar = true;
-            this.snackbarText = response.data.message;
-            this.color = "primary";
-        }else{
-       this.isProgress10 = false;
-
-          this.snackbar = true;
-            this.snackbarText = response.data.message;
-            this.color = "on-background";
+  watch: {
+    'reportsdata.start_date': function (newDate) {
+      // Update maxDate to disable future dates after selecting a start date
+      this.maxDate = newDate ? newDate : this.getFormattedDate(new Date())
+    },
+  },
+  computed: {
+    vuetifyTheme() {
+      return useTheme()
+    },
+    triangleBg() {
+      return this.vuetifyTheme.global.name.value === 'light' ? triangleLight : triangleDark
+    },
+  },
+  mounted() {
+    this.getAllsales()
+    this.getMerchantdetails()
+    this.getBrandsdata()
+    setTimeout(() => {
+      this.loading = false
+    }, 3000)
+  },
+  methods: {
+    validateForm10() {
+      this.$refs.purchaseOrderForm10.validate().then(valid => {
+        // console.log("form valid", valid.valid);
+        if (valid.valid == true) {
+          this.getGSTinvoicedetails()
+        } else {
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
         }
-       
       })
     },
-    openMerchantpayment(){
-      this.dialog10 = true;
+    opengstreport() {
+      this.dialog11 = true
     },
-    closeMerchantpayment(){
-       this.dialog10 = false;
-      this.selectedmerchants4='';
+    closeGSTreport() {
+      this.dialog11 = false
+      this.selectGST = null
+      this.startDate = null
+      this.endDate = null
+    },
+    getGSTinvoicedetails() {
+      if (this.selectGST == 'Invoice Wise') {
+        this.isProgress11 = true
+        this.GSTinvoicewise(this.startDate, this.endDate).then(response => {
+          if (response.data.status == 0) {
+            this.isProgress11 = false
+            this.dialog11 = false
 
+            this.selectGST = ''
+            this.startDate = ''
+            this.endDate = ''
+            this.snackbar = true
+            this.color = 'on-background'
+            this.snackbarText = response.data.message
+          } else {
+            this.isProgress11 = false
+            this.dialog11 = false
+
+            //  this.loading = true;
+            // this.reportsdata={};
+            this.selectGST = ''
+            this.startDate = ''
+            this.endDate = ''
+            //  console.log('length',response.data.length);
+            const blob = new Blob([response.data], { type: 'text/csv' })
+
+            // Create a temporary URL for the Blob
+            const url = window.URL.createObjectURL(blob)
+
+            // Create a link element
+            const link = document.createElement('a')
+            link.href = url
+            link.setAttribute('download', 'GST InvoicewIse Report.csv') // Set the file name here
+
+            // Append the link to the body
+            document.body.appendChild(link)
+
+            // Programmatically click the link to trigger the download
+            link.click()
+
+            // Clean up - remove the link and revoke the URL
+            link.parentNode.removeChild(link)
+            window.URL.revokeObjectURL(url)
+
+            // console.log('CSV data:', response.data);
+            this.snackbar = true
+            this.color = 'primary'
+            this.snackbarText = 'Reports downloaded successfully.'
+          }
+        })
+      } else {
+        this.isProgress11 = true
+        this.GSTproductwise(this.startDate, this.endDate).then(response => {
+          if (response.data.status == 0) {
+            this.isProgress11 = false
+            this.dialog11 = false
+
+            this.selectGST = ''
+            this.startDate = ''
+            this.endDate = ''
+            this.snackbar = true
+            this.color = 'on-background'
+            this.snackbarText = response.data.message
+          } else {
+            this.isProgress11 = false
+            this.dialog11 = false
+
+            //  this.loading = true;
+            // this.reportsdata={};
+            this.selectGST = ''
+            this.startDate = ''
+            this.endDate = ''
+            //  console.log('length',response.data.length);
+            const blob = new Blob([response.data], { type: 'text/csv' })
+
+            // Create a temporary URL for the Blob
+            const url = window.URL.createObjectURL(blob)
+
+            // Create a link element
+            const link = document.createElement('a')
+            link.href = url
+            link.setAttribute('download', 'GST Productwise Report.csv') // Set the file name here
+
+            // Append the link to the body
+            document.body.appendChild(link)
+
+            // Programmatically click the link to trigger the download
+            link.click()
+
+            // Clean up - remove the link and revoke the URL
+            link.parentNode.removeChild(link)
+            window.URL.revokeObjectURL(url)
+
+            // console.log('CSV data:', response.data);
+            this.snackbar = true
+            this.color = 'primary'
+            this.snackbarText = 'Reports downloaded successfully.'
+          }
+        })
+      }
     },
-    validateForm8(){
+    handleuserSelection(itm) {
+      console.log('check id', itm)
+      this.isProgress10 = true
+      this.getSalesmerchant(itm).then(response => {
+        console.log('check response data', response)
+        if (response.data.status == 1) {
+          this.isProgress10 = false
+          // this.getmerchantdata = response.data.data.map(merchant => ({
+          //   value: merchant.merchant_id,
+          //   text: merchant.merchant_uid,
+          // }))
+           this.getmerchantdata = [
+          { value: "all", text: "All" },
+          ...response.data.data.map(merchant => ({
+            value: merchant.merchant_id,
+            text: merchant.merchant_uid
+          }))
+        ];
+          this.snackbar = true
+          this.snackbarText = response.data.message
+          this.color = 'primary'
+        } else {
+          this.isProgress10 = false
+
+          this.snackbar = true
+          this.snackbarText = response.data.message
+          this.color = 'on-background'
+        }
+      })
+    },
+    validateForm9(){
+       this.$refs.purchaseOrderForm9.validate().then(valid => {
+        // console.log("form valid", valid.valid);
+        if (valid.valid == true) {
+          this.getmerchantpayemt()
+        } else {
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
+        }
+      })
+    },
+    getmerchantpayemt(){
+      if(this.selectedReportype == "Invoice Wise"){
+          this.isProgress9 = true;
+         this.Merchantpayments(this.selectedSalesuser,this.selectedSalesMerchant,this.startDate1,this.endDate1).then((response)=>{
+           if (response.data.status == 0) {
+          this.isProgress10 = false;
+          this.isProgress9 = false;
+          this.dialog10 = false;
+
+          this.selectedSalesuser = '';
+          this.selectedSalesMerchant = '';
+          this.startDate1 = '';
+          this.endDate1 = '';
+
+          this.snackbar = true;
+          this.color = 'on-background'
+          this.snackbarText = response.data.message
+        } else {
+           this.isProgress10 = false;
+          this.isProgress9 = false;
+          this.dialog10 = false;
+
+          //  this.loading = true;
+          // this.reportsdata={};
+            this.selectedSalesuser = '';
+          this.selectedSalesMerchant = '';
+          this.startDate1 = '';
+          this.endDate1 = '';
+          //  console.log('length',response.data.length);
+          const blob = new Blob([response.data], { type: 'text/csv' })
+
+          // Create a temporary URL for the Blob
+          const url = window.URL.createObjectURL(blob)
+
+          // Create a link element
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', 'Merchant Payment Report.csv') // Set the file name here
+
+          // Append the link to the body
+          document.body.appendChild(link)
+
+          // Programmatically click the link to trigger the download
+          link.click()
+
+          // Clean up - remove the link and revoke the URL
+          link.parentNode.removeChild(link)
+          window.URL.revokeObjectURL(url)
+
+          // console.log('CSV data:', response.data);
+          this.snackbar = true
+          this.color = 'primary'
+          this.snackbarText = 'Reports downloaded successfully.'
+        }
+      })
+      }else{
+
+      }
+     
+    },
+    openMerchantpayment() {
+      this.dialog10 = true
+    },
+    closeMerchantpayment() {
+      this.dialog10 = false
+      this.selectedmerchants4 = ''
+    },
+    validateForm8() {
       this.$refs.purchaseOrderForm8.validate().then(valid => {
         // console.log("form valid", valid.valid);
         if (valid.valid == true) {
-         
-          this.getUserstoreloginreport();
-        }else{
-           this.snackbar = true;
-            this.snackbarText = "Please give all mandatory fields"
-            this.color = "on-background";
+          this.getUserstoreloginreport()
+        } else {
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
         }
-      }); 
-    },
-    getUserstoreloginreport(){
-       this.isProgress8 = true;
-
-        this.getUserstorereport(this.userStoredata).then((response)=>{
-          // console.log(response);
-           
-
-        if(response.data.status == 0){
-               this.isProgress8 = false;
-            this.dialog9 = false; 
-           
-            this.userStoredata="";
-           this.snackbar = true;
-            this.color = "on-background";
-            this.snackbarText = response.data.message;
-            
-        }else{
-           this.isProgress8 = false;
-            this.dialog9 = false;   
-            
-          //  this.loading = true;
-            // this.reportsdata={};
-            this.userStoredata="";
-        //  console.log('length',response.data.length);
-            const blob = new Blob([response.data], { type: 'text/csv' });
-
-        // Create a temporary URL for the Blob
-        const url = window.URL.createObjectURL(blob);
-
-        // Create a link element
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'User Store Login Report.csv'); // Set the file name here
-
-        // Append the link to the body
-        document.body.appendChild(link);
-
-        // Programmatically click the link to trigger the download
-        link.click();
-
-        // Clean up - remove the link and revoke the URL
-        link.parentNode.removeChild(link);
-        window.URL.revokeObjectURL(url);
-
-        // console.log('CSV data:', response.data);
-          this.snackbar = true;
-            this.color = "primary";
-            this.snackbarText = "Reports downloaded successfully.";
-        }    
       })
     },
-    closeUserLoginreport(){
-      this.dialog9 = false;
-      this.userStoredata = '';
+    getUserstoreloginreport() {
+      this.isProgress8 = true
+
+      this.getUserstorereport(this.userStoredata).then(response => {
+        // console.log(response);
+
+        if (response.data.status == 0) {
+          this.isProgress8 = false
+          this.dialog9 = false
+
+          this.userStoredata = ''
+          this.snackbar = true
+          this.color = 'on-background'
+          this.snackbarText = response.data.message
+        } else {
+          this.isProgress8 = false
+          this.dialog9 = false
+
+          //  this.loading = true;
+          // this.reportsdata={};
+          this.userStoredata = ''
+          //  console.log('length',response.data.length);
+          const blob = new Blob([response.data], { type: 'text/csv' })
+
+          // Create a temporary URL for the Blob
+          const url = window.URL.createObjectURL(blob)
+
+          // Create a link element
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', 'User Store Login Report.csv') // Set the file name here
+
+          // Append the link to the body
+          document.body.appendChild(link)
+
+          // Programmatically click the link to trigger the download
+          link.click()
+
+          // Clean up - remove the link and revoke the URL
+          link.parentNode.removeChild(link)
+          window.URL.revokeObjectURL(url)
+
+          // console.log('CSV data:', response.data);
+          this.snackbar = true
+          this.color = 'primary'
+          this.snackbarText = 'Reports downloaded successfully.'
+        }
+      })
     },
-    openUserstore(){
-      this.dialog9 = true;
+    closeUserLoginreport() {
+      this.dialog9 = false
+      this.userStoredata = ''
+    },
+    openUserstore() {
+      this.dialog9 = true
     },
 
-      getAllsales(){
-      this.getsalesperson().then((response)=>{
+    getAllsales() {
+      this.getsalesperson().then(response => {
         // console.log('sales',response);
         // this.salesdata = response.data.data;
-   
+
         //  this.salesdata = this.salesdata.map(sales => ({
         //     value: sales.user_id,
         //     text: sales.name
@@ -1403,463 +1742,438 @@ export default {
         //   }))
         // ];
         this.userstorenames = response.data.data.map(brand => ({
-            value: brand.user_id,
-            text: brand.name
-          }))
+          value: brand.user_id,
+          text: brand.name,
+        }))
 
-           console.log('sales',this.userstorenames); 
-
+        console.log('sales', this.userstorenames)
       })
-      
     },
 
-     validateForm7(){
+    validateForm7() {
       this.$refs.purchaseOrderForm7.validate().then(valid => {
         // console.log("form valid", valid.valid);
         if (valid.valid == true) {
-         
-          this.getPurchaseOrdersdatareport();
-        }else{
-           this.snackbar = true;
-            this.snackbarText = "Please give all mandatory fields"
-            this.color = "on-background";
+          this.getPurchaseOrdersdatareport()
+        } else {
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
         }
-      }); 
+      })
     },
-    getPurchaseOrdersdatareport(){
+    getPurchaseOrdersdatareport() {
+      const statusMapping = {
+        All: 'all',
+        Acknowledged: '3',
+        Shared: '4',
+        Received: '5',
+      }
 
-       const statusMapping = {
-            'All': "all",
-            'Acknowledged': "3",
-            'Shared': "4",
-            'Received': "5",          
-          };
+      if (this.Purchasedata.date_filter === 'Custom') {
+        this.Purchasedata.date_filter = 'custom'
+      } else if (this.Purchasedata.date_filter === 'Current Year') {
+        this.Purchasedata.date_filter = 'this_year'
+        this.Purchasedata.start_date = this.getFormattedDate(new Date())
+        this.Purchasedata.end_date = this.getFormattedDate(new Date())
+      } else if (this.Purchasedata.date_filter === 'Current Month') {
+        this.Purchasedata.date_filter = 'this_month'
+        this.Purchasedata.start_date = this.getFormattedDate(new Date())
+        this.Purchasedata.end_date = this.getFormattedDate(new Date())
+      }
 
+      this.isProgress7 = true
 
-          if (this.Purchasedata.date_filter === 'Custom') {
-            this.Purchasedata.date_filter = "custom";
-          } else if (this.Purchasedata.date_filter === 'Current Year') {
-            this.Purchasedata.date_filter = "this_year";
-            this.Purchasedata.start_date = this.getFormattedDate(new Date())
-             this.Purchasedata.end_date = this.getFormattedDate(new Date())
-          } else if (this.Purchasedata.date_filter === 'Current Month') {
-            this.Purchasedata.date_filter = "this_month";
-               this.Purchasedata.start_date = this.getFormattedDate(new Date())
-             this.Purchasedata.end_date = this.getFormattedDate(new Date())
-          }
+      this.getPurchasesorderreport(
+        statusMapping[this.selectPurchase],
+        this.Purchasedata.date_filter,
+        this.Purchasedata.start_date,
+        this.Purchasedata.end_date,
+      ).then(response => {
+        // console.log(response);
 
-        this.isProgress7 = true;
+        if (response.data.status == 0) {
+          this.isProgress7 = false
+          this.dialog8 = false
+          this.Purchasedata = {}
+          this.selectPurchase = ''
+          this.snackbar = true
+          this.color = 'on-background'
+          this.snackbarText = response.data.message
+        } else {
+          this.isProgress7 = false
+          this.dialog8 = false
+          this.Purchasedata = {}
+          this.selectPurchase = ''
 
-        this.getPurchasesorderreport( statusMapping[this.selectPurchase],this.Purchasedata.date_filter,this.Purchasedata.start_date,this.Purchasedata.end_date).then((response)=>{
-          // console.log(response);
-           
-
-        if(response.data.status == 0){
-            this.isProgress7 = false;
-            this.dialog8 = false;            
-            this.Purchasedata={};
-            this.selectPurchase='';
-            this.snackbar = true;
-            this.color = "on-background";
-            this.snackbarText = response.data.message;
-            
-        }else{
-           this.isProgress7 = false;
-           this.dialog8 = false;            
-          this.Purchasedata={};
-            this.selectPurchase='';
-            
           //  this.loading = true;
-            // this.reportsdata={};
-            this.selectedmerchants3="";
-        //  console.log('length',response.data.length);
-            const blob = new Blob([response.data], { type: 'text/csv' });
+          // this.reportsdata={};
+          this.selectedmerchants3 = ''
+          //  console.log('length',response.data.length);
+          const blob = new Blob([response.data], { type: 'text/csv' })
 
-        // Create a temporary URL for the Blob
-        const url = window.URL.createObjectURL(blob);
+          // Create a temporary URL for the Blob
+          const url = window.URL.createObjectURL(blob)
 
-        // Create a link element
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'Purchase Order Report.csv'); // Set the file name here
+          // Create a link element
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', 'Purchase Order Report.csv') // Set the file name here
 
-        // Append the link to the body
-        document.body.appendChild(link);
+          // Append the link to the body
+          document.body.appendChild(link)
 
-        // Programmatically click the link to trigger the download
-        link.click();
+          // Programmatically click the link to trigger the download
+          link.click()
 
-        // Clean up - remove the link and revoke the URL
-        link.parentNode.removeChild(link);
-        window.URL.revokeObjectURL(url);
+          // Clean up - remove the link and revoke the URL
+          link.parentNode.removeChild(link)
+          window.URL.revokeObjectURL(url)
 
-        // console.log('CSV data:', response.data);
-          this.snackbar = true;
-            this.color = "primary";
-            this.snackbarText = "Reports downloaded successfully.";
+          // console.log('CSV data:', response.data);
+          this.snackbar = true
+          this.color = 'primary'
+          this.snackbarText = 'Reports downloaded successfully.'
         }
-    
-    })
+      })
     },
-    openPurchase(){
-            this.dialog8 = true; 
-
+    openPurchase() {
+      this.dialog8 = true
     },
-    closePurchase(){
-            this.dialog8 = false; 
-            this.selectPurchase = "";
+    closePurchase() {
+      this.dialog8 = false
+      this.selectPurchase = ''
     },
-     validateForm6(){
+    validateForm6() {
       this.$refs.purchaseOrderForm6.validate().then(valid => {
         // console.log("form valid", valid.valid);
         if (valid.valid == true) {
-         
-          this.getMerchantProductsreport();
-        }else{
-           this.snackbar = true;
-            this.snackbarText = "Please give all mandatory fields"
-            this.color = "on-background";
+          this.getMerchantProductsreport()
+        } else {
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
         }
-      }); 
+      })
     },
- getMerchantProductsreport(){
-               this.isProgress6 = true;
+    getMerchantProductsreport() {
+      this.isProgress6 = true
 
-        this.getMProductsreport(this.selectedmerchants3).then((response)=>{
-          // console.log(response);
-           
+      this.getMProductsreport(this.selectedmerchants3).then(response => {
+        // console.log(response);
 
-        if(response.data.status == 0){
-               this.isProgress6 = false;
-            this.dialog7 = false; 
-           
-            this.selectedBrand2="";
-           this.snackbar = true;
-            this.color = "on-background";
-            this.snackbarText = response.data.message;
-            
-        }else{
-           this.isProgress6 = false;
-            this.dialog7 = false;   
-            
+        if (response.data.status == 0) {
+          this.isProgress6 = false
+          this.dialog7 = false
+
+          this.selectedBrand2 = ''
+          this.snackbar = true
+          this.color = 'on-background'
+          this.snackbarText = response.data.message
+        } else {
+          this.isProgress6 = false
+          this.dialog7 = false
+
           //  this.loading = true;
-            // this.reportsdata={};
-            this.selectedmerchants3="";
-        //  console.log('length',response.data.length);
-            const blob = new Blob([response.data], { type: 'text/csv' });
+          // this.reportsdata={};
+          this.selectedmerchants3 = ''
+          //  console.log('length',response.data.length);
+          const blob = new Blob([response.data], { type: 'text/csv' })
 
-        // Create a temporary URL for the Blob
-        const url = window.URL.createObjectURL(blob);
+          // Create a temporary URL for the Blob
+          const url = window.URL.createObjectURL(blob)
 
-        // Create a link element
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'Merchant Products Report.csv'); // Set the file name here
+          // Create a link element
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', 'Merchant Products Report.csv') // Set the file name here
 
-        // Append the link to the body
-        document.body.appendChild(link);
+          // Append the link to the body
+          document.body.appendChild(link)
 
-        // Programmatically click the link to trigger the download
-        link.click();
+          // Programmatically click the link to trigger the download
+          link.click()
 
-        // Clean up - remove the link and revoke the URL
-        link.parentNode.removeChild(link);
-        window.URL.revokeObjectURL(url);
+          // Clean up - remove the link and revoke the URL
+          link.parentNode.removeChild(link)
+          window.URL.revokeObjectURL(url)
 
-        // console.log('CSV data:', response.data);
-          this.snackbar = true;
-            this.color = "primary";
-            this.snackbarText = "Reports downloaded successfully.";
+          // console.log('CSV data:', response.data);
+          this.snackbar = true
+          this.color = 'primary'
+          this.snackbarText = 'Reports downloaded successfully.'
         }
-    
-    })
+      })
     },
 
-    closeMPreport(){
-      this.dialog7=false;
-      this.selectedmerchants3='';
+    closeMPreport() {
+      this.dialog7 = false
+      this.selectedmerchants3 = ''
     },
-    openMPR(){
-      this.dialog7=true;
+    openMPR() {
+      this.dialog7 = true
     },
-    openBrand(){
-      this.dialog6=true;
+    openBrand() {
+      this.dialog6 = true
     },
-    closeBreport(){
-      this.dialog6=false;
-      this.selectedBrand2='';
+    closeBreport() {
+      this.dialog6 = false
+      this.selectedBrand2 = ''
     },
-     validateForm5(){
+    validateForm5() {
       this.$refs.purchaseOrderForm5.validate().then(valid => {
         // console.log("form valid", valid.valid);
         if (valid.valid == true) {
-         
-          this.getbrandsreport();
-        }else{
-           this.snackbar = true;
-            this.snackbarText = "Please give all mandatory fields"
-            this.color = "on-background";
+          this.getbrandsreport()
+        } else {
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
         }
-      }); 
+      })
     },
-     getbrandsreport(){
-               this.isProgress5 = true;
+    getbrandsreport() {
+      this.isProgress5 = true
 
-        this.getBrandsallreport(this.selectedBrand2).then((response)=>{
-          // console.log(response);
-           
+      this.getBrandsallreport(this.selectedBrand2).then(response => {
+        // console.log(response);
 
-        if(response.data.status == 0){
-               this.isProgress5 = false;
-            this.dialog6 = false; 
-           
-            this.selectedBrand2="";
-           this.snackbar = true;
-            this.color = "on-background";
-            this.snackbarText = response.data.message;
-            
-        }else{
-           this.isProgress5 = false;
-            this.dialog6 = false;   
-            
+        if (response.data.status == 0) {
+          this.isProgress5 = false
+          this.dialog6 = false
+
+          this.selectedBrand2 = ''
+          this.snackbar = true
+          this.color = 'on-background'
+          this.snackbarText = response.data.message
+        } else {
+          this.isProgress5 = false
+          this.dialog6 = false
+
           //  this.loading = true;
-            // this.reportsdata={};
-            this.selectedBrand2="";
-        //  console.log('length',response.data.length);
-            const blob = new Blob([response.data], { type: 'text/csv' });
+          // this.reportsdata={};
+          this.selectedBrand2 = ''
+          //  console.log('length',response.data.length);
+          const blob = new Blob([response.data], { type: 'text/csv' })
 
-        // Create a temporary URL for the Blob
-        const url = window.URL.createObjectURL(blob);
+          // Create a temporary URL for the Blob
+          const url = window.URL.createObjectURL(blob)
 
-        // Create a link element
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'Brand Report.csv'); // Set the file name here
+          // Create a link element
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', 'Brand Report.csv') // Set the file name here
 
-        // Append the link to the body
-        document.body.appendChild(link);
+          // Append the link to the body
+          document.body.appendChild(link)
 
-        // Programmatically click the link to trigger the download
-        link.click();
+          // Programmatically click the link to trigger the download
+          link.click()
 
-        // Clean up - remove the link and revoke the URL
-        link.parentNode.removeChild(link);
-        window.URL.revokeObjectURL(url);
+          // Clean up - remove the link and revoke the URL
+          link.parentNode.removeChild(link)
+          window.URL.revokeObjectURL(url)
 
-        // console.log('CSV data:', response.data);
-          this.snackbar = true;
-            this.color = "primary";
-            this.snackbarText = "Reports downloaded successfully.";
+          // console.log('CSV data:', response.data);
+          this.snackbar = true
+          this.color = 'primary'
+          this.snackbarText = 'Reports downloaded successfully.'
         }
-    
-    })
+      })
     },
 
-     validateForm4(){
+    validateForm4() {
       this.$refs.purchaseOrderForm4.validate().then(valid => {
         // console.log("form valid", valid.valid);
         if (valid.valid == true) {
-         
-          this.getwarehousestockreport();
-        }else{
-           this.snackbar = true;
-            this.snackbarText = "Please give all mandatory fields"
-            this.color = "on-background";
+          this.getwarehousestockreport()
+        } else {
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
         }
-      }); 
-    },
-     getwarehousestockreport(){
-               this.isProgress4 = true;
-
-        this.getBrandreports(this.selectedBrand).then((response)=>{
-          // console.log(response);
-           
-
-        if(response.data.status == 0){
-               this.isProgress4 = false;
-            this.dialog5 = false; 
-           
-            this.selectedBrand="";
-           this.snackbar = true;
-            this.color = "on-background";
-            this.snackbarText = response.data.message;
-            
-        }else{
-           this.isProgress4 = false;
-            this.dialog5 = false;   
-            
-          //  this.loading = true;
-            // this.reportsdata={};
-            this.selectedBrand="";
-        //  console.log('length',response.data.length);
-            const blob = new Blob([response.data], { type: 'text/csv' });
-
-        // Create a temporary URL for the Blob
-        const url = window.URL.createObjectURL(blob);
-
-        // Create a link element
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'Warehouse Stock Inventory Report.csv'); // Set the file name here
-
-        // Append the link to the body
-        document.body.appendChild(link);
-
-        // Programmatically click the link to trigger the download
-        link.click();
-
-        // Clean up - remove the link and revoke the URL
-        link.parentNode.removeChild(link);
-        window.URL.revokeObjectURL(url);
-
-        // console.log('CSV data:', response.data);
-          this.snackbar = true;
-            this.color = "primary";
-            this.snackbarText = "Reports downloaded successfully.";
-        }
-    
-    })
-    },
-
-    getBrandsdata(){
-      this.getBrands().then((response)=>{       
-     
-         this.Brandname = [
-          { value: "all", text: "All" },
-          ...response.data.map(brand => ({
-            value: brand.brand_id,
-            text: brand.brand_name
-          }))
-        ];
-        console.log('check the response', this.Brandname);
       })
     },
-    closewreport(){
-      this.dialog5=false;
-      this.selectedBrand='';
-    },
-  openWSI(){
-      this.dialog5=true;
-  },
-    closemreport(){
-      this.dialog4=false;
-      this.selectedmerchants2="";
+    getwarehousestockreport() {
+      this.isProgress4 = true
 
+      this.getBrandreports(this.selectedBrand).then(response => {
+        // console.log(response);
+
+        if (response.data.status == 0) {
+          this.isProgress4 = false
+          this.dialog5 = false
+
+          this.selectedBrand = ''
+          this.snackbar = true
+          this.color = 'on-background'
+          this.snackbarText = response.data.message
+        } else {
+          this.isProgress4 = false
+          this.dialog5 = false
+
+          //  this.loading = true;
+          // this.reportsdata={};
+          this.selectedBrand = ''
+          //  console.log('length',response.data.length);
+          const blob = new Blob([response.data], { type: 'text/csv' })
+
+          // Create a temporary URL for the Blob
+          const url = window.URL.createObjectURL(blob)
+
+          // Create a link element
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', 'Warehouse Stock Inventory Report.csv') // Set the file name here
+
+          // Append the link to the body
+          document.body.appendChild(link)
+
+          // Programmatically click the link to trigger the download
+          link.click()
+
+          // Clean up - remove the link and revoke the URL
+          link.parentNode.removeChild(link)
+          window.URL.revokeObjectURL(url)
+
+          // console.log('CSV data:', response.data);
+          this.snackbar = true
+          this.color = 'primary'
+          this.snackbarText = 'Reports downloaded successfully.'
+        }
+      })
     },
-    openMSI(){
-      this.dialog4=true;
+
+    getBrandsdata() {
+      this.getBrands().then(response => {
+        this.Brandname = [
+          { value: 'all', text: 'All' },
+          ...response.data.map(brand => ({
+            value: brand.brand_id,
+            text: brand.brand_name,
+          })),
+        ]
+        console.log('check the response', this.Brandname)
+      })
     },
-      validateForm1(){
+    closewreport() {
+      this.dialog5 = false
+      this.selectedBrand = ''
+    },
+    openWSI() {
+      this.dialog5 = true
+    },
+    closemreport() {
+      this.dialog4 = false
+      this.selectedmerchants2 = ''
+    },
+    openMSI() {
+      this.dialog4 = true
+    },
+    validateForm1() {
       this.$refs.purchaseOrderForm1.validate().then(valid => {
         // console.log("form valid", valid.valid);
         if (valid.valid == true) {
-         
-          this.getReport();
-        }else{
-           this.snackbar = true;
-            this.snackbarText = "Please give all mandatory fields"
-            this.color = "on-background";
+          this.getReport()
+        } else {
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
         }
-      }); 
+      })
     },
-      validateForm2(){
+    validateForm2() {
       this.$refs.purchaseOrderForm2.validate().then(valid => {
         // console.log("form valid", valid.valid);
         if (valid.valid == true) {
-         
-          this.getSales();
-        }else{
-           this.snackbar = true;
-            this.snackbarText = "Please give all mandatory fields"
-            this.color = "on-background";
+          this.getSales()
+        } else {
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
         }
-      }); 
+      })
     },
 
-      validateForm3(){
+    validateForm3() {
       this.$refs.purchaseOrderForm3.validate().then(valid => {
         // console.log("form valid", valid.valid);
         if (valid.valid == true) {
-         
-          this.getMerchantsreport();
-        }else{
-           this.snackbar = true;
-            this.snackbarText = "Please give all mandatory fields"
-            this.color = "on-background";
+          this.getMerchantsreport()
+        } else {
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
         }
-      }); 
-    },     
+      })
+    },
 
+    getMerchantsreport() {
+      this.isProgress3 = true
 
-  getMerchantsreport(){
-               this.isProgress3 = true;
+      this.getMerchantstocksreport(this.selectedmerchants2).then(response => {
+        // console.log(response);
 
-        this.getMerchantstocksreport(this.selectedmerchants2).then((response)=>{
-          // console.log(response);
-           
+        if (response.data.status == 0) {
+          this.isProgress3 = false
+          this.dialog4 = false
 
-        if(response.data.status == 0){
-               this.isProgress3 = false;
-            this.dialog4 = false; 
-           
-            this.selectedmerchants2="";
-           this.snackbar = true;
-            this.color = "on-background";
-            this.snackbarText = response.data.message;
-            
-        }else{
-           this.isProgress3 = false;
-            this.dialog4 = false;   
-            
+          this.selectedmerchants2 = ''
+          this.snackbar = true
+          this.color = 'on-background'
+          this.snackbarText = response.data.message
+        } else {
+          this.isProgress3 = false
+          this.dialog4 = false
+
           //  this.loading = true;
-            this.reportsdata={};
-            this.selectedmerchants2="";
-         
-            const blob = new Blob([response.data], { type: 'text/csv' });
+          this.reportsdata = {}
+          this.selectedmerchants2 = ''
 
-        // Create a temporary URL for the Blob
-        const url = window.URL.createObjectURL(blob);
+          const blob = new Blob([response.data], { type: 'text/csv' })
 
-        // Create a link element
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'Merchant Stock Inventory Report.csv'); // Set the file name here
+          // Create a temporary URL for the Blob
+          const url = window.URL.createObjectURL(blob)
 
-        // Append the link to the body
-        document.body.appendChild(link);
+          // Create a link element
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', 'Merchant Stock Inventory Report.csv') // Set the file name here
 
-        // Programmatically click the link to trigger the download
-        link.click();
+          // Append the link to the body
+          document.body.appendChild(link)
 
-        // Clean up - remove the link and revoke the URL
-        link.parentNode.removeChild(link);
-        window.URL.revokeObjectURL(url);
+          // Programmatically click the link to trigger the download
+          link.click()
 
-        // console.log('CSV data:', response.data);
-          this.snackbar = true;
-            this.color = "primary";
-            this.snackbarText = "Reports downloaded successfully.";
+          // Clean up - remove the link and revoke the URL
+          link.parentNode.removeChild(link)
+          window.URL.revokeObjectURL(url)
+
+          // console.log('CSV data:', response.data);
+          this.snackbar = true
+          this.color = 'primary'
+          this.snackbarText = 'Reports downloaded successfully.'
         }
-    
-    })
+      })
     },
-    openSales(){
-      this.dialog3 = true;
+    openSales() {
+      this.dialog3 = true
     },
-    closeSales(){
-      this.dialog3 = false;
+    closeSales() {
+      this.dialog3 = false
       this.selectSales = null
     },
     getFormattedDates(date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-},
-    closereport(){
-      this.dialog2=false;
-      this.reportsdata = {};
-      this.selectedmerchants = '';
+      const year = date.getFullYear()
+      const month = String(date.getMonth() + 1).padStart(2, '0')
+      const day = String(date.getDate()).padStart(2, '0')
+      return `${year}-${month}-${day}`
+    },
+    closereport() {
+      this.dialog2 = false
+      this.reportsdata = {}
+      this.selectedmerchants = ''
     },
     //   selectAllMerchants() {
     //   if (this.selectAll) {
@@ -1870,23 +2184,23 @@ export default {
     //     this.selectedmerchants = [];
     //   }
     // },
-      selectAllMerchants() {
+    selectAllMerchants() {
       if (this.selectAll) {
         // Selecting all merchants including "All"
-        this.selectedmerchants = ["all", ...this.merchantName.map(merchant => merchant.value)];
+        this.selectedmerchants = ['all', ...this.merchantName.map(merchant => merchant.value)]
       } else {
         // Deselecting all merchants
-        this.selectedmerchants = [];
+        this.selectedmerchants = []
       }
     },
-      getFormattedDate(date) {
+    getFormattedDate(date) {
       const year = date.getFullYear()
       const month = String(date.getMonth() + 1).padStart(2, '0')
       const day = String(date.getDate()).padStart(2, '0')
       return `${year}-${month}-${day}`
     },
-    downloadExcel(){
-      console.log('download excel',)
+    downloadExcel() {
+      console.log('download excel')
     },
     // downloadReport(){
     //     if (this.reportsMerchant.length === 0) {
@@ -1915,177 +2229,179 @@ export default {
     //     sheetName: 'Sheet1',
     //   });
     // },
-   getSales(){
+    getSales() {
+      // if (this.dialog3) {
+      //     this.dialog3 = false;
+      //     return; // Exit the method to prevent further execution
+      //   }
 
-// if (this.dialog3) {
-//     this.dialog3 = false;
-//     return; // Exit the method to prevent further execution
-//   }
+      // if(this.selectSales === "All"){
+      //   this.selectSales = "all"
+      // }else if(this.selectSales === "Acknowledged"){
+      //    this.selectSales = "3"
+      // }else if(this.selectSales === "Shipped"){
+      //    this.selectSales = "4"
+      // }else if(this.selectSales === "Delivered"){
+      //    this.selectSales = "5"
+      // }
 
-    // if(this.selectSales === "All"){
-    //   this.selectSales = "all"
-    // }else if(this.selectSales === "Acknowledged"){
-    //    this.selectSales = "3"
-    // }else if(this.selectSales === "Shipped"){
-    //    this.selectSales = "4"
-    // }else if(this.selectSales === "Delivered"){
-    //    this.selectSales = "5"
-    // }
+      const statusMapping = {
+        All: 'all',
+        Acknowledged: '3',
+        Shipped: '4',
+        Delivered: '5',
+      }
 
-     const statusMapping = {
-            'All': "all",
-            'Acknowledged': "3",
-            'Shipped': "4",
-            'Delivered': "5",          
-          };
+      console.log('check ', statusMapping[this.selectSales])
+      this.isProgress2 = true
 
-  console.log('check ', statusMapping[this.selectSales] );
-   this.isProgress2 = true;
-
-    if (this.Salesdata.date_filter === 'Custom') {
-            this.Salesdata.date_filter = "custom";
-          } else if (this.Salesdata.date_filter === 'Current Year') {
-            this.Salesdata.date_filter = "this_year";
-            this.Salesdata.start_date = this.getFormattedDate(new Date())
-             this.Salesdata.end_date = this.getFormattedDate(new Date())
-          } else if (this.Salesdata.date_filter === 'Current Month') {
-            this.Salesdata.date_filter = "this_month";
-               this.Salesdata.start_date = this.getFormattedDate(new Date())
-             this.Salesdata.end_date = this.getFormattedDate(new Date())
-          }
-      this.salesstocksreport(statusMapping[this.selectSales],this.Salesdata.date_filter,this.Salesdata.start_date,this.Salesdata.end_date).then((response)=>{
-        console.log('check the response',response);
-          if(response.data.status == 0){
-               this.isProgress2 = false;
-            this.dialog3 = false;   
-             this.selectSales=null;
-            this.Salesdata={};
-           this.snackbar = true;
-            this.color = "on-background";
-            this.snackbarText = response.data.message;
-            
-        }else{
-           this.isProgress2 = false;
-            this.dialog3 = false;   
-              this.selectSales=null;
-            this.Salesdata={};
+      if (this.Salesdata.date_filter === 'Custom') {
+        this.Salesdata.date_filter = 'custom'
+      } else if (this.Salesdata.date_filter === 'Current Year') {
+        this.Salesdata.date_filter = 'this_year'
+        this.Salesdata.start_date = this.getFormattedDate(new Date())
+        this.Salesdata.end_date = this.getFormattedDate(new Date())
+      } else if (this.Salesdata.date_filter === 'Current Month') {
+        this.Salesdata.date_filter = 'this_month'
+        this.Salesdata.start_date = this.getFormattedDate(new Date())
+        this.Salesdata.end_date = this.getFormattedDate(new Date())
+      }
+      this.salesstocksreport(
+        statusMapping[this.selectSales],
+        this.Salesdata.date_filter,
+        this.Salesdata.start_date,
+        this.Salesdata.end_date,
+      ).then(response => {
+        console.log('check the response', response)
+        if (response.data.status == 0) {
+          this.isProgress2 = false
+          this.dialog3 = false
+          this.selectSales = null
+          this.Salesdata = {}
+          this.snackbar = true
+          this.color = 'on-background'
+          this.snackbarText = response.data.message
+        } else {
+          this.isProgress2 = false
+          this.dialog3 = false
+          this.selectSales = null
+          this.Salesdata = {}
 
           //  this.loading = true;
-         
-            // this.reportsMerchant = response.data;
-            const blob = new Blob([response.data], { type: 'text/csv' });
 
-        // Create a temporary URL for the Blob
-        const url = window.URL.createObjectURL(blob);
+          // this.reportsMerchant = response.data;
+          const blob = new Blob([response.data], { type: 'text/csv' })
 
-        // Create a link element
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'Sales Report.csv'); // 
-        document.body.appendChild(link);
-       
-        link.click();
+          // Create a temporary URL for the Blob
+          const url = window.URL.createObjectURL(blob)
 
-       
-        link.parentNode.removeChild(link);
-        window.URL.revokeObjectURL(url);
+          // Create a link element
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', 'Sales Report.csv') //
+          document.body.appendChild(link)
 
-        
-          this.snackbar = true; 
-            this.color = "primary";
-            this.snackbarText = "Reports downloaded successfully.";
+          link.click()
+
+          link.parentNode.removeChild(link)
+          window.URL.revokeObjectURL(url)
+
+          this.snackbar = true
+          this.color = 'primary'
+          this.snackbarText = 'Reports downloaded successfully.'
         }
       })
-   },
-    getReport(){
-        // const postdata = {
-        //      "merchant_id":this.selectedmerchants,
-        //         "date_filter":this.reportsdata.date_filter,
-        //         "start_date":this.reportsdata.start_date,
-        //         "end_date":this.reportsdata.end_date
-        // }
-       
-    if (this.reportsdata.date_filter === 'Custom') {
-            this.reportsdata.date_filter = "custom";
-          } else if (this.reportsdata.date_filter === 'Current Year') {
-            this.reportsdata.date_filter = "this_year";
-            this.reportsdata.start_date = this.getFormattedDate(new Date())
-             this.reportsdata.end_date = this.getFormattedDate(new Date())
-          } else if (this.reportsdata.date_filter === 'Current Month') {
-            this.reportsdata.date_filter = "this_month";
-               this.reportsdata.start_date = this.getFormattedDate(new Date())
-             this.reportsdata.end_date = this.getFormattedDate(new Date())
-          }
-          // console.log('check the res',this.reportsdata.date_filter,this.selectedmerchants,this.reportsdata.start_date, this.reportsdata.end_date);
-            this.isProgress = true;
+    },
+    getReport() {
+      // const postdata = {
+      //      "merchant_id":this.selectedmerchants,
+      //         "date_filter":this.reportsdata.date_filter,
+      //         "start_date":this.reportsdata.start_date,
+      //         "end_date":this.reportsdata.end_date
+      // }
 
-        this.storestocksreport(this.selectedmerchants,this.reportsdata.date_filter,this.reportsdata.start_date,this.reportsdata.end_date).then((response)=>{
-          // console.log(response);
-           
+      if (this.reportsdata.date_filter === 'Custom') {
+        this.reportsdata.date_filter = 'custom'
+      } else if (this.reportsdata.date_filter === 'Current Year') {
+        this.reportsdata.date_filter = 'this_year'
+        this.reportsdata.start_date = this.getFormattedDate(new Date())
+        this.reportsdata.end_date = this.getFormattedDate(new Date())
+      } else if (this.reportsdata.date_filter === 'Current Month') {
+        this.reportsdata.date_filter = 'this_month'
+        this.reportsdata.start_date = this.getFormattedDate(new Date())
+        this.reportsdata.end_date = this.getFormattedDate(new Date())
+      }
+      // console.log('check the res',this.reportsdata.date_filter,this.selectedmerchants,this.reportsdata.start_date, this.reportsdata.end_date);
+      this.isProgress = true
 
-        if(response.data.status == 0){
-               this.isProgress = false;
-            this.dialog2 = false;   
-             this.reportsdata={};
-            this.selectedmerchants="";
-           this.snackbar = true;
-            this.color = "on-background";
-            this.snackbarText = response.data.message;
-            
-        }else{
-            this.isProgress = false;
-            this.dialog2 = false;  
+      this.storestocksreport(
+        this.selectedmerchants,
+        this.reportsdata.date_filter,
+        this.reportsdata.start_date,
+        this.reportsdata.end_date,
+      ).then(response => {
+        // console.log(response);
+
+        if (response.data.status == 0) {
+          this.isProgress = false
+          this.dialog2 = false
+          this.reportsdata = {}
+          this.selectedmerchants = ''
+          this.snackbar = true
+          this.color = 'on-background'
+          this.snackbarText = response.data.message
+        } else {
+          this.isProgress = false
+          this.dialog2 = false
           //  this.loading = true;
-            this.reportsdata={};
-            this.selectedmerchants="";
-            this.reportsMerchant = response.data;
-            const blob = new Blob([response.data], { type: 'text/csv' });
+          this.reportsdata = {}
+          this.selectedmerchants = ''
+          this.reportsMerchant = response.data
+          const blob = new Blob([response.data], { type: 'text/csv' })
 
-        // Create a temporary URL for the Blob
-        const url = window.URL.createObjectURL(blob);
+          // Create a temporary URL for the Blob
+          const url = window.URL.createObjectURL(blob)
 
-        // Create a link element
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'Merchant Report.csv'); // Set the file name here
+          // Create a link element
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', 'Merchant Report.csv') // Set the file name here
 
-        // Append the link to the body
-        document.body.appendChild(link);
+          // Append the link to the body
+          document.body.appendChild(link)
 
-        // Programmatically click the link to trigger the download
-        link.click();
+          // Programmatically click the link to trigger the download
+          link.click()
 
-        // Clean up - remove the link and revoke the URL
-        link.parentNode.removeChild(link);
-        window.URL.revokeObjectURL(url);
+          // Clean up - remove the link and revoke the URL
+          link.parentNode.removeChild(link)
+          window.URL.revokeObjectURL(url)
 
-        // console.log('CSV data:', response.data);
-          this.snackbar = true;
-            this.color = "primary";
-            this.snackbarText = "Reports downloaded successfully.";
+          // console.log('CSV data:', response.data);
+          this.snackbar = true
+          this.color = 'primary'
+          this.snackbarText = 'Reports downloaded successfully.'
         }
-    
-    })
-
+      })
     },
-    openMPS(){
-        this.dialog2 = true;     
+    openMPS() {
+      this.dialog2 = true
     },
-     getMerchantdetails(){
-      this.getMerchants().then((response)=>{
+    getMerchantdetails() {
+      this.getMerchants().then(response => {
         // console.log('mer',response)
         // this.merchantName = response.data.data;
-         this.merchantName = [
-          { value: "all", text: "All" },
+        this.merchantName = [
+          { value: 'all', text: 'All' },
           ...response.data.data.map(brand => ({
             value: brand.merchant_id,
-            text: brand.merchant_uid
-          }))
-        ];
-        console.log('mer',this.merchantName);
+            text: brand.merchant_uid,
+          })),
+        ]
+        console.log('mer', this.merchantName)
       })
-     },
-   }
+    },
+  },
 }
 </script>
 
@@ -2115,7 +2431,7 @@ export default {
   inset-block-end: 0.5rem;
   inset-inline-end: 1rem;
 }
-.trophy2{
+.trophy2 {
   position: absolute;
   inline-size: 12rem;
   inset-block-end: -1rem;
@@ -2127,20 +2443,26 @@ export default {
   inset-block-end: 0.9rem;
   inset-inline-end: -2rem;
 }
-.trophy5{
-    position: absolute;
+.trophy5 {
+  position: absolute;
   inline-size: 5rem;
   inset-block-end: -1rem;
   inset-inline-end: 2rem;
 }
-.trophy7{
-   position: absolute;
+.trophy7 {
+  position: absolute;
   inline-size: 5rem;
   inset-block-end: -0.2rem;
-  inset-inline-end:-0.2rem;
+  inset-inline-end: -0.2rem;
 }
-.trophy6{
-    position: absolute;
+.trophy10 {
+  position: absolute;
+  inline-size: 10rem;
+  inset-block-end: -0.2rem;
+  inset-inline-end: -0.2rem;
+}
+.trophy6 {
+  position: absolute;
   inline-size: 3.1rem;
   inset-block-end: -0.7rem;
   inset-inline-end: 2rem;

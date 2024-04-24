@@ -328,7 +328,7 @@ export default {
       ],
   namerules1: [
          (v) => !!v || 'Name is required',
-         (v) => /^[a-zA-Z]+$/.test(v) || 'Only letters are allowed in the name'
+         (v) => /^[a-z A-Z]+$/.test(v) || 'Only letters are allowed in the name'
       ],
        gstrules: [
         (v) => !!v || "GST is required",     

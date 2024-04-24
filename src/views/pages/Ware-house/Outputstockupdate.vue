@@ -107,7 +107,11 @@
         </tr>
       </thead>
         <tbody>
+            <tr v-if="filteredSalesHistory.length === 0">
+          <td colspan="16" class="text-center"><h1>No data found !</h1></td>
+        </tr>  
           <tr v-for="item  in paginatedItems" :key="item.so_status">
+            
           <td class="text-center">{{ item.so_number }}</td>
           <td class="text-center">{{ item.created_date }}</td>
           <td class="text-center"> <VChip
@@ -157,6 +161,8 @@
           </tr>
         </tbody>
 </VTable>
+
+<!--below is expired table  -->
     <VTable
       v-if="this.saleshistory != ''"
       :headers="headers"
@@ -764,6 +770,7 @@ export default {
         .then((response) => {
           console.log('check details', response);
           this.filteredsalesdata = response.data;
+            this.filteredsalesdata.reverse();
           this.loading = false; // Set loading to false after API call
           resolve(response); // Resolve the promise with response
         })

@@ -19,7 +19,7 @@ const router = createRouter({
     // { path: '/default', component: 'Default' },
     // { path: '/login', component: Login },
   ],
-  // base: import.meta.env.BASE_URL,
+  base: import.meta.env.BASE_URL,
   scrollBehavior() { 
     return { top: 0 }
   },

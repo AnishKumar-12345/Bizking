@@ -139,7 +139,7 @@
           <!-- <td class="text-center">
           {{ item.decision_authority }}
         </td> -->
-          <td class="text-center">
+          <td class="text-center"> 
           {{ item.address }}
         </td>
           <td class="text-center">
@@ -504,6 +504,8 @@ export default {
                     ],
               namerules: [
                 (v) => !!v || 'Name is required',
+         (v) => /^[a-z A-Z]+$/.test(v) || 'Only letters are allowed in the name'
+
               ],
 
               gstrules: [

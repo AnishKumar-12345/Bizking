@@ -1,13 +1,21 @@
 import axios from "axios";
 import { createStore } from 'vuex';
+import createPersistedState from "vuex-persistedstate";
 
 const store = createStore({
   state: {
+    selectedItem: null,
     user: null,
     notifications: JSON.parse(localStorage.getItem('notifications')) || [], // Load from localStorage
     outputSalesOrders: {},
   },
   mutations: {
+    setSelectedItem(state, item) {
+      state.selectedItem = item;
+    },
+    clearSelectedItem(state) {
+      state.selectedItem = null;
+    },
     setUser(state, user) {
       state.user = user;
     },
@@ -41,7 +49,10 @@ const store = createStore({
         });
     },
   },
+  plugins: [createPersistedState()],
   modules: {},
 });
+
+
 
 export default store;

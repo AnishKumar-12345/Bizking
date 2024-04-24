@@ -5,7 +5,7 @@ export default {
         return{
             url:'http://103.211.218.32/'
         }
-    },
+    }, 
     methods:{
         getBrands(){
             return axios
@@ -922,9 +922,153 @@ export default {
               return err.response;
             });
           },
+          getoppQuotesdata(id){
+            return axios
+            .get(this.url +"bizkingz/services/api/quotes/products?opportunity_id="+id, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          saveoppQuotesdata(reqdata){
+            return axios
+            .post(this.url +"bizkingz/services/api/quotes/send",reqdata, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
           getSalesmerchant(reqbody){
             return axios
             .get(this.url +"bizkingz/services/api/merchants/getSalesMerchants?user_id="+reqbody, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          GSTinvoicewise(startdate,enddate){
+            return axios
+            .get(this.url +"bizkingz/services/api/reports/getGSTData?start_date="+startdate+"&end_date="+enddate, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          GSTproductwise(startdate,enddate){
+            return axios
+            .get(this.url +"bizkingz/services/api/reports/getGSTProductsData?start_date="+startdate+"&end_date="+enddate, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          Merchantpayments(person,id,startdate,enddate){
+            return axios
+            .get(this.url +"bizkingz/services/api/reports/merchant_payments_so?sales_person="+person+"&merchant_id="+id+"&start_date="+startdate+"&end_date="+enddate, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          Getsalesperson(){
+            return axios
+            .get(this.url +"bizkingz/services/api/sales/delivery_persons", {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          UpdateUnholddata(reqdata){
+            return axios
+            .post(this.url +"bizkingz/services/api/sales/so_update",reqdata, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          CancelUnholddata(id){
+            return axios
+            .get(this.url +"bizkingz/services/api/sales/so_cancel?so_id="+id, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",

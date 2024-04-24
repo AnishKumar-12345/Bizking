@@ -113,6 +113,12 @@
           {{ item.shop_type }}
         </td>   
         <td class="text-center">
+          {{ item.latitude }}
+        </td>  
+         <td class="text-center">
+          {{ item.longitude }}
+        </td> 
+        <td class="text-center">
           <VChip
         :color="resolveStatusVariant(item.status).color"
         class="font-weight-medium"
@@ -240,7 +246,7 @@
                  <VTextField
                   v-model="this.saveMerchant.gst"
                   label="GST"
-                  :rules="gstrules"
+                
                   required
                 />
               </VCol>
@@ -349,12 +355,37 @@
                   :items="this.salesdata"
                 item-value="value"
                 item-title="text"
-                 :rules="namerules"
+                 :rules="namerulessale"
                   required
                 />
               </VCol>
 
-                 <VCol
+                 
+              <VCol            
+                md="6"
+                cols="12"
+              >
+              <!-- {{this.salesdata}} -->
+                <VTextField
+                  v-model="this.saveMerchant.latitude"               
+                 
+                  label="Latitude"
+                 :rules="latitude"
+                />
+              </VCol>
+                <VCol            
+                md="6"
+                cols="12"
+              >
+              <!-- {{this.salesdata}} -->
+                <VTextField
+                  v-model="this.saveMerchant.longitude"               
+                 
+                  label="Longitude"
+                 :rules="Logitude"
+                />
+              </VCol>
+              <VCol
                 md="6"
                 cols="12"
               >
@@ -369,8 +400,8 @@
                   required
                 />
               </VCol>
-
               <VCol            
+                md="6"
                 cols="12"
               >
               <!-- {{this.salesdata}} -->
@@ -428,6 +459,11 @@ export default {
       ],
        namerules: [
          (v) => !!v || 'Name is required',
+         (v) => /^[a-z A-Z]+$/.test(v) || 'Only letters are allowed in the name'
+         
+      ],
+      namerulessale:[
+         (v) => !!v || 'Name is required',
       ],
        gstrules: [
                (v) => !!v || "GST is required",
@@ -444,6 +480,15 @@ export default {
           (v && v.length <= 10 && v.length >= 10) ||
           "Mobile must be  10 number",
       ],
+        Logitude: [
+  (v) => !!v || 'Longitude is required',
+  (v) => /^\s*-?(\d+(\.\d+)?|[0-8]?\d(\.\d+)?|90(\.0+)?)\s*$/.test(v) || 'Invalid Longitude Format',
+],
+
+latitude: [
+  (v) => !!v || 'Latitude is required',
+  (v) => /^\s*-?([0-8]?\d(\.\d+)?|90(\.0+)?|[1-8]?\d(\.\d+)?|89(\.999+)?|[1-8]\d(\.\d+)?|90\.0+?)\s*$/.test(v) || 'Invalid Latitude Format',
+],
            snackbar: false,
       snackbarText: '',
       timeout: 6000, // milliseconds
@@ -479,7 +524,8 @@ export default {
               "location": "",           
               "sales_person": "",
               "created_date": "",
-
+              "latitude":"",
+              "longitude":"",
               "status": "",
               "created_by": "",
             },
@@ -495,6 +541,8 @@ export default {
                 {text:'POC Phone',value:'poc_phone'},
                 {text:'Shop Size',value:'shop_size'},
                 {text:'Shop Type',value:'shop_type'},
+                {text:'Latitude',value:'latitude'},
+                {text:'Longitude',value:'longitude'},
                 {text:'Status',value:'status'},            
                 {text:'GST',value:'gst'},
                 {text:'Update Date',value:'updated_date'},
@@ -529,7 +577,10 @@ export default {
           (item.decision_authority && item.decision_authority.toLowerCase().includes(lowerCaseQuery)) ||
           (item.store_address && item.store_address.toLowerCase().includes(lowerCaseQuery)) ||
           (item.location && item.location.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.area_pincode && item.area_pincode.toLowerCase().includes(lowerCaseQuery))
+          (item.area_pincode && item.area_pincode.toLowerCase().includes(lowerCaseQuery))||
+          (item.latitude && item.latitude.toString().includes(lowerCaseQuery))||
+          (item.longitude && item.longitude.toString().includes(lowerCaseQuery))
+
 
         );
       });
@@ -600,6 +651,8 @@ export default {
           "shop_size": this.saveMerchant.shop_size,
           "shop_type": this.saveMerchant.shop_type,
           "location": this.saveMerchant.location,
+          "longitude": this.saveMerchant.longitude,
+          "latitude": this.saveMerchant.latitude,
 
           "created_by":  this.createdby ,
           "sales_person": this.saveMerchant.sales_person,
@@ -652,7 +705,8 @@ export default {
                this.saveMerchant.owner_name = response.data.data.owner_name;
                 this.saveMerchant.owner_phone = response.data.data.owner_phone;
                  this.saveMerchant.poc_name = response.data.data.poc_name;
-
+                  this.saveMerchant.latitude = response.data.data.latitude;
+                  this.saveMerchant.longitude = response.data.data.longitude;
                   this.saveMerchant.poc_phone = response.data.data.poc_phone;
                    this.saveMerchant.shop_size = response.data.data.shop_size;
                     this.saveMerchant.shop_type = response.data.data.shop_type;

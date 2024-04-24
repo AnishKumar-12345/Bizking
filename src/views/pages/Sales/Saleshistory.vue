@@ -61,7 +61,7 @@
                   cols="12">
                   <VSelect 
                   v-model="selectsales"
-                  :items="['Shipped','Delivered']"
+                  :items="['Shipped','Delivered','Onhold','Cancelled']"
                     @update:model-value="getSalesorderdetails"      
                       
                       label="Please Select The Status"     
@@ -105,7 +105,7 @@
 
    <VTable 
       v-if="!showNoSalesAlert" 
-       :headers="headers" 
+       :headers="computedHeaders" 
        :items="paginatedItems"       
        class="table-rounded"      
        height="500"
@@ -114,6 +114,7 @@
        <thead>
         <tr>
           <th
+          
            class="text-center"
             v-for="header in headers"
             :key="header"
@@ -126,6 +127,10 @@
       <tbody>
 
         <tr v-if="filteredSalesHistory.length === 0">
+          <td colspan="16" class="text-center"><h1>No data found !</h1></td>
+        </tr>  
+
+        <tr v-if="this.saleshistory.length === 0">
           <td colspan="16" class="text-center"><h1>No data found !</h1></td>
         </tr>  
 
@@ -161,9 +166,9 @@
            <td class="text-center">
           {{ item.total_so_amount }}
         </td>
-        <td class="text-center" >
+        <td class="text-center" > 
            <VBtn   
-              v-if="item.so_status == 'Delivered'"
+              v-if="item.so_status == 'Delivered'" 
               icon
               variant="text"
               color="default"
@@ -181,7 +186,7 @@
         <td class="text-center" >
            <VBtn
 
-             v-if="item.so_status == 'Shipped' || item.so_status == 'Delivered'"
+             v-if="item.so_status == 'Shipped' || item.so_status == 'Delivered' || item.so_status == 'On Hold' || item.so_status === 'Cancelled'"
               icon
               variant="text"
               color="default"
@@ -199,7 +204,7 @@
          <td class="text-center">
            <VBtn
 
-             v-if="item.so_status == 'Shipped' || item.so_status == 'Delivered'"
+             v-if="item.so_status == 'Shipped' || item.so_status == 'Delivered' || item.so_status == 'On Hold' || item.so_status === 'Cancelled'"
               icon
               variant="text"
               color="default"
@@ -214,17 +219,17 @@
               />
             </VBtn>
         </td>
-        <td  class="text-center ">
+        <td class="text-center" style="display:flex;justify-content:center;align-items:center;">
           <!-- {{item.actions}} -->
             <VBtn
-            v-if="item.so_status != 'Shipped' && item.so_status != 'Delivered'"
+            v-if="item.so_status != 'Shipped' && item.so_status != 'Delivered' && item.so_status != 'On Hold' && item.so_status != 'Cancelled'"
                 icon
                 variant="text"
                 color="success"
                 class="me-2"
                 size="small"                
             >
-            <!-- Receive Stock -->
+        
               <VIcon
               icon="mdi-invoice-receive-outline"
               color="success"
@@ -234,36 +239,164 @@
             </VBtn>
 
             
-              <!-- <VBtn
-                icon
+              <VBtn
+              v-if="item.so_status == 'On Hold'"
+                  icon
                 variant="text"
-                color="default"
+                color="error"
                 class="me-2"
-                size="x-small"
-                @click="deleteRow(item)"
+                size="x-small"  
+               
             >
                 <VIcon
                 icon="ri-pencil-line"
-                size="22"
+                size="30"
+                color="primary"
+                 @click="editrow(item)"
                 />
             </VBtn>
             <VBtn
-                icon
+              v-if="item.so_status == 'On Hold'"
+                  icon
                 variant="text"
-                color="default"
+                color="error"
                 class="me-2"
-                size="x-small"
-                @click="deleteRow(item)"
+                size="x-small"  
+              
             >
                 <VIcon
-                icon="ri-delete-bin-line"
-                size="22"
+                icon="material-symbols:cancel-outline"
+                size="30"
+                color="error"
+                @click="deleteRow(item)"
                 />
-            </VBtn> -->
+            </VBtn>
           </td>
       </tr>
       </tbody>        
         </VTable>
+
+        <VDialog
+  v-model="dialog"
+  max-width="400"
+  persistent
+>
+   <VCard
+        title="Assign Delivery Person"
+        class="mb-2"
+      >
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- 👉 Form -->
+              <VForm
+                class="mt-4"
+                ref="purchaseOrderForm"
+              >
+                <VRow>                
+
+                  <VCol
+                    md="12"
+                    cols="12"
+                  >
+                     <VAutocomplete
+                      v-model="Deliverydata.delivery_person"
+                      :items="this.deliveryPerson"
+                        item-value="value"
+                      item-title="text"                  
+                      label="Assign Delivery Person"
+                   :rules="person"
+                    />
+                  </VCol>
+                  
+                   <VCol
+                    md="12"
+                    cols="12"
+                  >
+                     <VTextField
+                      v-model="Deliverydata.shipped_date"
+                      type="date"
+                      label="Start Date"
+                      :min="today"
+                      :rules="dater"
+                    />
+                  </VCol>
+                  <VCol
+                  md="12"
+                    cols="12"
+                  >
+                    <VBtn @click="validateForm">Save</VBtn> &nbsp;
+                    <!-- @click="resetdetails" -->
+                    <VBtn
+                      color="secondary"
+                      variant="tonal"
+                      @click="closeDialog()"
+                    >
+                      Close
+                    </VBtn>
+                  </VCol>
+                </VRow>
+              </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+   </VCard>
+        </VDialog>
+
+<VDialog
+  v-model="dialog2"
+  max-width="400"
+  persistent
+>
+   <VCard
+        title="Cancel Onhold"
+        class="mb-2"
+      >
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- 👉 Form -->
+              <VForm
+                class="mt-4"
+                ref="purchaseOrderForm2"
+              >
+                <VRow>
+                  <VCol
+                    md="12"
+                    cols="12"
+                  >
+                   Are you sure want to cancel the Onhold Sales Order ?
+                  </VCol>
+                  <VCol
+                  md="12"
+                    cols="12"
+                  >
+                    <VBtn @click="cancelunhold">Yes</VBtn> &nbsp;
+                    <!-- @click="resetdetails" -->
+                    <VBtn
+                      color="secondary"
+                      variant="tonal"
+                      @click="closeUnhold"
+                    >
+                      No
+                    </VBtn>
+                  </VCol>
+                </VRow>
+              </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+   </VCard>
+</VDialog>
+ <VSnackbar
+      v-model="snackbar"
+      :timeout="2000"
+      :color="color"
+    >
+      {{ snackbarText }}
+      <!-- <VBtn text @click="snackbar = false">Close</VBtn> -->
+    </VSnackbar>
+
         <VPagination
   v-model="page"
   :length="Math.ceil(filteredSalesHistory.length / pageSize)"
@@ -280,6 +413,24 @@ export default {
 
     data(){
         return{
+       today: this.getFormattedDate(new Date()),
+
+          Deliverydata:{
+              "so_id":"",
+              "shipped_date":"",
+              "delivery_person":""
+          },
+          SOid:null,
+          SOid2:null,
+
+            snackbar: false,
+            snackbarText: '',
+            timeout: 6000, // milliseconds
+            color: '', // or 'error', 'warning', 'info', etc.
+            top: false,
+            bottom: true,
+            left: false,
+            right: false,
           selectsales:null,
             page: 1,
     pageSize: 10,
@@ -288,7 +439,12 @@ export default {
        loading: false,
      saleshistory:[],
        searchQuery:'',
-       
+       deliveryPerson:[],
+       dialog :false,
+      dater: [v => !!v || 'Date is required'],
+      person: [v => !!v || 'Assign Delivery Person is required'],
+      dialog2:false,
+
       headers: [
       
         { text: 'Sales Order', value: 'so_number' },
@@ -303,11 +459,33 @@ export default {
         { text: 'Delivery Challan', value: 'delivery_challan_file' },
         { text: 'Invoice', value: 'invoice_file' },
 
-        // { text: 'Action', value: 'actions', sortable: false },
+        { text: 'Action', value: 'actions', sortable: false },
       ],
         }
     },
      computed: {
+
+        computedHeaders() {
+        // Clone the original headers array
+        const updatedHeaders = [...this.headers];
+        // Check if 'selectsales' is 'Shipped'
+        if (this.selectsales === 'Shipped') {
+        // Find the index of the 'POD' header
+        const podHeaderIndex = updatedHeaders.findIndex(header => header.value === 'pod_image');
+        // Remove the 'POD' header if found
+        if (podHeaderIndex !== -1) {
+          updatedHeaders.splice(podHeaderIndex, 1);
+        }
+        // Find the index of the 'Action' header
+        const actionHeaderIndex = updatedHeaders.findIndex(header => header.value === 'actions');
+        // Remove the 'Action' header if found
+        if (actionHeaderIndex !== -1) {
+          updatedHeaders.splice(actionHeaderIndex, 1);
+        }
+      }
+      return updatedHeaders;
+    }, 
+
    filteredSalesHistory() {
       const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
       return this.saleshistory.filter((item) => {
@@ -325,8 +503,9 @@ export default {
         const matchesStatus = (
           // item.so_status === 'Acknowledged' || 
           item.so_status === 'Delivered' || 
-          item.so_status === 'Received' || 
-          item.so_status === 'Shipped'
+          item.so_status === 'Shipped' || 
+          item.so_status === 'On Hold' ||
+           item.so_status === 'Cancelled'
         );
         // Return true if both search query and status match
         return matchesSearch && matchesStatus;
@@ -341,7 +520,7 @@ export default {
    showNoSalesAlert() {
       // Check if any items have 'Acknowledged' or 'On Hold' status
       return !this.saleshistory.some(
-        item => item.so_status === 'Delivered' || item.so_status === 'Received' || item.so_status === 'Shipped'
+        item => item.so_status === 'Delivered' || item.so_status === 'Shipped' || item.so_status === 'On Hold' || item.so_status === 'Cancelled'
       );
      },
   },
@@ -363,6 +542,99 @@ export default {
     // }, 5000);
     },
     methods:{
+      closeUnhold(){
+        this.dialog2 = false;
+      },
+       getFormattedDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    },
+      deleteRow(id){
+        console.log("perk",id.so_id);
+        this.SOid2 = id.so_id;
+        this.dialog2 = true;
+      },
+      cancelunhold(){
+        console.log("SOid2",this.SOid2);
+        this.CancelUnholddata( this.SOid2 ).then((response)=>{
+          if(response.data.status == 1){
+             this.dialog2 = false;
+             this.snackbar = true;
+            this.color = 'primary';
+            // this.Deliverydata = {};
+            this.snackbarText = response.data.message;
+            this.getSalesorderdetails();
+          }else{
+              this.dialog2 = false;
+             this.snackbar = true;
+            this.color = 'on-background';
+            // this.Deliverydata = {};
+            this.snackbarText = response.data.message;
+          }
+        })
+      },
+      validateForm(){
+        this.$refs.purchaseOrderForm.validate().then(valid => {
+              // console.log("form valid", valid.valid);
+              if (valid.valid == true) {
+              
+                this.updateOnhold();
+              }else{
+                this.snackbar = true;
+                  this.snackbarText = "Please give all mandatory fields"
+                  this.color = "on-background";
+              }
+            }); 
+      },
+      updateOnhold(){
+        const postData ={
+          "so_id": this.SOid,
+          "shipped_date":this.Deliverydata.shipped_date,
+          "delivery_person":this.Deliverydata.delivery_person
+        }
+        console.log('po',postData);
+        this.UpdateUnholddata(postData).then((response)=>{
+          console.log("set",response);
+          if(response.data.status == 1){
+            this.dialog = false;
+             this.snackbar = true;
+            this.color = 'primary';
+            this.Deliverydata = {};
+            this.snackbarText = response.data.message;
+            this.getSalesorderdetails();
+          }else{
+             this.dialog = false;
+             this.snackbar = true;
+            this.color = 'on-background';
+            this.Deliverydata = {};
+            this.snackbarText = response.data.message;
+          }
+        })
+      },
+      closeDialog(){
+        this.dialog = false;
+        this.Deliverydata = {};
+      },
+      editrow(id){
+        console.log("ids",id.so_id)
+        this.Getsalesperson().then((response)=>{
+          console.log('getperson',response);
+          if(response.data.status == 1){
+            this.deliveryPerson = response.data.data.map(del => ({
+            value: del.delivery_person,
+            text: del.name
+          }))            
+            this.dialog = true;
+            this.SOid = id.so_id;
+          }else{
+            this.deliveryPerson = [];
+            this.dialog = false;
+          }
+        })
+      },
+
         updatePagination(page) {
     this.page = page;
   },
@@ -400,8 +672,18 @@ export default {
           color: 'warning',
           // text: 'Acknowledged',
         }
-     
-      
+     else if(status == 'On Hold'){
+       return {
+          color: 'warning',
+          // text: 'Acknowledged',
+        }
+     }
+      else if(status == 'Cancelled'){
+       return {
+          color: 'error',
+          // text: 'Acknowledged',
+        }
+     }
         
       else
         return {
@@ -424,7 +706,9 @@ export default {
           const postdata = {
             "All":"all",
             "Shipped":"4",
-            "Delivered":"5"
+            "Delivered":"5",
+            "Onhold":"7",
+            "Cancelled":"0",
           }
           this.loading = true;
           this.getSalesorders(postdata[this.selectsales])
@@ -435,7 +719,15 @@ export default {
               this.saleshistory = response.data;
               this.saleshistory.reverse();
               // resolve(); // Resolve the promise when API call is successful
-              }              
+              } else{
+                //  this.dialog2 = false;
+              this.snackbar = true;
+              this.color = 'on-background';
+              this.loading = false;
+              this.saleshistory = [];
+              // this.Deliverydata = {};
+              this.snackbarText = response.message;
+              }             
             })
             // .catch((error) => {
             //   console.error('Error fetching merchants:', error);

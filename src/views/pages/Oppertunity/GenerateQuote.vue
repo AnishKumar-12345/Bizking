@@ -26,15 +26,37 @@
     
     />
     </div>
-      <VTable 
-       :headers="headers"
-        :items="oppitems"
-        item-key="brand_name"
-      class="table-rounded"      
-       height="500"
-      fixed-header 
-      >
-       <thead>
+    <!-- {{selectedItem.user_id}} -->
+     <VForm class="mt-6" ref="purchaseOrderForm">
+           
+            <VRow>
+             <VCol
+                cols="12"
+                md="6"
+              >
+              <!-- {{formData.created_date}} -->
+                <VTextField
+                  v-model="CreatedDate"
+                  type="date"
+                  label="Order Date"
+                  :min="today"
+                  :rules="dateRules"
+                  
+                />
+              </VCol>
+              <VCol
+               
+                cols="12"
+              >
+                 <VTable 
+              :headers="headers"
+                :items="oppitems"
+                item-key="brand_name"
+              class="table-rounded"      
+              height="500"
+              fixed-header 
+              >
+              <thead>
         <tr>
           <th
            class="text-center"
@@ -55,6 +77,7 @@
       >      
        <td class="text-center">
             <!-- Checkbox -->
+            <!-- {{item.selected}} -->
             <VCheckbox
               v-model="item.selected"
            
@@ -74,58 +97,42 @@
           <td class="text-center">
             <!-- Select Field -->
             <VTextField
-              v-model="item.inputs"                       
-              :rules="marginrules"
+              v-model="item.sa_given_margin"                       
+          
             />
           </td>
-        <!-- <td class="text-center">
-           
-        {{ item.hsn_code }}
-        </td> -->
-          <!-- <td class="text-center">
-           
-        {{ item.mrp }}
-        </td> -->
-        <!-- <td class="text-center">
-          {{ item.status }}
-        </td> -->
-         <!-- <td class="text-center">
-          <VChip
-        :color="resolveStatusVariant(item.status).color"
-        class="font-weight-medium"
-        size="small"
-      >
-      {{ item.status == 1 ? 'Active' : 'Inactive'}}
-    
-            </VChip>
-          
-        </td>  -->
-        <!-- <td class="text-center">
-          {{ item.total_given_margin }}
-        </td> -->
-          
-          
-    <!-- <td class="text-center">
-              <V-btn
-                  icon
-                  variant="text"
-                  color="default"
-                  class="mb-1 mt-2"
-                  size="x-small"                 
-                 @click="editOppertunity(item)"
-                  >
-                  
-                      <VIcon
-                        icon="ri-pencil-line"
-                        size="22"        
-                        color="#BA8B32"       
-                        />   
-                      </V-btn>     
-                      
-            </td> -->
+       
       </tr>
       </tbody>        
                  </VTable>
+                 
+              </VCol>
+
+
+              <VCol
+                cols="12"
+                class="d-flex flex-wrap gap-4"
+              >
+                <VBtn @click="validateForm()">Save</VBtn>
+                 <VProgressCircular
+                  :size="50"
+                  color="primary"
+                  indeterminate
+                  v-show="isProgress"
+                >
+                </VProgressCircular>
+                <!-- <VBtn 
+                  color="secondary"
+                  variant="tonal"
+                  @click="resetdetails()"
+                
+                >
+                  Reset
+                </VBtn> -->
+              </VCol>
+
+            </VRow>
+     </VForm>
                  <VPagination
             v-model="page"
             :length="Math.ceil(filteredProducts.length / pageSize)"
@@ -211,18 +218,25 @@ export default {
             },
             salesdata:[],
             BrandNames:[],
+            CreatedDate:null,
+            today: this.getFormattedDate(new Date()),
+            OpportunityProductid: null,
             selectedBrand:null,
             userRole:'',
             createdby:'',
             loading:true,
-
+            OppertunityID:null,
+            isProgress:false,
+             dateRules: [
+         (v) => !!v || 'Date is required',
+      ],
             headers:[
                 {text:'Select',value:'actions'},
                 {text:'Brand Name',value:'brand_name'},
                 {text:'Product Name',value:'sku_name'},
                 {text:'UOM',value:'uom'},               
                 {text:'Final Retails',value:'final_ret'},               
-                {text:'Pitch From',value:'pitch_from'},               
+                {text:'Pitch From',value:'pitch_from'},              
           
                 {text:'Margin',value:'inputs'},
 
@@ -230,9 +244,12 @@ export default {
         }
     },
     computed:{
-      marginrules(){
-        
+      selectedItem() {
+        return this.$store.state.selectedItem;
       },
+      // marginrules(){
+        
+      // },
        filteredProducts(){
          const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
         return this.quotesdata.filter((item) => {
@@ -254,6 +271,7 @@ export default {
         },
     },
     mounted(){
+      this.OppertunityID = this.$route.query.opportunity_id;
          this.getQuotesdata()
             .then(() => {             
               this.loading = false;
@@ -263,15 +281,100 @@ export default {
             });
     },
 methods:{
-   updatePagination(page) {
+   validateForm(){
+   this.$refs.purchaseOrderForm.validate().then(valid => {
+        // console.log("form valid", valid.valid);
+        if (valid.valid == true) {
+         
+          this.saveQuotedata();
+        }else{
+           this.snackbar = true;
+            this.snackbarText = "Please give all mandatory fields"
+            this.color = "on-background";
+        }
+      }); 
+ },
+ saveQuotedata() {
+  // Filter out only the selected items
+  const selectedItems = this.quotesdata.filter(item => item.selected);
+
+  // Prepare data to be sent
+  const postData = {
+    "sales_person": this.selectedItem.user_id,
+    "opportunity_products_id": this.OpportunityProductid,
+    "opportunity_id": this.OppertunityID,
+    "created_date": this.CreatedDate,
+    "products": selectedItems.map(item => ({
+      "brand_id": item.brand_id,
+      "brand_product_id": item.brand_product_id,
+      "margin": item.sa_given_margin,
+      "brand_name": item.brand_name,
+      "sku_name": item.sku_name,
+      "uom": item.uom,
+      "created_date": "",
+      "update_date": "",
+      "selling_price": ""
+    }))
+  };
+
+  console.log('text', postData);
+  this.isProgress = true;
+
+  // Call the API method with filtered data
+  this.saveoppQuotesdata(postData)
+    .then((response) => {
+      this.isProgress = false;
+      console.log("Saved items:", response);
+      if (response.data.status == 1) {
+        this.snackbarText = response.data.message;
+        this.color = "primary";
+        this.snackbar = true;
+         this.getQuotesdata()
+            .then(() => {             
+              this.loading = false;
+            }) 
+            .catch((error) => {             
+              console.error('Error fetching merchants:', error);            
+            });
+        // setTimeout(() => {
+        //   window.location.reload(true);
+        // }, 1300);
+      } else {
+        this.isProgress = true;
+        this.snackbarText = response.data.message;
+        this.color = "on-background";
+        this.snackbar = true;
+      }
+    })
+    .catch((error) => {
+      console.error("Error saving items:", error);
+      this.snackbarText = "Error saving items.";
+      this.color = "error";
+      this.snackbar = true;
+    });
+},
+
+   getFormattedDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    },
+   updatePagination(page) { 
     this.page = page;
   },
   getQuotesdata(){
         return new Promise((resolve, reject) => {
-          this.Quotesdata()
+          this.getoppQuotesdata(this.OppertunityID)
             .then((response) => {
               console.log('check',response);
-              this.quotesdata = response.data.data;
+              this.OpportunityProductid = response.data.opportunity_products_id;
+              // this.quotesdata = response.data.data;
+              this.quotesdata = response.data.data.map(item => ({
+                ...item,
+                selected: item.checked === "checked"
+              }));
+              console.log("Quotes data:", this.quotesdata);
               this.quotesdata.reverse();
               resolve(); // Resolve the promise when API call is successful
             })

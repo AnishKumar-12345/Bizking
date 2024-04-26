@@ -1084,5 +1084,23 @@ export default {
               return err.response;
             });
           },
+          Merchantreports(){
+            return axios
+            .get(this.url +"bizkingz/services/api/reports/merchants", {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
     }
 }

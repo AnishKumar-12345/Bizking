@@ -32,7 +32,7 @@
                 <VTextField
                   v-model="this.saveMerchant.merchant_name"
                   label="Merchant Name"
-                  :rules="namerules"
+                  :rules="namerulesm"
                   required
                 />
               </VCol>
@@ -312,6 +312,9 @@ latitude: [
          (v) => !!v || 'Name is required',
          (v) => /^[a-z A-Z]+$/.test(v) || 'Only letters are allowed in the name'
 
+      ],
+      namerulesm:[
+         (v) => !!v || 'Name is required',
       ],
       salespersonr:[
          (v) => !!v || 'Name is required',

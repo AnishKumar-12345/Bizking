@@ -171,7 +171,7 @@ export default{
         {
           id: 12,
           title: 'Retention',
-          icon: "carbon:store",
+          icon: "material-symbols:nest-doorbell-visitor",
           children: [
             { id: 48, title: 'Retention Visit', route: '/Retentionvisit' },
             // { id: 48, title: 'Update Stock', route: '/tables' },
@@ -183,7 +183,7 @@ export default{
         {
           id: 13,
           title: 'Terms&Conditions',
-          icon: "carbon:store",
+          icon: "material-symbols-light:conditions",
           children: [
             { id: 49, title: 'Add T&C', route: '/Addtermsandcondition' },                             
           ],

@@ -353,6 +353,8 @@
             >
               Get Reports
             </VBtn>
+
+           
           </VCardText>
 
           <VImg
@@ -366,6 +368,50 @@
         </VCard>
       </VCol>
 
+<!-- Merchant Report -->
+      <VCol
+        cols="12"
+        md="4"
+      >
+        <VCard
+          title="Merchant Report"
+          class="position-relative"
+        >
+          <VCardText>
+            <h4 class="text-4xl font-weight-medium text-primary">
+              <VIcon
+                size="50"
+                start
+                icon="line-md:downloading-loop"
+              />
+            </h4>
+            <br />
+
+            <VBtn
+              size="small"
+              @click="openMerchantreport()"
+            >
+              Get Reports
+            </VBtn> &nbsp;
+              <VProgressCircular
+                      :size="50"
+                      color="primary"
+                      indeterminate
+                      v-show="isProgress12"
+                    >
+                    </VProgressCircular>
+          </VCardText>
+
+          <VImg
+            :src="triangleBg"
+            class="triangle-bg flip-in-rtl"
+          />
+          <img
+            src="@/assets/images/avatars/avatar-18.png"
+            class="trophy7"
+          />
+        </VCard>
+      </VCol>
       <!-- User Store Logins -->
       <!-- <VCol
         cols="12"
@@ -536,7 +582,7 @@
                     <!-- this_year this_month -->
                     <VSelect
                       v-model="selectSales"
-                      :items="['All', 'Acknowledged', 'Shipped', 'Delivered']"
+                      :items="['All', 'Acknowledged', 'Shipped', 'Delivered','OnHold','Cancel']"
                       label="Select"
                       :rules="salesRules"
                     />
@@ -894,7 +940,7 @@
                     <!-- this_year this_month -->
                     <VSelect
                       v-model="selectPurchase"
-                      :items="['All', 'Acknowledged', 'Shared', 'Received']"
+                      :items="['All', 'Acknowledged', 'Shared', 'Received','Cancel']"
                       label="Select"
                       :rules="salesRules"
                     />
@@ -1248,6 +1294,94 @@
       </VCard>
     </VDialog>
 
+<!-- Merchant Report -->
+ <VDialog
+      v-model="dialog12"
+      max-width="1000"
+    >
+      <VCard
+        title="Merchant Report"
+        class="mb-2"
+      >
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- 👉 Form -->
+              <VForm
+                class="mt-6"
+                ref="purchaseOrderForm11"
+              >
+                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
+              </VCheckbox> -->
+                <VRow>              
+
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VAutocomplete
+                      v-model="selectedMerchantReportype"
+                      :items="['All','Date-Wise']"
+                      :rules="salesdata"
+                      label="Merchant Report Type"
+                      :menu-props="{ maxHeight: 200 }"
+                      no-underline
+                    />
+                  </VCol>
+
+                   <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                      v-model="startDate2"
+                      type="date"
+                      label="Start Date"
+                      :min="minDate"
+                      :max="maxDate"
+                      :rules="Daterules"
+                    />
+                  </VCol>
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                      v-model="endDate2"
+                      type="date"
+                      label="End Date"
+                      :min="minDate1"
+                      :max="maxDate1"
+                      :rules="Daterules"
+                    />
+                  </VCol>
+                  <VDivider />
+
+                  <VCol
+                    cols="12"
+                    class="d-flex flex-wrap gap-4"
+                  >
+                    <VBtn @click="validateForm11()">Get</VBtn>
+
+                    <VBtn @click="closeMerchantreport()">Close</VBtn>
+
+                    <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
+                    <VProgressCircular
+                      :size="50"
+                      color="primary"
+                      indeterminate
+                      v-show="isProgress12"
+                    >
+                    </VProgressCircular>
+                  </VCol>
+                </VRow>
+              </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+      </VCard>
+    </VDialog>
+
     <VSnackbar
       v-model="snackbar"
       :timeout="3500"
@@ -1273,15 +1407,17 @@ export default {
 
   data() {
     return {
+      selectedMerchantReportype:null,
       userStoredata: null,
       selectSales: null,
       selectPurchase: null,
       selectGST: null,
       startDate: null,
       endDate: null,
-       startDate1: null,
+      startDate1: null,
       endDate1: null,
-      
+      startDate2: null,
+      endDate2: null,
       snackbar: false,
       snackbarText: '',
       timeout: 6000, // milliseconds
@@ -1302,6 +1438,8 @@ export default {
       isProgress9: false,
       isProgress10: false,
       isProgress11: false,
+      isProgress12: false,
+
 
       loading: true,
       dialog2: false,
@@ -1314,6 +1452,8 @@ export default {
       dialog9: false,
       dialog10: false,
       dialog11: false,
+      dialog12: false,
+
 
       selectdatepicker: null,
       salesUsers: [],
@@ -1424,6 +1564,63 @@ export default {
     }, 3000)
   },
   methods: {
+     openMerchantreport() {
+      this.isProgress12 = true;
+       this.Merchantreports().then((response)=>{
+           if (response.data.status == 0) {
+               this.isProgress12 = false;
+
+          // this.dialog10 = false;
+
+          // this.selectedSalesuser = '';
+          // this.selectedSalesMerchant = '';
+          // this.startDate1 = '';
+          // this.endDate1 = '';
+
+          this.snackbar = true;
+          this.color = 'on-background'
+          this.snackbarText = response.data.message
+        } else {
+          this.isProgress12 = false;
+       
+
+          //  this.loading = true;
+          // this.reportsdata={};
+          
+          //  console.log('length',response.data.length);
+          const blob = new Blob([response.data], { type: 'text/csv' })
+
+          // Create a temporary URL for the Blob
+          const url = window.URL.createObjectURL(blob)
+
+          // Create a link element
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', 'Merchant Report.csv') // Set the file name here
+
+          // Append the link to the body
+          document.body.appendChild(link)
+
+          // Programmatically click the link to trigger the download
+          link.click()
+
+          // Clean up - remove the link and revoke the URL
+          link.parentNode.removeChild(link)
+          window.URL.revokeObjectURL(url)
+
+          // console.log('CSV data:', response.data);
+          this.snackbar = true
+          this.color = 'primary'
+          this.snackbarText = 'Reports downloaded successfully.'
+        }
+      })
+    },
+    closeMerchantreport(){
+      this.dialog12 = false;
+      this.selectedMerchantReportype = null;
+      this.startDate2 = null;
+      this.endDate2 = null;
+    },
     validateForm10() {
       this.$refs.purchaseOrderForm10.validate().then(valid => {
         // console.log("form valid", valid.valid);
@@ -1768,6 +1965,7 @@ export default {
         Acknowledged: '3',
         Shared: '4',
         Received: '5',
+        Cancel: '6',
       }
 
       if (this.Purchasedata.date_filter === 'Custom') {
@@ -2250,6 +2448,8 @@ export default {
         Acknowledged: '3',
         Shipped: '4',
         Delivered: '5',
+        OnHold: '7',
+        Cancel: '0'
       }
 
       console.log('check ', statusMapping[this.selectSales])

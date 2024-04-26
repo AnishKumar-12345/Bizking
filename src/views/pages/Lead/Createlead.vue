@@ -16,7 +16,7 @@
                 <VSelect
                  v-model="saveLeads.lead_type"
                   label="Lead Type"
-                :items="['Brand','Merchant']"
+                :items="['Merchant']"
                   :rules="namerules"
                 />
               </VCol>
@@ -29,7 +29,7 @@
               >
                 <VTextField
                  v-model="saveLeads.name"                
-                  label="Brand / Merchant name"
+                  label="Merchant name"
                   :rules="storerules"
                
                 />                 

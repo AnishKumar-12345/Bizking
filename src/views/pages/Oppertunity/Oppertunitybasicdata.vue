@@ -139,8 +139,18 @@
                     label="Owner Phone"
                   />
                 </VCol>
+                 <VCol
+                  md="6"
+                  cols="12"
+                >
+                  <VSelect
+                    v-model="saveLeads.decision_authority"
+                    :items="['Owner','POC']"
+                    label="Decision Authority"
+                  />
+                </VCol>
 
-                <VCol
+                <!-- <VCol
                   md="6"
                   cols="12"
                 >
@@ -160,7 +170,7 @@
                     
                     label="Longitude"
                   />
-                </VCol>
+                </VCol> -->
 
                 <VCol
                   md="6"
@@ -169,7 +179,7 @@
                   <VSelect
                     v-model="saveLeads.status"
                     :rules="satusrules"
-                    :items="['Created', 'Partially interested', 'Cancelled', 'Closed']"
+                    :items="['Created', 'Cancelled', 'Closed(Onboard)']"
                     label="Opportunity Status"
                   />
                 </VCol>
@@ -311,9 +321,12 @@ export default {
         'Created': 'created',
         'Partially interested' : 'partially interested',
         'Cancelled': 'cancelled',
-        'Closed' : 'closed'
+        'Closed(Onboard)' : 'closed'
       }
-
+      const dec = {
+        'Owner': 'owner',
+        'POC' : 'poc',
+      }
       const postdata = {
         lead_type: this.saveLeads.lead_type,
         opportunity_id:this.saveLeads.opportunity_id,
@@ -330,13 +343,13 @@ export default {
         poc_name: this.saveLeads.poc_name,
         poc_phone: this.saveLeads.poc_phone,
         gst: this.saveLeads.gst,
-        decision_authority: this.saveLeads.decision_authority,
+        decision_authority: dec[this.saveLeads.decision_authority],
         location: this.saveLeads.location,
         status: status[this.saveLeads.status] ,
       }
-      console.log('update lead', postdata)
+      // console.log('update lead', postdata)
       this.updateOppertunitydetails(postdata).then(response => {
-        console.log('check data', response)
+        // console.log('check data', response)
         if (response.data.status == 1) {
           this.snackbar = true
           this.snackbarText = response.data.message
@@ -373,7 +386,7 @@ export default {
               this.saveLeads.opportunity_no = response.data.data.opportunity_no
               this.saveLeads.address = response.data.data.address
               this.saveLeads.email = response.data.data.email
-              this.saveLeads.decision_authority = response.data.data.decision_authority
+              this.saveLeads.decision_authority = response.data.data.decision_authority == "owner" ? "Owner" : "owner" && response.data.data.decision_authority == "poc" ? "POC" : "poc"  
               this.saveLeads.gst = response.data.data.gst
               this.saveLeads.name = response.data.data.name
               this.saveLeads.lead_id = response.data.data.lead_id

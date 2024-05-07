@@ -30,6 +30,9 @@
         <VWindowItem value="quote">
         <GenerateQuote />
       </VWindowItem>
+      <VWindowItem value="attach">
+        <Attachment />
+      </VWindowItem>
     </VWindow>
     </div>
 </template>
@@ -39,6 +42,7 @@ import { ref, onMounted } from 'vue';
 import Oppertunitybasicdata from '@/views/pages/Oppertunity/Oppertunitybasicdata.vue'
 import Oppertunityworkinfo from '@/views/pages/Oppertunity/Oppertunityworkinfo.vue'
 import GenerateQuote from '@/views/pages/Oppertunity/GenerateQuote.vue'
+import Attachment from '@/views/pages/Oppertunity/Attachment.vue'
 
 // import AccountSettingsAccount from '@/views/pages/account-settings/AccountSettingsAccount.vue'
 // import AccountSettingsNotification from '@/views/pages/account-settings/AccountSettingsNotification.vue'
@@ -46,7 +50,8 @@ export default {
     components:{
         Oppertunitybasicdata,
         Oppertunityworkinfo,
-        GenerateQuote
+        GenerateQuote,
+        Attachment
     },
     data(){
         return{
@@ -67,6 +72,11 @@ export default {
                     title: 'Quote generation',
                     icon: 'mdi-bell-outline',
                     tab: 'quote',
+                },
+                 {
+                    title: 'Attachment',
+                    icon: 'teenyicons:attachment-outline',
+                    tab: 'attach',
                 },
 ]
         }

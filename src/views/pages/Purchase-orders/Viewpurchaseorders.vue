@@ -104,7 +104,7 @@
       
           </td>
           <td class="text-center">{{ item.brand_name }}</td>
-          <td class="text-center">{{ item.brand_name == item.brand_name ? 'Mauriya Spiritual & Naturals(BIZKINGZ)' : item.brand_name }}</td>
+          <td class="text-center">{{ item.brand_name == item.brand_name ? 'Mouriya Spiritual & Naturals(BIZKINGZ)' : item.brand_name }}</td>
           <td class="text-center">&#8377;{{ item.total_po_amount }}</td>
           <td class="text-center" style="display:flex;justify-content:center;align-items:center;">
             <VBtn
@@ -153,6 +153,24 @@
                 color="error"
                 icon="iwwa:file-pdf"
                 size="26"
+              />
+            </VBtn>
+
+              <VBtn
+               v-if="item.po_status == 'Acknowledged' || item.po_status == 'Shared' || item.po_status == 'Draft'"
+                icon
+                variant="text"
+                color="error"
+                class="me-2"
+                size="small"  
+                  @click="cancelstock(item)"              
+            >
+            <!-- Receive Stock -->
+              <VIcon
+              icon="material-symbols:cancel-outline"
+              color="error"
+              size="30"
+            
               />
             </VBtn>
           </td>
@@ -893,6 +911,108 @@
       </VCard>
     </VDialog>
 
+<VDialog
+  v-model="dialog3"
+  max-width="400"
+  persistent
+>
+   <VCard
+        title="Cancel Order"
+        class="mb-2"
+      >
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- 👉 Form -->
+              <VForm
+                class="mt-4"
+                ref="purchaseOrderForm"
+              >
+                <VRow>
+                  <VCol
+                    md="12"
+                    cols="12"
+                  >
+                   Are you sure want to cancel the order ?
+                  </VCol>
+                  <VCol
+                  md="12"
+                    cols="12"
+                  >
+                    <VBtn @click="validateFormopen">Yes</VBtn> &nbsp;
+                    <!-- @click="resetdetails" -->
+                    <VBtn
+                      color="secondary"
+                      variant="tonal"
+                      @click="closeDialogform()"
+                    >
+                      No
+                    </VBtn>
+                  </VCol>
+                </VRow>
+              </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+   </VCard>
+</VDialog>
+
+<VDialog
+  v-model="dialog4"
+  max-width="500"
+  persistent
+>
+   <VCard
+        title="Cancel Order"
+        class="mb-2"
+      >
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- 👉 Form -->
+              <VForm
+                class="mt-4"
+                ref="purchaseOrderForm5"
+              >
+                <VRow>
+                  <VCol
+                    md="12"
+                    cols="12"
+                  >
+                    <VTextarea
+                      v-model="this.cancelOrderdetails.cancel_reason"
+                      label="Cancel Reason"
+                      row-height="30"
+                      rows="4"
+                      variant="filled"
+                      auto-grow
+                      shaped
+                      :rules="workingRules"
+                    />
+                      
+                  </VCol>
+                  <VCol
+                  md="12"
+                    cols="12"
+                  >
+                    <VBtn @click="validateForm8">Save</VBtn> &nbsp;
+                    <!-- @click="resetdetails" -->
+                    <VBtn
+                      color="secondary"
+                      variant="tonal"
+                      @click="closeDialog4()"
+                    >
+                      No
+                    </VBtn>
+                  </VCol>
+                </VRow>
+              </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+   </VCard>
+</VDialog>
+
     <VSnackbar
       v-model="snackbar"
       :timeout="2000"
@@ -911,11 +1031,20 @@ export default {
 
   data() {
     return {
-          maxPaginationPages:5,
+       cancelOrderdetails:  {
+            "po_id":"",
+            "cancel_reason":"",           
+            "po_status":6            
+            },
+           workingRules: [v => !!v || 'Cancel Reason is required'],
 
+      dialog3:false,
+      dialog4:false,
+          cancelOrder:{},
+          maxPaginationPages:5,
       searchQuery:'',
        page: 1,
-    pageSize: 10,
+      pageSize: 10,
        today: this.getFormattedDate(new Date()),
       loading: true,
       loading2: false,
@@ -1282,6 +1411,65 @@ calculatedPricePerUnit(){
     // //  this.loading = false;
   },
   methods: {
+       validateForm8(){
+        this.$refs.purchaseOrderForm5.validate().then(valid => {
+              // console.log("form valid", valid.valid);
+              if (valid.valid == true) {
+              
+                this.cancelordersata();
+              }else{
+                this.snackbar = true;
+                  this.snackbarText = "Please give all mandatory fields"
+                  this.color = "on-background";
+              }
+            }); 
+      },
+      
+       cancelordersata(){
+        console.log("check te data", this.cancelOrder.po_id);
+        const postData = {
+            "po_id":this.cancelOrder.po_id,
+            "cancel_reason":this.cancelOrderdetails.cancel_reason,           
+            "po_status":6   
+        }
+        console.log('check the data',postData);
+        this.Cancelpurchaseorder(postData).then((response)=>{
+          console.log('details data',response);
+           if (response.data.status == 1) {
+            this.snackbar = true;
+            this.color = 'primary';
+            this.cancelOrderdetails = {};
+            this.snackbarText = response.data.message;
+              this.getPurchaseorderdetails()
+              .then(() => {             
+                    this.loading = false;
+                  }) 
+                  .catch((error) => {             
+                    console.error('Error fetching merchants:', error);            
+                  });
+            this.dialog4 = false;          
+        } else {
+            this.snackbar = true;
+            this.color = 'on-background';
+            this.dialog4 = false;          
+
+        }
+        })
+
+      },
+    cancelstock(item){
+        this.dialog3=true;
+        console.log('test',item);
+        this.cancelOrder=item;
+      //  this.validateForm(item);
+      },
+      validateFormopen(){    
+         this.dialog4=true;
+         this.dialog3=false
+      },
+        closeDialogform(){
+         this.dialog3=false;
+      },
      updatePagination(page) {
     this.page = page;
   },

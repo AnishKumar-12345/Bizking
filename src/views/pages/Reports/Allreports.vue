@@ -407,11 +407,12 @@
             class="triangle-bg flip-in-rtl"
           />
           <img
-            src="@/assets/images/avatars/avatar-18.png"
-            class="trophy7"
+            src="@/assets/images/avatars/avatar-20.png"
+            class="trophy12"
           />
         </VCard>
       </VCol>
+      
       <!-- User Store Logins -->
       <!-- <VCol
         cols="12"
@@ -1124,6 +1125,25 @@
                   <VCol
                     md="6"
                     cols="12"
+                    v-if="selectedSalesuser == 'all'"
+                  >
+                    <VAutocomplete
+                      v-model="selectedSalesMerchant"
+                      :items="merchantName"
+                      item-value="value"
+                      item-title="text"
+                      :rules="salesdata"
+                      label="All Sales Merchant"
+                      :menu-props="{ maxHeight: 200 }"
+                      no-underline
+                    />
+                  </VCol>
+
+
+                  <VCol
+                    md="6"
+                    cols="12"
+                    v-if="selectedSalesuser != 'all'"
                   >
                     <VAutocomplete
                       v-model="selectedSalesMerchant"
@@ -1143,7 +1163,7 @@
                   >
                     <VAutocomplete
                       v-model="selectedReportype"
-                      :items="['Invoice Wise']"
+                      :items="['Invoice Wise','Overall']"
                       item-value="value"
                       item-title="text"
                       :rules="salesdata"
@@ -1745,11 +1765,24 @@ export default {
     },
     handleuserSelection(itm) {
       console.log('check id', itm)
-      this.isProgress10 = true
-      this.getSalesmerchant(itm).then(response => {
+      
+      if(itm == "all"){
+        console.log("yes it is selected")
+        this.isProgress10 = true;
+         this.getMerchantdetails().then(() => {
+            this.isProgress10 = false;
+        }).catch(() => {
+            this.isProgress10 = false;
+        });
+  
+
+      }else{
+          this.isProgress10 = true;
+
+          this.getSalesmerchant(itm).then(response => {
         console.log('check response data', response)
         if (response.data.status == 1) {
-          this.isProgress10 = false
+          this.isProgress10 = false;
           // this.getmerchantdata = response.data.data.map(merchant => ({
           //   value: merchant.merchant_id,
           //   text: merchant.merchant_uid,
@@ -1772,6 +1805,9 @@ export default {
           this.color = 'on-background'
         }
       })
+      }
+    
+    
     },
     validateForm9(){
        this.$refs.purchaseOrderForm9.validate().then(valid => {
@@ -1793,6 +1829,63 @@ export default {
           this.isProgress10 = false;
           this.isProgress9 = false;
           this.dialog10 = false;
+          this.selectedReportype = '';
+          this.selectedSalesuser = '';
+          this.selectedSalesMerchant = '';
+          this.startDate1 = '';
+          this.endDate1 = '';
+
+          this.snackbar = true;
+          this.color = 'on-background'
+          this.snackbarText = response.data.message
+        } else {
+           this.isProgress10 = false;
+          this.isProgress9 = false;
+          this.dialog10 = false;
+
+          //  this.loading = true;
+          // this.reportsdata={};
+            this.selectedSalesuser = '';
+          this.selectedSalesMerchant = '';
+          this.selectedReportype = '';
+
+          this.startDate1 = '';
+          this.endDate1 = '';
+          //  console.log('length',response.data.length);
+          const blob = new Blob([response.data], { type: 'text/csv' })
+
+          // Create a temporary URL for the Blob
+          const url = window.URL.createObjectURL(blob)
+
+          // Create a link element
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', 'Merchant Payment Report.csv') // Set the file name here
+
+          // Append the link to the body
+          document.body.appendChild(link)
+
+          // Programmatically click the link to trigger the download
+          link.click()
+
+          // Clean up - remove the link and revoke the URL
+          link.parentNode.removeChild(link)
+          window.URL.revokeObjectURL(url)
+
+          // console.log('CSV data:', response.data);
+          this.snackbar = true
+          this.color = 'primary'
+          this.snackbarText = 'Reports downloaded successfully.'
+        }
+      })
+      }else{
+        this.isProgress9 = true;
+         this.Merchantpaymentsoverall(this.selectedSalesuser,this.selectedSalesMerchant,this.startDate1,this.endDate1).then((response)=>{
+           if (response.data.status == 0) {
+          this.isProgress10 = false;
+          this.isProgress9 = false;
+          this.dialog10 = false;
+          this.selectedReportype = '';
 
           this.selectedSalesuser = '';
           this.selectedSalesMerchant = '';
@@ -1806,6 +1899,7 @@ export default {
            this.isProgress10 = false;
           this.isProgress9 = false;
           this.dialog10 = false;
+          this.selectedReportype = '';
 
           //  this.loading = true;
           // this.reportsdata={};
@@ -1839,9 +1933,7 @@ export default {
           this.color = 'primary'
           this.snackbarText = 'Reports downloaded successfully.'
         }
-      })
-      }else{
-
+       })
       }
      
     },
@@ -1866,7 +1958,7 @@ export default {
     },
     getUserstoreloginreport() {
       this.isProgress8 = true
-
+      // console.log('text it',this.userStoredata);
       this.getUserstorereport(this.userStoredata).then(response => {
         // console.log(response);
 
@@ -1931,17 +2023,17 @@ export default {
         //     text: sales.name
         // }));
 
-        //  this.userstorenames = [
-        //   { value: "all", text: "All" },
-        //   ...response.data.data.map(brand => ({
-        //     value: brand.user_id,
-        //     text: brand.name
-        //   }))
-        // ];
-        this.userstorenames = response.data.data.map(brand => ({
-          value: brand.user_id,
-          text: brand.name,
-        }))
+         this.userstorenames = [
+          { value: "all", text: "All" },
+          ...response.data.data.map(brand => ({
+            value: brand.user_id,
+            text: brand.name
+          }))
+        ];
+        // this.userstorenames = response.data.data.map(brand => ({
+        //   value: brand.user_id,
+        //   text: brand.name,
+        // }))
 
         console.log('sales', this.userstorenames)
       })
@@ -2588,18 +2680,38 @@ export default {
       this.dialog2 = true
     },
     getMerchantdetails() {
-      this.getMerchants().then(response => {
-        // console.log('mer',response)
-        // this.merchantName = response.data.data;
-        this.merchantName = [
-          { value: 'all', text: 'All' },
-          ...response.data.data.map(brand => ({
-            value: brand.merchant_id,
-            text: brand.merchant_uid,
-          })),
-        ]
-        console.log('mer', this.merchantName)
-      })
+
+        return new Promise((resolve, reject) => {
+          this.getMerchants()
+            .then((response) => {
+               this.merchantName = [
+                { value: 'all', text: 'All' },
+                ...response.data.data.map(brand => ({
+                  value: brand.merchant_id,
+                  text: brand.merchant_uid,
+                })),
+              ]
+              resolve(); // Resolve the promise when API call is successful
+            })
+            .catch((error) => {
+              console.error('Error fetching merchants:', error);
+              reject(error); // Reject the promise if there's an error
+            });
+        });
+
+
+      // this.getMerchants().then(response => {
+      //   // console.log('mer',response)
+      //   // this.merchantName = response.data.data;
+      //   this.merchantName = [
+      //     { value: 'all', text: 'All' },
+      //     ...response.data.data.map(brand => ({
+      //       value: brand.merchant_id,
+      //       text: brand.merchant_uid,
+      //     })),
+      //   ]
+      //   // console.log('mer', this.merchantName)
+      // })
     },
   },
 }
@@ -2652,6 +2764,12 @@ export default {
 .trophy7 {
   position: absolute;
   inline-size: 5rem;
+  inset-block-end: -0.2rem;
+  inset-inline-end: -0.2rem;
+}
+.trophy12 {
+  position: absolute;
+  inline-size: 9rem;
   inset-block-end: -0.2rem;
   inset-inline-end: -0.2rem;
 }

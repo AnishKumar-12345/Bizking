@@ -459,7 +459,7 @@ export default {
       ],
        namerules: [
          (v) => !!v || 'Name is required',
-         (v) => /^[a-z A-Z]+$/.test(v) || 'Only letters are allowed in the name'
+        //  (v) => /^[a-z A-Z]+$/.test(v) || 'Only letters are allowed in the name'
          
       ],
       namerulessale:[

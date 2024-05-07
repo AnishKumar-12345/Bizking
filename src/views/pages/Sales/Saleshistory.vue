@@ -219,7 +219,7 @@
               />
             </VBtn>
         </td>
-        <td class="text-center" style="display:flex;justify-content:center;align-items:center;">
+        <td class="text-center">
           <!-- {{item.actions}} -->
             <VBtn
             v-if="item.so_status != 'Shipped' && item.so_status != 'Delivered' && item.so_status != 'On Hold' && item.so_status != 'Cancelled'"

@@ -28,7 +28,7 @@
                   md="6"
                 >
                   <VTextField
-                    v-model="saveLeads.lead_type"
+                    v-model="saveLeads.opportunity_type"
                     label="Opportunity Type"
                     :rules="storerules"
                     readonly
@@ -150,13 +150,13 @@
                   />
                 </VCol>
 
-                <!-- <VCol
+                <VCol
                   md="6"
                   cols="12"
                 >
                   <VTextField
                     v-model="saveLeads.longitude"
-                    
+                    readonly
                     label="Longitude"
                   />
                 </VCol>
@@ -167,10 +167,10 @@
                 >
                   <VTextField
                     v-model="saveLeads.latitude"
-                    
+                    readonly
                     label="Longitude"
                   />
-                </VCol> -->
+                </VCol>
 
                 <VCol
                   md="6"
@@ -188,7 +188,8 @@
                   cols="12"
                   class="d-flex flex-wrap gap-4"
                 >
-                  <VBtn @click="validateForm">Save</VBtn>
+                <!-- {{saveLeads.status}} -->
+                  <VBtn @click="validateForm" v-show="selectedItem.status != 'close' ">Save</VBtn>
                 </VCol>
               </VRow>
             </VForm>
@@ -255,7 +256,7 @@ export default {
       Leadid: null,
 
       saveLeads: {
-        lead_type: '',
+        opportunity_type: '',
         name: '',
         address: '',
         email:'',
@@ -276,7 +277,7 @@ export default {
         status: '',
        },
       loggedby: '',
-
+createdby:'',
       headers: [
         { text: 'Purchase Order', value: 'po' },
         { text: 'Order Date', value: 'ODate' },
@@ -288,7 +289,13 @@ export default {
       ],
     }
   },
+  computed:{
+     selectedItem() {
+        return this.$store.state.selectedItem;
+      },
+  },
   mounted() {
+      this.createdby =  localStorage.getItem('user_id');
     this.Leadid = this.$route.query.opportunity_id
     this.loggedby = localStorage.getItem('createdby');
     // console.log('set', this.Leadid);
@@ -312,7 +319,7 @@ export default {
           this.snackbar = true
           this.snackbarText = 'Please give all mandatory fields'
           this.color = 'on-background'
-        }
+        } 
       })
     },
 
@@ -321,14 +328,14 @@ export default {
         'Created': 'created',
         'Partially interested' : 'partially interested',
         'Cancelled': 'cancelled',
-        'Closed(Onboard)' : 'closed'
+        'Closed(Onboard)' : 'close'
       }
       const dec = {
         'Owner': 'owner',
         'POC' : 'poc',
       }
       const postdata = {
-        lead_type: this.saveLeads.lead_type,
+        opportunity_type: this.saveLeads.opportunity_type,
         opportunity_id:this.saveLeads.opportunity_id,
         opportunity_no:this.saveLeads.opportunity_no,
         latitude:this.saveLeads.latitude,
@@ -337,15 +344,16 @@ export default {
         address: this.saveLeads.address,
         email: this.saveLeads.email,
         pincode: this.saveLeads.pincode,
-        lead_id: this.saveLeads.lead_id,
+        // lead_id: this.saveLeads.lead_id,
         owner_name: this.saveLeads.owner_name,
         owner_phone: this.saveLeads.owner_phone,
         poc_name: this.saveLeads.poc_name,
         poc_phone: this.saveLeads.poc_phone,
+        user_id: this.createdby,
         gst: this.saveLeads.gst,
-        decision_authority: dec[this.saveLeads.decision_authority],
+        decision_authority: dec[this.saveLeads.decision_authority] ? dec[this.saveLeads.decision_authority] : this.saveLeads.decision_authority ,
         location: this.saveLeads.location,
-        status: status[this.saveLeads.status] ,
+        status: status[this.saveLeads.status] ? status[this.saveLeads.status] : this.saveLeads.status ,
       }
       // console.log('update lead', postdata)
       this.updateOppertunitydetails(postdata).then(response => {
@@ -354,6 +362,8 @@ export default {
           this.snackbar = true
           this.snackbarText = response.data.message
           this.color = 'primary'
+          window.location.reload(true);   
+
           // this.saveLeads = {};          
         } else {
           this.snackbar = true
@@ -381,7 +391,7 @@ export default {
           this.getOppertunitydetails(this.Leadid).then(response => {
             console.log('oppertunity',response);
             //   console.log('check response', response.data.data)
-              this.saveLeads.lead_type = response.data.data.lead_type
+              this.saveLeads.opportunity_type = response.data.data.lead_type
               this.saveLeads.opportunity_id = response.data.data.opportunity_id
               this.saveLeads.opportunity_no = response.data.data.opportunity_no
               this.saveLeads.address = response.data.data.address
@@ -396,9 +406,9 @@ export default {
               this.saveLeads.poc_phone = response.data.data.poc_phone
               this.saveLeads.pincode = response.data.data.pincode
               this.saveLeads.location = response.data.data.location
-              this.saveLeads.status = response.data.data.status
-              this.saveLeads.longitude = response.data.data.longitude
-              this.saveLeads.latitude = response.data.data.latitude
+              this.saveLeads.status = response.data.data.status == "created" ? "Created" : "created" && response.data.data.status == "cancelled" ? "Cancelled" : "cancelled" && response.data.data.status == "close" ? "Closed(Onboard)" : response.data.data.status ;
+              this.saveLeads.longitude = response.data.data.longitude ? response.data.data.longitude : "";
+              this.saveLeads.latitude = response.data.data.latitude ? response.data.data.latitude : "";
 
               // this.saveLeads.poc_phone = response.data.data.poc_phone;
               // this.saveLeads.poc_phone = response.data.data.poc_phone;

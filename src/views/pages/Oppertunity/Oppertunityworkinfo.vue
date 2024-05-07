@@ -69,7 +69,7 @@
                   cols="12"
                   class="d-flex flex-wrap gap-4"
                 >
-                  <VBtn @click="validateForm">Save</VBtn>
+                  <VBtn @click="validateForm" v-if="shouldShowButton">Save</VBtn>
                 </VCol>
              
                 <VCol cols="12">
@@ -86,6 +86,9 @@
                 
                   />
                   </div>
+
+                  <!-- {{shouldShowButton}} -->
+
                   <VTable
                     :headers="headers"
                     :items="paginatedItems"
@@ -156,6 +159,7 @@
                       </tr>
                     </tbody>
                   </VTable>
+
                    <VPagination
                     v-model="page"
                     :length="Math.ceil(filteredSalesHistory.length / pageSize)"
@@ -233,12 +237,14 @@
                                   shaped
                                 />
                               </VCol>
+                              <!-- {{this.statusss}} -->
+                             
 
                               <VCol
                                 cols="12"
                                 class="d-flex flex-wrap gap-4"
                               >
-                                <VBtn @click="validateForm2">Save</VBtn>
+                                <VBtn @click="validateForm2" >Save</VBtn>
                                 <VBtn @click="closeinfo()">Close</VBtn>
                               </VCol>
                             </VRow>
@@ -292,6 +298,7 @@ export default {
         schedule_next_visit: '',
         opportunity_info_id: '',
       },
+      statusss:'',
       workinfo: {
         summary: '',
         working_notes: '',
@@ -374,6 +381,12 @@ export default {
     }
   },
   computed:{
+  
+  shouldShowButton() {
+    // Check if the status is 'close'
+    return this.statusss !== 'close';
+  },
+
      filteredSalesHistory() {
       const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
       return this.workInfo.filter((item) => {
@@ -508,10 +521,11 @@ export default {
 
     updateLeadsdata() {
       this.getOppertunitydetails(this.Leadid).then(response => {
-        console.log('check response', response.data.data.work_info)
+        console.log('check response', response)
         this.workInfo = response.data.data.opportunity_work_info
-        this.userId = response.data.data.user_id
-        console.log('set',response.data.data)
+        this.userId = response.data.data.user_id;
+        this.statusss = response.data.data.status;
+        console.log('set', this.statusss)
         this.workInfo.reverse();
         // this.saveLeads.poc_phone = response.data.data.poc_phone;
         // this.saveLeads.poc_phone = response.data.data.poc_phone;

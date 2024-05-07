@@ -31,7 +31,7 @@ export default{
           title: 'Lead',
           icon: "fluent-mdl2:party-leader",
           children: [
-            { id: 21, title: 'Create Lead', route: '/Leadcreate' },
+            // { id: 21, title: 'Create Lead', route: '/Leadcreate' },
             { id: 22, title: 'View Lead', route: '/LeadView' },
          ],
           expanded: false,
@@ -161,11 +161,11 @@ export default{
           id: 15,
           title: 'Reports',
           icon: "iconoir:reports",
-          route: '/Allreportsdata',
+          // route: '/Allreportsdata',
           expanded: false,
-          // children: [
-          //   { id: 50, title: 'MerachantSales', route: '/Merchantsalesdata' },                             
-          // ],
+          children: [
+            { id: 55, title: 'All Reports Data', route: '/Allreportsdata' },                             
+          ],
           // expanded: false,
         },
         {
@@ -189,6 +189,16 @@ export default{
           ],
           expanded: false,
         },
+         {
+          id: 16,
+          title: 'Delivery Map',
+          icon: "material-symbols-light:conditions",
+          children: [
+            { id: 49, title: 'MAP', route: '/Deliverymapdata' },                             
+          ],
+          expanded: false,
+        },
+       
        
          
         // Add more parent items with or without children as needed
@@ -233,7 +243,7 @@ computed: {
       return filteredItems;
     }  else if (this.userRole === "Brand Management") {
       // Filter items for Business Development Manager
-      const allowedTitles = ["Dashboard", "Brand", "Product","Purchase"];
+      const allowedTitles = ["Dashboard", "Brand", "Product","Purchase","Reports"];
       
       // console.log('Allowed Titles:', allowedTitles);
       
@@ -247,7 +257,7 @@ computed: {
       return filteredItems;
     }  else if (this.userRole === "Warehouse") {
       // Filter items for Business Development Manager
-      const allowedTitles = ["Dashboard", "Warehouse","Sales"];
+      const allowedTitles = ["Dashboard", "Warehouse","Sales","Reports"];
       
       console.log('Allowed Titles:', allowedTitles);
       

@@ -66,6 +66,17 @@
                   />
                 </VCol>
 
+               <VCol
+                  md="6"
+                  cols="12"
+                >
+                  <VTextField
+                    v-model="saveLeads.location"
+                    label="Location"
+                    :rules="locationrules"
+                  />
+                </VCol>
+
                 <VCol
                   md="6"
                   cols="12"
@@ -300,7 +311,7 @@ export default {
         gst: this.saveLeads.gst,
         decision_authority: this.saveLeads.decision_authority,
         location: this.saveLeads.location,
-        status: status[this.saveLeads.status] ,
+        status: status[this.saveLeads.status] ? status[this.saveLeads.status] : this.saveLeads.status ,
       }
       console.log('update lead', postdata)
       this.updateLead(postdata).then(response => {

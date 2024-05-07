@@ -1030,6 +1030,24 @@ export default {
               return err.response;
             });
           },
+          Merchantpaymentsoverall(person,id,startdate,enddate){
+            return axios
+            .get(this.url +"bizkingz/services/api/reports/merchant_payments_overall?sales_person="+person+"&merchant_id="+id+"&start_date="+startdate+"&end_date="+enddate, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
           Getsalesperson(){
             return axios
             .get(this.url +"bizkingz/services/api/sales/delivery_persons", {
@@ -1087,6 +1105,24 @@ export default {
           Merchantreports(){
             return axios
             .get(this.url +"bizkingz/services/api/reports/merchants", {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          attachmentsdata(reqbody){
+            return axios
+            .get(this.url +"bizkingz/services/api/quotes/quotations?opportunity_id="+reqbody, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",

@@ -108,7 +108,7 @@
                 variant="text"
                 color="error"
                 class="me-2"
-                size="small"                
+                size="small"                 
             >
             <!-- Receive Stock -->
               <VIcon

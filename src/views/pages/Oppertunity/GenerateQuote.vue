@@ -23,18 +23,18 @@
         append-inner-icon="mdi-magnify"
         single-line 
         hide-details
-    
+     
     />
     </div>
     <!-- {{selectedItem.user_id}} -->
      <VForm class="mt-6" ref="purchaseOrderForm">
            
             <VRow>
-             <VCol
+             <!-- <VCol
                 cols="12"
                 md="6"
               >
-              <!-- {{formData.created_date}} -->
+            
                 <VTextField
                   v-model="CreatedDate"
                   type="date"
@@ -43,7 +43,7 @@
                   :rules="dateRules"
                   
                 />
-              </VCol>
+              </VCol> -->
               <VCol
                
                 cols="12"
@@ -90,15 +90,17 @@
         <td class="text-center">
           {{ item.uom }}
         </td>
-   <td class="text-center">{{ item.final_ret }}</td>
-        <td class="text-center">
+         <td class="text-center">
           {{ item.pitch_from }}
         </td>
+   <td class="text-center">{{ item.final_ret }}</td>
+       
           <td class="text-center">
             <!-- Select Field -->
             <VTextField
               v-model="item.sa_given_margin"                       
-          
+             :rules="computedRules(item)"
+              
             />
           </td>
        
@@ -113,7 +115,8 @@
                 cols="12"
                 class="d-flex flex-wrap gap-4"
               >
-                <VBtn @click="validateForm()">Save</VBtn>
+              <!-- {{selectedItem.status}} -->
+                <VBtn @click="validateForm()" v-show="selectedItem.status != 'close'">Save</VBtn>
                  <VProgressCircular
                   :size="50"
                   color="primary"
@@ -139,7 +142,14 @@
             @input="updatePagination"
                :max="maxPaginationPages"
             /> 
-     
+      <VSnackbar
+      v-model="snackbar" :timeout="3500"
+      :color="color"
+      
+    >
+      {{ snackbarText }}
+     <!-- <VBtn text @click="snackbar = false">Close</VBtn> -->
+    </VSnackbar> 
    </div>
 </template>
 <script>
@@ -148,6 +158,11 @@ export default {
     mixins: [servicescall], 
     data(){
         return{
+           snackbar: false,
+            snackbarText: '',
+            timeout: 6000, // milliseconds
+            color: '', // or 'error', 'warning', 'info', etc.
+           
           quotesdata : [],            
          
           maxPaginationPages:5,
@@ -234,9 +249,10 @@ export default {
                 {text:'Select',value:'actions'},
                 {text:'Brand Name',value:'brand_name'},
                 {text:'Product Name',value:'sku_name'},
-                {text:'UOM',value:'uom'},               
-                {text:'Final Retails',value:'final_ret'},               
+                {text:'UOM',value:'uom'},   
                 {text:'Pitch From',value:'pitch_from'},              
+
+                {text:'Final Retails',value:'final_ret'},               
           
                 {text:'Margin',value:'inputs'},
 
@@ -244,6 +260,7 @@ export default {
         }
     },
     computed:{
+   
       selectedItem() {
         return this.$store.state.selectedItem;
       },
@@ -257,7 +274,9 @@ export default {
           // (item.lead_no && item.lead_no.toLowerCase().includes(lowerCaseQuery)) ||
           (item.brand_name && item.brand_name.toLowerCase().includes(lowerCaseQuery)) ||
           (item.sku_name && item.sku_name.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.uom && item.uom.toLowerCase().includes(lowerCaseQuery))          
+          (item.uom && item.uom.toLowerCase().includes(lowerCaseQuery))  ||        
+          (item.final_ret && item.final_ret.toString().includes(lowerCaseQuery))  ||        
+          (item.pitch_from && item.pitch_from.toString().includes(lowerCaseQuery))          
       
 
         );
@@ -281,19 +300,103 @@ export default {
             });
     },
 methods:{
-   validateForm(){
-   this.$refs.purchaseOrderForm.validate().then(valid => {
-        // console.log("form valid", valid.valid);
-        if (valid.valid == true) {
+    updatemargin(value) {
+    if (value === '0%' || value === '0') {
+      this.Addbrand.total_given_margin = '0%';
+    } else if (value.startsWith('0%')) {
+      // User tried to enter something after 0%, reset to 0%
+      value = '0%';
+    } else {
+      // Handle other cases as needed, possibly show an error message
+      value = value;
+    }
+  },
+
+    computedRules(item) {
+    if (item.selected) {
+      return this.computedmarginRules(item.pitch_from, item.final_ret);
+    } else {
+      // Return empty array if validation is not required
+      return [];
+    }
+  },
+  
+computedmarginRules(pitchFrom, finalRetail) {
+  const parsePercentage = (value) => parseFloat(value.replace('%', ''));
+
+  return [
+    (v) => !!v || 'Margin is required',
+    (v) => {
+      const margin = parsePercentage(v);
+      const from = parsePercentage(pitchFrom);
+      const to = parsePercentage(finalRetail);
+
+      if (!isNaN(margin) && margin >= from && margin <= to) {
+        return true;
+      } else {
+        return  this.snackbarText = `Margin should be between ${from}% and ${to}%`,
+        this.snackbar = true,
+        this.color = "on-background",
+        'Give Margin Correctly'
+
+      }
+    },
+    (v) => {
+      if (!v.startsWith('0%')) {
+        const regex = /^(0|([1-9]\d*))(?:\.\d+)?%$/;
+        return regex.test(String(v)) || 'Give numerical value with percentage ';
+      } else {
+        return v === '0%' || 'Give numerical value with percentage ';
+      }
+    },
+  ];
+},
+
+
+
+
+
+//    validateForm(){
+//    this.$refs.purchaseOrderForm.validate().then(valid => {
+//         // console.log("form valid", valid.valid);
+//         if (valid.valid == true) {
          
-          this.saveQuotedata();
-        }else{
-           this.snackbar = true;
-            this.snackbarText = "Please give all mandatory fields"
-            this.color = "on-background";
-        }
-      }); 
- },
+//           this.saveQuotedata();
+//         }else{
+//            this.snackbar = true;
+//             this.snackbarText = "Please give all mandatory fields"
+//             this.color = "on-background";
+//         }
+//       }); 
+//  },
+
+validateForm() {
+  // Check if any item is selected
+  const anyItemSelected = this.quotesdata.some(item => item.selected);
+
+  if (!anyItemSelected) {
+    // If no item is selected, show Snackbar and return
+    this.snackbarText = "Please select at least one item";
+    this.color = "on-background";
+    this.snackbar = true;
+    return;
+  }
+
+  // If at least one item is selected, proceed with form validation
+  this.$refs.purchaseOrderForm.validate().then(valid => {
+    if (valid.valid) {
+      // If form is valid, save data
+      this.saveQuotedata();
+    } else {
+      // If form is not valid, show Snackbar indicating missing fields
+      this.snackbar = true;
+      this.snackbarText = "Please fill out all mandatory fields";
+      this.color = "on-background";
+    }
+  });
+},
+
+
  saveQuotedata() {
   // Filter out only the selected items
   const selectedItems = this.quotesdata.filter(item => item.selected);
@@ -303,7 +406,7 @@ methods:{
     "sales_person": this.selectedItem.user_id,
     "opportunity_products_id": this.OpportunityProductid,
     "opportunity_id": this.OppertunityID,
-    "created_date": this.CreatedDate,
+    // "created_date": this.CreatedDate,
     "products": selectedItems.map(item => ({
       "brand_id": item.brand_id,
       "brand_product_id": item.brand_product_id,
@@ -336,9 +439,9 @@ methods:{
             .catch((error) => {             
               console.error('Error fetching merchants:', error);            
             });
-        // setTimeout(() => {
-        //   window.location.reload(true);
-        // }, 1300);
+        setTimeout(() => {
+          window.location.reload(true);
+        }, 1300);
       } else {
         this.isProgress = true;
         this.snackbarText = response.data.message;

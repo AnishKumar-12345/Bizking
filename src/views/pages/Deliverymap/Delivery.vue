@@ -16,10 +16,10 @@ export default {
       map: null,
       truckMarker: null,
      locations: [
-        { id: 1, name: 'Delhi', lat: 28.6139, lng: 77.209 },
+        // { id: 1, name: 'Delhi', lat: 28.6139, lng: 77.209 },
         { id: 2, name: 'Mumbai', lat: 19.076, lng: 72.8777 },
         { id: 3, name: 'Bangalore', lat: 12.9716, lng: 77.5946 },
-        { id: 4, name: 'Chennai', lat: 13.0827, lng: 80.2707 }
+        // { id: 4, name: 'Chennai', lat: 13.0827, lng: 80.2707 }
       ],
       currentLocationIndex: 0,
       journeyStarted: false
@@ -29,21 +29,21 @@ export default {
     this.initMap();
   },
   methods: {
-    initMap() {
-      this.map = new google.maps.Map(this.$refs.map, {
-        center: { lat: 37.7749, lng: -122.4194 }, // Default center
-        zoom: 8 // Default zoom level
-      });
+  initMap() {
+  this.map = new google.maps.Map(this.$refs.map, {
+    center: { lat: 20.5937, lng: 78.9629 }, // Center of India
+    zoom: 5 // Zoom level to see entire India
+  });
 
-      // Display markers for each location
-      this.locations.forEach(location => {
-        new google.maps.Marker({
-          position: { lat: location.lat, lng: location.lng },
-          map: this.map,
-          title: location.name
-        });
-      });
-    },
+  // Display markers for each location
+  this.locations.forEach(location => {
+    new google.maps.Marker({
+      position: { lat: location.lat, lng: location.lng },
+      map: this.map,
+      title: location.name
+    });
+  });
+},
     startJourney() {
       // Start tracking truck's movement
       this.journeyStarted = true;

@@ -61,6 +61,45 @@
                     readonly
                   />
                 </VCol>
+                 <VCol
+                  md="6"
+                  cols="12"
+                >
+                <!-- {{this.inputStock.po_status}} -->
+                     <!-- :items="['Draft', 'Created', 'Shared', 'Acknowledged', 'Received', 'Close']" -->
+                  <VTextField
+                    v-model="this.inputStock.invoice_number"
+                    label="Invoice No"
+               :rules="InvoiceNo"
+             
+                  />
+                </VCol>
+                 <VCol
+                  md="6"
+                  cols="12"
+                >
+                <!-- {{this.inputStock.po_status}} -->
+                     <!-- :items="['Draft', 'Created', 'Shared', 'Acknowledged', 'Received', 'Close']" -->
+                  <VTextField
+                 label="Invoice File"
+                type="file"
+                @change="handleFileUpload('invoiceFile', $event)"
+                :rules="invoicefile"
+                  />
+                </VCol>
+                 <VCol
+                  md="6"
+                  cols="12"
+                >
+                <!-- {{this.inputStock.po_status}} -->
+                     <!-- :items="['Draft', 'Created', 'Shared', 'Acknowledged', 'Received', 'Close']" -->
+                  <VTextField
+                     label="DC File"
+                     type="file"
+                     @change="handleFileUpload('regularFile', $event)"
+                     
+                  />
+                </VCol>
                 <VCol cols="12">
 
                   <VTable
@@ -194,7 +233,14 @@ export default {
       bottom: true,
       left: false,
       right: false,
-
+       InvoiceNo: [
+                      (v) => !!v || 'Invoice Number is required',
+                    
+                    ],
+        invoicefile: [
+                      (v) => !!v || 'Invoice File is required',
+                    
+                    ],
       today: this.getFormattedDate(new Date()),
       // inputStock: {
       //   po_number: '',
@@ -230,6 +276,9 @@ export default {
           "po_id":'',
           "remarks":'',
           "rtm":'',
+          "invoice_number":'',
+          "delivery_challan_file":'',
+          "invoice_file":'',
           "products": [
               {
                   "brand_id": "",
@@ -275,6 +324,28 @@ export default {
   },
 
   methods: {
+   handleFileUpload(type, event) {
+  const input = event.target;
+  const file = input.files[0];
+  const reader = new FileReader();
+
+  // When file is loaded
+  reader.onload = () => {
+    // Encode the file to base64
+    const base64File = reader.result.split(',')[1]; // Extracting base64 content
+    // Save the base64 data to the corresponding property in inputStock
+    if (type === 'invoiceFile') {
+      this.inputStock.invoice_file = base64File;
+    } else if (type === 'regularFile') {
+      this.inputStock.delivery_challan_file = base64File;
+    }
+  };
+
+  // Read the file as base64
+  reader.readAsDataURL(file);
+},
+
+  
     isrtmQuantityExceeded(itm,data,text){
       // console.log("check valids",data,text)
        if(text > data ){
@@ -345,7 +416,10 @@ validateForm(){
           "stock_updated_date": this.inputStock.stock_updated_date, 
           "recieved_date": this.inputStock.stock_updated_date,
           "po_id": this.inputStock.po_id,
-          "po_status":statusMapping[this.inputStock.po_status],         
+          "po_status":statusMapping[this.inputStock.po_status], 
+          "delivery_challan_file":this.inputStock.delivery_challan_file,    
+          "invoice_file":this.inputStock.invoice_file,       
+          "invoice_number": this.inputStock.invoice_number,
           "products": this.inputStockproducts.map((product,index) => ({
             // "brand_id": this.inputStock.brand_id,
                   "brand_product_id": product.brand_product_id,

@@ -106,7 +106,44 @@
           <td class="text-center">{{ item.brand_name }}</td>
           <td class="text-center">{{ item.brand_name == item.brand_name ? 'Mouriya Spiritual & Naturals(BIZKINGZ)' : item.brand_name }}</td>
           <td class="text-center">&#8377;{{ item.total_po_amount }}</td>
-          <td class="text-center" style="display:flex;justify-content:center;align-items:center;">
+          <td class="text-center">{{item.invoice_number}}</td>
+          <td class="text-center">
+             <VBtn   
+           v-if="item.invoice != ''"
+              icon
+              variant="text"
+              color="default"
+              class="me-2"
+              size="x-small"
+              @click="getImageupdate(item.invoice)"
+            >
+              <VIcon
+                color="success"
+                icon="ic:twotone-photo-camera-back"
+                size="26"
+              />
+            </VBtn>
+          </td>
+          <td class="text-center">
+             <VBtn   
+           v-if="item.delivery_challan != ''"
+           
+              icon
+              variant="text"
+              color="default"
+              class="me-2"
+              size="x-small"
+              @click="getImageupdate2(item.delivery_challan)"
+            >
+              <VIcon
+                color="success"
+                icon="ic:twotone-photo-camera-back"
+                size="26"
+              />
+            </VBtn>
+          </td>
+
+          <td class="text-center" >
             <VBtn
               v-if="item.po_status != 'Acknowledged' && item.po_status != 'Shared' &&  item.po_status != 'Received' && item.po_status != 'Cancelled'"
               icon
@@ -1156,7 +1193,11 @@ export default {
         { text: 'Order To', value: 'brand_name' },
         { text: 'Shipped To', value: 'brand_name' },
         { text: 'Total', value: 'total_po_amount' },
-        { text: 'Action', value: 'actions', sortable: false },
+        { text: 'Invoice No', value: 'invoice_number' },
+        { text: 'Invoice', value: 'invoice' },
+        { text: 'DC', value: 'delivery_challan' },
+
+        { text: 'Action', value: 'actions' },
       ],
       headers2: [
         { text: 'Product Name', value: 'sku_name' },
@@ -1195,7 +1236,9 @@ export default {
           (item.created_date && item.created_date.toLowerCase().includes(lowerCaseQuery)) ||
           (item.po_status && item.po_status.toLowerCase().includes(lowerCaseQuery)) ||
           (item.brand_name && item.brand_name.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.total_po_amount && item.total_po_amount.toString().includes(lowerCaseQuery)) 
+          (item.total_po_amount && item.total_po_amount.toString().includes(lowerCaseQuery)) ||
+          (item.invoice_number && item.invoice_number.toLowerCase().includes(lowerCaseQuery)) 
+
           // (item.collected_date && item.collected_date.toString().includes(lowerCaseQuery)) ||
           // (item.quantity && item.quantity.toString().includes(lowerCaseQuery))  ||
           // (item.warehouse_updated_date && item.warehouse_updated_date.toString().includes(lowerCaseQuery)) ||
@@ -1411,6 +1454,16 @@ calculatedPricePerUnit(){
     // //  this.loading = false;
   },
   methods: {
+    getImageupdate(id){
+    //  this.loading2 = true;
+       window.open(id, '_blank');
+        // this.loading2 = false;
+  },
+    getImageupdate2(id){
+    //  this.loading2 = true;
+       window.open(id, '_blank');
+        // this.loading2 = false;
+  },
        validateForm8(){
         this.$refs.purchaseOrderForm5.validate().then(valid => {
               // console.log("form valid", valid.valid);

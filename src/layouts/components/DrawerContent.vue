@@ -189,15 +189,15 @@ export default{
           ],
           expanded: false,
         },
-         {
-          id: 16,
-          title: 'Delivery Map',
-          icon: "material-symbols-light:conditions",
-          children: [
-            { id: 49, title: 'MAP', route: '/Deliverymapdata' },                             
-          ],
-          expanded: false,
-        },
+        //  {
+        //   id: 16,
+        //   title: 'Delivery Map',
+        //   icon: "material-symbols-light:conditions",
+        //   children: [
+        //     { id: 49, title: 'MAP', route: '/Deliverymapdata' },                             
+        //   ],
+        //   expanded: false,
+        // },
        
        
          

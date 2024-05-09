@@ -413,6 +413,43 @@
         </VCard>
       </VCol>
       
+      <!-- Lead and Oppertunity Report -->
+        <VCol
+        cols="12"
+        md="4"
+      >
+        <VCard
+          title="Lead and Opportunity Report"
+          class="position-relative"
+        >
+          <VCardText>
+            <h4 class="text-4xl font-weight-medium text-primary">
+              <VIcon
+                size="50"
+                start
+                icon="line-md:downloading-loop"
+              />
+            </h4>
+            <br />
+
+            <VBtn
+              size="small"
+              @click="openLOreport()"
+            >
+              Get Reports
+            </VBtn> &nbsp;
+          </VCardText>
+
+          <VImg
+            :src="triangleBg"
+            class="triangle-bg flip-in-rtl"
+          />
+          <img
+            src="@/assets/images/avatars/avatar-20.png"
+            class="trophy12"
+          />
+        </VCard>
+      </VCol>
       <!-- User Store Logins -->
       <!-- <VCol
         cols="12"
@@ -1402,6 +1439,95 @@
       </VCard>
     </VDialog>
 
+      <!-- Lead and Oppertunity Report -->
+       <VDialog
+      v-model="dialog13"
+      max-width="1000"
+    >
+      <VCard
+        title="Lead & Opportunity Report"
+        class="mb-2"
+      >
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- 👉 Form -->
+              <VForm
+                class="mt-6"
+                ref="purchaseOrderForm11"
+              >
+                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
+              </VCheckbox> -->
+                <VRow>              
+
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VAutocomplete
+                      v-model="selectLeadandOpportunity"
+                      :items="['Lead','Opportunity']"
+                      :rules="leadrules"
+                      label="select Lead & Opportunity"
+                      :menu-props="{ maxHeight: 200 }"
+                      no-underline
+                    />
+                  </VCol>
+
+                   <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                      v-model="startDate2"
+                      type="date"
+                      label="Start Date"
+                      :min="minDate"
+                      :max="maxDate"
+                      :rules="Daterules"
+                    />
+                  </VCol>
+                  <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                      v-model="endDate2"
+                      type="date"
+                      label="End Date"
+                      :min="minDate1"
+                      :max="maxDate1"
+                      :rules="Daterules"
+                    />
+                  </VCol>
+                  <VDivider />
+
+                  <VCol
+                    cols="12"
+                    class="d-flex flex-wrap gap-4"
+                  >
+                    <VBtn @click="validateForm11()">Get</VBtn>
+
+                    <VBtn @click="closeLOreport()">Close</VBtn>
+
+                    <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
+                    <VProgressCircular
+                      :size="50"
+                      color="primary"
+                      indeterminate
+                      v-show="isProgress12"
+                    >
+                    </VProgressCircular>
+                  </VCol>
+                </VRow>
+              </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+      </VCard>
+    </VDialog>
+
+
     <VSnackbar
       v-model="snackbar"
       :timeout="3500"
@@ -1428,6 +1554,7 @@ export default {
   data() {
     return {
       selectedMerchantReportype:null,
+      selectLeadandOpportunity:null,
       userStoredata: null,
       selectSales: null,
       selectPurchase: null,
@@ -1459,6 +1586,7 @@ export default {
       isProgress10: false,
       isProgress11: false,
       isProgress12: false,
+      isProgress13: false,
 
 
       loading: true,
@@ -1473,6 +1601,7 @@ export default {
       dialog10: false,
       dialog11: false,
       dialog12: false,
+      dialog13: false,
 
 
       selectdatepicker: null,
@@ -1498,6 +1627,7 @@ export default {
       storeBrand: [v => !!v || 'Brand Name is required'],
       Daterules: [v => !!v || 'Date is required'],
       GSTrules: [v => !!v || 'This Field is required'],
+      leadrules:  [v => !!v || 'Field is required'],
       reportsdata: {
         merchant_id: '',
         date_filter: '',
@@ -1584,6 +1714,15 @@ export default {
     }, 3000)
   },
   methods: {
+    openLOreport(){
+        this.dialog13 = true;
+    },
+      closeLOreport() {
+      this.dialog13 = false;
+      this.selectedmerchants4 = '';
+      this.startDate2 = "";
+      this.endDate2 = "";
+    },
      openMerchantreport() {
       this.isProgress12 = true;
        this.Merchantreports().then((response)=>{

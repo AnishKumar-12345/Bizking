@@ -10,7 +10,7 @@ export default {
         getBrands(){
             return axios
           .get(this.url +"bizkingz/services/api/brands/getBrands", {
-            headers: {
+            headers: { 
               "Content-Type": "application/json",
               "accept": "*/*",
             //   "Authorization": "Bearer "+token 
@@ -1140,7 +1140,25 @@ export default {
           },
          Leadreports(){
             return axios
-            .get(this.url +"bizkingz/services/api/reports/merchants", {
+            .get(this.url +"bizkingz/services/api/reports/leads", {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          Opportunityreports(){
+            return axios
+            .get(this.url +"bizkingz/services/api/reports/opportunities", {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",

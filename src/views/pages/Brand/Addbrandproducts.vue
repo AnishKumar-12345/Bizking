@@ -8,10 +8,40 @@
           <!-- 👉 Form -->
           <VForm class="mt-6 " ref="purchaseOrderForm">
             <VRow>
-    
-            
+    <!-- {{this.saveBrand.city_id}} -->
+              <VCol
+                cols="12"
+                md="6"
+              >
+                <VAutocomplete
+                  v-model="this.saveBrand.city_id"
+                  label="Branch Names"              
+                  :items="locationsdata"
+                  item-title="text"
+                  item-value="value"
+                  :rules="locationrules"
+                  required
+                   :menu-props="{ maxHeight: 200 }"
+                   @update:model-value="handleBrandSelection(this.saveBrand.city_id)"
+                />
+              </VCol>
 
-
+              <VCol
+                md="6"
+                cols="12"
+              >
+              <!-- {{selectedBrand}} -->  
+              <!-- {{this.Addbrand.location_id}}            -->
+                <VAutocomplete
+                  v-model="this.saveBrand.location_id"
+                  label="Location"
+                  :items="this.cityLoaction"               
+                  item-value="value"
+                  item-title="text"
+                  :rules="locationrules2"
+                  :menu-props="{ maxHeight: 200 }"
+                />
+              </VCol>
             
               <VCol
                 cols="12"
@@ -281,6 +311,7 @@ export default {
     mixins: [servicescall],
    data(){
     return{
+      cityLoaction:[],
       snackbar: false,
       snackbarText: '',
       timeout: 6000, // milliseconds
@@ -290,6 +321,8 @@ export default {
       left: false,
       right: false,
       salesdata:[],
+         locationsdata:[],
+
       userid:'',
         dialog: false,
          saveBrand:{
@@ -308,6 +341,8 @@ export default {
           "email_id": "",
           "created_by":"",
           "bk_brand_poc":"",
+          "city_id":"",
+          "location_id":""
          },
          
          storerules:[
@@ -333,7 +368,14 @@ export default {
        gstrules: [
         (v) => !!v || "GST is required",     
       ],
-
+  locationrules:[
+               (v) => !!v || "City Name is required",
+        
+      ],
+        locationrules2:[
+               (v) => !!v || "City Location Name is required",
+        
+      ],
      pinrules: [        
                 (v) => !!v || 'PIN is required',
                  (v) => (v && /^\d{6}$/.test(v)) || 'PIN must be 6 digits'
@@ -355,10 +397,33 @@ export default {
    },
    mounted(){
     // this.getAllsales();
-    this.userid = localStorage.getItem('user_id')
+    this.userid = localStorage.getItem('user_id');
+    this.getBranchnames();
+
     // console.log('us',  this.userid)
    },
    methods:{
+     handleBrandSelection(id){
+        console.log('check hjandle',id);
+        this.getCitylocation(id).then((response)=>{
+          // console.log('check the response',response);
+          this.cityLoaction = response.data.data.map(sales => ({
+                  value: sales.location_id,
+                  text: sales.location
+              }))
+                // console.log('ceck tye res',this.cityLoaction);
+        })
+      },
+     getBranchnames(){
+      this.Locationdata().then((response)=>{
+   
+        this.locationsdata = response.data.data.map(sales => ({
+            value: sales.city_id,
+            text: sales.city
+        }));
+           console.log('ceck tye res',this.locationsdata);
+      })
+    },
     validateForm(){
       this.$refs.purchaseOrderForm.validate().then(valid => {
         // console.log("form valid", valid.valid);
@@ -389,7 +454,9 @@ export default {
           "brand_category": this.saveBrand.brand_category,
           "email_id":  this.saveBrand.email_id ,
           "created_by": this.userid,
-          "bk_brand_poc":this.saveBrand.bk_brand_poc
+          "bk_brand_poc":this.saveBrand.bk_brand_poc,
+          "city_id": this.saveBrand.city_id,
+          "location_id": this.saveBrand.location_id,
       }
       this.Addbranddata(postData).then((response)=>{
         console.log('resp',response);

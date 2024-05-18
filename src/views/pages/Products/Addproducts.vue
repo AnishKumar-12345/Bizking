@@ -21,6 +21,40 @@
            
             <VRow>
     
+             <VCol
+                md="6"
+                cols="12"
+              >
+              <!-- {{selectedBrand}} -->             
+                <VAutocomplete
+                  v-model="this.Addbrand.city_id"
+                  label="City"
+                  :items="this.locationsdata"               
+                  item-value="value"
+                  item-title="text"
+                  :rules="locationrules"
+                  :menu-props="{ maxHeight: 200 }"
+                   @update:model-value="handleBrandSelection(this.Addbrand.city_id)"
+                />
+              </VCol>
+
+              <VCol
+                md="6"
+                cols="12"
+              >
+              <!-- {{selectedBrand}} -->  
+              <!-- {{this.Addbrand.location_id}}            -->
+                <VAutocomplete
+                  v-model="this.Addbrand.location_id"
+                  label="Location"
+                  :items="this.cityLoaction"               
+                  item-value="value"
+                  item-title="text"
+                  :rules="locationrules2"
+                  :menu-props="{ maxHeight: 200 }"
+                />
+              </VCol>
+
               <VCol
                 md="6"
                 cols="12"
@@ -340,8 +374,18 @@ export default {
      selectedBrand:null,
       BrandNames:[],
       userRole:'',
-    Addbrand:{        
-
+      locationsdata:[],
+      locationrules:[
+               (v) => !!v || "City Name is required",        
+      ],
+       locationrules2:[
+               (v) => !!v || "City Location Name is required",        
+      ],
+      cityLoaction:[],
+        cityID:'',
+            locationid:'',
+      Addbrand:{      
+ 
         
             "sku_name": "",
             "uom": "",
@@ -357,6 +401,8 @@ export default {
             "bk_profit": "",
             "cgst": '0%',
             "sgst": '0%',
+            "city_id": '',
+            "location_id": '',
             // "status": ""
 
     }
@@ -393,18 +439,41 @@ export default {
     },
     
     mounted(){
+      this.getBranchnames();
       this.userRole = localStorage.getItem("userRole");
-
+      this.cityID = localStorage.getItem("city_id");
+      this.locationID = localStorage.getItem("location_id");
       this.getBranddetails();
-     setTimeout(() => {
-              this.loading = false; // Set loading to false when the operation is complete
-            }, 4000);
+      setTimeout(() => {
+                this.loading = false; // Set loading to false when the operation is complete
+              }, 4000);
      
     },
     
-methods:{ 
+      methods:{ 
+      handleBrandSelection(id){
+        console.log('check hjandle',id);
+        this.getCitylocation(id).then((response)=>{
+          // console.log('check the response',response);
+          this.cityLoaction = response.data.data.map(sales => ({
+                  value: sales.location_id,
+                  text: sales.location
+              }))
+                console.log('ceck tye res',this.cityLoaction);
+        })
+      },
+      getBranchnames(){
+            this.Locationdata().then((response)=>{ 
+        
+              this.locationsdata = response.data.data.map(sales => ({
+                  value: sales.city_id,
+                  text: sales.city
+              }));
+                console.log('ceck tye res',this.locationsdata);
+            })
+          },
 
-computedbcmargin() {
+    computedbcmargin() {
     const hasPercentage = (value) => {
       const regex = /^(0|([1-9]\d*))(?:\.\d+)?%$/;
       return regex.test(String(value));
@@ -630,6 +699,8 @@ computedSGST() {
           "bc_margin": this.Addbrand.bc_margin,
           "bc_margin_amt": this.Addbrand.bc_margin_amt,
           "bk_profit":  this.Addbrand.bk_profit ,
+          "city_id":  this.Addbrand.city_id ,
+          "location_id": this.Addbrand.location_id,
           "cgst": this.Addbrand.cgst === '' ? "0%" : this.Addbrand.cgst,
           "sgst": this.Addbrand.sgst === '' ? "0%" : this.Addbrand.sgst,
 
@@ -651,7 +722,7 @@ computedSGST() {
       })
     },
      getBranddetails(){
-      this.getBrands().then((response)=>{
+      this.getBrands(this.cityID,this.locationID).then((response)=>{
         
         this.BrandNames = response.data;
         
@@ -662,8 +733,7 @@ computedSGST() {
         console.log('mer',this.BrandNames)
       })
      }
-   },
- 
+   }, 
 }
 </script>
 <style scoped>

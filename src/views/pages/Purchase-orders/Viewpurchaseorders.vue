@@ -1096,6 +1096,8 @@ export default {
       dateRules: [
          (v) => !!v || 'Date is required',
       ],
+      cityID:'',
+      locationid:'',
       snackbar: false,
       snackbarText: '',
       timeout: 6000, // milliseconds
@@ -1435,7 +1437,8 @@ calculatedPricePerUnit(){
   },
 
   mounted() {
-   
+    this.cityID = localStorage.getItem("city_id");
+      this.locationID = localStorage.getItem("location_id");
     this.createdBy = localStorage.getItem('createdby')
     this.userIds = localStorage.getItem('userId')
     this.userRoles = localStorage.getItem('userRole')
@@ -1775,7 +1778,7 @@ calculatedPricePerUnit(){
     },
 
     getBrandsdata() {
-      this.getBrands().then(response => {
+      this.getBrands(this.cityID,this.locationID).then(response => {
         this.Brandname = response.data
         // console.log('check the response', this.Brandname);
       })

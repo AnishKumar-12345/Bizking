@@ -189,15 +189,15 @@ export default{
           ],
           expanded: false,
         },
-         {
-          id: 16,
-          title: 'Delivery Map',
-          icon: "material-symbols-light:conditions",
-          children: [
-            { id: 49, title: 'MAP', route: '/Deliverymapdata' },                             
-          ],
-          expanded: false,
-        },         
+        //  {
+        //   id: 16,
+        //   title: 'Delivery Map',
+        //   icon: "material-symbols-light:conditions",
+        //   children: [
+        //     { id: 49, title: 'MAP', route: '/Deliverymapdata' },                             
+        //   ],
+        //   expanded: false,
+        // },         
         // Add more parent items with or without children as needed
       ],
       selectedChild: null,
@@ -379,11 +379,11 @@ computed: {
             style="margin:5px;border-top-right-radius: 30px;
                 border-bottom-right-radius: 30px;"
             @click="navigateTo(childItem.route,childItem.id)">
-              <v-list-item-content>
-                <v-list-item-title class="d-flex" style="font-size: 0.9rem;">
+                <v-list-item-content>
+                 <v-list-item-title class="d-flex" style="font-size: 0.9rem;">
                   <v-icon v-if="parentItem.children" style="float:left;margin-right:20px;margin-top:5px;font-size:.75rem">ri-checkbox-blank-circle-line</v-icon>
                   
-                {{ childItem.title }}</v-list-item-title>
+                 {{ childItem.title }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>  
           </v-list-item-group>     

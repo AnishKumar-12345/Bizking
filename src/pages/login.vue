@@ -69,7 +69,7 @@ const loginuser = () => {
   axios
     .post('http://103.211.218.32/bizkingz/services/api/auth/login', requestData)
     .then(response => {
-      console.log('API Response:', response)
+      // console.log('API Response:', response)
 
       if (response.data.status == 1) {
         setTimeout(() => {
@@ -79,6 +79,9 @@ const loginuser = () => {
         localStorage.setItem('userId', response.data.data.user_id);
         localStorage.setItem('userRole', response.data.data.user_role);
         localStorage.setItem('user_id', response.data.data.user_id);
+        localStorage.setItem('user_type', response.data.data.user_type);
+        localStorage.setItem('city_id', response.data.data.city_id);
+        localStorage.setItem('location_id', response.data.data.location_id);
 
         // Store notifications
         store.commit('setNotifications', response.data.notifications_details);

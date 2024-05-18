@@ -38,22 +38,22 @@
           </VListItem>
           <!-- 👉 Bell Icon & Notifications -->
           <VListItem v-for="notification in notifications" :key="notification.notification_id" link>
-            <template #prepend>
-              <VIcon
-                v-if="notification.status === '0'"
-                class="me-2"
-                icon="mdi-circle"
-                size="10"
-                color="error"
-              />
-            </template>
-           <VListItemSubtitle style="font-size: 12px;" v-if="countUnreadNotifications === 0"> <h2>Your Notification is empty !</h2> </VListItemSubtitle>
-              <VListItemTitle class="font-weight-bold" style="font-size: 16px;">{{ notification.action }}</VListItemTitle>
+                <template #prepend>
+                  <VIcon
+                    v-if="notification.status === '0'"
+                    class="me-2"
+                    icon="mdi-circle"
+                    size="10"
+                    color="error"
+                  />
+                </template>
+            <VListItemSubtitle style="font-size: 12px;" v-if="countUnreadNotifications === 0"> <h2>Your Notification is empty !</h2> </VListItemSubtitle>
+            <VListItemTitle class="font-weight-bold" style="font-size: 16px;">{{ notification.action }}</VListItemTitle>
             <VListItemSubtitle style="font-size: 12px;">{{ notification.message }}</VListItemSubtitle>
             <VListItemSubtitle style="font-size: 10px;">{{ notification.created_date }}</VListItemSubtitle>
           
            
-               <VDivider class="my-2" />
+            <VDivider class="my-2" />
           </VListItem>
         </VList>
       </VMenu>

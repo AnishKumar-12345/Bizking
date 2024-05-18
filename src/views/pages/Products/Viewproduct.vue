@@ -74,7 +74,10 @@
         :key="index"
 
          
-      >       
+      >     
+        <td class="text-center">{{ item.city }}</td>
+        <td class="text-center">{{ item.location }}</td>
+
         <td class="text-center">{{ item.brand_name }}</td>
 
         <td class="text-center">{{ item.sku_name }}</td>
@@ -136,7 +139,7 @@
           <!-- <td class="text-center">
           {{ item.area_pincode }}
         </td>          -->
-    <td class="text-center" v-if="this.userRole != 'Sales Associate' && this.userRole != 'Brand Management'">
+        <td class="text-center" v-if="this.UserType == 'Business Head' || this.UserType == 'HR and Ops Manager'">
               <V-btn
                   icon
                   variant="text"
@@ -184,9 +187,39 @@
             <VCol cols="12">
          <VForm class="mt-6 " ref="purchaseOrderForm">
             <VRow> 
-            
+              <VCol
+                cols="12"
+                md="6"
+              >
+                <VAutocomplete
+                  v-model="this.saveProduct.city_id"
+                  label="City"
+                  :items="this.locationsdata"               
+                  item-value="value"
+                  item-title="text"
+                  :rules="locationrules"
+                  :menu-props="{ maxHeight: 200 }"
+                   @update:model-value="handleBrandSelection()"
+                  required
+                />
+              </VCol>
 
-
+             <VCol
+                md="6"
+                cols="12"
+              >
+              <!-- {{selectedBrand}} -->  
+              <!-- {{this.saveProduct.location_id}} -->
+                <VAutocomplete
+                  v-model="this.saveProduct.location_id"
+                  label="Location"
+                  :items="this.cityLoaction"               
+                  item-value="value"
+                  item-title="text"
+                  :rules="locationrules2"
+                  :menu-props="{ maxHeight: 200 }"
+                />
+              </VCol>
             
               <!-- <VCol
                 cols="12"
@@ -453,6 +486,8 @@ export default {
     mixins: [servicescall], 
     data(){
         return{
+            cityID:'',
+            locationid:'',
           maxPaginationPages:5,
             storerules:[
           (v) => !!v || 'Store Address is required',
@@ -465,6 +500,12 @@ export default {
       ],
        uomRules: [
          (v) => !!v || 'UOM is required',
+      ],
+      locationrules:[
+               (v) => !!v || "City Name is required",        
+      ],
+       locationrules2:[
+               (v) => !!v || "City Location Name is required",        
       ],
       //  hsnRules: [
       //          (v) => !!v || "HSN is required",
@@ -480,6 +521,8 @@ export default {
           (v && v.length <= 10 && v.length >= 10) ||
           "Mobile must be  10 number",
       ],
+      cityLoaction:[],
+      locationsdata:[],
            snackbar: false,
       snackbarText: '',
       timeout: 6000, // milliseconds
@@ -488,6 +531,7 @@ export default {
       bottom: true,
       left: false,
       right: false,
+      UserType:'',
             dialog:false,
             loading:true,
             searchQuery:'',
@@ -516,7 +560,8 @@ export default {
               "bk_profit": "",           
               "bizkingz_cp_final": "",
               "bc_margin_amt": "",
-
+              "city_id":"",
+              "location_id":"",
               "bc_margin": "",
               // "created_by": "",
             },
@@ -526,6 +571,9 @@ export default {
             userRole:'',
             createdby:'',
             headers:[
+               {text:'City',value:'city'},
+               {text:'Location',value:'location'},
+
                {text:'Brand Name',value:'brand_name'},
                 {text:'SKU Name',value:'sku_name'},
                 {text:'UOM',value:'uom'},
@@ -553,6 +601,8 @@ export default {
          const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
         return this.products.filter((item) => {
         return (
+            (item.city && item.city.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.location && item.location.toLowerCase().includes(lowerCaseQuery)) ||
           (item.brand_name && item.brand_name.toLowerCase().includes(lowerCaseQuery)) ||
           (item.sku_name && item.sku_name.toLowerCase().includes(lowerCaseQuery)) ||
           (item.uom && item.uom.toLowerCase().includes(lowerCaseQuery)) ||
@@ -580,9 +630,13 @@ export default {
   },
     },
     mounted(){
+      this.getBranchnames();
       this.getBranddetails();
+       this.cityID = localStorage.getItem("city_id");
+      this.locationID = localStorage.getItem("location_id");
       this.userRole = localStorage.getItem("userRole");
-     
+     this.UserType = localStorage.getItem("user_type");
+     console.log('check the user type',  this.UserType);
         // this.createdby =  localStorage.getItem('user_id');
            this.getProductsdata()
             .then(() => {             
@@ -597,7 +651,35 @@ export default {
           //   }, 3500);
             // this.getAllsales();
     },
+    watch: {
+  'saveProduct.city_id': function(newCityId, oldCityId) {
+    if (newCityId !== oldCityId) {
+      this.handleBrandSelection(newCityId);
+    }
+  }
+},
     methods:{
+       handleBrandSelection(id){
+        console.log('check hjandle',id);
+        this.getCitylocation(id).then((response)=>{
+          // console.log('check the response',response);
+          this.cityLoaction = response.data.data.map(sales => ({
+                  value: sales.location_id,
+                  text: sales.location
+              }))
+                console.log('ceck tye res',this.cityLoaction);
+        })
+      },
+      getBranchnames(){
+            this.Locationdata().then((response)=>{ 
+        
+              this.locationsdata = response.data.data.map(sales => ({
+                  value: sales.city_id,
+                  text: sales.city
+              }));
+                console.log('ceck tye res',this.locationsdata);
+            })
+          },
         preventPaste(event){
       const clipboardData = event.clipboardData || window.clipboardData;
       const pastedData = clipboardData.getData('text');
@@ -879,6 +961,8 @@ computedSGST() {
           "bk_profit":  this.saveProduct.bk_profit,
           "cgst":   this.saveProduct.cgst,
           "sgst": this.saveProduct.sgst,
+          "city_id": this.saveProduct.city_id,
+          "location_id": this.saveProduct.location_id,
           "status": this.saveProduct.status === "Active" ? "1" : "0"
       }
         console.log('post',postData);
@@ -910,6 +994,11 @@ computedSGST() {
           //  this.saveMerchant.merchant_uid = response.data.data.merchant_uid;
           //  this.saveMerchant.merchant_id = response.data.data.merchant_id;
           //  this.saveMerchant.created_date = response.data.data.created_date;
+        this.saveProduct.city_id = this.locationsdata.find(location => location.value === item.city_id)?.value || item.city_id;
+
+          this.saveProduct.location_id = this.cityLoaction.find(location => location.value === item.location_id)?.value || item.location_id;
+
+
            this.selectedBrand = item.brand_name ;
             this.selectedBrand = item.brand_id;
             this.saveProduct.brand_product_id = item.brand_product_id;
@@ -979,7 +1068,7 @@ computedSGST() {
 
         },
          getBranddetails(){
-      this.getBrands().then((response)=>{
+          this.getBrands(this.cityID,this.locationID).then((response)=>{
         
         this.BrandNames = response.data;
         

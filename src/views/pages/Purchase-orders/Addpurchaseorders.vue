@@ -516,7 +516,8 @@ export default {
         selectedPurchaseOrder: null,
         dialog: false,
 
-           
+              cityID:'',
+            locationid:'',
       headers: [
         // { text: 'Purchase Order', value: 'po' },
         { text: 'Product Name', value: 'sku_name' },
@@ -749,7 +750,8 @@ calculatedPricePerUnit(){
     },
     
     mounted(){
-
+ this.cityID = localStorage.getItem("city_id");
+      this.locationID = localStorage.getItem("location_id");
       this.getBrandsdata()
        .then(() => {             
               this.loading = false;
@@ -962,7 +964,7 @@ calculatedPricePerUnit(){
       // })
 
        return new Promise((resolve, reject) => {
-          this.getBrands()
+          this.getBrands(this.cityID,this.locationID)
             .then((response) => {
               this.Brandname = response.data;
               // this.opportunity.reverse();

@@ -79,7 +79,9 @@
         :key="index"
 
          
-      >       
+      > 
+        <td class="text-center">{{ item.city }}</td>
+
         <td class="text-center">{{ item.brand_name }}</td>
         <td class="text-center">
           {{ item.brand_code }}
@@ -221,7 +223,21 @@
                   required
                 />
               </VCol> -->
-      
+              <!-- {{this.saveBrand.city_id}} -->
+              <VCol
+                cols="12"
+                md="6"
+              >
+                <VAutocomplete
+                  v-model="this.saveBrand.city_id" 
+                  label="Branch Names"              
+                  :items="locationsdata"
+                   item-title="text"
+                  item-value="value"
+                  :rules="locationrules"
+                  required
+                />
+              </VCol>
               <VCol
                 cols="12"
                 md="6"
@@ -469,6 +485,12 @@ export default {
             pageSize: 10,
             Brands:[],
             dialog:false,
+             locationrules:[
+               (v) => !!v || "Branch Name is required",
+        
+      ],
+         locationsdata:[],
+
             saveBrand:{
               "brand_name":"",
               "brand_code":"",
@@ -489,6 +511,7 @@ export default {
               "location":"",
               "area_pincode":"",
               "bk_brand_poc":"",
+              "city_id":"",
             },
 
              storerules:[
@@ -498,14 +521,15 @@ export default {
               uidrules: [
                 (v) => !!v || 'UID is required',
               ],
+
               BrandBKrules: [
                       (v) => !!v || 'Brand POC From BK is required',
                     
                     ],
+
               namerules: [
                 (v) => !!v || 'Name is required',
-         (v) => /^[a-z A-Z]+$/.test(v) || 'Only letters are allowed in the name'
-
+                (v) => /^[a-z A-Z]+$/.test(v) || 'Only letters are allowed in the name'
               ],
 
               gstrules: [
@@ -529,8 +553,10 @@ export default {
                     (v && v.length <= 10 && v.length >= 10) ||
                     "Mobile must be  10 number",
                 ],
-
+            cityID:'',
+            locationid:'',
             headers:[
+                {text:'Branch',value:'branch'},
                 {text:'Brand Name',value:'brand_name'},
                 {text:'Brand Code',value:'brand_code'},
                 {text:'Brand Category',value:'brand_category'},
@@ -558,6 +584,7 @@ export default {
          const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
         return this.Brands.filter((item) => {
         return (
+          (item.branch && item.branch.toLowerCase().includes(lowerCaseQuery)) ||
           (item.brand_name && item.brand_name.toLowerCase().includes(lowerCaseQuery)) ||
           (item.brand_code && item.brand_code.toLowerCase().includes(lowerCaseQuery)) ||
           (item.brand_category && item.brand_category.toLowerCase().includes(lowerCaseQuery)) ||
@@ -590,7 +617,10 @@ export default {
      }
     },
     mounted(){
-        // this.getAllBrands();
+      this.cityID = localStorage.getItem("city_id");
+      this.locationID = localStorage.getItem("location_id");
+
+        this.getBranchnames();
       this.userRole = localStorage.getItem("userRole");
        this.getAllBrands() 
             .then(() => {             
@@ -605,6 +635,27 @@ export default {
 
     },
     methods:{
+       getcitylocationSelection(){
+        // console.log('check hjandle',id);
+        this.getCitylocation( this.cityID ).then((response)=>{
+          // console.log('check the response',response);
+          this.cityLoaction = response.data.data.map(sales => ({
+                  value: sales.location_id,
+                  text: sales.location
+              }))
+                console.log('ceck tye res',this.cityLoaction);
+        })
+      },
+       getBranchnames(){
+      this.Locationdata().then((response)=>{
+   
+        this.locationsdata = response.data.data.map(sales => ({
+            value: sales.city_id,
+            text: sales.city
+        }));
+           console.log('ceck tye res',this.locationsdata);
+      })
+    },
       validateForm(){
          this.$refs.purchaseOrderForm.validate().then(valid => {
         // console.log("form valid", valid.valid);
@@ -618,8 +669,8 @@ export default {
         }
       }); 
     },
-         UpdateBrand(){
-      const postData = {
+      UpdateBrand(){
+        const postData = {
           "brand_name": this.saveBrand.brand_name,
           "area_pincode": this.saveBrand.area_pincode,
           "gst":  this.saveBrand.gst,
@@ -634,12 +685,12 @@ export default {
           "email_id": this.saveBrand.email_id,
           "bk_brand_poc": this.saveBrand.bk_brand_poc,
           "brand_id": this.saveBrand.brand_id ,     
-       
+          "city_id": this.saveBrand.city_id ,    
           "status": this.saveBrand.status === "Active" ? "1" : "0"
       }
         console.log('post',postData);
         this.isProgress = true;
-      this.updateBrands(postData).then((response)=>{
+        this.updateBrands(postData).then((response)=>{
          if(response.data.status == 1){
               this.snackbarText = response.data.message;
               this.color = "primary";
@@ -647,17 +698,15 @@ export default {
               this.dialog=false;
               this.saveBrand={};
               this.getAllBrands();
-        this.isProgress = false;
-
+              this.isProgress = false;
               }else{
               this.snackbarText = response.data.message;
               this.color = "on-background";
               this.snackbar = true;
-        this.isProgress = false;
-
+              this.isProgress = false;
               }
-      })
-    },
+            })
+          },
 
       editBrand(item){
         console.log('brand',item);
@@ -681,6 +730,8 @@ export default {
         this.saveBrand.location = item.location;
         this.saveBrand.area_pincode = item.area_pincode;
         this.saveBrand.bk_brand_poc = item.bk_brand_poc;
+        this.saveBrand.city_id =  this.locationsdata.find(location => location.text === item.city)?.value || item.city;
+        // console.log('set t',this.locationsdata.value );
       },
        resolveStatusVariant(itm){
         if(itm == 1){
@@ -704,7 +755,7 @@ export default {
             //     this.Brands.reverse();
             // })
                 return new Promise((resolve, reject) => {
-                this.getBrands()
+                this.getBrands(this.cityID,this.locationID)
                   .then((response) => {
                     this.Brands = response.data;
                     this.Brands.reverse();

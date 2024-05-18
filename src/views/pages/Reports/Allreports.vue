@@ -452,17 +452,17 @@
             class="triangle-bg flip-in-rtl"
           />
           <img
-            src="@/assets/images/avatars/avatar-20.png"
+            src="@/assets/images/avatars/avatar-22.png"
             class="trophy12"
           />
         </VCard>
       </VCol>
 
        <!-- Opportunity Report -->
-        <VCol
+      <VCol
         cols="12"
         md="4"
-      >
+        >
         <VCard
           title="Opportunity Report"
           class="position-relative"
@@ -497,11 +497,12 @@
             class="triangle-bg flip-in-rtl"
           />
           <img
-            src="@/assets/images/avatars/avatar-20.png"
+            src="@/assets/images/avatars/avatar-21.png"
             class="trophy12"
           />
         </VCard>
       </VCol>
+      
       <!-- User Store Logins -->
       <!-- <VCol
         cols="12"
@@ -1516,6 +1517,8 @@ export default {
 
   data() {
     return {
+      cityID:'',
+      locationid:'',
       selectedMerchantReportype:null,
       userStoredata: null,
       selectSales: null,
@@ -1666,6 +1669,8 @@ export default {
     },
   },
   mounted() {
+     this.cityID = localStorage.getItem("city_id");
+      this.locationID = localStorage.getItem("location_id");
     this.getAllsales()
     this.getMerchantdetails()
     this.getBrandsdata()
@@ -2505,7 +2510,7 @@ export default {
     },
 
     getBrandsdata() {
-      this.getBrands().then(response => {
+      this.getBrands(this.cityID,this.locationID).then(response => {
         this.Brandname = [
           { value: 'all', text: 'All' },
           ...response.data.map(brand => ({

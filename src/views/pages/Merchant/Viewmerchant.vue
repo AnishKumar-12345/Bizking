@@ -80,6 +80,8 @@
 
          
       >       
+        <td class="text-center">{{ item.city }}</td>
+
         <td class="text-center">{{ item.sales_person }}</td>
 
         <td class="text-center">{{ item.merchant_name }}</td>
@@ -210,9 +212,22 @@
           <VRow>
             <VCol cols="12">
          <VForm class="mt-6 " ref="purchaseOrderForm">
-            <VRow> 
-            
-
+            <VRow>    
+            <VCol
+                cols="12"
+                md="6"
+              >
+              <!-- {{this.saveMerchant.city_id}} -->
+                <VAutocomplete
+                  v-model="this.saveMerchant.city_id"
+                  label="Branch Names"              
+                  :items="locationsdata"
+                   item-title="text"
+                  item-value="value"
+                  :rules="locationrules"
+                  required
+                />
+              </VCol>
 
             
               <VCol
@@ -469,6 +484,10 @@ export default {
                (v) => !!v || "GST is required",
      
       ],
+        locationrules: [
+               (v) => !!v || "Branch is required",
+     
+      ],
        pinrules: [
          (v) => !!v || 'PIN is required',
           (v) => (v && /^\d{6}$/.test(v)) || 'PIN must be 6 digits'
@@ -528,10 +547,13 @@ latitude: [
               "longitude":"",
               "status": "",
               "created_by": "",
+              "city_id":"",
             },
             salesdata:[],
             createdby:'',
+            locationsdata:[],
             headers:[
+               {text:'Branch',value:'branch'},
                {text:'Sales Associate',value:'sales_person'},
                 {text:'Merchant Name',value:'merchant_name'},
                 {text:'Merchant UID',value:'merchant_uid'},
@@ -561,6 +583,8 @@ latitude: [
          const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
         return this.merchants.filter((item) => {
         return (
+          (item.branch && item.branch.toLowerCase().includes(lowerCaseQuery)) ||
+
           (item.sales_person && item.sales_person.toLowerCase().includes(lowerCaseQuery)) ||
           (item.merchant_name && item.merchant_name.toLowerCase().includes(lowerCaseQuery)) ||
           (item.merchant_uid && item.merchant_uid.toLowerCase().includes(lowerCaseQuery)) ||
@@ -596,6 +620,7 @@ latitude: [
    }
     },
     mounted(){
+      this.getBranchnames();
         // this.getmerchants();
         this.createdby =  localStorage.getItem('user_id');
         //  setTimeout(() => {
@@ -630,6 +655,18 @@ latitude: [
         }
       }); 
     },
+
+    getBranchnames(){
+      this.Locationdata().then((response)=>{
+   
+        this.locationsdata = response.data.data.map(sales => ({
+            value: sales.city_id,
+            text: sales.city
+        }));
+           console.log('ceck tye res',this.locationsdata);
+      })
+    },
+
       updatemerchant(){
           const postData = {
           "merchant_uid": this.saveMerchant.merchant_uid,
@@ -653,7 +690,7 @@ latitude: [
           "location": this.saveMerchant.location,
           "longitude": this.saveMerchant.longitude,
           "latitude": this.saveMerchant.latitude,
-
+          "city_id" : this.saveMerchant.city_id,
           "created_by":  this.createdby ,
           "sales_person": this.saveMerchant.sales_person,
           "created_date": this.saveMerchant.created_date,
@@ -710,6 +747,8 @@ latitude: [
                   this.saveMerchant.poc_phone = response.data.data.poc_phone;
                    this.saveMerchant.shop_size = response.data.data.shop_size;
                     this.saveMerchant.shop_type = response.data.data.shop_type;
+                  this.saveMerchant.city_id = this.locationsdata.find(location => location.value === response.data.data.city_id)?.value || response.data.data.city_id;
+
 
                      this.saveMerchant.location = response.data.data.location;
                       this.saveMerchant.sales_person = response.data.data.sales_person == this.salesdata.value ? this.salesdata.map(sales => ({

@@ -9,9 +9,39 @@
           <VForm class="mt-6 " ref="purchaseOrderForm">
             <VRow>
     
-            
+            <VCol
+                cols="12"
+                md="6"
+              >
+                <VAutocomplete
+                  v-model="this.saveMerchant.city_id"
+                  label="Branch Names"              
+                  :items="locationsdata"
+                  item-title="text"
+                  item-value="value"
+                  :rules="locationrules"
+                  required
+                  :menu-props="{ maxHeight: 200 }"
+                   @update:model-value="handleBrandSelection(this.saveMerchant.city_id)"
+                />
+              </VCol>
 
-
+              <VCol
+                md="6"
+                cols="12"
+              >
+              <!-- {{selectedBrand}} -->  
+              <!-- {{this.Addbrand.location_id}} -->
+                <VAutocomplete
+                  v-model="this.saveMerchant.location_id"
+                  label="Location"
+                  :items="this.cityLoaction"               
+                  item-value="value"
+                  item-title="text"
+                  :rules="locationrules2"
+                  :menu-props="{ maxHeight: 200 }"
+                />
+              </VCol>            
             
               <VCol
                 cols="12"
@@ -182,7 +212,9 @@
                  :rules="latitude"
                 />
               </VCol>
-              <VCol            
+              <VCol    
+                 md="6"
+                     
                 cols="12"
               >
               <!-- {{this.salesdata}} -->
@@ -283,7 +315,12 @@ export default {
           "sales_person": "",
           "longitude":"",
           "latitude":"",
+          "city_id":"",
+          "location_id":""
+
          },
+         locationsdata:[],
+         cityLoaction:[],
         //  Logitude:[
         //   (v) => !!v || 'Longitude is required',
         //   (v) => /^[0-9]+$/.test(v) || "only number are accepted",
@@ -324,6 +361,14 @@ latitude: [
                (v) => !!v || "GST is required",
      
       ],
+      locationrules:[
+               (v) => !!v || "City Name is required",
+        
+      ],
+        locationrules2:[
+               (v) => !!v || "City Location Name is required",
+        
+      ],
          pinrules: [        
                 (v) => !!v || 'PIN is required',
                  (v) => (v && /^\d{6}$/.test(v)) || 'PIN must be 6 digits'
@@ -341,8 +386,31 @@ latitude: [
     this.getAllsales();
     this.userid = localStorage.getItem('user_id')
     // console.log('us',  this.userid)
+    this.getBranchnames();
    },
    methods:{
+      handleBrandSelection(id){
+        console.log('check hjandle',id);
+        this.getCitylocation(id).then((response)=>{
+          // console.log('check the response',response);
+          this.cityLoaction = response.data.data.map(sales => ({
+                  value: sales.location_id,
+                  text: sales.location
+              }))
+                // console.log('ceck tye res',this.cityLoaction);
+        })
+      },
+
+    getBranchnames(){
+      this.Locationdata().then((response)=>{ 
+   
+        this.locationsdata = response.data.data.map(sales => ({
+            value: sales.city_id,
+            text: sales.city
+        }));
+           console.log('ceck tye res',this.locationsdata);
+      })
+    },
     validateForm(){
       this.$refs.purchaseOrderForm.validate().then(valid => {
         // console.log("form valid", valid.valid);
@@ -375,7 +443,8 @@ latitude: [
           "sales_person": this.saveMerchant.sales_person,
           "latitude": this.saveMerchant.latitude,
           "longitude": this.saveMerchant.longitude,
-
+          "city_id": this.saveMerchant.city_id,
+          "location_id": this.saveMerchant.location_id,
       }
       this.addOnboardmerchant(postData).then((response)=>{
         console.log('resp',response);

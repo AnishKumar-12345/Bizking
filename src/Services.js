@@ -7,9 +7,9 @@ export default {
         }
     }, 
     methods:{
-        getBrands(){
+        getBrands(id,lid){
             return axios
-          .get(this.url +"bizkingz/services/api/brands/getBrands", {
+          .get(this.url +"bizkingz/services/api/brands/getBrands?city_id="+id+"&location_id="+lid, {
             headers: { 
               "Content-Type": "application/json",
               "accept": "*/*",
@@ -1159,6 +1159,42 @@ export default {
           Opportunityreports(){
             return axios
             .get(this.url +"bizkingz/services/api/reports/opportunities", {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          Locationdata(){
+            return axios
+            .get(this.url +"bizkingz/services/api/cities/getAll", {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+            
+            })
+            .then(response => {
+              return response;
+          
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          getCitylocation(id){
+            return axios
+            .post(this.url +"bizkingz/services/api/locations/getAll?city_id="+id, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",

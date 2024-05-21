@@ -11,6 +11,44 @@
       />
     </div> -->
     <!-- v-if="!showNoSalesAlert" -->
+      <VCard         
+          class="mb-2"
+           v-show="filterlocation"
+        >
+          <VCardText>
+            <VRow>
+              <VCol cols="12">
+                <!-- 👉 Form -->
+              <VForm class="mt-6">
+              <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
+              </VCheckbox> -->
+              <VRow >
+                <VCol
+                md="6"
+                cols="12"
+               
+              >
+              <!-- {{selectedBrand}} -->  
+              <!-- {{this.Addbrand.location_id}}            -->
+                <VAutocomplete
+                  v-model="locationdata"
+                  label="Location"
+                  :items="this.cityLoaction"               
+                  item-value="value"
+                  item-title="text"                
+                  :menu-props="{ maxHeight: 200 }"
+                   @update:model-value="locationdetails()"
+
+                />
+              </VCol>
+
+              </VRow>
+              </VForm>
+              </VCol>
+            </VRow>
+          </VCardText>
+      </VCard>
+      
     <div style="max-width: 400px">
       <VTextField
         class="mb-3"
@@ -22,6 +60,7 @@
         single-line
         hide-details
       />
+         
     </div>
 
     <div
@@ -589,6 +628,7 @@ export default {
       filteredsalesdata:[],
       Salesorderdetails:[],
       today: this.getFormattedDate(new Date()),
+      locationdata:null,
       outputStock: {
         so_id: '',
         so_number: '',
@@ -658,11 +698,15 @@ export default {
       pageSize: 10,
       loading2: false,
       loaded: false,
-      loading: true,
+      loading: false,
       saleshistory: [],
       salesdata: {},
       searchQuery: '',
       dialog: false,
+      cityID:'',
+      cityLoaction:[],
+      filterlocation: true,
+
       headers: [
         { text: 'Sales Order', value: 'so_number' },
         { text: 'Order Date', value: 'created_date' },
@@ -714,7 +758,7 @@ export default {
         // );
         // Return true if both search query and status match
         // return matchesSearch && matchesStatus;
-        return matchesSearch
+        return matchesSearch;
       })
     },
 
@@ -729,7 +773,10 @@ export default {
     },
   },
   mounted() {
-    this.Soid = this.$route.query.so_id
+    this.Soid = this.$route.query.so_id;
+      this.cityID  = localStorage.getItem("city_id");
+    this.handleBrandSelection();
+ 
     // this.fetchOutputSalesOrders();
     // this.fetchOutputSalesOrders();
     // console.log('Received po_id:', this.Soid);
@@ -763,12 +810,13 @@ export default {
     })
   },
   methods: {
-   fetchOutputSalesOrders() {
-    this.loading = true; // Set loading to true before API call
-    return new Promise((resolve, reject) => {
-      this.$store.dispatch('getOutputSaleOrdersdata')
+    locationdetails(){
+      const city_id  = localStorage.getItem("city_id");
+      const location_id = this.locationdata; 
+      return new Promise((resolve, reject) => {
+      this.$store.dispatch('getOutputSaleOrdersdata2',{city_id, location_id})
         .then((response) => {
-          console.log('check details', response);
+          console.log('check locationdata', response);
           this.filteredsalesdata = response.data;
             this.filteredsalesdata.reverse();
           this.loading = false; // Set loading to false after API call
@@ -780,6 +828,61 @@ export default {
           reject(error); // Reject the promise with error
         });
     });
+    },
+     handleBrandSelection(){
+        // console.log('check hjandle',id);
+        this.getCitylocation(this.cityID ).then((response)=>{
+          // console.log('check the response',response);
+          this.cityLoaction = response.data.data.map(sales => ({
+                  value: sales.location_id,
+                  text: sales.location
+              }))
+                console.log('ceck tye res',this.cityLoaction);
+        })
+      },
+
+   fetchOutputSalesOrders() { 
+    // this.loading = true; // Set loading to true before API call
+      const city_id  = localStorage.getItem("city_id");
+      const location_id =  localStorage.getItem("location_id"); 
+  // if(city_id != null && location_id != null){
+     return new Promise((resolve, reject) => {
+      if(city_id != '' && location_id !== ''){
+        this.loading = true;
+      this.filterlocation = false;
+      this.$store.dispatch('getOutputSaleOrdersdata2',{city_id,location_id})
+        .then((response) => {
+          console.log('check details', response);
+          this.filteredsalesdata = response.data;
+          this.filteredsalesdata.reverse();
+          this.loading = false; // Set loading to false after API call
+          resolve(response); // Resolve the promise with response
+        })
+        .catch(error => {
+          console.error('Error fetching output sales orders:', error);
+          this.loading = false; // Set loading to false on error
+          reject(error); // Reject the promise with error
+        });
+      }
+    });
+  // }else{
+  //    return new Promise((resolve, reject) => {
+  //     this.$store.dispatch('getOutputSaleOrdersdata2',{city_id, location_id})
+  //       .then((response) => {
+  //         console.log('check details', response);
+  //         this.filteredsalesdata = response.data;
+  //           this.filteredsalesdata.reverse();
+  //         this.loading = false; // Set loading to false after API call
+  //         resolve(response); // Resolve the promise with response
+  //       })
+  //       .catch(error => {
+  //         console.error('Error fetching output sales orders:', error);
+  //         this.loading = false; // Set loading to false on error
+  //         reject(error); // Reject the promise with error
+  //       });
+  //   });
+  // }
+   
    },
     validateForm() {
       this.$refs.purchaseOrderForm.validate().then(valid => {

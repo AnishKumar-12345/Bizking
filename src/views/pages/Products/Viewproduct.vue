@@ -571,7 +571,7 @@ export default {
             userRole:'',
             createdby:'',
             headers:[
-               {text:'City',value:'city'},
+               {text:'City Name',value:'city'},
                {text:'Location',value:'location'},
 
                {text:'Brand Name',value:'brand_name'},

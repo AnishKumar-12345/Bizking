@@ -2857,7 +2857,7 @@ export default {
     getMerchantdetails() {
 
         return new Promise((resolve, reject) => {
-          this.getMerchants()
+          this.getMerchants(this.cityID)
             .then((response) => {
                this.merchantName = [
                 { value: 'all', text: 'All' },

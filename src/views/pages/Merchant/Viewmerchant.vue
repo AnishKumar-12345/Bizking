@@ -81,6 +81,7 @@
          
       >       
         <td class="text-center">{{ item.city }}</td>
+        <td class="text-center">{{ item.location }}</td>
 
         <td class="text-center">{{ item.sales_person }}</td>
 
@@ -149,10 +150,10 @@
           <td class="text-center">
           {{ item.store_address }}
         </td>
-          <td class="text-center">
-          <!-- <a :href="item.location" target="_blank" style="color:blue">{{ item.location }}</a> -->
+          <!-- <td class="text-center">
+     
           {{ item.location }}
-        </td>
+        </td> -->
           <td class="text-center">
           {{ item.area_pincode }}
         </td>         
@@ -220,15 +221,35 @@
               <!-- {{this.saveMerchant.city_id}} -->
                 <VAutocomplete
                   v-model="this.saveMerchant.city_id"
-                  label="Branch Names"              
+                  label="City Names"              
                   :items="locationsdata"
                    item-title="text"
                   item-value="value"
                   :rules="locationrules"
                   required
+                  readonly
+                   @update:model-value="handleBrandSelection(this.saveMerchant.city_id)"
+
                 />
               </VCol>
 
+              <VCol
+                md="6"
+                cols="12"
+              >
+              <!-- {{selectedBrand}} -->  
+              <!-- {{this.Addbrand.location_id}} -->
+                <VAutocomplete
+                  v-model="this.saveMerchant.location_id"
+                  label="City Location"
+                  :items="this.cityLoaction"               
+                  item-value="value"
+                  item-title="text"
+                  :rules="locationrules2"
+                  :menu-props="{ maxHeight: 200 }"
+                  readonly
+                />
+              </VCol>            
             
               <VCol
                 cols="12"
@@ -548,12 +569,16 @@ latitude: [
               "status": "",
               "created_by": "",
               "city_id":"",
+              "location_id":""
             },
             salesdata:[],
+            cityID:null,
             createdby:'',
             locationsdata:[],
+            cityLoaction:[],
             headers:[
-               {text:'Branch',value:'branch'},
+               {text:'City Name',value:'branch'},
+               {text:'City Location',value:'location'},
                {text:'Sales Associate',value:'sales_person'},
                 {text:'Merchant Name',value:'merchant_name'},
                 {text:'Merchant UID',value:'merchant_uid'},
@@ -572,7 +597,7 @@ latitude: [
                 {text:'Created Date',value:'created_date'},
                 // {text:'Decision Authority',value:'decision_authority'},
                 {text:'Store Address',value:'store_address'},
-                {text:'Location',value:'location'},
+                // {text:'Location',value:'location'},
                 {text:'Area Pincode',value:'area_pincode'},
                 {text:'Action',value:'actions'},
             ]
@@ -619,15 +644,24 @@ latitude: [
       return sortedItems.slice(startIndex, endIndex);
    }
     },
+     watch: {
+  'saveMerchant.city_id': function(newCityId, oldCityId) {
+    if (newCityId !== oldCityId) {
+      this.handleBrandSelection(newCityId);
+    }
+  }
+},
     mounted(){
       this.getBranchnames();
+      this.cityID = localStorage.getItem("city_id");
+
         // this.getmerchants();
         this.createdby =  localStorage.getItem('user_id');
         //  setTimeout(() => {
         //       this.loading = false; // Set loading to false when the operation is complete
         //     }, 7000);
 
-           this.getmerchants()
+           this.getmerchantdetails()
             .then(() => { 
               // Set loading to false when API call is successful
               this.loading = false;
@@ -642,6 +676,18 @@ latitude: [
             this.getAllsales();
     },
     methods:{
+      handleBrandSelection(id){
+        console.log('check hjandle',id);
+        this.getCitylocation(id).then((response)=>{
+          // console.log('check the response',response);
+          this.cityLoaction = response.data.data.map(sales => ({
+                  value: sales.location_id,
+                  text: sales.location
+              }))
+                console.log('ceck tye res',this.cityLoaction);
+        })
+      },
+
          validateForm(){
       this.$refs.purchaseOrderForm.validate().then(valid => {
         // console.log("form valid", valid.valid);
@@ -691,6 +737,7 @@ latitude: [
           "longitude": this.saveMerchant.longitude,
           "latitude": this.saveMerchant.latitude,
           "city_id" : this.saveMerchant.city_id,
+          "location_id" : this.saveMerchant.location_id,
           "created_by":  this.createdby ,
           "sales_person": this.saveMerchant.sales_person,
           "created_date": this.saveMerchant.created_date,
@@ -703,7 +750,7 @@ latitude: [
               this.snackbar = true;
               this.dialog=false;
               this.saveMerchant={};
-                this.getmerchants();
+                this.getmerchantdetails();
               }else{
               this.snackbarText = response.data.message;
               this.color = "on-background";
@@ -748,8 +795,8 @@ latitude: [
                    this.saveMerchant.shop_size = response.data.data.shop_size;
                     this.saveMerchant.shop_type = response.data.data.shop_type;
                   this.saveMerchant.city_id = this.locationsdata.find(location => location.value === response.data.data.city_id)?.value || response.data.data.city_id;
-
-
+                  // this.saveMerchant.location_id =  response.data.data.location_id;
+this.saveMerchant.location_id = this.cityLoaction.find(location => location.value === response.data.data.location_id)?.value || response.data.data.location_id;
                      this.saveMerchant.location = response.data.data.location;
                       this.saveMerchant.sales_person = response.data.data.sales_person == this.salesdata.value ? this.salesdata.map(sales => ({
                           value: sales.user_id,
@@ -786,9 +833,9 @@ latitude: [
         //         this.merchants.reverse();
         //     })
         // }
-        getmerchants() {
+        getmerchantdetails() {
         return new Promise((resolve, reject) => {
-          this.getMerchantdetails()
+          this.getMerchants(this.cityID)
             .then((response) => {
               this.merchants = response.data.data;
               this.merchants.reverse();
@@ -799,7 +846,7 @@ latitude: [
               reject(error); // Reject the promise if there's an error
             });
         });
-}, 
+      }, 
     }
 }
 </script>

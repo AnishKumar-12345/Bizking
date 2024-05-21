@@ -28,10 +28,30 @@ const store = createStore({
     },
   },
   actions: {
-    getOutputSaleOrdersdata({ commit }) {
+    // getOutputSaleOrdersdata({ commit }, {city_id}) {
+    //   // console.log('check the response')
+    //   return axios 
+    //     .get(`http://103.211.218.32/bizkingz/services/api/sales/getAckSalesOrders?city_id=${city_id}`, {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         "accept": "*/*",
+    //         // "Authorization": "Bearer " + token, // Include Authorization if needed
+    //       },
+    //     })
+    //     .then(response => {
+    //       // console.log('check the response')
+    //       commit('setOutputSalesOrders', response.data);          
+    //       return response.data; // Optional: return the data if needed
+    //     })
+    //     .catch(error => {
+    //       console.error('Error fetching sales orders:', error);
+    //       throw error; // Optional: rethrow the error for the calling code to handle
+    //     });
+    // },
+    getOutputSaleOrdersdata2({ commit }, {city_id,location_id}) {
       // console.log('check the response')
       return axios 
-        .get("http://103.211.218.32/bizkingz/services/api/sales/getAckSalesOrders", {
+        .get(`http://103.211.218.32/bizkingz/services/api/sales/getAckSalesOrders?city_id=${city_id}&location_id=${location_id}`, {
           headers: {
             "Content-Type": "application/json",
             "accept": "*/*",

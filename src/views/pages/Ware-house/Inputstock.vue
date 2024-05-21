@@ -186,6 +186,13 @@
                   class="d-flex flex-wrap gap-4"
                 >
                   <VBtn @click="validateForm()">Save</VBtn>
+                   <VProgressCircular
+                  :size="50"
+                  color="primary"
+                  indeterminate
+                  v-show="isProgress"
+                >
+                </VProgressCircular>
 
                   <!-- <VBtn
                     color="secondary"
@@ -233,6 +240,7 @@ export default {
       bottom: true,
       left: false,
       right: false,
+      isProgress:false,
        InvoiceNo: [
                       (v) => !!v || 'Invoice Number is required',
                     
@@ -402,6 +410,7 @@ validateForm(){
  },
 
     saveInputstock(){
+      this.isProgress = true;
        const statusMapping = {
             'Draft': 1,
             'Created': 2,
@@ -478,6 +487,8 @@ validateForm(){
                     this.color = "primary";
                     this.formData = {};
                     this.snackbarText = response.message;  
+      this.isProgress = false;
+
                      setTimeout(() => {
                        this.$router.push({
                       name: 'Viewpurchasehistory'
@@ -485,7 +496,9 @@ validateForm(){
             }, 2000); 
                      
                     // this.getInputstockdetails();  
-                  } else {          
+                  } else {     
+      this.isProgress = false;
+
                       this.snackbar = true;
                       this.color = "on-background";
                     };

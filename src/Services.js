@@ -20,9 +20,9 @@ export default {
             return response.data;
           });
         },
-        getBrandproducts(reqbody){
+        getBrandproducts(reqbody,locationid){
           return axios
-          .get(this.url +"bizkingz/services/api/brands/getBrandsProducts?brand_id="+reqbody, {
+          .get(this.url +"bizkingz/services/api/brands/getBrandsProducts?brand_id="+reqbody+"&location_id="+locationid, {
             headers: {
               "Content-Type": "application/json",
               "accept": "*/*",
@@ -246,6 +246,7 @@ export default {
             return err.response;
           });
         },
+
         editrtvproducts(reqbody){
           return axios
           .post(this.url +"bizkingz/services/api/warehouse/changeRtvStatus",reqbody, {
@@ -264,9 +265,10 @@ export default {
             return err.response;
           });
         },
-        getMerchants(){
+
+        getMerchants(id){
           return axios
-          .get(this.url +"bizkingz/services/api/merchants/getMerchants", {
+          .get(this.url +"bizkingz/services/api/merchants/getMerchants?city_id="+id, {
             headers: {
               "accept": "*/*",
               "Content-Type": "application/json",              
@@ -281,6 +283,7 @@ export default {
             return err.response;
           });
         },
+
         getMerchantproductsstock(reqbody){
           return axios
           .get(this.url +"bizkingz/services/api/merchants/stock?merchant_id="+reqbody, {
@@ -325,9 +328,9 @@ export default {
             return response.data;
           });
         },
-        getmerchantbrandproducts(reqbody){
+        getmerchantbrandproducts(reqbody,id){
           return axios
-          .get(this.url +"bizkingz/services/api/brands/getAllBrandProducts?merchant_id="+reqbody, {
+          .get(this.url +"bizkingz/services/api/brands/getAllBrandProducts?merchant_id="+reqbody+"&location_id="+id, {
             headers: {
               "accept": "*/*",
               "Content-Type": "application/json",

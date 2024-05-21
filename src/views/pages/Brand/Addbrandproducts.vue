@@ -9,29 +9,29 @@
           <VForm class="mt-6 " ref="purchaseOrderForm">
             <VRow>
     <!-- {{this.saveBrand.city_id}} -->
+            <!-- @update:model-value="handleBrandSelection(this.saveBrand.city_id)" -->
               <VCol
                 cols="12"
                 md="6"
               >
                 <VAutocomplete
                   v-model="this.saveBrand.city_id"
-                  label="Branch Names"              
+                  label="City Names"              
                   :items="locationsdata"
                   item-title="text"
                   item-value="value"
                   :rules="locationrules"
                   required
                    :menu-props="{ maxHeight: 200 }"
-                   @update:model-value="handleBrandSelection(this.saveBrand.city_id)"
+           
                 />
               </VCol>
-
+<!-- 
               <VCol
                 md="6"
                 cols="12"
               >
-              <!-- {{selectedBrand}} -->  
-              <!-- {{this.Addbrand.location_id}}            -->
+          
                 <VAutocomplete
                   v-model="this.saveBrand.location_id"
                   label="Location"
@@ -41,7 +41,7 @@
                   :rules="locationrules2"
                   :menu-props="{ maxHeight: 200 }"
                 />
-              </VCol>
+              </VCol> -->
             
               <VCol
                 cols="12"

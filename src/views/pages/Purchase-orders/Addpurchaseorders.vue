@@ -29,17 +29,34 @@
                 cols="12"
               >
               <!-- {{selectedPurchaseOrder}} -->
+              <!-- @update:model-value="handleBrandSelection" -->
                 <VAutocomplete
                   v-model="selectedPurchaseOrder"
                   label="Brand or Manufacturer"
                   :items="brandNames"               
                   :rules="BrandRules"
                       :menu-props="{ maxHeight: 200 }"
-                  @update:model-value="handleBrandSelection"
+                  
                 />
               </VCol>
 
-
+              <VCol
+                md="6"
+                cols="12"
+              >
+              <!-- {{selectedBrand}} -->  
+              <!-- {{this.Addbrand.location_id}}            -->
+              <!-- {{locationdata}} -->
+                <VAutocomplete
+                  v-model="locationdata"
+                  label="Purchase Order From"
+                  :items="this.cityLoaction"               
+                  item-value="value"
+                  item-title="text"
+                  :rules="locationrules2"
+                  :menu-props="{ maxHeight: 200 }"
+                />
+              </VCol>
             
               <VCol
                 cols="12"
@@ -453,6 +470,10 @@ export default {
           (v) => !!v || 'Quantity Is Required',
 
       ],
+      locationrules2:[
+          (v) => !!v || 'Location Is Required',
+
+      ],
       snackbar: false,
       snackbarText: '',
       timeout: 6000, // milliseconds
@@ -461,8 +482,10 @@ export default {
       bottom: true,
       left: false,
       right: false,
-
+      cityLoaction:[],
+      locationdata:'',
       formData: {
+       
             brand_id: "",
             user_id: "",
             created_date: this.getFormattedDate(new Date()),
@@ -543,7 +566,15 @@ export default {
 
     }
    },
-  
+   watch: {
+    selectedPurchaseOrder(newVal) {
+      this.handleBrandSelection();
+    },
+    locationdata(newVal) {
+      this.handleBrandSelection();
+    }
+  },
+
      computed: {  
      
 
@@ -751,6 +782,7 @@ calculatedPricePerUnit(){
     
     mounted(){
  this.cityID = localStorage.getItem("city_id");
+ this.getlocation();
       this.locationID = localStorage.getItem("location_id");
       this.getBrandsdata()
        .then(() => {             
@@ -769,6 +801,17 @@ calculatedPricePerUnit(){
     },
     
    methods:{ 
+     getlocation(){
+        // console.log('check hjandle',this.cityID);
+        this.getCitylocation(this.cityID).then((response)=>{
+          // console.log('check the response',response);
+          this.cityLoaction = response.data.data.map(sales => ({
+                  value: sales.location_id,
+                  text: sales.location
+              }))
+                // console.log('ceck tye res',this.cityLoaction);
+        })
+      },
       validateNumericInput(event) {
       // Remove non-numeric characters from the input
       const numericValue = event.target.value.replace(/[^0-9]/g, '');
@@ -843,6 +886,8 @@ calculatedPricePerUnit(){
  const filteredProducts = this.AllBrandproducts.filter(product => product.quantity > 0);
  console.log('t',filteredProducts);
         const postData = {
+          "city_id": this.cityID,
+          "location_id": this.locationdata,
           "brand_id": this.selectedBrandId,
           "user_id": this.userIds,
           "created_date": this.formData.created_date,
@@ -934,25 +979,23 @@ calculatedPricePerUnit(){
     }
    },
 
-    handleBrandSelection() {
-      // console.log('Brand changed:', this.selectedPurchaseOrder);
+    handleBrandSelection() {       
       const selectedBrand = this.Brandname.find(
         (brand) => brand.brand_name === this.selectedPurchaseOrder
       );
-        // console.log("Select Brand Details",selectedBrand);
+  
 
       if (selectedBrand) {
         this.selectedBrandId = selectedBrand.brand_id;
           this.loading2 = true;
-        //  console.log('check the brandId',this.selectedBrandId);
-        this.getBrandproducts(this.selectedBrandId).then((response)=>{
+     
+        this.getBrandproducts(this.selectedBrandId,this.locationdata).then((response)=>{
                   this.AllBrandproducts = response.data;
                   this.loading2 = false;
 
                    console.log("BrandID",this.AllBrandproducts);
         })
-        // Call your API method to get brand details using this.selectedBrandId
-        // this.getBrandDetails();
+     
       }
     },
     getBrandsdata(){  

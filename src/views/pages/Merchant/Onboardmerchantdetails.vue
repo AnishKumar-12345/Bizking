@@ -15,7 +15,7 @@
               >
                 <VAutocomplete
                   v-model="this.saveMerchant.city_id"
-                  label="Branch Names"              
+                  label="City Names"              
                   :items="locationsdata"
                   item-title="text"
                   item-value="value"
@@ -34,7 +34,7 @@
               <!-- {{this.Addbrand.location_id}} -->
                 <VAutocomplete
                   v-model="this.saveMerchant.location_id"
-                  label="Location"
+                  label="City Location"
                   :items="this.cityLoaction"               
                   item-value="value"
                   item-title="text"
@@ -194,10 +194,10 @@
               >
               <!-- {{this.salesdata}} -->
                 <VTextField
-                  v-model="this.saveMerchant.longitude"               
+                  v-model="this.saveMerchant.latitude"               
                  
-                  label="Longitude"
-                 :rules="Logitude"
+                  label="Latitude"
+                 :rules="latitude"
                 />
               </VCol>
                <VCol            
@@ -206,12 +206,13 @@
               >
               <!-- {{this.salesdata}} -->
                 <VTextField
-                  v-model="this.saveMerchant.latitude"               
+                  v-model="this.saveMerchant.longitude"               
                  
-                  label="Latitude"
-                 :rules="latitude"
+                  label="Longitude"
+                 :rules="Logitude"
                 />
               </VCol>
+              
               <VCol    
                  md="6"
                      
@@ -384,7 +385,7 @@ latitude: [
    },
    mounted(){
     this.getAllsales();
-    this.userid = localStorage.getItem('user_id')
+    this.userid = localStorage.getItem('user_id');
     // console.log('us',  this.userid)
     this.getBranchnames();
    },

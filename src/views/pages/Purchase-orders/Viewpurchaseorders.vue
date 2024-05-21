@@ -1444,7 +1444,7 @@ calculatedPricePerUnit(){
     this.userRoles = localStorage.getItem('userRole')
     this.getPurchaseorderdetails()
       .then(() => {             
-              this.loading = false;
+              this.loading = false; 
             }) 
             .catch((error) => {             
               console.error('Error fetching merchants:', error);            
@@ -1783,6 +1783,7 @@ calculatedPricePerUnit(){
         // console.log('check the response', this.Brandname);
       })
     },
+    
     viewrow(itm) {
       // console.log('check the dialog', itm)
       this.dialog2 = true

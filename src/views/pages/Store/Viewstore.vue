@@ -325,6 +325,7 @@ export default {
 
 
       ],
+      cityID:null,
  headers2: [
         // { text: 'Purchase Order', value: 'po' },
         { text: 'Brand Name', value: 'brand_name' },
@@ -391,6 +392,8 @@ export default {
     },
     
     mounted(){
+      this.cityID = localStorage.getItem("city_id");
+
       this.getMerchantdetails()
         .then(() => {             
               this.loading = false;
@@ -488,7 +491,7 @@ updatePagination(page) {
       // })
 
         return new Promise((resolve, reject) => {
-          this.getMerchants()
+          this.getMerchants(this.cityID)
             .then((response) => {
               this.merchantName = response.data.data;
               // this.opportunity.reverse();

@@ -9,9 +9,7 @@
         @input="filterDesserts"
         placeholder="Enter search query"
       />
-    </div> --> 
-  
-    
+    </div> -->    
     
 
        <div v-if="loading2"  class="loading-container">

@@ -230,12 +230,13 @@
               >
                 <VAutocomplete
                   v-model="this.saveBrand.city_id" 
-                  label="Branch Names"              
+                  label="City Names"              
                   :items="locationsdata"
                    item-title="text"
                   item-value="value"
                   :rules="locationrules"
                   required
+                  readonly
                 />
               </VCol>
               <VCol
@@ -556,7 +557,7 @@ export default {
             cityID:'',
             locationid:'',
             headers:[
-                {text:'Branch',value:'branch'},
+                {text:'City Name',value:'branch'},
                 {text:'Brand Name',value:'brand_name'},
                 {text:'Brand Code',value:'brand_code'},
                 {text:'Brand Category',value:'brand_category'},

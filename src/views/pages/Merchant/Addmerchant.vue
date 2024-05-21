@@ -253,6 +253,7 @@ export default {
       merchantName:[],
       stockUpdatedate:null,  
       merchantBrand:[],
+      cityID:null,
       headers: [
         // { text: 'Actions', value: 'action' }, 
         // { text: 'Purchase Order', value: 'po' },
@@ -305,6 +306,8 @@ export default {
     },
     
     mounted(){
+      this.cityID = localStorage.getItem("city_id");
+
       this.getMerchantdetails();
       // this.getmerchantbrand();
      setTimeout(() => {
@@ -435,10 +438,11 @@ export default {
 
   if (selectedMerchant) {
     this.selectedMerchantId = selectedMerchant.merchant_id;
-    console.log('Selected Merchant ID:', this.selectedMerchantId);
+    this.locationdata = selectedMerchant.location_id;
+    console.log('Selected Merchant ID:', this.selectedMerchantId,this.locationdata);
 
     // Now that you have the selected merchant ID, you can perform further actions, such as calling an API method to get brand details.
-    this.getmerchantbrandproducts(this.selectedMerchantId)
+    this.getmerchantbrandproducts(this.selectedMerchantId,this.locationdata)
       .then((response) => {
         console.log("Merchant Products:", response);
        
@@ -466,10 +470,11 @@ export default {
   }
 },
      getMerchantdetails(){
-      this.getMerchants().then((response)=>{
+      this.getMerchants(this.cityID).then((response)=>{
         // console.log('mer',response)
         this.merchantName = response.data.data;
-        console.log('mer',this.merchantName)
+        // this.locationdata = this.merchantName.map(loc => loc.location_id)
+        // console.log('mer',this.locationdata)
       })
      }
    },

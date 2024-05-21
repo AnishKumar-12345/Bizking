@@ -504,7 +504,7 @@ mounted(){
         this.outputStock.so_number = this.OutputStockDetails.so_number;
         this.outputStock.merchant_name = this.OutputStockDetails.merchant_name;
         this.outputStock.so_status = 'Shipped';
-        this.outputStockproducts = this.OutputStockDetails.products;
+        this.outputStockproducts = this.OutputStockDetails.products; 
         console.log('check ',this.outputStockproducts);
         this.deliveryUserDetails = response.delivery_user_details;
         // console.log('delivery detials',this.deliveryUserDetails);

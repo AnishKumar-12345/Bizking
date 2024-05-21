@@ -204,6 +204,7 @@ export default {
       bottom: true,
       left: false,
       right: false,
+      cityID:null,
       marchantstocksdata:[],
      selectedmerchants:null,
       merchantName:[],
@@ -255,6 +256,8 @@ export default {
     },
     
     mounted(){
+      this.cityID = localStorage.getItem("city_id");
+
       this.getMerchantdetails();
      setTimeout(() => {
               this.loading = false; // Set loading to false when the operation is complete
@@ -299,7 +302,7 @@ export default {
   }
 },
      getMerchantdetails(){
-      this.getMerchants().then((response)=>{
+      this.getMerchants(this.cityID).then((response)=>{
         
         this.merchantName = response.data.data;
         // console.log('mer',this.merchantName)

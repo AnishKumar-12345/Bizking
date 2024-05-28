@@ -45,14 +45,14 @@ export default {
           .then(response => {
             return response.data;
           })
-          .catch(err => {
+          .catch(err => { 
             console.log('check tick',err);
             return err.response;
           }); 
         },
-        getPurchaseorder(userid,userrole){
+        getPurchaseorder(userid,userrole,cityId,locationid){
           return axios
-          .get(this.url +"bizkingz/services/api/purchase/getPurchaseOrders?user_id="+userid+"&user_role="+userrole, {
+          .get(this.url +"bizkingz/services/api/purchase/getPurchaseOrders?user_id="+userid+"&user_role="+userrole+"city_id="+cityId+"location_id="+locationid, {
             headers: {
               "Content-Type": "application/json",
               "accept": "*/*",
@@ -110,9 +110,9 @@ export default {
             return err.response;
           });
         },
-        getSalesorders(reqbody){
+        getSalesorders(reqbody,cityid,locationid){
           return axios
-          .get(this.url +"bizkingz/services/api/sales/getSalesOrders?so_status="+reqbody, {
+          .get(this.url +"bizkingz/services/api/sales/getSalesOrders?so_status="+reqbody+"&city_id="+cityid+"&location_id="+locationid, {
             headers: {
               "Content-Type": "application/json",
               "accept": "*/*",

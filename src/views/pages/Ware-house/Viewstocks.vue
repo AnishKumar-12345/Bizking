@@ -22,7 +22,7 @@
               <!-- {{this.Addbrand.location_id}}            -->
                 <VAutocomplete
                   v-model="locationdata"
-                  label="Location"
+                  label="Location" 
                   :items="this.cityLoaction"               
                   item-value="value"
                   item-title="text"                
@@ -199,9 +199,10 @@ export default {
       searchQuery: '',
       page: 1,
       pageSize: 10,
-      loading: true,
+      loading: false,
       Allstocks: [],
       cityID:'',
+      locationID:'',
       headers: [
         { text: 'Brand Name', value: 'brand_name' },
         { text: 'SKU Name', value: 'sku_name' },
@@ -238,7 +239,7 @@ export default {
   },
   mounted() {
     this.cityID  = localStorage.getItem("city_id");
-    this.location_id =  localStorage.getItem("location_id"); 
+    this.locationID =  localStorage.getItem("location_id"); 
     this.handleBrandSelection();
     console.log('view stock view');
     this.getstocksdetails().then(() => { 
@@ -262,12 +263,21 @@ export default {
             })
        },
       locationdetails(){
-
+        this.loading = true;
          this.getAllstocks(this.cityID, this.locationdata)
           .then(response => {
-            this.Allstocks = response.data.data
-            this.Allstocks.reverse()
-            resolve() // Resolve the promise when API call is successful
+            console.log('check the get res',response);
+            if(response.data.status == 1){
+                 this.Allstocks = response.data.data
+            this.Allstocks.reverse();
+            this.loading = false;
+
+            }else{
+            this.loading = false;
+
+            }
+         
+            
           })
       },
     updatePagination(page) {
@@ -288,11 +298,13 @@ export default {
       //   this.Allstocks = response.data.data;
       //   console.log('check the view ALl History',this.Allstocks);
       //   // this.Allstocks.reverse();
-
       // })
       return new Promise((resolve, reject) => {
-         if(city_id != '' && location_id !== ''){
-            this.getAllstocks(this.cityID, this.location_id)
+         if( this.cityID != '' &&  this.locationID !== ''){
+        this.loading = true;
+      this.filterlocation = false;
+
+            this.getAllstocks(this.cityID, this.locationID)
           .then(response => {
             this.Allstocks = response.data.data
             this.Allstocks.reverse()

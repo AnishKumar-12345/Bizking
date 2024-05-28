@@ -48,7 +48,43 @@
       </VCol>
      </VRow>
 
- 
+ <VCard         
+          class="mb-2"
+           v-show="filterlocation"
+        >
+          <VCardText>
+            <VRow>
+              <VCol cols="12">
+                <!-- 👉 Form -->
+              <VForm class="mt-6">
+              <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
+              </VCheckbox> -->
+              <VRow >
+                <VCol
+                md="6"
+                cols="12"
+               
+              >
+              <!-- {{selectedBrand}} -->  
+              <!-- {{this.Addbrand.location_id}}            -->
+                <VAutocomplete
+                  v-model="locationdata"
+                  label="Location"
+                  :items="this.cityLoaction"               
+                  item-value="value"
+                  item-title="text"                
+                  :menu-props="{ maxHeight: 200 }"
+                   @update:model-value="locationdetails()"
+                />
+              </VCol>
+
+              </VRow>
+              </VForm>
+              </VCol>
+            </VRow>
+          </VCardText>
+      </VCard>
+
      <VTable v-if="this.purchaseHistory != null"
        :headers="headers"
        :items="paginatedItems"
@@ -311,12 +347,16 @@ export default {
           page: 1,
           pageSize: 10,
           userRoles:'',
-          loading:true,
+          loading:false,
           purchaseHistory:[],
           userIds:'',
           createdBy:'',
            workingRules: [v => !!v || 'Cancel Reason is required'],
-
+          locationID:"",
+          cityID:"",
+          cityLoaction:[],
+          filterlocation:true,
+          locationdata:'',
       headers: [
           { text: 'PO Number', value: 'po_number' },
           { text: 'Order Date', value: 'created_date' },
@@ -368,7 +408,9 @@ export default {
    }
   },
     mounted(){
-   
+      this.cityID  = localStorage.getItem("city_id");
+      this.locationID  = localStorage.getItem("location_id");
+      this.handleBrandSelection();
        this.createdBy = localStorage.getItem('createdby');
        this.userIds = localStorage.getItem('userId');
        this.userRoles = localStorage.getItem('userRole')
@@ -385,6 +427,38 @@ export default {
           //   }, 3000);
     },
     methods:{
+       locationdetails(){
+        this.loading = true;
+         this.getPurchaseorder(this.userIds,this.userRoles,this.cityID, this.locationdata)
+          .then(response => {
+            console.log('check the get res',response);
+            if(response.status == 1){
+                  this.purchaseHistory = response.data;
+              this.purchaseHistory.reverse();
+            this.loading = false;
+
+            }else{
+            this.loading = false;
+
+            }
+         
+            
+          })
+      },
+      
+       handleBrandSelection(){
+        // console.log('check hjandle',id);
+        this.getCitylocation(this.cityID).then((response)=>{
+          // console.log('check the response',response);
+        this.cityLoaction = response.data.data.map(sales => ({
+                  value: sales.location_id,
+                  text: sales.location
+              }))
+              // console.log('ceck tye res',this.cityLoaction);
+            })
+            
+       },
+
       validateForm2(){
         this.$refs.purchaseOrderForm2.validate().then(valid => {
               // console.log("form valid", valid.valid);
@@ -468,8 +542,13 @@ export default {
         // })
 
           return new Promise((resolve, reject) => {
-          this.getPurchaseorder(this.userIds,this.userRoles)
+            if( this.cityID != '' &&  this.locationID !== ''){
+                this.loading = true;
+              this.filterlocation = false;
+               this.getPurchaseorder(this.userIds,this.userRoles)
             .then((response) => {
+            // console.log('res',response)
+
               this.purchaseHistory = response.data;
               this.purchaseHistory.reverse();
               resolve(); // Resolve the promise when API call is successful
@@ -478,6 +557,8 @@ export default {
               console.error('Error fetching merchants:', error);
               reject(error); // Reject the promise if there's an error
             });
+            }
+         
         });
         
       },

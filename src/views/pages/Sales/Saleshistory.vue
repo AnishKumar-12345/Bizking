@@ -55,12 +55,31 @@
               <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
               </VCheckbox> -->
               <VRow>
+                 <VCol
+                md="6"
+                cols="12"
+                v-show="filterlocation"
+              >
+              <!-- {{selectedBrand}} -->  
+              <!-- {{this.Addbrand.location_id}}            -->
+                <VAutocomplete
+                  v-model="locationdata"
+                  label="Location"
+                  :items="this.cityLoaction"               
+                  item-value="value"
+                  item-title="text"                
+                  :menu-props="{ maxHeight: 200 }"
+                  
+                />
+              </VCol>
+
+              <!-- @update:model-value="getSalesorderdetails"   -->
                 <VCol   md="6"
                   cols="12">
                   <VSelect 
                   v-model="selectsales"
                   :items="['Shipped','Delivered','Onhold','Cancelled']"
-                    @update:model-value="getSalesorderdetails"      
+                         
                       
                       label="Please Select The Status"     
                   />
@@ -411,15 +430,20 @@ export default {
 
     data(){
         return{
+      filterlocation:true,
+
        today: this.getFormattedDate(new Date()),
 
           Deliverydata:{
               "so_id":"",
               "shipped_date":"",
               "delivery_person":""
-          },
+           },
+
           SOid:null,
           SOid2:null,
+          locationdata:'',
+          cityLoaction:[],
 
             snackbar: false,
             snackbarText: '',
@@ -442,7 +466,8 @@ export default {
       dater: [v => !!v || 'Date is required'],
       person: [v => !!v || 'Assign Delivery Person is required'],
       dialog2:false,
-
+      cityID:"",
+      locationID:"",
       headers: [
       
         { text: 'Sales Order', value: 'so_number' },
@@ -521,8 +546,27 @@ export default {
         item => item.so_status === 'Delivered' || item.so_status === 'Shipped' || item.so_status === 'On Hold' || item.so_status === 'Cancelled'
       );
      },
+     combinedData() {
+      return { locationdata: this.locationdata, selectsales: this.selectsales };
+    },
+  },
+   watch: {
+     combinedData(newVal) {
+      if (newVal.locationdata && newVal.selectsales) {
+        this.locationdetails();
+      }else{
+        this.getSalesorderdetails();
+      }
+    }
   },
     mounted(){
+      this.cityID  = localStorage.getItem("city_id");
+      this.locationID  = localStorage.getItem("location_id");
+     if( this.cityID !== "" &&   this.locationID !== ""){
+    
+      this.filterlocation=false;
+     }
+      this.handleBrandSelection();
       //  this.getSalesorderdetails()
       //       .then(() => {
       //         // Set loading to false when API call is successful
@@ -540,15 +584,55 @@ export default {
     // }, 5000);
     },
     methods:{
+       handleBrandSelection(){
+        // console.log('check hjandle',id);
+        this.getCitylocation(this.cityID).then((response)=>{
+          // console.log('check the response',response);
+        this.cityLoaction = response.data.data.map(sales => ({
+                  value: sales.location_id,
+                  text: sales.location
+              }))
+              // console.log('ceck tye res',this.cityLoaction);
+            })
+            
+       },
+        locationdetails(){     
+           const postdata = {
+            "All":"all",
+            "Shipped":"4",
+            "Delivered":"5",
+            "Onhold":"7",
+            "Cancelled":"0",
+          }
+          this.loading = true;
+          this.getSalesorders(postdata[this.selectsales],this.cityID, this.locationdata)
+            .then((response) => {
+              console.log('response',response);
+              if(response.status == 1){
+              this.loading = false;
+              this.saleshistory = response.data;
+              this.saleshistory.reverse();
+              // resolve(); // Resolve the promise when API call is successful
+              }else{
+              //  this.dialog2 = false;
+              this.snackbar = true;
+              this.color = 'on-background';
+              this.loading = false;
+              this.saleshistory = [];
+              // this.Deliverydata = {};
+              this.snackbarText = response.message;
+              }             
+            })
+      },
       closeUnhold(){
         this.dialog2 = false;
       },
-       getFormattedDate(date) {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
-    },
+      getFormattedDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      },
       deleteRow(id){
         console.log("perk",id.so_id);
         this.SOid2 = id.so_id;
@@ -697,10 +781,8 @@ export default {
 
       //   })
       // },
-       getSalesorderdetails() {
-         
-        // return new Promise((resolve, reject) => {
-          
+       getSalesorderdetails() {         
+        // return new Promise((resolve, reject) => {          
           const postdata = {
             "All":"all",
             "Shipped":"4",
@@ -708,8 +790,10 @@ export default {
             "Onhold":"7",
             "Cancelled":"0",
           }
-          this.loading = true;
-          this.getSalesorders(postdata[this.selectsales])
+            if(this.cityID != '' && this.locationID !== ''){
+            this.loading = true;           
+
+            this.getSalesorders(postdata[this.selectsales],this.cityID, this.locationID)
             .then((response) => {
               console.log('response',response);
               if(response.status == 1){
@@ -717,8 +801,8 @@ export default {
               this.saleshistory = response.data;
               this.saleshistory.reverse();
               // resolve(); // Resolve the promise when API call is successful
-              } else{
-                //  this.dialog2 = false;
+              }else{
+              //  this.dialog2 = false;
               this.snackbar = true;
               this.color = 'on-background';
               this.loading = false;
@@ -727,12 +811,14 @@ export default {
               this.snackbarText = response.message;
               }             
             })
+          }
+         
             // .catch((error) => {
             //   console.error('Error fetching merchants:', error);
             //   reject(error); // Reject the promise if there's an error
             // });
         // });
-}, 
+    }, 
       //  onClick () {
       //   this.loading = true
 

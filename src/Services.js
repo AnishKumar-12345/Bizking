@@ -192,9 +192,9 @@ export default {
             return err.response;
           });
         },
-        getAllstocks(){
+        getAllstocks(cityid,locationid){
           return axios
-          .get(this.url +"bizkingz/services/api/warehouse/stock", {
+          .get(this.url +"bizkingz/services/api/warehouse/stock?city_id="+cityid+"&location_id="+locationid, {
             headers: {
               "accept": "*/*",
               "Content-Type": "application/json",
@@ -1198,6 +1198,24 @@ export default {
           getCitylocation(id){
             return axios
             .post(this.url +"bizkingz/services/api/locations/getAll?city_id="+id, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          updateMerchantstock(id){
+            return axios
+            .post(this.url +"bizkingz/services/api/merchants/updateMerchantStock",id, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",

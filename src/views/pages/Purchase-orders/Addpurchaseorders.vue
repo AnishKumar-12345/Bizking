@@ -375,6 +375,15 @@
                 >
                   Reset
                 </VBtn>
+
+                 <VProgressCircular
+                      :size="50"
+                      color="primary"
+                      indeterminate
+                      v-show="isProgress"
+                    >
+                    </VProgressCircular>
+
               </VCol>
             </VRow>
           </VForm>
@@ -453,9 +462,10 @@ export default {
   },
    data(){
     return{
-          loading:true,
-          loading2:false,
-          searchQuery:'',
+      isProgress:false,
+      loading:true,
+      loading2:false,
+      searchQuery:'',
 
       BrandRules: [
          (v) => !!v || 'Brand is required',
@@ -584,8 +594,8 @@ export default {
       },   
 
       filteredPurchaseOrder() {
-      const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
-      console.log('log in',lowerCaseQuery)
+      const lowerCaseQuery = this.searchQuery.toLowerCase().trim(); 
+      // console.log('log in',lowerCaseQuery)
     return this.filteredBrandProducts.filter((item) => {
     return (
       (item.sku_name && item.sku_name.toLowerCase().includes(lowerCaseQuery)) ||
@@ -789,7 +799,7 @@ calculatedPricePerUnit(){
               this.loading = false;
             }) 
             .catch((error) => {             
-              console.error('Error fetching merchants:', error);            
+              // console.error('Error fetching merchants:', error);            
             });
 
       this.createdBy = localStorage.getItem('createdby');
@@ -874,17 +884,17 @@ calculatedPricePerUnit(){
             'Acknowledged': 4,
             'Received': 5,
           };
-    console.log('check the ammounts',this.AllBrandproducts.map((product,index) => ({
-   "taxable_amount":`${this.calculatedTaxableAmount[index]}`,
-    "price_per_unit": `${this.calculatedPricePerUnit[index]}`,
-     "csgt":`${this.calculatedCGSTAmount[index]}`,
-            "sgst":`${this.calculatedSGSTAmount[index]}`,
-            "amount":`${this.calculateTotalamount[index]}`,
-            "total_give_margin": product.total_given_margin,
-    })))
+  //   console.log('check the ammounts',this.AllBrandproducts.map((product,index) => ({
+  //  "taxable_amount":`${this.calculatedTaxableAmount[index]}`,
+  //   "price_per_unit": `${this.calculatedPricePerUnit[index]}`,
+  //    "csgt":`${this.calculatedCGSTAmount[index]}`,
+  //           "sgst":`${this.calculatedSGSTAmount[index]}`,
+  //           "amount":`${this.calculateTotalamount[index]}`,
+  //           "total_give_margin": product.total_given_margin,
+  //   })))
 
  const filteredProducts = this.AllBrandproducts.filter(product => product.quantity > 0);
- console.log('t',filteredProducts);
+//  console.log('t',filteredProducts);
         const postData = {
           "city_id": this.cityID,
           "location_id": this.locationdata,
@@ -919,13 +929,15 @@ calculatedPricePerUnit(){
             };
         }),
         };
-        console.log('check the post data',postData);
-      
+        // console.log('check the post data',postData);
+          this.isProgress = true;
           this.postPurchaseorder(postData).then((response) =>{
-          console.log('check the response',response);
+          // console.log('check the response',response);
           // console.log('check the response',response.status);
             if (response.status == 1) {              
                this.snackbar = true;
+               this.isProgress = false;
+
                this.color = "primary";
                this.formData = {};
                this.snackbarText = response.message;  
@@ -993,7 +1005,7 @@ calculatedPricePerUnit(){
                   this.AllBrandproducts = response.data;
                   this.loading2 = false;
 
-                   console.log("BrandID",this.AllBrandproducts);
+                  //  console.log("BrandID",this.AllBrandproducts);
         })
      
       }
@@ -1014,7 +1026,7 @@ calculatedPricePerUnit(){
               resolve(); // Resolve the promise when API call is successful
             })
             .catch((error) => {
-              console.error('Error fetching merchants:', error);
+              // console.error('Error fetching merchants:', error);
               reject(error); // Reject the promise if there's an error
             });
         });

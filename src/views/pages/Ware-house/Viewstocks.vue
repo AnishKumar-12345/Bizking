@@ -1,9 +1,47 @@
 <template>
   <div>
+
+       <VCard         
+          class="mb-2"
+           v-show="filterlocation"
+        >
+          <VCardText>
+            <VRow>
+              <VCol cols="12">
+                <!-- 👉 Form -->
+              <VForm class="mt-6">
+              <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
+              </VCheckbox> -->
+              <VRow >
+                <VCol
+                md="6"
+                cols="12"
+               
+              >
+              <!-- {{selectedBrand}} -->  
+              <!-- {{this.Addbrand.location_id}}            -->
+                <VAutocomplete
+                  v-model="locationdata"
+                  label="Location"
+                  :items="this.cityLoaction"               
+                  item-value="value"
+                  item-title="text"                
+                  :menu-props="{ maxHeight: 200 }"
+                   @update:model-value="locationdetails()"
+                />
+              </VCol>
+
+              </VRow>
+              </VForm>
+              </VCol>
+            </VRow>
+          </VCardText>
+      </VCard>
+
     <div style="max-width: 400px">
       <VTextField
         class="mb-3"
-        v-model="searchQuery"
+        v-model="searchQuery" 
         density="compact"
         variant="solo"
         label="Search"
@@ -35,18 +73,17 @@
     <!-- <VRow v-if="this.filteredPurchaseHistory == null">
       <VCol cols="12"> 
         <VCard title="Purchase Order View">
-          <VCardText> 
-     
-            <VAlert
-              color="warning"
-              variant="tonal"
-              class="mb-4"              
-              border="top"
-            >
-              <VAlertTitle class="mb-1"> Are you sure you gave Purchase Orders? </VAlertTitle>
-              <p class="mb-0">
-                The system is not retrieving the Purchase Histories from Purchase Orders. Please ensure that you have applied for Purchase Orders !</p>
-            </VAlert>
+          <VCardText>      
+              <VAlert
+                color="warning"
+                variant="tonal"
+                class="mb-4"              
+                border="top"
+              >
+                <VAlertTitle class="mb-1"> Are you sure you gave Purchase Orders? </VAlertTitle>
+                <p class="mb-0">
+                  The system is not retrieving the Purchase Histories from Purchase Orders. Please ensure that you have applied for Purchase Orders !</p>
+              </VAlert>
           </VCardText>
         </VCard>
       </VCol>
@@ -156,12 +193,15 @@ export default {
 
   data() {
     return {
+      filterlocation:true,
+      locationdata:'',
+      cityLoaction:[],
       searchQuery: '',
       page: 1,
       pageSize: 10,
       loading: true,
       Allstocks: [],
-
+      cityID:'',
       headers: [
         { text: 'Brand Name', value: 'brand_name' },
         { text: 'SKU Name', value: 'sku_name' },
@@ -197,20 +237,39 @@ export default {
     },
   },
   mounted() {
-    console.log('view stock view')
-    this.getstocksdetails()
-      .then(() => { 
-        this.loading = false
-      })
-      .catch(error => {
-        console.error('Error fetching merchants:', error)
-      })
-    //  setTimeout(() => {
-    //     this.loading = false; // Set loading to false when the operation is complete
-    //   }, 4000);
+    this.cityID  = localStorage.getItem("city_id");
+    this.location_id =  localStorage.getItem("location_id"); 
+    this.handleBrandSelection();
+    console.log('view stock view');
+    this.getstocksdetails().then(() => { 
+        this.loading = false;
+    }).catch(error => {
+        console.error('Error fetching merchants:', error);
+    });
+
   },
 
   methods: {
+      handleBrandSelection(){
+        // console.log('check hjandle',id);
+        this.getCitylocation(this.cityID).then((response)=>{
+          // console.log('check the response',response);
+        this.cityLoaction = response.data.data.map(sales => ({
+                  value: sales.location_id,
+                  text: sales.location
+              }))
+              // console.log('ceck tye res',this.cityLoaction);
+            })
+       },
+      locationdetails(){
+
+         this.getAllstocks(this.cityID, this.locationdata)
+          .then(response => {
+            this.Allstocks = response.data.data
+            this.Allstocks.reverse()
+            resolve() // Resolve the promise when API call is successful
+          })
+      },
     updatePagination(page) {
       this.page = page
     },
@@ -231,9 +290,9 @@ export default {
       //   // this.Allstocks.reverse();
 
       // })
-
       return new Promise((resolve, reject) => {
-        this.getAllstocks()
+         if(city_id != '' && location_id !== ''){
+            this.getAllstocks(this.cityID, this.location_id)
           .then(response => {
             this.Allstocks = response.data.data
             this.Allstocks.reverse()
@@ -243,6 +302,7 @@ export default {
             console.error('Error fetching merchants:', error)
             reject(error) // Reject the promise if there's an error
           })
+         }      
       })
     },
     colorQuantity(itm) {

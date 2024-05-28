@@ -182,10 +182,15 @@
             </div>
           </div>
         </div>
-
+          <VForm
+                class="mt-6"
+                ref="purchaseOrderForm"
+              >
+                <VRow>
+                  <VCol cols="12">
           <VTable      
        :headers="headers"
-       :items="this.paginatededitItems "
+       :items="this.marchantstocksdata "
         
       >
            
@@ -207,25 +212,49 @@
           <td colspan="16" class="text-center"><h1>No data found !</h1></td>
         </tr>   -->
 
-      <tr v-for="(item,index) in this.paginatededitItems" :key="index">
+      <tr v-for="(item,index) in this.marchantstocksdata" :key="index">
        <td class="text-center">{{item.brand_name}}</td>
         <td  class="text-center">{{item.sku_name}}</td>
          <td  class="text-center">{{item.uom}}</td>
           <td  class="text-center">
             <VTextField
-            v-model="item.physical_soh"
+             v-model="item.physical_soh"
+             @keydown="preventDecimal"
+                              @paste="preventPaste"
+                              type="number"
+                              min="0"
+                              max="20000"
+                               outlined
+                              dense
+                              :rules="physical_sohrule"
             />
             <!-- {{item.physical_soh}} -->
           </td>
            <td  class="text-center">
              <VTextField
-            v-model="item.closing"
+             v-model="item.closing"
+              @keydown="preventDecimal"
+                              @paste="preventPaste"
+                              type="number"
+                              min="0"
+                              max="20000"
+                               outlined
+                              dense
+                              :rules="closingrule"
+
             />
             <!-- {{item.closing}} -->
             </td>
             <td  class="text-center">
                <VTextField
-            v-model="item.opening"
+               v-model="item.opening"
+                 @keydown="preventDecimal"
+                              @paste="preventPaste"
+                            
+                             
+                               outlined
+                              dense
+                              :rules="openingrule"
             />
               <!-- {{item.opening}} -->
               </td>
@@ -235,6 +264,9 @@
       </tbody>
          
         </VTable>
+                  </VCol>
+                </VRow>
+          </VForm>
         <!-- Table to display item's data -->
         <!-- <VTable :items="[selectedMerchantData]">
           <template v-slot:items="props">
@@ -247,7 +279,14 @@
       </VCardContent>
       <VCardActions>
         <VBtn @click="validateForm()">Save</VBtn>
-        <VBtn @click="editDialog = false">Close</VBtn>
+        <VBtn @click="closedialogs()">Close</VBtn>
+           <VProgressCircular
+                      :size="50"
+                      color="primary"
+                      indeterminate
+                      v-show="isProgress"
+                    >
+                    </VProgressCircular>
       </VCardActions>
     </VCard>
   </VDialog>
@@ -276,6 +315,28 @@ export default {
   },
    data(){
     return{
+      // saveStorestock:{
+      // "store_level_asis_stock_id": "",
+      // "merchant_id": "",
+      // "stock_updated_date": "",
+      // "sales_updated_date": "",
+      // "products": [
+      //   {
+      //      "merchant_product_id": "",
+      //       "physical_soh": "",
+      //       "closing": "",
+      //       "opening": ""
+      //   }
+      // ]
+    
+      
+      //   },
+      // saveStorestock:{
+      //   "merchant_product_id": "",
+      //   "physical_soh": "",
+      //   "closing": "",
+      //   "opening": ""
+      // },
       dialogHeaders: [
         { text: 'Brand Name', value: 'brand_name' },
         { text: 'SKU', value: 'sku_name' },
@@ -305,11 +366,18 @@ export default {
       bottom: true,
       left: false,
       right: false,
+      isProgress:false,
       marchantstocksdata:[],
       editmarchantstocksdata:[],
      selectedmerchants:null,
       merchantName:[],
       stockUpdatedate:null,  
+      MerchantNo:null,
+      storelevelstockid:null,
+      closingrule: [v => v === 0 || (!!v && `${v}`.trim() !== '') || 'Closing Is Required'],
+      openingrule: [v => v === 0 || (!!v && `${v}`.trim() !== '') || 'Opening Is Required'],
+      physical_sohrule: [v => v === 0 || (!!v && `${v}`.trim() !== '') || 'Physical soh Is Required'],
+
       headers: [
         // { text: 'Purchase Order', value: 'po' },
         { text: 'Brand Name', value: 'brand_name' },
@@ -380,10 +448,10 @@ export default {
     },
    paginatedItems() {  
  
-  const startIndex = (this.page - 1) * this.pageSize;
-  const endIndex = startIndex + this.pageSize;
-  return this.filteredMerchant.slice(startIndex, endIndex);
-},
+    const startIndex = (this.page - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    return this.filteredMerchant.slice(startIndex, endIndex);
+  },
        merchants(){
         return this.merchantName.map(a => a.merchant_uid
            );
@@ -408,6 +476,76 @@ export default {
     },
     
    methods:{ 
+     validateForm() {
+      this.$refs.purchaseOrderForm.validate().then(valid => {
+        // console.log("form valid", valid.valid);
+        if (valid.valid == true) {
+          this.createMerchantstock()
+        } else {
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
+        }
+      })
+    },
+    createMerchantstock(){
+      const postData = {
+         "store_level_asis_stock_id": this.storelevelstockid,
+         "merchant_id": this.MerchantNo,
+         "stock_updated_date": this.stockUpdatedate,
+          // "sales_updated_date": "",
+         "products": this.marchantstocksdata.map((product) => ({
+          "merchant_product_id": product.merchant_product_id,
+          "physical_soh": product.physical_soh.toString(),
+          "closing": product.closing.toString(),
+          "opening":  product.opening.toString(),
+         }))
+      }
+      console.log({postData});
+      this.isProgress = true;
+      this.updateMerchantstock(postData).then((response)=>{
+        console.log({response});
+        if(response.data.status == 1){
+            this.snackbar = true;
+            this.color = 'primary';
+            this.snackbarText = response.data.message;
+            this.isProgress = false;
+            this.editDialog = false;
+            // this.marchantstocksdata;
+        }else{
+           this.snackbar = true;
+           this.isProgress = false;
+           this.editDialog = true;
+          
+          //  this.marchantstocksdata;
+           this.color = 'on-background';
+           this.snackbarText = response.data.message;
+        }
+      })
+    },
+     preventDecimal(event) {
+      if (
+        event.key === '.' ||
+        event.key === ',' ||
+        event.key === '+' ||
+        event.key === '-' ||
+        event.keyCode === 189 ||
+        event.keyCode === 109
+      ) {
+        event.preventDefault()
+      }
+    },
+     preventPaste(event) {
+      const clipboardData = event.clipboardData || window.clipboardData
+      const pastedData = clipboardData.getData('text')
+
+      // Validate pasted data (you can modify this regex as needed)
+      const isValid = /^[0-9]+$/.test(pastedData)
+
+      if (!isValid) {
+        event.preventDefault()
+      }
+    },
      openEditDialog(id) {
       console.log("Merchant_id",id);
        this.editDialog = true;
@@ -464,11 +602,13 @@ export default {
         // Handle the response accordingly
         if(response.status == 1){
            this.stockUpdatedate = response.data.stock_updated_date;
-           this.marchantstocksdata = response.data.products;
-             this.loading2 = false; 
-        }else{
-           this.marchantstocksdata = [];
-             this.snackbar = true;
+            this.MerchantNo = response.data.merchant_id;
+            this.storelevelstockid = response.data.store_level_asis_stock_id;
+            this.marchantstocksdata = response.data.products;
+            this.loading2 = false; 
+          }else{
+            this.marchantstocksdata = [];
+            this.snackbar = true;
             this.snackbarText = response.message;
             this.color = "on-background";
         }
@@ -478,6 +618,11 @@ export default {
         // Handle errors
       });
   }
+},
+closedialogs(){
+  this.editDialog = false;
+  location.reload();
+  // this.marchantstocksdata;
 },
 updatePagination(page) {
           this.page = page;

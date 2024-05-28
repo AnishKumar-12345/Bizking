@@ -146,11 +146,10 @@
         </tr>
       </thead>
         <tbody>
-            <tr v-if="filteredSalesHistory.length === 0">
+        <tr v-if="filteredSalesHistory.length === 0">
           <td colspan="16" class="text-center"><h1>No data found !</h1></td>
         </tr>  
-          <tr v-for="item  in paginatedItems" :key="item.so_status">
-            
+          <tr v-for="item  in paginatedItems" :key="item.so_status">            
           <td class="text-center">{{ item.so_number }}</td>
           <td class="text-center">{{ item.created_date }}</td>
           <td class="text-center"> <VChip
@@ -508,7 +507,7 @@
                           </span> -->
                           <td
                             class="text-center"
-                            :class="{ 'has-error': isQuantityExceeded2(item.shipped_exchange, item.exchange) }"
+                            :class="{ 'has-error': isQuantityExceeded2(item.shipped_exchange, item.exchange, item.warehouse_quantity)}"
                           >
                             <VTextField
                               @keydown="preventDecimal"
@@ -813,14 +812,21 @@ export default {
     locationdetails(){
       const city_id  = localStorage.getItem("city_id");
       const location_id = this.locationdata; 
+        this.loading = true;
       return new Promise((resolve, reject) => {
       this.$store.dispatch('getOutputSaleOrdersdata2',{city_id, location_id})
         .then((response) => {
           console.log('check locationdata', response);
-          this.filteredsalesdata = response.data;
+          if(response.status == 1){
+            this.filteredsalesdata = response.data;
             this.filteredsalesdata.reverse();
-          this.loading = false; // Set loading to false after API call
-          resolve(response); // Resolve the promise with response
+            this.loading = false;
+            resolve(response); 
+          }else{
+             this.filteredsalesdata = [];
+            this.loading = false;
+
+          }         
         })
         .catch(error => {
           console.error('Error fetching output sales orders:', error);
@@ -988,7 +994,7 @@ export default {
 
         return (
           this.isQuantityExceeded(product.shipped_ordered, product.quantity, product.warehouse_quantity) ||
-          this.isQuantityExceeded2(product.shipped_exchange, product.exchange)
+          this.isQuantityExceeded2(product.shipped_exchange, product.exchange, product.warehouse_quantity)
         )
       })
 
@@ -1016,7 +1022,7 @@ export default {
           //  console.log('check the response',response);
           // console.log('check the response',response.status);
           if (response.status == 1) {
-             this.savingOutputStock = false;
+            this.savingOutputStock = false;
             this.snackbar = true
             this.color = 'primary'
             this.formData = {}
@@ -1037,6 +1043,7 @@ export default {
             }).catch(error=>{
               console.error('Error fetching merchants:', error)
             })
+            this.locationdetails();
             //          setTimeout(() => {
             //             this.$router.push({
             //           name: 'Viewsaleshistory'
@@ -1053,7 +1060,7 @@ export default {
             this.snackbarText = 'Please give proper data'
           }
         })
-      } else {
+      }else {
          this.savingOutputStock = false;
         this.snackbar = true
         this.color = 'on-background'
@@ -1129,11 +1136,13 @@ export default {
       }
       return false // Return false if validation passes
     },
-    isQuantityExceeded2(seq, eq) {
-      if (seq !== '0' && seq > eq) {
-        this.snackbar = true
+    isQuantityExceeded2(seq, eq, wq) {
+      const minQuantity = Math.min( eq, wq)
+
+      if (seq !== '0' && seq > minQuantity) {
+        this.snackbar = true;
         this.color = 'on-background'
-        this.snackbarText = 'Shipped quantity cannot exceed orderd quantity.'
+        this.snackbarText = 'Shipped Exchange cannot exceed Availble quantity.'
         return true
       }
       return false

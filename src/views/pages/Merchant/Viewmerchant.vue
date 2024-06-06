@@ -247,7 +247,7 @@
                   item-title="text"
                   :rules="locationrules2"
                   :menu-props="{ maxHeight: 200 }"
-                  readonly
+               
                 />
               </VCol>            
             

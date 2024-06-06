@@ -126,12 +126,26 @@ export default{
           title: 'Accounts',
           icon: "material-symbols:payments-outline-sharp",
           children: [
-            { id: 52, title: 'Merchant Payments', route: '/Merchantpaymentsdata' },           
-            // { id: 51, title: 'Sales Orders', route: '/Salesordersdetails' },           
+            { id: 52, title: 'Merchant Payments', route: '/Merchantpaymentsdata' },   
+            // { id: 54, title: 'Generate Credit Note', route: '/updateCreditnote' },           
 
+            // { id: 51, title: 'Sales Orders', route: '/Salesordersdetails' },           
           ],
           expanded: false,
-        },    
+        },   
+           {
+          id: 18,
+          title: 'Credit Notes',
+          icon: "material-symbols:payments-outline-sharp",
+          children: [
+            // { id: 52, title: 'Merchant Payments', route: '/Merchantpaymentsdata' },   
+            { id: 54, title: 'Generate Credit Note', route: '/updateCreditnote' },           
+            { id: 56, title: 'View Credit Note', route: '/ViewCreditnote' },           
+
+            // { id: 51, title: 'Sales Orders', route: '/Salesordersdetails' },           
+          ],
+          expanded: false,
+        },  
         {
           id: 10,
           title: 'Warehouse',
@@ -255,6 +269,21 @@ computed: {
     }  else if (this.userRole === "Warehouse") {
       // Filter items for Business Development Manager
       const allowedTitles = ["Dashboard", "Warehouse","Sales","Reports"];
+      
+      console.log('Allowed Titles:', allowedTitles);
+      
+      const filteredItems = this.parentItems.filter((item) => {
+        const isAllowed = allowedTitles.includes(item.title);
+        console.log(`Title: ${item.title}, Allowed: ${isAllowed}`);
+        return isAllowed;
+      });
+      
+      // console.log('Filtered Items:', filteredItems);
+      return filteredItems;
+    } 
+    else if (this.userRole === "Finance Operations Associate") {
+      // Filter items for Business Development Manager
+      const allowedTitles = ["Dashboard", "Accounts"];
       
       console.log('Allowed Titles:', allowedTitles);
       

@@ -1175,7 +1175,7 @@ export default {
       //   query: { so_id: item.so_id }
       // });
       this.loading3 = true;
-      this.getOutputstock(item.so_id).then(response => {
+      this.getOutputstock(item.so_id,this.cityID).then(response => {
         console.log('dates',response);
       this.loading3 = false;
 

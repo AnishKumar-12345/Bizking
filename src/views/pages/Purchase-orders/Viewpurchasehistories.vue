@@ -48,7 +48,7 @@
       </VCol>
      </VRow>
 
- <VCard         
+      <VCard         
           class="mb-2"
            v-show="filterlocation"
         >
@@ -65,8 +65,7 @@
                 cols="12"
                
               >
-              <!-- {{selectedBrand}} -->  
-              <!-- {{this.Addbrand.location_id}}            -->
+            
                 <VAutocomplete
                   v-model="locationdata"
                   label="Location"
@@ -429,7 +428,7 @@ export default {
     methods:{
        locationdetails(){
         this.loading = true;
-         this.getPurchaseorder(this.userIds,this.userRoles,this.cityID, this.locationdata)
+         this.getPurchaseorder(this.cityID, this.locationdata)
           .then(response => {
             console.log('check the get res',response);
             if(response.status == 1){
@@ -455,8 +454,7 @@ export default {
                   text: sales.location
               }))
               // console.log('ceck tye res',this.cityLoaction);
-            })
-            
+            })            
        },
 
       validateForm2(){
@@ -545,7 +543,7 @@ export default {
             if( this.cityID != '' &&  this.locationID !== ''){
                 this.loading = true;
               this.filterlocation = false;
-               this.getPurchaseorder(this.userIds,this.userRoles)
+               this.getPurchaseorder(this.cityID,this.locationID)
             .then((response) => {
             // console.log('res',response)
 
@@ -557,7 +555,7 @@ export default {
               console.error('Error fetching merchants:', error);
               reject(error); // Reject the promise if there's an error
             });
-            }
+          }
          
         });
         

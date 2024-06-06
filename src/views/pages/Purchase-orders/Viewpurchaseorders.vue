@@ -57,7 +57,42 @@
       </VCol>
      </VRow>
 
-   
+    <VCard         
+          class="mb-2"
+           v-show="filterlocation"
+        >
+          <VCardText>
+            <VRow>
+              <VCol cols="12">
+                <!-- 👉 Form -->
+              <VForm class="mt-6">
+              <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
+              </VCheckbox> -->
+              <VRow >
+                <VCol
+                md="6"
+                cols="12"
+               
+              >
+            
+                <VAutocomplete
+                  v-model="locationdata"
+                  label="Location"
+                  :items="this.cityLoaction"               
+                  item-value="value"
+                  item-title="text"                
+                  :menu-props="{ maxHeight: 200 }"
+                   @update:model-value="locationdetails()"
+                />
+              </VCol>
+
+              </VRow>
+              </VForm>
+              </VCol>
+            </VRow>
+          </VCardText>
+      </VCard>
+
     <VTable v-if="this.purchaseorders != null"
       :headers="headers"
       :items="this.paginatedItems"  
@@ -109,7 +144,7 @@
           <td class="text-center">{{item.invoice_number}}</td>
           <td class="text-center">
              <VBtn   
-           v-if="item.invoice != ''"
+              v-if="item.invoice != ''"
               icon
               variant="text"
               color="default"
@@ -1068,6 +1103,10 @@ export default {
 
   data() {
     return {
+       cityLoaction:[],
+          filterlocation:true,
+          locationdata:'',
+
        cancelOrderdetails:  {
             "po_id":"",
             "cancel_reason":"",           
@@ -1083,7 +1122,7 @@ export default {
        page: 1,
       pageSize: 10,
        today: this.getFormattedDate(new Date()),
-      loading: true,
+      loading: false,
       loading2: false,
       Viewtotals: {
         total_po_amount: '',
@@ -1442,6 +1481,7 @@ calculatedPricePerUnit(){
     this.createdBy = localStorage.getItem('createdby')
     this.userIds = localStorage.getItem('userId')
     this.userRoles = localStorage.getItem('userRole')
+    this.handleBrandSelection();
     this.getPurchaseorderdetails()
       .then(() => {             
               this.loading = false; 
@@ -1457,6 +1497,36 @@ calculatedPricePerUnit(){
     // //  this.loading = false;
   },
   methods: {
+    locationdetails(){
+         this.loading = true;
+         this.getPurchaseorder(this.cityID, this.locationdata)
+          .then(response => {
+            console.log('check the get res',response);
+            if(response.status == 1){
+                  this.purchaseorders = response.data;
+              this.purchaseorders.reverse();
+            this.loading = false;
+
+            }else{
+            this.loading = false;
+
+            }
+         
+            
+          })
+    },
+     handleBrandSelection(){
+        // console.log('check hjandle',id);
+        this.getCitylocation(this.cityID).then((response)=>{
+          // console.log('check the response',response);
+        this.cityLoaction = response.data.data.map(sales => ({
+                  value: sales.location_id,
+                  text: sales.location
+              }))
+              // console.log('ceck tye res',this.cityLoaction);
+            })
+            
+       },
     getImageupdate(id){
     //  this.loading2 = true;
        window.open(id, '_blank');
@@ -1855,7 +1925,10 @@ calculatedPricePerUnit(){
       // })
 
        return new Promise((resolve, reject) => {
-          this.getPurchaseorder(this.userIds, this.userRoles)
+            if( this.cityID != '' &&  this.locationID !== ''){
+               this.loading = true;
+              this.filterlocation = false;
+               this.getPurchaseorder(this.cityID,this.locationID)
             .then((response) => {
               this.purchaseorders = response.data;
               this.purchaseorders.reverse();
@@ -1865,8 +1938,10 @@ calculatedPricePerUnit(){
               console.error('Error fetching merchants:', error);
               reject(error); // Reject the promise if there's an error
             });
-        });
+            }
 
+         
+        });
     },
     colorPOstatus(status) {
       if (status == 'Created')

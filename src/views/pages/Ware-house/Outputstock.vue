@@ -295,6 +295,7 @@ export default {
         ]
 
       },
+      cityID:'',
       outputStockproducts:[],
       headers: [
         { text: 'Brand Name', value: 'brand_name'},
@@ -342,6 +343,7 @@ export default {
     }
 },
 mounted(){  
+      this.cityID  = localStorage.getItem("city_id");
 
     this.Soid = this.$route.query.so_id
     // console.log('Received po_id:', this.Soid);
@@ -496,7 +498,7 @@ mounted(){
     },
 
       getOutputstockdetails() {
-        this.getOutputstock(this.Soid).then(response => {
+        this.getOutputstock(this.Soid,this.cityID).then(response => {
           // console.log('dates',response);
         this.OutputStockDetails = response.data
         //  console.log('check output dtock', this.OutputStockDetails);

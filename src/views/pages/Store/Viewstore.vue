@@ -92,7 +92,7 @@
                   color="primary"
                   @click="openEditDialog(this.selectedMerchantId )"
                 >
-                  Edit Merchant
+                  Edit SOH
                 </VBtn>
           </div>
 

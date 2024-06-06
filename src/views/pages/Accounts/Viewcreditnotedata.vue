@@ -50,7 +50,7 @@
                 >
                 </VCol>
 
-                <VCol
+                <!-- <VCol
                   cols="12"
                   md="4"
                 >
@@ -59,14 +59,10 @@
       ? parseFloat(this.Merchantpayment.total_amount).toFixed(2)
       : '0.00' }}</span>
                   </div>
-                  <!-- <VTextField
-                  v-model=" this.Merchantpayment.total_amount"
-                  label="Total Ammount"
-                  readonly
-                /> -->
-                </VCol>
+                 
+                </VCol> -->
 
-                <VCol
+                <!-- <VCol
                   md="4"
                   cols="12"
                 >
@@ -75,16 +71,10 @@
       ? parseFloat(this.Merchantpayment.total_paid).toFixed(2)
       : '0.00'}}</span>
                   </div>
-                  <!-- <VTextField
-                  v-model=" this.Merchantpayment.total_paid"
-               
-                  label="Total Pending"
-                  readonly
-                   
-                /> -->
-                </VCol>
+                  
+                </VCol> -->
 
-                <VCol
+                <!-- <VCol
                   md="4"
                   cols="12"
                 >
@@ -93,14 +83,8 @@
       ? parseFloat(this.Merchantpayment.total_pending).toFixed(2)
       : '0.00'}}</span>
                   </div>
-                  <!-- <VTextField
-                  v-model=" this.Merchantpayment.total_pending"
-               
-                  label="Total Paid"
-                  readonly
-                   
-                /> -->
-                </VCol>
+                 
+                </VCol> -->
 
                 <VCol cols="12">
                   <div
@@ -141,15 +125,15 @@
 
                     <tbody>
                       <tr
-                        v-for="(item, index) in this.store_data"
+                        v-for="(item, index) in storesdata"
                         :key="index"
                       >
                         <td class="text-center">
                           {{ item.so_number }}
                         </td>
-                        <td class="text-center">&#8377;{{ item.invoice_amount }}</td>
-                        <td class="text-center">&#8377;{{ item.return_amount }}</td>
-                        <td class="text-center">&#8377;{{ item.paid_amount }}</td>
+                        <!-- <td class="text-center">&#8377;{{ item.invoice_amount }}</td> -->
+                        <!-- <td class="text-center">&#8377;{{ item.return_amount }}</td> -->
+                        <!-- <td class="text-center">&#8377;{{ item.paid_amount }}</td> -->
                              <!-- @click="getPDFupdate(item.credit_note)" -->
                         <td class="text-center" >
                           <!-- <VBtn v-if="item.credit_note == '' || item.return_amount == 0  "       
@@ -192,7 +176,7 @@
 
                     </td>
 
-                        <td class="text-center">
+                        <!-- <td class="text-center">
                             
                           <VBtn
                             icon
@@ -208,7 +192,7 @@
                               size="22"
                             />
                           </VBtn>
-                        </td>
+                        </td> -->
                         <!-- <td class="text-center">{{ item.exchange == "" ? 0 : item.exchange }}</td>
       
         <td class="text-center">
@@ -340,12 +324,12 @@ export default {
       Invoice_Payments: [],
       headers: [
         { text: 'SO Number', value: 'so_number' },
-        { text: 'Invoice Amount', value: 'invoice_amount' },
-        { text: 'Return Amount', value: 'return_amount' },
-        { text: 'Paid Amount', value: 'paid_amount' },
+        // { text: 'Invoice Amount', value: 'invoice_amount' },
+        // { text: 'Return Amount', value: 'return_amount' },
+        // { text: 'Paid Amount', value: 'paid_amount' },
         {text:'Credit Note',value:'credit_note'},
 
-        { text: 'Action', value: 'actions' },
+        // { text: 'Action', value: 'actions' },
       ],
       cityID:'',
       headers2: [
@@ -370,7 +354,14 @@ export default {
       merchantName: [],
       storeMerchant: [v => !!v || 'Merchant is required'],
       selectedmerchants: null,
+      storesdata: [],
     }
+  },
+  computed:{
+    storesdata(){
+      return this.store_data.filter((item)=> item.credit_note != "");
+    }    
+
   },
   mounted() {
       this.cityID = localStorage.getItem("city_id");

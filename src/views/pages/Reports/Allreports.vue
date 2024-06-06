@@ -1681,7 +1681,7 @@ export default {
   methods: {
     openOreport(){
       this.isProgress14 = true;
-       this.Opportunityreports().then((response)=>{
+       this.Opportunityreports(this.cityID).then((response)=>{
            if (response.data.status == 0) {
                this.isProgress14 = false;
 
@@ -1721,7 +1721,7 @@ export default {
     },
   openLreport(){
      this.isProgress13 = true;
-       this.Leadreports().then((response)=>{
+       this.Leadreports(this.cityID).then((response)=>{
            if (response.data.status == 0) {
                this.isProgress13 = false;
 
@@ -1761,7 +1761,7 @@ export default {
   },
      openMerchantreport() {
       this.isProgress12 = true;
-       this.Merchantreports().then((response)=>{
+       this.Merchantreports(this.cityID).then((response)=>{
            if (response.data.status == 0) {
                this.isProgress12 = false;
 
@@ -1840,7 +1840,7 @@ export default {
     getGSTinvoicedetails() {
       if (this.selectGST == 'Invoice Wise') {
         this.isProgress11 = true
-        this.GSTinvoicewise(this.startDate, this.endDate).then(response => {
+        this.GSTinvoicewise(this.startDate, this.endDate,this.cityID).then(response => {
           if (response.data.status == 0) {
             this.isProgress11 = false
             this.dialog11 = false
@@ -1999,7 +1999,7 @@ export default {
     getmerchantpayemt(){
       if(this.selectedReportype == "Invoice Wise"){
           this.isProgress9 = true;
-         this.Merchantpayments(this.selectedSalesuser,this.selectedSalesMerchant,this.startDate1,this.endDate1).then((response)=>{
+         this.Merchantpayments(this.selectedSalesuser,this.selectedSalesMerchant,this.startDate1,this.endDate1,this.cityID).then((response)=>{
            if (response.data.status == 0) {
           this.isProgress10 = false;
           this.isProgress9 = false;
@@ -2254,6 +2254,7 @@ export default {
         this.Purchasedata.date_filter,
         this.Purchasedata.start_date,
         this.Purchasedata.end_date,
+        this.cityID
       ).then(response => {
         // console.log(response);
 
@@ -2324,7 +2325,7 @@ export default {
     getMerchantProductsreport() {
       this.isProgress6 = true
 
-      this.getMProductsreport(this.selectedmerchants3).then(response => {
+      this.getMProductsreport(this.selectedmerchants3,this.cityID).then(response => {
         // console.log(response);
 
         if (response.data.status == 0) {
@@ -2400,7 +2401,7 @@ export default {
     getbrandsreport() {
       this.isProgress5 = true
 
-      this.getBrandsallreport(this.selectedBrand2).then(response => {
+      this.getBrandsallreport(this.selectedBrand2,this.cityID).then(response => {
         // console.log(response);
 
         if (response.data.status == 0) {
@@ -2460,9 +2461,9 @@ export default {
       })
     },
     getwarehousestockreport() {
-      this.isProgress4 = true
+      this.isProgress4 = true;
 
-      this.getBrandreports(this.selectedBrand).then(response => {
+      this.getBrandreports(this.selectedBrand,this.cityID).then(response => {
         // console.log(response);
 
         if (response.data.status == 0) {
@@ -2576,7 +2577,7 @@ export default {
     getMerchantsreport() {
       this.isProgress3 = true
 
-      this.getMerchantstocksreport(this.selectedmerchants2).then(response => {
+      this.getMerchantstocksreport(this.selectedmerchants2,this.cityID).then(response => {
         // console.log(response);
 
         if (response.data.status == 0) {
@@ -2738,6 +2739,7 @@ export default {
         this.Salesdata.date_filter,
         this.Salesdata.start_date,
         this.Salesdata.end_date,
+        this.cityID
       ).then(response => {
         console.log('check the response', response)
         if (response.data.status == 0) {
@@ -2806,6 +2808,7 @@ export default {
         this.reportsdata.date_filter,
         this.reportsdata.start_date,
         this.reportsdata.end_date,
+        this.cityID
       ).then(response => {
         // console.log(response);
 

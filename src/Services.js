@@ -50,9 +50,9 @@ export default {
             return err.response;
           }); 
         },
-        getPurchaseorder(userid,userrole,cityId,locationid){
+        getPurchaseorder(cityId,locationid){
           return axios
-          .get(this.url +"bizkingz/services/api/purchase/getPurchaseOrders?user_id="+userid+"&user_role="+userrole+"city_id="+cityId+"location_id="+locationid, {
+          .get(this.url +"bizkingz/services/api/purchase/getPurchaseOrders?&city_id="+cityId+"&location_id="+locationid, {
             headers: {
               "Content-Type": "application/json",
               "accept": "*/*",
@@ -144,9 +144,9 @@ export default {
             return err.response;
           });
         },
-        getOutputstock(request){
+        getOutputstock(request,cityid){
           return axios
-          .get(this.url +"bizkingz/services/api/sales/getSalesOrderDetails?so_id="+request, {
+          .get(this.url +"bizkingz/services/api/sales/getSalesOrderDetails?so_id="+request+"&city_id="+cityid, {
             headers: {
               "Content-Type": "application/json",
               "accept": "*/*",
@@ -528,9 +528,9 @@ export default {
             });
           },
          
-          storestocksreport(id,filter,startdate,enddate){
+          storestocksreport(id,filter,startdate,enddate,cityid){
             return axios
-            .get(this.url +"bizkingz/services/api/reports/merchant_sales?merchant_id="+id+"&date_filter="+filter+"&start_date="+startdate+"&end_date="+enddate, {
+            .get(this.url +"bizkingz/services/api/reports/merchant_sales?merchant_id="+id+"&date_filter="+filter+"&start_date="+startdate+"&end_date="+enddate+"&city_id="+cityid, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",
@@ -546,9 +546,9 @@ export default {
               return err.response;
             });
           },
-         salesstocksreport(id,filter,startdate,enddate){
+         salesstocksreport(id,filter,startdate,enddate,cityid){
             return axios
-            .get(this.url +"bizkingz/services/api/reports/sales_orders?type="+id+"&date_filter="+filter+"&start_date="+startdate+"&end_date="+enddate, {
+            .get(this.url +"bizkingz/services/api/reports/sales_orders?type="+id+"&date_filter="+filter+"&start_date="+startdate+"&end_date="+enddate+"&city_id="+cityid, {
               // headers: {
               //   "accept": "*/*",
               //   "Content-Type": "application/json",
@@ -619,9 +619,9 @@ export default {
               return err.response;
             });
           },
-          getMerchantstocksreport(reqbody){
+          getMerchantstocksreport(reqbody,cityid){
             return axios
-            .get(this.url +"bizkingz/services/api/reports/store_stock?merchant_id="+reqbody, {
+            .get(this.url +"bizkingz/services/api/reports/store_stock?merchant_id="+reqbody+"&city_id="+cityid, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",
@@ -637,9 +637,9 @@ export default {
               return err.response;
             });
           },
-          getBrandreports(reqbody){
+          getBrandreports(reqbody,cityid){
             return axios
-            .get(this.url +"bizkingz/services/api/reports/warehouse_stock?brand_id="+reqbody, {
+            .get(this.url +"bizkingz/services/api/reports/warehouse_stock?brand_id="+reqbody+"&city_id="+cityid, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",
@@ -655,9 +655,9 @@ export default {
               return err.response;
             });
           },
-          getBrandsallreport(reqbody){
+          getBrandsallreport(reqbody,cityid){
             return axios
-            .get(this.url +"bizkingz/services/api/reports/brand_products?brand_id="+reqbody, {
+            .get(this.url +"bizkingz/services/api/reports/brand_products?brand_id="+reqbody+"&city_id="+cityid, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",
@@ -673,9 +673,9 @@ export default {
               return err.response;
             });
           },
-          getMProductsreport(reqbody){
+          getMProductsreport(reqbody,cityid){
             return axios
-            .get(this.url +"bizkingz/services/api/reports/merchant_products?merchant_id="+reqbody, {
+            .get(this.url +"bizkingz/services/api/reports/merchant_products?merchant_id="+reqbody+"&city_id="+cityid, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",
@@ -691,9 +691,9 @@ export default {
               return err.response;
             });
           },
-         getPurchasesorderreport(type,filter,startdate,enddate){
+         getPurchasesorderreport(type,filter,startdate,enddate,cityid){
             return axios
-            .get(this.url +"bizkingz/services/api/reports/purchase_orders?type="+type+"&date_filter="+filter+"&start_date="+startdate+"&end_date="+enddate, {
+            .get(this.url +"bizkingz/services/api/reports/purchase_orders?type="+type+"&date_filter="+filter+"&start_date="+startdate+"&end_date="+enddate+"&city_id="+cityid, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",
@@ -979,9 +979,9 @@ export default {
               return err.response;
             });
           },
-          GSTinvoicewise(startdate,enddate){
+          GSTinvoicewise(startdate,enddate,cityid){
             return axios
-            .get(this.url +"bizkingz/services/api/reports/getGSTData?start_date="+startdate+"&end_date="+enddate, {
+            .get(this.url +"bizkingz/services/api/reports/getGSTData?start_date="+startdate+"&end_date="+enddate+"&city_id="+cityid, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",
@@ -1015,9 +1015,9 @@ export default {
               return err.response;
             });
           },
-          Merchantpayments(person,id,startdate,enddate){
+          Merchantpayments(person,id,startdate,enddate,cityid){
             return axios
-            .get(this.url +"bizkingz/services/api/reports/merchant_payments_so?sales_person="+person+"&merchant_id="+id+"&start_date="+startdate+"&end_date="+enddate, {
+            .get(this.url +"bizkingz/services/api/reports/merchant_payments_so?sales_person="+person+"&merchant_id="+id+"&start_date="+startdate+"&end_date="+enddate+"&city_id="+cityid, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",
@@ -1105,9 +1105,9 @@ export default {
               return err.response;
             });
           },
-          Merchantreports(){
+          Merchantreports(cityid){
             return axios
-            .get(this.url +"bizkingz/services/api/reports/merchants", {
+            .get(this.url +"bizkingz/services/api/reports/merchants?city_id="+cityid, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",
@@ -1141,9 +1141,9 @@ export default {
               return err.response;
             });
           },
-         Leadreports(){
+         Leadreports(cityid){
             return axios
-            .get(this.url +"bizkingz/services/api/reports/leads", {
+            .get(this.url +"bizkingz/services/api/reports/leads?city_id="+cityid, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",
@@ -1159,9 +1159,9 @@ export default {
               return err.response;
             });
           },
-          Opportunityreports(){
+          Opportunityreports(cityid){
             return axios
-            .get(this.url +"bizkingz/services/api/reports/opportunities", {
+            .get(this.url +"bizkingz/services/api/reports/opportunities?city_id="+cityid, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",
@@ -1216,6 +1216,78 @@ export default {
           updateMerchantstock(id){
             return axios
             .post(this.url +"bizkingz/services/api/merchants/updateMerchantStock",id, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          getCreditnote(id){
+            return axios
+            .get(this.url +"bizkingz/services/api/accounts/creditNote/"+id, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+            
+            })
+            .then(response => {
+              return response;
+          
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          getReturnsalesorders(id){
+            return axios
+            .get(this.url +"bizkingz/services/api/accounts/getReturnSalesOrders?merchant_id="+id, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+            
+            })
+            .then(response => {
+              return response;
+          
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          getinvoiceorders(id){
+            return axios
+            .get(this.url +"bizkingz/services/api/accounts/getInvoiceSalesOrders?merchant_id="+id, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+            
+            })
+            .then(response => {
+              return response;
+          
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          saveCreditnote(id){
+            return axios
+            .post(this.url +"bizkingz/services/api/accounts/creditNoteNew",id, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",

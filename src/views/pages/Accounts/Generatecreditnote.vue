@@ -211,8 +211,8 @@ export default {
               this.isProgress2 = false;
 
                 this.snackbar = true;
-                this.snackbarText = "Please give Quantities"
-                this.color = "primary";
+                this.snackbarText =  response.data.message
+                this.color = "on-background";
             }
             })
         },

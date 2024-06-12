@@ -100,7 +100,7 @@ export default{
          
         {
           id: 8,
-          title: 'Purchase',
+          title: 'Purchase Order',
           icon: "bx:purchase-tag-alt",
           children: [
             { id: 38, title: 'Create Order', route: '/Createpurchaseorder' },
@@ -110,6 +110,18 @@ export default{
           ],
           expanded: false,
         },    
+          {
+          id: 8,
+          title: 'Sales Order',
+          icon: "bx:purchase-tag-alt",
+          children: [
+            { id: 57, title: 'Create Order', route: '/Createsalesorders' },
+            // { id: 58, title: 'View Order', route: '/Viewpurchaseorder' },
+            // { id: 40, title: 'View History', route: '/Viewpurchasehistory' },
+
+          ],
+          expanded: false,
+        }, 
         {
           id: 9,
           title: 'Sales',

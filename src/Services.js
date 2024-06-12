@@ -3,7 +3,7 @@ import axios from "axios";
 export default { 
     data(){
         return{
-            url:'http://103.211.218.32/'
+            url:'http://216.10.250.149/'
         }
     }, 
     methods:{
@@ -1288,6 +1288,60 @@ export default {
           saveCreditnote(id){
             return axios
             .post(this.url +"bizkingz/services/api/accounts/creditNoteNew",id, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          salesMerchantProducts(id){
+            return axios
+            .get(this.url +"bizkingz/services/api/merchants/getSalesMerchantProducts?merchant_id="+id, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+            
+            })
+            .then(response => {
+              return response;
+          
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          getStcksdata(id){
+            return axios
+            .get(this.url +"bizkingz/services/api/orders/stock_details?merchant_id="+id, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+            
+            })
+            .then(response => {
+              return response;
+          
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          saveSorder(id){
+            return axios
+            .post(this.url +"bizkingz/services/api/sales/createOrder",id, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",

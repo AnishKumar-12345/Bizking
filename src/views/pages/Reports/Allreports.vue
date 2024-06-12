@@ -9,7 +9,7 @@
         color="primary"
         indeterminate
         class="custom-loader"
-        full-width
+        full-width 
       />
     </div>
 
@@ -393,13 +393,13 @@
             >
               Get Reports
             </VBtn> &nbsp;
-              <VProgressCircular
+              <!-- <VProgressCircular
                       :size="50"
                       color="primary"
                       indeterminate
                       v-show="isProgress12"
                     >
-                    </VProgressCircular>
+                    </VProgressCircular> -->
           </VCardText>
 
           <VImg
@@ -434,17 +434,17 @@
 
             <VBtn
               size="small"
-              @click="openLreport()"
+              @click="openLeadreport()"
             >
               Get Reports
             </VBtn> &nbsp;
-              <VProgressCircular
+              <!-- <VProgressCircular
                       :size="50"
                       color="primary"
                       indeterminate
                       v-show="isProgress13"
                     >
-                    </VProgressCircular>
+                    </VProgressCircular> -->
           </VCardText>
 
           <VImg
@@ -479,17 +479,17 @@
 
             <VBtn
               size="small"
-              @click="openOreport()"
+              @click="openOpreport()"
             >
               Get Reports
             </VBtn> &nbsp;
-              <VProgressCircular
+              <!-- <VProgressCircular
                       :size="50"
                       color="primary"
                       indeterminate
                       v-show="isProgress14"
                     >
-                    </VProgressCircular>
+                    </VProgressCircular> -->
           </VCardText>
 
           <VImg
@@ -616,6 +616,22 @@
                       :max="maxDate1"
                     />
                   </VCol>
+                     <VCol
+                md="6"
+                cols="12"
+                v-if="userType == 'Business Head'"
+              >
+              <!-- {{selectedBrand}} -->             
+                <VAutocomplete
+                  v-model="this.citydata"
+                  label="City"
+                  :items="this.locationsdata"               
+                  item-value="value"
+                  item-title="text"
+                  :rules="locationrules"
+                  :menu-props="{ maxHeight: 200 }"                   
+                />
+              </VCol>
 
                   <VDivider />
                   <VCol cols="12"> </VCol>
@@ -721,6 +737,23 @@
                     />
                   </VCol>
 
+                 <VCol
+                md="6"
+                cols="12"
+                v-if="userType == 'Business Head'"
+              >
+              <!-- {{selectedBrand}} -->             
+                <VAutocomplete
+                  v-model="this.citydata"
+                  label="City"
+                  :items="this.locationsdata"               
+                  item-value="value"
+                  item-title="text"
+                  :rules="locationrules"
+                  :menu-props="{ maxHeight: 200 }"                   
+                />
+              </VCol>
+
                   <VDivider />
 
                   <VCol
@@ -784,7 +817,22 @@
                       no-underline
                     />
                   </VCol>
-
+            <VCol
+                md="6"
+                cols="12"
+                v-if="userType == 'Business Head'"
+              >
+              <!-- {{selectedBrand}} -->             
+                <VAutocomplete
+                  v-model="this.citydata"
+                  label="City"
+                  :items="this.locationsdata"               
+                  item-value="value"
+                  item-title="text"
+                  :rules="locationrules"
+                  :menu-props="{ maxHeight: 200 }"                   
+                />
+              </VCol>
                   <VDivider />
 
                   <VCol
@@ -848,7 +896,22 @@
                       no-underline
                     />
                   </VCol>
-
+    <VCol
+                md="6"
+                cols="12"
+                v-if="userType == 'Business Head'"
+              >
+              <!-- {{selectedBrand}} -->             
+                <VAutocomplete
+                  v-model="this.citydata"
+                  label="City"
+                  :items="this.locationsdata"               
+                  item-value="value"
+                  item-title="text"
+                  :rules="locationrules"
+                  :menu-props="{ maxHeight: 200 }"                   
+                />
+              </VCol>
                   <VDivider />
 
                   <VCol
@@ -911,7 +974,22 @@
                       no-underline
                     />
                   </VCol>
-
+            <VCol
+                md="6"
+                cols="12"
+                v-if="userType == 'Business Head'"
+              >
+              <!-- {{selectedBrand}} -->             
+                <VAutocomplete
+                  v-model="this.citydata"
+                  label="City"
+                  :items="this.locationsdata"               
+                  item-value="value"
+                  item-title="text"
+                  :rules="locationrules"
+                  :menu-props="{ maxHeight: 200 }"                   
+                />
+              </VCol>
                   <VDivider />
 
                   <VCol
@@ -976,6 +1054,22 @@
                     />
                   </VCol>
 
+              <VCol
+                md="6"
+                cols="12"
+                v-if="userType == 'Business Head'"
+              >
+              <!-- {{selectedBrand}} -->             
+                <VAutocomplete
+                  v-model="this.citydata"
+                  label="City"
+                  :items="this.locationsdata"               
+                  item-value="value"
+                  item-title="text"
+                  :rules="locationrules"
+                  :menu-props="{ maxHeight: 200 }"                   
+                />
+              </VCol>
                   <VDivider />
 
                   <VCol
@@ -1076,7 +1170,23 @@
                       :max="maxDate1"
                     />
                   </VCol>
-
+                  
+              <VCol
+                md="6"
+                cols="12"
+                v-if="userType == 'Business Head'"
+              >
+              <!-- {{selectedBrand}} -->             
+                <VAutocomplete
+                  v-model="this.citydata"
+                  label="City"
+                  :items="this.locationsdata"               
+                  item-value="value"
+                  item-title="text"
+                  :rules="locationrules"
+                  :menu-props="{ maxHeight: 200 }"                   
+                />
+              </VCol>
                   <VDivider />
 
                   <VCol
@@ -1289,6 +1399,23 @@
                       :rules="Daterules"
                     />
                   </VCol>
+
+                    <VCol
+                md="6"
+                cols="12"
+                v-if="userType == 'Business Head'"
+              >
+              <!-- {{selectedBrand}} -->             
+                <VAutocomplete
+                  v-model="this.citydata"
+                  label="City"
+                  :items="this.locationsdata"               
+                  item-value="value"
+                  item-title="text"
+                  :rules="locationrules"
+                  :menu-props="{ maxHeight: 200 }"                   
+                />
+              </VCol>
                   <VDivider />
 
                   <VCol
@@ -1376,7 +1503,22 @@
                       :rules="Daterules"
                     />
                   </VCol>
-
+<VCol
+                md="6"
+                cols="12"
+                v-if="userType == 'Business Head'"
+              >
+              <!-- {{selectedBrand}} -->             
+                <VAutocomplete
+                  v-model="this.citydata"
+                  label="City"
+                  :items="this.locationsdata"               
+                  item-value="value"
+                  item-title="text"
+                  :rules="locationrules"
+                  :menu-props="{ maxHeight: 200 }"                   
+                />
+              </VCol>
                   <VDivider />
 
                   <VCol
@@ -1425,7 +1567,7 @@
               </VCheckbox> -->
                 <VRow>              
 
-                  <VCol
+                  <!-- <VCol
                     md="6"
                     cols="12"
                   >
@@ -1464,7 +1606,23 @@
                       :max="maxDate1"
                       :rules="Daterules"
                     />
-                  </VCol>
+                  </VCol> -->
+                    <VCol
+                md="6"
+                cols="12"
+                v-if="userType == 'Business Head'"
+              >
+              <!-- {{selectedBrand}} -->             
+                <VAutocomplete
+                  v-model="this.citydata"
+                  label="City"
+                  :items="this.locationsdata"               
+                  item-value="value"
+                  item-title="text"
+                  :rules="locationrules"
+                  :menu-props="{ maxHeight: 200 }"                   
+                />
+              </VCol>
                   <VDivider />
 
                   <VCol
@@ -1481,6 +1639,134 @@
                       color="primary"
                       indeterminate
                       v-show="isProgress12"
+                    >
+                    </VProgressCircular>
+                  </VCol>
+                </VRow>
+              </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+      </VCard>
+    </VDialog>
+
+<!-- Lead Report -->
+ <VDialog
+      v-model="dialog13"
+      max-width="1000"
+    >
+      <VCard
+        title="Lead Report"
+        class="mb-2"
+      >
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- 👉 Form -->
+              <VForm
+                class="mt-6"
+                ref="purchaseOrderForm12"
+              >
+                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
+              </VCheckbox> -->
+                <VRow>              
+
+                 
+                    <VCol
+                md="6"
+                cols="12"
+                v-if="userType == 'Business Head'"
+              >
+              <!-- {{selectedBrand}} -->             
+                <VAutocomplete
+                  v-model="this.citydata"
+                  label="City"
+                  :items="this.locationsdata"               
+                  item-value="value"
+                  item-title="text"
+                  :rules="locationrules"
+                  :menu-props="{ maxHeight: 200 }"                   
+                />
+              </VCol>
+                  <VDivider />
+
+                  <VCol
+                    cols="12"
+                    class="d-flex flex-wrap gap-4"
+                  >
+                    <VBtn @click="validateForm12()">Get</VBtn>
+
+                    <VBtn @click="closeLreport()">Close</VBtn>
+
+                    <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
+                    <VProgressCircular
+                      :size="50"
+                      color="primary"
+                      indeterminate
+                      v-show="isProgress15"
+                    >
+                    </VProgressCircular>
+                  </VCol>
+                </VRow>
+              </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+      </VCard>
+    </VDialog>
+
+ <VDialog
+      v-model="dialog14"
+      max-width="1000"
+    >
+      <VCard
+        title="Opportunity Report"
+        class="mb-2"
+      >
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- 👉 Form -->
+              <VForm
+                class="mt-6"
+                ref="purchaseOrderForm13"
+              >
+                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
+              </VCheckbox> -->
+                <VRow>            
+
+                    <VCol
+                md="6"
+                cols="12"
+                v-if="userType == 'Business Head'"
+              >
+              <!-- {{selectedBrand}} -->             
+                <VAutocomplete
+                  v-model="this.citydata"
+                  label="City"
+                  :items="this.locationsdata"               
+                  item-value="value"
+                  item-title="text"
+                  :rules="locationrules"
+                  :menu-props="{ maxHeight: 200 }"                   
+                />
+              </VCol>
+                  <VDivider />
+
+                  <VCol
+                    cols="12"
+                    class="d-flex flex-wrap gap-4"
+                  >
+                    <VBtn @click="validateForm13()">Get</VBtn>
+
+                    <VBtn @click="closeOreport()">Close</VBtn>
+
+                    <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
+                    <VProgressCircular
+                      :size="50"
+                      color="primary"
+                      indeterminate
+                      v-show="isProgress15"
                     >
                     </VProgressCircular>
                   </VCol>
@@ -1553,6 +1839,8 @@ export default {
       isProgress12: false,
       isProgress13: false,
       isProgress14: false,
+      isProgress15: false,
+      isProgress16: false,
 
       loading: true,
       dialog2: false,
@@ -1566,8 +1854,10 @@ export default {
       dialog10: false,
       dialog11: false,
       dialog12: false,
+      dialog13: false,
+      dialog14: false,
 
-
+      citydata:"",
       selectdatepicker: null,
       salesUsers: [],
       merchantName: [],
@@ -1591,6 +1881,7 @@ export default {
       storeBrand: [v => !!v || 'Brand Name is required'],
       Daterules: [v => !!v || 'Date is required'],
       GSTrules: [v => !!v || 'This Field is required'],
+      // locationrules:  [v => !!v || 'This Field is required'],
       reportsdata: {
         merchant_id: '',
         date_filter: '',
@@ -1613,7 +1904,10 @@ export default {
       minDate: '1900-01-01',
       maxDate1: this.getFormattedDate(new Date()),
       minDate1: '1900-01-01',
-
+      locationsdata:[],
+      filterLocation:false,
+      userType:"",
+      locationRules: [], // initially empty
       jsonfields: [
         {
           label: 'Closing',
@@ -1659,29 +1953,87 @@ export default {
       // Update maxDate to disable future dates after selecting a start date
       this.maxDate = newDate ? newDate : this.getFormattedDate(new Date())
     },
+    //  userType(newValue) {
+    //   if (newValue === 'Business Head') {
+    //     this.locationRules = [(v) => !!v || 'City is required'];
+    //   } else {
+    //     this.locationRules = [];
+    //   }
+    // },
   },
   computed: {
     vuetifyTheme() {
       return useTheme()
     },
+    // locationRules() {
+    //   return this.userType === 'Business Head'
+    //     ? [(v) => !!v || 'City is required']
+    //     : [];
+    // },
     triangleBg() {
       return this.vuetifyTheme.global.name.value === 'light' ? triangleLight : triangleDark
     },
   },
   mounted() {
+    // this.filter();
      this.cityID = localStorage.getItem("city_id");
       this.locationID = localStorage.getItem("location_id");
-    this.getAllsales()
-    this.getMerchantdetails()
-    this.getBrandsdata()
+      this.userType = localStorage.getItem("user_type");
+    this.getAllsales();
+    this.getMerchantdetails();
+    this.getBrandsdata();
+    this.getBranchnames();
     setTimeout(() => {
       this.loading = false
     }, 3000)
   },
   methods: {
+    // handleBrandSelection(){ 
+    // },
+    openOpreport(){
+      this.dialog14 = true;
+    },
+    closeOreport(){
+      this.dialog14 = false;
+      this.citydata = "";
+    },
+     getBranchnames(){
+            this.Locationdata().then((response)=>{ 
+        
+              this.locationsdata = response.data.data.map(sales => ({
+                  value: sales.city_id,
+                  text: sales.city
+              }));
+                console.log('ceck tye res',this.locationsdata);
+            })
+          },
+          validateForm13(){
+             this.$refs.purchaseOrderForm13.validate().then((valid) => {
+        if (valid) {
+          // Check if citydata is required and provided
+          if (this.userType === 'Business Head' && !this.citydata) {
+            this.snackbar = true;
+            this.snackbarText = 'Please select a city';
+            this.color = 'on-background';
+          } else {
+            // Proceed with API call
+            this.openOreport();
+          }
+        } else {
+          this.snackbar = true;
+          this.snackbarText = 'Please give all mandatory fields';
+          this.color = 'on-background';
+        }
+      });
+          },
     openOreport(){
-      this.isProgress14 = true;
-       this.Opportunityreports(this.cityID).then((response)=>{
+      this.isProgress15 = true;
+       const requestData = {
+        // merchant: this.selectedmerchants3,
+        location: this.userType === 'Business Head' ? this.citydata : this.cityID
+      };
+
+       this.Opportunityreports(requestData.location).then((response)=>{
            if (response.data.status == 0) {
                this.isProgress14 = false;
 
@@ -1691,7 +2043,7 @@ export default {
           this.snackbarText = response.data.message
         } else {
           this.isProgress14 = false;      
-
+          this.citydata = "";
           const blob = new Blob([response.data], { type: 'text/csv' })
 
           // Create a temporary URL for the Blob
@@ -1719,9 +2071,20 @@ export default {
         }
       })
     },
+    openLeadreport(){
+      this.dialog13 = true;
+    },
+    closeLreport(){
+      this.dialog13 = false;
+      this.citydata = "";
+    },
   openLreport(){
      this.isProgress13 = true;
-       this.Leadreports(this.cityID).then((response)=>{
+      const requestData = {
+        // merchant: this.selectedmerchants3,
+        location: this.userType === 'Business Head' ? this.citydata : this.cityID
+      };
+       this.Leadreports(requestData.requestData).then((response)=>{
            if (response.data.status == 0) {
                this.isProgress13 = false;
 
@@ -1731,6 +2094,7 @@ export default {
           this.snackbarText = response.data.message
         } else {
           this.isProgress13 = false;      
+      this.citydata = "";
 
           const blob = new Blob([response.data], { type: 'text/csv' })
 
@@ -1760,71 +2124,40 @@ export default {
       })
   },
      openMerchantreport() {
-      this.isProgress12 = true;
-       this.Merchantreports(this.cityID).then((response)=>{
-           if (response.data.status == 0) {
-               this.isProgress12 = false;
-
-          // this.dialog10 = false;
-
-          // this.selectedSalesuser = '';
-          // this.selectedSalesMerchant = '';
-          // this.startDate1 = '';
-          // this.endDate1 = '';
-
-          this.snackbar = true;
-          this.color = 'on-background'
-          this.snackbarText = response.data.message
-        } else {
-          this.isProgress12 = false;
-       
-
-          //  this.loading = true;
-          // this.reportsdata={};
-          
-          //  console.log('length',response.data.length);
-          const blob = new Blob([response.data], { type: 'text/csv' })
-
-          // Create a temporary URL for the Blob
-          const url = window.URL.createObjectURL(blob)
-
-          // Create a link element
-          const link = document.createElement('a')
-          link.href = url
-          link.setAttribute('download', 'Merchant Report.csv') // Set the file name here
-
-          // Append the link to the body
-          document.body.appendChild(link)
-
-          // Programmatically click the link to trigger the download
-          link.click()
-
-          // Clean up - remove the link and revoke the URL
-          link.parentNode.removeChild(link)
-          window.URL.revokeObjectURL(url)
-
-          // console.log('CSV data:', response.data);
-          this.snackbar = true
-          this.color = 'primary'
-          this.snackbarText = 'Reports downloaded successfully.'
-        }
-      })
+      this.dialog12 = true;
+      
     },
     closeMerchantreport(){
       this.dialog12 = false;
       this.selectedMerchantReportype = null;
       this.startDate2 = null;
       this.endDate2 = null;
+      this.citydata = "";
     },
     validateForm10() {
       this.$refs.purchaseOrderForm10.validate().then(valid => {
         // console.log("form valid", valid.valid);
-        if (valid.valid == true) {
-          this.getGSTinvoicedetails()
+        // if (valid.valid == true) {
+        //   this.getGSTinvoicedetails()
+        // } else {
+        //   this.snackbar = true
+        //   this.snackbarText = 'Please give all mandatory fields'
+        //   this.color = 'on-background'
+        // }
+        if (valid) {
+          // Check if citydata is required and provided
+          if (this.userType === 'Business Head' && !this.citydata) {
+            this.snackbar = true;
+            this.snackbarText = 'Please select a city';
+            this.color = 'on-background';
+          } else {
+            // Proceed with API call
+            this.getGSTinvoicedetails();
+          }
         } else {
-          this.snackbar = true
-          this.snackbarText = 'Please give all mandatory fields'
-          this.color = 'on-background'
+          this.snackbar = true;
+          this.snackbarText = 'Please give all mandatory fields';
+          this.color = 'on-background';
         }
       })
     },
@@ -1839,8 +2172,12 @@ export default {
     },
     getGSTinvoicedetails() {
       if (this.selectGST == 'Invoice Wise') {
+          const requestData = {
+        // merchant: this.selectedmerchants3,
+        location: this.userType === 'Business Head' ? this.citydata : this.cityID
+      };
         this.isProgress11 = true
-        this.GSTinvoicewise(this.startDate, this.endDate,this.cityID).then(response => {
+        this.GSTinvoicewise(this.startDate, this.endDate,requestData.location).then(response => {
           if (response.data.status == 0) {
             this.isProgress11 = false
             this.dialog11 = false
@@ -1860,6 +2197,8 @@ export default {
             this.selectGST = ''
             this.startDate = ''
             this.endDate = ''
+            this.citydata = ''
+
             //  console.log('length',response.data.length);
             const blob = new Blob([response.data], { type: 'text/csv' })
 
@@ -1889,7 +2228,11 @@ export default {
         })
       } else {
         this.isProgress11 = true
-        this.GSTproductwise(this.startDate, this.endDate).then(response => {
+        const requestData = {
+        // merchant: this.selectedmerchants3,
+        location: this.userType === 'Business Head' ? this.citydata : this.cityID
+      };
+        this.GSTproductwise(this.startDate, this.endDate,requestData.location).then(response => {
           if (response.data.status == 0) {
             this.isProgress11 = false
             this.dialog11 = false
@@ -1909,6 +2252,7 @@ export default {
             this.selectGST = ''
             this.startDate = ''
             this.endDate = ''
+            this.citydata = ''
             //  console.log('length',response.data.length);
             const blob = new Blob([response.data], { type: 'text/csv' })
 
@@ -1987,19 +2331,39 @@ export default {
     validateForm9(){
        this.$refs.purchaseOrderForm9.validate().then(valid => {
         // console.log("form valid", valid.valid);
-        if (valid.valid == true) {
-          this.getmerchantpayemt()
+        // if (valid.valid == true) {
+        //   this.getmerchantpayemt()
+        // } else {
+        //   this.snackbar = true
+        //   this.snackbarText = 'Please give all mandatory fields'
+        //   this.color = 'on-background'
+        // }
+          if (valid) {
+          // Check if citydata is required and provided
+          if (this.userType === 'Business Head' && !this.citydata) {
+            this.snackbar = true;
+            this.snackbarText = 'Please select a city';
+            this.color = 'on-background';
+          } else {
+            // Proceed with API call
+            this.getmerchantpayemt();
+          }
         } else {
-          this.snackbar = true
-          this.snackbarText = 'Please give all mandatory fields'
-          this.color = 'on-background'
+          this.snackbar = true;
+          this.snackbarText = 'Please give all mandatory fields';
+          this.color = 'on-background';
         }
       })
     },
     getmerchantpayemt(){
       if(this.selectedReportype == "Invoice Wise"){
+         const requestData = {
+        // merchant: this.selectedmerchants3,
+        location: this.userType === 'Business Head' ? this.citydata : this.cityID
+      };
+
           this.isProgress9 = true;
-         this.Merchantpayments(this.selectedSalesuser,this.selectedSalesMerchant,this.startDate1,this.endDate1,this.cityID).then((response)=>{
+         this.Merchantpayments(this.selectedSalesuser,this.selectedSalesMerchant,this.startDate1,this.endDate1,requestData.location).then((response)=>{
            if (response.data.status == 0) {
           this.isProgress10 = false;
           this.isProgress9 = false;
@@ -2017,6 +2381,7 @@ export default {
            this.isProgress10 = false;
           this.isProgress9 = false;
           this.dialog10 = false;
+          this.citydata = ""
 
           //  this.loading = true;
           // this.reportsdata={};
@@ -2054,8 +2419,12 @@ export default {
         }
       })
       }else{
+        const requestData = {
+        // merchant: this.selectedmerchants3,
+        location: this.userType === 'Business Head' ? this.citydata : this.cityID
+      };
         this.isProgress9 = true;
-         this.Merchantpaymentsoverall(this.selectedSalesuser,this.selectedSalesMerchant,this.startDate1,this.endDate1).then((response)=>{
+         this.Merchantpaymentsoverall(this.selectedSalesuser,this.selectedSalesMerchant,this.startDate1,this.endDate1,requestData.location).then((response)=>{
            if (response.data.status == 0) {
           this.isProgress10 = false;
           this.isProgress9 = false;
@@ -2075,6 +2444,7 @@ export default {
           this.isProgress9 = false;
           this.dialog10 = false;
           this.selectedReportype = '';
+          this.citydata = ""
 
           //  this.loading = true;
           // this.reportsdata={};
@@ -2118,6 +2488,8 @@ export default {
     closeMerchantpayment() {
       this.dialog10 = false
       this.selectedmerchants4 = ''
+          this.citydata = ""
+
     },
     validateForm8() {
       this.$refs.purchaseOrderForm8.validate().then(valid => {
@@ -2148,6 +2520,7 @@ export default {
         } else {
           this.isProgress8 = false
           this.dialog9 = false
+          this.citydata = ""
 
           //  this.loading = true;
           // this.reportsdata={};
@@ -2183,6 +2556,8 @@ export default {
     closeUserLoginreport() {
       this.dialog9 = false
       this.userStoredata = ''
+          this.citydata = ""
+
     },
     openUserstore() {
       this.dialog9 = true
@@ -2217,12 +2592,27 @@ export default {
     validateForm7() {
       this.$refs.purchaseOrderForm7.validate().then(valid => {
         // console.log("form valid", valid.valid);
-        if (valid.valid == true) {
-          this.getPurchaseOrdersdatareport()
+        // if (valid.valid == true) {
+        //   this.getPurchaseOrdersdatareport()
+        // } else {
+        //   this.snackbar = true
+        //   this.snackbarText = 'Please give all mandatory fields'
+        //   this.color = 'on-background'
+        // }
+        if (valid) {
+          // Check if citydata is required and provided
+          if (this.userType === 'Business Head' && !this.citydata) {
+            this.snackbar = true;
+            this.snackbarText = 'Please select a city';
+            this.color = 'on-background';
+          } else {
+            // Proceed with API call
+            this.getPurchaseOrdersdatareport();
+          }
         } else {
-          this.snackbar = true
-          this.snackbarText = 'Please give all mandatory fields'
-          this.color = 'on-background'
+          this.snackbar = true;
+          this.snackbarText = 'Please give all mandatory fields';
+          this.color = 'on-background';
         }
       })
     },
@@ -2246,6 +2636,10 @@ export default {
         this.Purchasedata.start_date = this.getFormattedDate(new Date())
         this.Purchasedata.end_date = this.getFormattedDate(new Date())
       }
+  const requestData = {
+        // merchant: this.selectedmerchants3,
+        location: this.userType === 'Business Head' ? this.citydata : this.cityID
+      };
 
       this.isProgress7 = true
 
@@ -2254,7 +2648,7 @@ export default {
         this.Purchasedata.date_filter,
         this.Purchasedata.start_date,
         this.Purchasedata.end_date,
-        this.cityID
+        requestData.location
       ).then(response => {
         // console.log(response);
 
@@ -2271,6 +2665,7 @@ export default {
           this.dialog8 = false
           this.Purchasedata = {}
           this.selectPurchase = ''
+          this.citydata = ""
 
           //  this.loading = true;
           // this.reportsdata={};
@@ -2309,40 +2704,84 @@ export default {
     closePurchase() {
       this.dialog8 = false
       this.selectPurchase = ''
+          this.citydata = ""
+
     },
-    validateForm6() {
-      this.$refs.purchaseOrderForm6.validate().then(valid => {
-        // console.log("form valid", valid.valid);
-        if (valid.valid == true) {
-          this.getMerchantProductsreport()
+    // filter(){
+    //   if(this.userType == "Business Head"){
+    //     this.filterLocation = true;
+    //   }else{
+    //     this.filterLocation = false;
+
+    //   }
+    // },
+    validateForm12(){
+        this.$refs.purchaseOrderForm12.validate().then((valid) => {
+        if (valid) {
+          // Check if citydata is required and provided
+          if (this.userType === 'Business Head' && !this.citydata) {
+            this.snackbar = true;
+            this.snackbarText = 'Please select a city';
+            this.color = 'on-background';
+          } else {
+            // Proceed with API call
+            this.openLreport();
+          }
         } else {
-          this.snackbar = true
-          this.snackbarText = 'Please give all mandatory fields'
-          this.color = 'on-background'
+          this.snackbar = true;
+          this.snackbarText = 'Please give all mandatory fields';
+          this.color = 'on-background';
         }
-      })
+      });
     },
-    getMerchantProductsreport() {
-      this.isProgress6 = true
+    validateForm11(){
+        this.$refs.purchaseOrderForm11.validate().then((valid) => {
+        if (valid) {
+          // Check if citydata is required and provided
+          if (this.userType === 'Business Head' && !this.citydata) {
+            this.snackbar = true;
+            this.snackbarText = 'Please select a city';
+            this.color = 'on-background';
+          } else {
+            // Proceed with API call
+            this.getMerchantreport();
+          }
+        } else {
+          this.snackbar = true;
+          this.snackbarText = 'Please give all mandatory fields';
+          this.color = 'on-background';
+        }
+      });
+    },
+    getMerchantreport(){
+      this.isProgress12 = true;
+        const requestData = {
+        // merchant: this.selectedmerchants3,
+        location: this.userType === 'Business Head' ? this.citydata : this.cityID
+      };
 
-      this.getMProductsreport(this.selectedmerchants3,this.cityID).then(response => {
-        // console.log(response);
+       this.Merchantreports(requestData.location).then((response)=>{
+           if (response.data.status == 0) {
+               this.isProgress12 = false;
 
-        if (response.data.status == 0) {
-          this.isProgress6 = false
-          this.dialog7 = false
+          // this.dialog10 = false;
 
-          this.selectedBrand2 = ''
-          this.snackbar = true
+          // this.selectedSalesuser = '';
+          // this.selectedSalesMerchant = '';
+          // this.startDate1 = '';
+          // this.endDate1 = '';
+
+          this.snackbar = true;
           this.color = 'on-background'
           this.snackbarText = response.data.message
         } else {
-          this.isProgress6 = false
-          this.dialog7 = false
+          this.isProgress12 = false;
+       
+          this.citydata = ""
 
           //  this.loading = true;
           // this.reportsdata={};
-          this.selectedmerchants3 = ''
+          
           //  console.log('length',response.data.length);
           const blob = new Blob([response.data], { type: 'text/csv' })
 
@@ -2352,7 +2791,7 @@ export default {
           // Create a link element
           const link = document.createElement('a')
           link.href = url
-          link.setAttribute('download', 'Merchant Products Report.csv') // Set the file name here
+          link.setAttribute('download', 'Merchant Report.csv') // Set the file name here
 
           // Append the link to the body
           document.body.appendChild(link)
@@ -2371,10 +2810,66 @@ export default {
         }
       })
     },
+ validateForm6() {
+      // Validate the form
+      this.$refs.purchaseOrderForm6.validate().then((valid) => {
+        if (valid) {
+          // Check if citydata is required and provided
+          if (this.userType === 'Business Head' && !this.citydata) {
+            this.snackbar = true;
+            this.snackbarText = 'Please select a city';
+            this.color = 'on-background';
+          } else {
+            // Proceed with API call
+            this.getMerchantProductsreport();
+          }
+        } else {
+          this.snackbar = true;
+          this.snackbarText = 'Please give all mandatory fields';
+          this.color = 'on-background';
+        }
+      });
+    },
+    getMerchantProductsreport() {
+      this.isProgress6 = true;
 
+      const requestData = {
+        merchant: this.selectedmerchants3,
+        location: this.userType === 'Business Head' ? this.citydata : this.cityID
+      };
+
+      this.getMProductsreport(requestData.merchant, requestData.location).then(response => {
+        if (response.data.status === 0) {
+          this.isProgress6 = false;
+          this.dialog7 = false;
+          this.snackbar = true;
+          this.color = 'on-background';
+          this.snackbarText = response.data.message;
+        } else {
+          this.isProgress6 = false;
+          this.dialog7 = false;
+          this.selectedmerchants3 = '';
+          this.citydata = "";
+          const blob = new Blob([response.data], { type: 'text/csv' });
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', 'Merchant Products Report.csv');
+          document.body.appendChild(link);
+          link.click();
+          link.parentNode.removeChild(link);
+          window.URL.revokeObjectURL(url);
+          this.snackbar = true;
+          this.color = 'primary';
+          this.snackbarText = 'Reports downloaded successfully.';
+        }
+      });
+    },
     closeMPreport() {
       this.dialog7 = false
       this.selectedmerchants3 = ''
+          this.citydata = ""
+
     },
     openMPR() {
       this.dialog7 = true
@@ -2385,23 +2880,44 @@ export default {
     closeBreport() {
       this.dialog6 = false
       this.selectedBrand2 = ''
+          this.citydata = ""
+
     },
     validateForm5() {
       this.$refs.purchaseOrderForm5.validate().then(valid => {
         // console.log("form valid", valid.valid);
-        if (valid.valid == true) {
-          this.getbrandsreport()
+        // if (valid.valid == true) {
+        //   this.getbrandsreport()
+        // } else {
+        //   this.snackbar = true
+        //   this.snackbarText = 'Please give all mandatory fields'
+        //   this.color = 'on-background'
+        // }
+         if (valid) {
+          // Check if citydata is required and provided
+          if (this.userType === 'Business Head' && !this.citydata) {
+            this.snackbar = true;
+            this.snackbarText = 'Please select a city';
+            this.color = 'on-background';
+          } else {
+            // Proceed with API call
+            this.getbrandsreport();
+          }
         } else {
-          this.snackbar = true
-          this.snackbarText = 'Please give all mandatory fields'
-          this.color = 'on-background'
+          this.snackbar = true;
+          this.snackbarText = 'Please give all mandatory fields';
+          this.color = 'on-background';
         }
       })
     },
     getbrandsreport() {
       this.isProgress5 = true
+ const requestData = {
+        // merchant: this.selectedmerchants3,
+        location: this.userType === 'Business Head' ? this.citydata : this.cityID
+      };
 
-      this.getBrandsallreport(this.selectedBrand2,this.cityID).then(response => {
+      this.getBrandsallreport(this.selectedBrand2,requestData.location).then(response => {
         // console.log(response);
 
         if (response.data.status == 0) {
@@ -2415,6 +2931,7 @@ export default {
         } else {
           this.isProgress5 = false
           this.dialog6 = false
+          this.citydata = ""
 
           //  this.loading = true;
           // this.reportsdata={};
@@ -2451,19 +2968,38 @@ export default {
     validateForm4() {
       this.$refs.purchaseOrderForm4.validate().then(valid => {
         // console.log("form valid", valid.valid);
-        if (valid.valid == true) {
-          this.getwarehousestockreport()
+        // if (valid.valid == true) {
+        //   this.getwarehousestockreport()
+        // } else {
+        //   this.snackbar = true
+        //   this.snackbarText = 'Please give all mandatory fields'
+        //   this.color = 'on-background'
+        // }
+        if (valid) {
+          // Check if citydata is required and provided
+          if (this.userType === 'Business Head' && !this.citydata) {
+            this.snackbar = true;
+            this.snackbarText = 'Please select a city';
+            this.color = 'on-background';
+          } else {
+            // Proceed with API call
+            this.getwarehousestockreport();
+          }
         } else {
-          this.snackbar = true
-          this.snackbarText = 'Please give all mandatory fields'
-          this.color = 'on-background'
+          this.snackbar = true;
+          this.snackbarText = 'Please give all mandatory fields';
+          this.color = 'on-background';
         }
       })
     },
     getwarehousestockreport() {
       this.isProgress4 = true;
+      const requestData = {
+        // merchant: this.selectedmerchants3,
+        location: this.userType === 'Business Head' ? this.citydata : this.cityID
+      };
 
-      this.getBrandreports(this.selectedBrand,this.cityID).then(response => {
+      this.getBrandreports(this.selectedBrand,requestData.location).then(response => {
         // console.log(response);
 
         if (response.data.status == 0) {
@@ -2477,6 +3013,7 @@ export default {
         } else {
           this.isProgress4 = false
           this.dialog5 = false
+          this.citydata = ""
 
           //  this.loading = true;
           // this.reportsdata={};
@@ -2525,6 +3062,8 @@ export default {
     closewreport() {
       this.dialog5 = false
       this.selectedBrand = ''
+          this.citydata = ""
+
     },
     openWSI() {
       this.dialog5 = true
@@ -2532,6 +3071,8 @@ export default {
     closemreport() {
       this.dialog4 = false
       this.selectedmerchants2 = ''
+          this.citydata = ""
+
     },
     openMSI() {
       this.dialog4 = true
@@ -2539,24 +3080,54 @@ export default {
     validateForm1() {
       this.$refs.purchaseOrderForm1.validate().then(valid => {
         // console.log("form valid", valid.valid);
-        if (valid.valid == true) {
-          this.getReport()
+        // if (valid.valid == true) {
+        //   this.getReport()
+        // } else {
+        //   this.snackbar = true
+        //   this.snackbarText = 'Please give all mandatory fields'
+        //   this.color = 'on-background'
+        // }
+          if (valid) {
+          // Check if citydata is required and provided
+          if (this.userType === 'Business Head' && !this.citydata) {
+            this.snackbar = true;
+            this.snackbarText = 'Please select a city';
+            this.color = 'on-background';
+          } else {
+            // Proceed with API call
+            this.getReport();
+          }
         } else {
-          this.snackbar = true
-          this.snackbarText = 'Please give all mandatory fields'
-          this.color = 'on-background'
+          this.snackbar = true;
+          this.snackbarText = 'Please give all mandatory fields';
+          this.color = 'on-background';
         }
       })
     },
     validateForm2() {
       this.$refs.purchaseOrderForm2.validate().then(valid => {
         // console.log("form valid", valid.valid);
-        if (valid.valid == true) {
-          this.getSales()
+        // if (valid.valid == true) {
+        //   this.getSales()
+        // } else {
+        //   this.snackbar = true
+        //   this.snackbarText = 'Please give all mandatory fields'
+        //   this.color = 'on-background'
+        // }
+         if (valid) {
+          // Check if citydata is required and provided
+          if (this.userType === 'Business Head' && !this.citydata) {
+            this.snackbar = true;
+            this.snackbarText = 'Please select a city';
+            this.color = 'on-background';
+          } else {
+            // Proceed with API call
+            this.getSales();
+          }
         } else {
-          this.snackbar = true
-          this.snackbarText = 'Please give all mandatory fields'
-          this.color = 'on-background'
+          this.snackbar = true;
+          this.snackbarText = 'Please give all mandatory fields';
+          this.color = 'on-background';
         }
       })
     },
@@ -2564,20 +3135,38 @@ export default {
     validateForm3() {
       this.$refs.purchaseOrderForm3.validate().then(valid => {
         // console.log("form valid", valid.valid);
-        if (valid.valid == true) {
-          this.getMerchantsreport()
+        // if (valid.valid == true) {
+        //   this.getMerchantsreport()
+        // } else {
+        //   this.snackbar = true
+        //   this.snackbarText = 'Please give all mandatory fields'
+        //   this.color = 'on-background'
+        // }
+           if (valid) {
+          // Check if citydata is required and provided
+          if (this.userType === 'Business Head' && !this.citydata) {
+            this.snackbar = true;
+            this.snackbarText = 'Please select a city';
+            this.color = 'on-background';
+          } else {
+            // Proceed with API call
+            this.getMerchantsreport();
+          }
         } else {
-          this.snackbar = true
-          this.snackbarText = 'Please give all mandatory fields'
-          this.color = 'on-background'
+          this.snackbar = true;
+          this.snackbarText = 'Please give all mandatory fields';
+          this.color = 'on-background';
         }
       })
     },
 
     getMerchantsreport() {
       this.isProgress3 = true
-
-      this.getMerchantstocksreport(this.selectedmerchants2,this.cityID).then(response => {
+ const requestData = {
+        // merchant: this.selectedmerchants3,
+        location: this.userType === 'Business Head' ? this.citydata : this.cityID
+      };
+      this.getMerchantstocksreport(this.selectedmerchants2,requestData.location).then(response => {
         // console.log(response);
 
         if (response.data.status == 0) {
@@ -2591,6 +3180,7 @@ export default {
         } else {
           this.isProgress3 = false
           this.dialog4 = false
+          this.citydata = ""
 
           //  this.loading = true;
           this.reportsdata = {}
@@ -2629,6 +3219,8 @@ export default {
     closeSales() {
       this.dialog3 = false
       this.selectSales = null
+          this.citydata = ""
+
     },
     getFormattedDates(date) {
       const year = date.getFullYear()
@@ -2640,6 +3232,8 @@ export default {
       this.dialog2 = false
       this.reportsdata = {}
       this.selectedmerchants = ''
+          this.citydata = ""
+
     },
     //   selectAllMerchants() {
     //   if (this.selectAll) {
@@ -2721,7 +3315,12 @@ export default {
       }
 
       console.log('check ', statusMapping[this.selectSales])
-      this.isProgress2 = true
+      this.isProgress2 = true;
+
+        const requestData = {
+        // merchant: this.selectedmerchants3,
+        location: this.userType === 'Business Head' ? this.citydata : this.cityID
+      };
 
       if (this.Salesdata.date_filter === 'Custom') {
         this.Salesdata.date_filter = 'custom'
@@ -2739,7 +3338,7 @@ export default {
         this.Salesdata.date_filter,
         this.Salesdata.start_date,
         this.Salesdata.end_date,
-        this.cityID
+        requestData.location
       ).then(response => {
         console.log('check the response', response)
         if (response.data.status == 0) {
@@ -2755,6 +3354,7 @@ export default {
           this.dialog3 = false
           this.selectSales = null
           this.Salesdata = {}
+          this.citydata = ""
 
           //  this.loading = true;
 
@@ -2788,7 +3388,10 @@ export default {
       //         "start_date":this.reportsdata.start_date,
       //         "end_date":this.reportsdata.end_date
       // }
-
+  const requestData = {
+        // merchant: this.selectedmerchants3,
+        location: this.userType === 'Business Head' ? this.citydata : this.cityID
+      };
       if (this.reportsdata.date_filter === 'Custom') {
         this.reportsdata.date_filter = 'custom'
       } else if (this.reportsdata.date_filter === 'Current Year') {
@@ -2808,7 +3411,7 @@ export default {
         this.reportsdata.date_filter,
         this.reportsdata.start_date,
         this.reportsdata.end_date,
-        this.cityID
+        requestData.location
       ).then(response => {
         // console.log(response);
 
@@ -2823,6 +3426,7 @@ export default {
         } else {
           this.isProgress = false
           this.dialog2 = false
+          this.citydata = ""
           //  this.loading = true;
           this.reportsdata = {}
           this.selectedmerchants = ''

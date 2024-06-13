@@ -266,7 +266,7 @@ computed: {
       return filteredItems;
     }  else if (this.userRole === "Brand Management") {
       // Filter items for Business Development Manager
-      const allowedTitles = ["Dashboard", "Brand", "Product","Purchase","Reports"];
+      const allowedTitles = ["Dashboard", "Brand", "Product","Purchase Order","Reports"];
       
       // console.log('Allowed Titles:', allowedTitles);
       

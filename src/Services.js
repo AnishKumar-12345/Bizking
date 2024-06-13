@@ -3,7 +3,7 @@ import axios from "axios";
 export default { 
     data(){
         return{
-            url:'http://216.10.250.149/'
+            url:'http://103.211.218.32/'
         }
     }, 
     methods:{
@@ -473,9 +473,9 @@ export default {
               return err.response;
             });
           },
-          getProducts(){
+          getProducts(id){
             return axios
-            .get(this.url +"bizkingz/services/api/brands/getProducts", {
+            .get(this.url +"bizkingz/services/api/brands/getProducts?city_id="+id, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",

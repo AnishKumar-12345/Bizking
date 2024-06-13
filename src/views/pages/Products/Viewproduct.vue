@@ -1045,16 +1045,32 @@ computedSGST() {
          updatePagination(page) {
     this.page = page;
   },
-        getProductsdata(){
+
+         getBranddetails(){
+          this.getBrands(this.cityID,this.locationID).then((response)=>{
+        
+        this.BrandNames = response.data;
+        
+         this.BrandNames = this.BrandNames.map(brand => ({
+            value: brand.brand_id,
+            text: brand.brand_name
+        }));
+        console.log('mer',this.BrandNames)
+      })
+     },
+             getProductsdata(){
             // this.getProducts().then((response)=>{
             //     this.products = response.data.data;
             //     console.log('merchants',this.products)
 
             //     this.products.reverse();
             // })
-
+  const requestData = {
+        // merchant: this.selectedmerchants3,
+        location: this.userType === 'Business Head' ? all : this.cityID
+      };
             return new Promise((resolve, reject) => {
-                this.getProducts()
+                this.getProducts(requestData.location)
                   .then((response) => {
                     this.products = response.data.data;
                     this.products.reverse();
@@ -1067,18 +1083,6 @@ computedSGST() {
               });
 
         },
-         getBranddetails(){
-          this.getBrands(this.cityID,this.locationID).then((response)=>{
-        
-        this.BrandNames = response.data;
-        
-         this.BrandNames = this.BrandNames.map(brand => ({
-            value: brand.brand_id,
-            text: brand.brand_name
-        }));
-        console.log('mer',this.BrandNames)
-      })
-     }
     }
 }
 </script>

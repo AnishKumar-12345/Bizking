@@ -392,7 +392,7 @@
                     <VSelect
                       v-model="selectedDeliveryPerson"
                       label="Select Delivery Person"
-                      :items="this.deliveryPersons"
+                      :items="this.deliverydata"
                       item-value="value"
                       item-title="text"
                       :rules="PersonRules"
@@ -705,7 +705,8 @@ export default {
       cityID:'',
       cityLoaction:[],
       filterlocation: true,
-
+      Deliveryperson:[],
+      deliverydata:[],
       headers: [
         { text: 'Sales Order', value: 'so_number' },
         { text: 'Order Date', value: 'created_date' },
@@ -774,6 +775,27 @@ export default {
   mounted() {
     this.Soid = this.$route.query.so_id;
       this.cityID  = localStorage.getItem("city_id");
+         const storedSoData = localStorage.getItem("deliverydetails");
+            if (storedSoData) {
+            try {
+                this.Deliveryperson = JSON.parse(storedSoData);
+               this.deliverydata =  this.Deliveryperson.map(a => ({
+                    value: a.delivery_person,
+                    text: a.name
+                }))
+                console.log('set',  this.deliverydata );
+                if (!Array.isArray(this.Deliveryperson)) {
+                this.Deliveryperson = [];
+                }
+            } catch (e) {
+                console.error('Error parsing sodetails from localStorage:', e);
+                this.Deliveryperson = [];
+            }
+            }
+      // this.deliverydata = this.Deliveryperson.map(deliveryPerson => ({
+      //     value: deliveryPerson.delivery_person,
+      //     text: deliveryPerson.name,
+      //   }))
     this.handleBrandSelection();
  
     // this.fetchOutputSalesOrders();

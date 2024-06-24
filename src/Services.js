@@ -3,7 +3,7 @@ import axios from "axios";
 export default { 
     data(){
         return{
-            url:'http://103.211.218.32/'
+            url:'http://216.10.250.149/'
         }
     }, 
     methods:{
@@ -1352,6 +1352,24 @@ export default {
             .then(response => {
               return response;
               // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          getGRN(cid,lid){
+            return axios
+            .get(this.url +"bizkingz/services/api/sales/getGrnSalesOrders?city_id="+cid+"&location_id="+lid, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                 
+              },
+            
+            })
+            .then(response => {
+              return response;
+          
             })
             .catch(err => {
               return err.response;

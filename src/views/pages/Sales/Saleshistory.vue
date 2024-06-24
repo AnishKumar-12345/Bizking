@@ -78,7 +78,7 @@
                   cols="12">
                   <VSelect 
                   v-model="selectsales"
-                  :items="['Shipped','Delivered','Onhold','Cancelled']"
+                  :items="['Shipped','Delivered','Onhold','Cancelled','GRN Sales Orders']"
                          
                       
                       label="Please Select The Status"     
@@ -203,7 +203,7 @@
         <td class="text-center" >
            <VBtn
 
-             v-if="item.so_status == 'Shipped' || item.so_status == 'Delivered' || item.so_status == 'On Hold' || item.so_status === 'Cancelled'"
+             v-if="(item.so_status == 'Shipped' || item.so_status == 'Delivered' || item.so_status == 'On Hold' || item.so_status == 'Cancelled') && selectsales !== 'GRN Sales Orders'"
               icon
               variant="text"
               color="default"
@@ -236,6 +236,29 @@
               />
             </VBtn>
         </td>
+
+        <td class="text-center">
+          {{ item.grn_number }}
+        </td>
+
+ <td class="text-center" > 
+           <VBtn   
+              v-if="selectsales == 'GRN Sales Orders'" 
+              icon
+              variant="text"
+              color="default"
+              class="me-2"
+              size="x-small"
+              @click="getGRNImage(item.grn_image)"
+            >
+              <VIcon
+                color="success"
+                icon="ic:twotone-photo-camera-back"
+                size="26"
+              />
+            </VBtn>
+        </td>
+
         <td class="text-center">
           <!-- {{item.actions}} -->
             <VBtn
@@ -460,6 +483,7 @@ export default {
             loaded: false,
        loading: false,
      saleshistory:[],
+     GRNhistory:[],
        searchQuery:'',
        deliveryPerson:[],
        dialog :false,
@@ -481,9 +505,27 @@ export default {
         { text: 'POD', value: 'pod_image'},
         { text: 'Delivery Challan', value: 'delivery_challan_file' },
         { text: 'Invoice', value: 'invoice_file' },
+        { text: 'GRN No', value: 'grn_number' },
+        { text: 'GRN Image', value: 'grn_image' },
 
         { text: 'Action', value: 'actions', sortable: false },
       ],
+      //  headers2: [
+      
+      //   { text: 'Merchant Code', value: 'merchant_code' },
+      //   { text: 'Merchant Name', value: 'merchant_name' },
+      //   { text: 'Shipped Date', value: 'shipped_date' },
+      //   { text: 'Delivery Person', value: 'delivery_person' },
+
+      //   { text: 'Order From', value: 'merchant_name' },
+      //   { text: 'Shipped To', value: 'merchant_name' },
+      //   { text: 'Order Value', value: 'total_so_amount' },
+      //   { text: 'POD', value: 'pod_image'},
+      //   { text: 'Delivery Challan', value: 'delivery_challan_file' },
+      //   { text: 'Invoice', value: 'invoice_file' },
+
+      //   { text: 'Action', value: 'actions', sortable: false },
+      // ],
         }
     },
      computed: {
@@ -604,14 +646,19 @@ export default {
             "Onhold":"7",
             "Cancelled":"0",
           }
-          this.loading = true;
+          if(this.selectsales !== 'GRN Sales Orders' && this.locationdata){
+             this.loading = true;
           this.getSalesorders(postdata[this.selectsales],this.cityID, this.locationdata)
             .then((response) => {
               console.log('response',response);
               if(response.status == 1){
               this.loading = false;
+              this.snackbarText = response.message;
               this.saleshistory = response.data;
               this.saleshistory.reverse();
+              this.color = 'primary';
+              this.snackbar = true;
+
               // resolve(); // Resolve the promise when API call is successful
               }else{
               //  this.dialog2 = false;
@@ -621,8 +668,37 @@ export default {
               this.saleshistory = [];
               // this.Deliverydata = {};
               this.snackbarText = response.message;
+
               }             
             })
+          }else{
+              this.loading = true;           
+
+            this.getGRN(this.cityID, this.locationdata)
+            .then((response) => {
+              console.log('response',response);
+              if(response.data.status == 1){
+              this.loading = false;
+              this.saleshistory = response.data.data;
+              this.saleshistory.reverse();
+              this.snackbarText = response.data.message;
+              this.color = 'primary';
+              this.snackbar = true;
+
+              // resolve(); // Resolve the promise when API call is successful
+              }else{
+              //  this.dialog2 = false;
+              this.snackbar = true;
+              this.color = 'on-background';
+              this.loading = false;
+              this.saleshistory = [];
+              // this.Deliverydata = {};
+             this.snackbarText = "Select the status";
+
+              }             
+            })
+          }
+         
       },
       closeUnhold(){
         this.dialog2 = false;
@@ -730,6 +806,12 @@ export default {
        window.open(id, '_blank');
         this.loading2 = false;
   },
+    getGRNImage(id){
+     this.loading2 = true;
+       window.open(id, '_blank');
+        this.loading2 = false;
+  },
+
           getPDFupdate(id){
       this.loading2 = true;
        window.open(id, '_blank');
@@ -790,7 +872,7 @@ export default {
             "Onhold":"7",
             "Cancelled":"0",
           }
-            if(this.cityID != '' && this.locationID !== ''){
+            if(this.cityID !== '' && this.locationID !== '' && this.selectsales !== 'GRN Sales Orders'){
             this.loading = true;           
 
             this.getSalesorders(postdata[this.selectsales],this.cityID, this.locationID)
@@ -798,8 +880,12 @@ export default {
               console.log('response',response);
               if(response.status == 1){
               this.loading = false;
+              this.snackbarText = response.message;
+              this.color = 'primary';
               this.saleshistory = response.data;
               this.saleshistory.reverse();
+              this.snackbar = true;
+
               // resolve(); // Resolve the promise when API call is successful
               }else{
               //  this.dialog2 = false;
@@ -809,6 +895,32 @@ export default {
               this.saleshistory = [];
               // this.Deliverydata = {};
               this.snackbarText = response.message;
+              }             
+            })
+          }else{
+              this.loading = true;           
+
+            this.getGRN(this.cityID, this.locationID)
+            .then((response) => {
+              console.log('response',response);
+              if(response.data.status == 1){
+              this.loading = false;
+              this.saleshistory = response.data.data;
+              this.saleshistory.reverse();
+              this.snackbarText = response.data.message;
+              this.color = 'primary';
+              this.snackbar = true;
+
+
+              // resolve(); // Resolve the promise when API call is successful
+              }else{
+              //  this.dialog2 = false;
+              this.snackbar = true;
+              this.color = 'on-background';
+              this.loading = false;
+              this.GRNhistory = [];
+              // this.Deliverydata = {};
+              this.snackbarText = "Select the status";
               }             
             })
           }

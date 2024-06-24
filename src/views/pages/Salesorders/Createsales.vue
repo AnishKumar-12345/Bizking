@@ -66,13 +66,14 @@
         label="Select Date"
         @input="updateDateTime"
         :rules="dateRules"
+         :min="minDate"
       />
     </VCol>
     <VCol cols="12" md="6">
       <VTextField
         v-model="selectedDateTime"
         label="Selected Date and Time"
-        
+        readonly
       />
     </VCol>
 
@@ -237,6 +238,8 @@ export default {
             selectSodata:'',
             soDetailsd:[],
             Locationids:'',
+            useriddata:'',
+            cityiddata:'',
             CreatedDate:'',
        today: this.getFormattedDate(new Date()),
 
@@ -281,6 +284,13 @@ export default {
         }
     },
     computed:{
+       minDate() {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    },
          filteredmerchantProducts() {
       // Filter out items with undefined quantity
        return this.merchantProducts.filter(item => item.quantity !== undefined);
@@ -379,21 +389,28 @@ export default {
       const seconds = String(date.getSeconds()).padStart(2, '0');
       return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     },
-        validateform(){
-               this.$refs.purchaseOrderForm.validate().then(valid => {
-        // console.log("form valid", valid.valid);
-        if (valid.valid == true) {          // this.saveData();
-        
+         validateform() {
+      this.$refs.purchaseOrderForm.validate().then(valid => {
+        if (valid.valid) {
+          // Check if at least one product has a non-zero quantity, return, or exchange
+          const hasValidProduct = this.merchantProducts.some(product =>
+            product.quantity > 0 || product.return > 0 || product.exchange > 0
+          );
+
+          if (hasValidProduct) {
             this.SaveSO();
-      
-        }else{
-           this.snackbar = true;
-            this.snackbarText = "Please give all mandatory fields"
+          } else {
+            this.snackbar = true;
+            this.snackbarText = "Please provide quantities for quantity, return, or exchange.";
             this.color = "on-background";
+          }
+        } else {
+          this.snackbar = true;
+          this.snackbarText = "Please fill all mandatory fields.";
+          this.color = "on-background";
         }
-      }); 
-     
-        },
+      });
+    },
          SaveSO(){
          // Validation check for return and exchange quantities
     let isValid = true;
@@ -415,18 +432,18 @@ export default {
     }
 
     // Filter products with quantity > 0 or return > 0 or exchange > 0
-    const filteredProducts = this.merchantProducts.filter(product => product.quantity > 0 || product.return > 0 || product.exchange > 0);
+    // const filteredProducts = this.merchantProducts.filter(product => product.quantity > 0 || product.return > 0 || product.exchange > 0);
 
     const postData = {
       "merchant_id": this.selectedSalesOrder,
-      "user_id": this.userIds,
+      "user_id": this.useriddata,
       "entity_id": this.selectSodata,
-      "city_id": this.cityID,
+      "city_id": this.cityiddata,
       "location_id": this.Locationids,
       "so_status": 3,
       "created_date": this.selectedDateTime,
       "device": "CRM-WEB",
-      "products": filteredProducts.map(product => {
+      "products": this.merchantProducts.map(product => {
         return {
           "merchant_product_id": product.brand_product_id,
           "brand_name": product.brand_name,
@@ -448,7 +465,7 @@ export default {
              this.snackbar = true;
                     this.snackbarText = response.data.message
                     this.color = "primary";
-                    window.location.reload();
+                    // window.location.reload();
         }else{
              this.snackbar = true;
                     this.snackbarText = response.data.message
@@ -496,8 +513,12 @@ export default {
              return new Promise((resolve, reject) => {
           this.getMerchants(this.cityID)
             .then((response) => {
+              console.log('check the resp',response);
               this.Merchants = response.data.data;
               this.Locationids =   this.Merchants[0].location_id;
+              this.useriddata =   this.Merchants[0].user_id;
+              this.cityiddata =   this.Merchants[0].city_id;
+
             //   console.log("mer",this.Locationids);
               
               // this.opportunity.reverse();

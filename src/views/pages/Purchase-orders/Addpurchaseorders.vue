@@ -792,6 +792,7 @@ calculatedPricePerUnit(){
     
     mounted(){
  this.cityID = localStorage.getItem("city_id");
+ console.log('tric',this.cityID);
  this.getlocation();
       this.locationID = localStorage.getItem("location_id");
       this.getBrandsdata()

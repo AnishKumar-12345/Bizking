@@ -82,6 +82,7 @@
       >       
         <td class="text-center">{{ item.city }}</td>
         <td class="text-center">{{ item.location }}</td>
+        <td class="text-center">{{ item.billing_address }}</td>
 
         <td class="text-center">{{ item.sales_person }}</td>
 
@@ -448,6 +449,20 @@
                  :rules="storerules"
                 />
               </VCol>
+
+               <VCol            
+                md="6"
+                cols="12"
+              >
+              <!-- {{this.salesdata}} -->
+                <VTextField
+                  v-model="this.saveMerchant.billing_address"               
+                 
+                  label="Billing Address"
+                
+                />
+              </VCol>
+
               <VCol
                 cols="12"
                 class="d-flex flex-wrap gap-4"
@@ -579,6 +594,8 @@ latitude: [
             headers:[
                {text:'City Name',value:'branch'},
                {text:'City Location',value:'location'},
+               {text:'Billing Address',value:'billing_address'},
+
                {text:'Sales Associate',value:'sales_person'},
                 {text:'Merchant Name',value:'merchant_name'},
                 {text:'Merchant UID',value:'merchant_uid'},
@@ -741,6 +758,8 @@ latitude: [
           "created_by":  this.createdby ,
           "sales_person": this.saveMerchant.sales_person,
           "created_date": this.saveMerchant.created_date,
+          "billing_address": this.saveMerchant.billing_address,
+
       }
       console.log('post',postData);
       this.updateMerchantdetailsdata(postData).then((response)=>{
@@ -794,6 +813,8 @@ latitude: [
                   this.saveMerchant.poc_phone = response.data.data.poc_phone;
                    this.saveMerchant.shop_size = response.data.data.shop_size;
                     this.saveMerchant.shop_type = response.data.data.shop_type;
+                    this.saveMerchant.billing_address = response.data.data.billing_address;
+
                   this.saveMerchant.city_id = this.locationsdata.find(location => location.value === response.data.data.city_id)?.value || response.data.data.city_id;
                   // this.saveMerchant.location_id =  response.data.data.location_id;
 this.saveMerchant.location_id = this.cityLoaction.find(location => location.value === response.data.data.location_id)?.value || response.data.data.location_id;

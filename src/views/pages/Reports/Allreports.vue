@@ -690,7 +690,7 @@
                     <VSelect
                       v-model="selectSales"
                       :items="['All', 'Acknowledged', 'Shipped', 'Delivered','OnHold','Cancel']"
-                      label="Select"
+                      label="Select Status"
                       :rules="salesRules"
                     />
                   </VCol>
@@ -1472,7 +1472,7 @@
                     <VSelect
                       v-model="selectGST"
                       :items="['Invoice Wise', 'Product Wise']"
-                      label="Select"
+                      label="Report Type"
                       :rules="GSTrules"
                     />
                   </VCol>
@@ -1908,6 +1908,7 @@ export default {
       filterLocation:false,
       userType:"",
       locationRules: [], // initially empty
+      gmaildata:"",
       jsonfields: [
         {
           label: 'Closing',
@@ -1976,6 +1977,7 @@ export default {
   },
   mounted() {
     // this.filter();
+    this.gmaildata = localStorage.getItem("gmail");
      this.cityID = localStorage.getItem("city_id");
       this.locationID = localStorage.getItem("location_id");
       this.userType = localStorage.getItem("user_type");

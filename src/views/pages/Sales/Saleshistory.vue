@@ -91,8 +91,8 @@
             </VRow>
           </VCardText>
       </VCard>
-
-        <div style="max-width:400px" v-if="!showNoSalesAlert">
+<!-- v-if="!showNoSalesAlert" -->
+        <div style="max-width:400px" >
       <VTextField
         class="mb-3"
         v-model="searchQuery"        
@@ -119,9 +119,9 @@
         </div>
       </div>
     </div>
-
+  <!-- v-if="!showNoSalesAlert"  -->
    <VTable 
-      v-if="!showNoSalesAlert" 
+    
        :headers="computedHeaders" 
        :items="paginatedItems"       
        class="table-rounded"      
@@ -142,10 +142,10 @@
       </thead>
 
       <tbody>
-
+<!-- 
         <tr v-if="filteredSalesHistory.length === 0">
           <td colspan="16" class="text-center"><h1>No data found !</h1></td>
-        </tr>  
+        </tr>   -->
 
         <tr v-if="this.saleshistory.length === 0">
           <td colspan="16" class="text-center"><h1>No data found !</h1></td>
@@ -221,7 +221,7 @@
          <td class="text-center">
            <VBtn
 
-             v-if="item.so_status == 'Shipped' || item.so_status == 'Delivered' || item.so_status == 'On Hold' || item.so_status === 'Cancelled'"
+       v-if="(item.so_status === 'Shipped' || item.so_status === 'Delivered' || item.so_status === 'On Hold' || item.so_status === 'Cancelled') && item.invoice_file !== ''"
               icon
               variant="text"
               color="default"
@@ -234,6 +234,26 @@
                 icon="iwwa:file-pdf"
                 size="26"
               />
+            </VBtn>
+<!-- @click="getPDFinvoice(item.invoice_file)" -->
+                 <VBtn
+
+             v-else
+              icon
+              variant="text"
+              color="default"
+              class="me-2"
+              size="x-small"
+              
+            >
+            <VIcon left
+            color="error"
+            icon="wpf:create-new"
+             size="26"
+             @click="genaratePDFinvoice(item.so_id)"
+            >
+
+    </VIcon>
             </VBtn>
         </td>
 
@@ -341,11 +361,12 @@
                   >
                      <VAutocomplete
                       v-model="Deliverydata.delivery_person"
-                      :items="this.deliveryPerson"
+                      :items="this.deliverydata"
                         item-value="value"
                       item-title="text"                  
                       label="Assign Delivery Person"
                    :rules="person"
+                    :menu-props="{ maxHeight: 200 }"
                     />
                   </VCol>
                   
@@ -486,6 +507,7 @@ export default {
      GRNhistory:[],
        searchQuery:'',
        deliveryPerson:[],
+       deliverydata:[],
        dialog :false,
       dater: [v => !!v || 'Date is required'],
       person: [v => !!v || 'Assign Delivery Person is required'],
@@ -602,6 +624,23 @@ export default {
     }
   },
     mounted(){
+        const storedSoData = localStorage.getItem("deliverydetails");
+            if (storedSoData) {
+            try {
+                this.Deliveryperson = JSON.parse(storedSoData);
+               this.deliverydata =  this.Deliveryperson.map(a => ({
+                    value: a.delivery_person,
+                    text: a.name
+                }))
+                // console.log('set',  this.deliverydata );
+                if (!Array.isArray(this.Deliveryperson)) {
+                this.Deliveryperson = [];
+                }
+            } catch (e) {
+                console.error('Error parsing sodetails from localStorage:', e);
+                this.Deliveryperson = [];
+            }
+            }
       this.cityID  = localStorage.getItem("city_id");
       this.locationID  = localStorage.getItem("location_id");
      if( this.cityID !== "" &&   this.locationID !== ""){
@@ -626,6 +665,12 @@ export default {
     // }, 5000);
     },
     methods:{
+      genaratePDFinvoice(id){
+        this.createInvoice(id).then((response)=>{
+         window.location.reload(true);
+
+        })
+      },
        handleBrandSelection(){
         // console.log('check hjandle',id);
         this.getCitylocation(this.cityID).then((response)=>{
@@ -918,7 +963,7 @@ export default {
               this.snackbar = true;
               this.color = 'on-background';
               this.loading = false;
-              this.GRNhistory = [];
+              // this.GRNhistory = [];
               // this.Deliverydata = {};
               this.snackbarText = "Select the status";
               }             

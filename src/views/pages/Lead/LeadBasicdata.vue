@@ -160,7 +160,16 @@
                     label="Lead Status"
                   />
                 </VCol>
-
+                <VCol
+                  md="6"
+                  cols="12"
+                >
+                  <VTextField
+                    v-model="saveLeads.billing_address"
+                  
+                    label="Billing Address"
+                  />
+                </VCol>
                 <VCol
                   cols="12"
                   class="d-flex flex-wrap gap-4"
@@ -246,6 +255,7 @@ export default {
         user_id: '',
         location: '',
         status: '',
+        billing_address: '',
        },
       loggedby: '',
 
@@ -311,6 +321,7 @@ export default {
         gst: this.saveLeads.gst,
         decision_authority: this.saveLeads.decision_authority,
         location: this.saveLeads.location,
+        billing_address: this.saveLeads.billing_address,
         status: status[this.saveLeads.status] ? status[this.saveLeads.status] : this.saveLeads.status ,
       }
       console.log('update lead', postdata)
@@ -320,6 +331,10 @@ export default {
           this.snackbar = true
           this.snackbarText = response.data.message
           this.color = 'primary'
+            this.$router.push({
+          name: 'LeadView', // Replace with the actual name of your route
+          // query: { lead_id: item.lead_id } 
+        });
           // this.saveLeads = {};
           
         } else {
@@ -362,6 +377,8 @@ export default {
               this.saveLeads.pincode = response.data.data.pincode
               this.saveLeads.location = response.data.data.location
               this.saveLeads.status = response.data.data.status
+              this.saveLeads.billing_address = response.data.data.billing_address
+
               // this.saveLeads.poc_phone = response.data.data.poc_phone;
               // this.saveLeads.poc_phone = response.data.data.poc_phone;
               resolve();

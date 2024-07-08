@@ -186,6 +186,8 @@
                 item-title="text"
                  :rules="salespersonr"
                   required
+                    :menu-props="{ maxHeight: 200 }"
+
                 />
               </VCol>
                <VCol            
@@ -226,6 +228,21 @@
                  :rules="storerules"
                 />
               </VCol>
+
+               <VCol    
+                 md="6"
+                     
+                cols="12"
+              >
+              <!-- {{this.salesdata}} -->
+                <VTextField
+                  v-model="this.saveMerchant.billing_address"               
+                 
+                  label="Billing Address"
+               
+                />
+              </VCol>
+
               <VCol
                 cols="12"
                 class="d-flex flex-wrap gap-4"
@@ -317,8 +334,8 @@ export default {
           "longitude":"",
           "latitude":"",
           "city_id":"",
-          "location_id":""
-
+          "location_id":"",
+          "billing_address":""
          },
          locationsdata:[],
          cityLoaction:[],
@@ -446,7 +463,9 @@ latitude: [
           "longitude": this.saveMerchant.longitude,
           "city_id": this.saveMerchant.city_id,
           "location_id": this.saveMerchant.location_id,
+          "billing_address": this.saveMerchant.billing_address
       }
+      console.log({postData});
       this.addOnboardmerchant(postData).then((response)=>{
         console.log('resp',response);
          if(response.data.status == 1){

@@ -3,7 +3,7 @@ import axios from "axios";
 export default { 
     data(){
         return{
-            url:'http://216.10.250.149/'
+            url:'http://103.211.218.32/' 
         }
     }, 
     methods:{
@@ -997,9 +997,9 @@ export default {
               return err.response;
             });
           },
-          GSTproductwise(startdate,enddate){
+          GSTproductwise(startdate,enddate,cityid){
             return axios
-            .get(this.url +"bizkingz/services/api/reports/getGSTProductsData?start_date="+startdate+"&end_date="+enddate, {
+            .get(this.url +"bizkingz/services/api/reports/getGSTProductsData?start_date="+startdate+"&end_date="+enddate+"&city_id="+cityid, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",
@@ -1370,6 +1370,60 @@ export default {
             .then(response => {
               return response;
           
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          createInvoice(id){
+            return axios
+            .get(this.url +"bizkingz/services/api/warehouse/createInvoice/"+id, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          getSalesassociate(cityid){
+            return axios
+            .get(this.url +"bizkingz/services/api/routes/getSalesPersons?city_id="+cityid, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          getSalesmerchant(id){
+            return axios
+            .get(this.url +"bizkingz/services/api/merchants/getSalesMerchants?user_id="+id, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
             })
             .catch(err => {
               return err.response;

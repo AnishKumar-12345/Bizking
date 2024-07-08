@@ -396,6 +396,8 @@
                       item-value="value"
                       item-title="text"
                       :rules="PersonRules"
+                    :menu-props="{ maxHeight: 200 }"
+
                     />
 
                     <!-- <VSelect v-model="selectedDeliveryPerson" label="Select Delivery Person">
@@ -409,6 +411,18 @@
     </VSelectItem>
   </VSelect> -->
                   </VCol>
+<!-- {{this.outputStock.po_number}} -->
+                    <VCol
+                    md="6"
+                    cols="12"
+                  >
+                    <VTextField
+                      v-model="this.outputStock.po_number"
+                      label="PO Number"
+                      
+                    />
+                  </VCol>
+
                   <VCol cols="12">
                       <div
       v-if="loading3"
@@ -640,6 +654,7 @@ export default {
         total_margin: '',
         total_so_amount: '',
         total_quantity: '',
+        po_number:'',
         created_date: '',
         shipped_date: this.getFormattedDate(new Date()),
         so_status: '',
@@ -974,6 +989,7 @@ export default {
         created_date: this.OutputStockDetails.created_date,
         shipped_date: this.outputStock.shipped_date,
         is_empty: this.outputStock.is_empty,
+        po_number: this.outputStock.po_number,
         total_shipped_ordered: `${this.totalshippedorder}`,
         total_shipped_exchanged: `${this.totalshippedexchange}`,
         products: this.Salesorderdetails.map((product, index) => ({
@@ -1202,6 +1218,8 @@ export default {
       this.loading3 = false;
 
         this.OutputStockDetails = response.data;
+        this.outputStock.po_number = response.data.po_number;
+
         //  console.log('check output dtock', this.OutputStockDetails);
         this.Salesorderdetails = response.data.products;
         this.deliveryUserDetails = response.delivery_user_details;

@@ -60,22 +60,44 @@
                 />
               </VCol>  
                      <VCol cols="12" md="6">
-      <VTextField
-        v-model="selectedDate"
-        type="date"
-        label="Select Date"
-        @input="updateDateTime"
-        :rules="dateRules"
-         :min="minDate"
-      />
-    </VCol>
-    <VCol cols="12" md="6">
-      <VTextField
-        v-model="selectedDateTime"
-        label="Selected Date and Time"
-        readonly
-      />
-    </VCol>
+                      <VTextField
+                        v-model="selectedDate"
+                        type="date"
+                        label="So Created Date"
+                        @input="updateDateTime"
+                        :rules="dateRules"
+                        :min="minDate"
+                      />
+                    </VCol>
+                    <VCol cols="12" md="6">
+                      <VTextField
+                        v-model="selectedDateTime"
+                        label="So Created Date and Time"
+                        readonly
+                      />
+                    </VCol>
+
+                      <VCol cols="12" md="6">
+                      <VTextField
+                        v-model="billingaddress"
+                        label="Billing Address"
+                        readonly
+                      />
+                    </VCol>
+                     <VCol cols="12" md="6">
+                      <VTextField
+                        v-model="storeAddress"
+                        label="Store Address"
+                        readonly
+                      />
+                    </VCol>
+                     <VCol cols="12" md="6">
+                      <VTextField
+                        v-model="this.PONumber"
+                        label="PO Number"
+                        
+                      />
+                    </VCol>
 
               <VCol cols="12">
 
@@ -253,6 +275,9 @@ export default {
          (v) => !!v || 'Date is required',
       ],
       userIds:'',
+      PONumber:'',
+      billingaddress:'',
+      storeAddress:'',
        selectedDate: '', // Holds the date selected by the user
       selectedDateTime: '', // Holds the date with appended time
       dateRules: [(v) => !!v || 'Date is required'],
@@ -441,6 +466,7 @@ export default {
       "city_id": this.cityiddata,
       "location_id": this.Locationids,
       "so_status": 3,
+      "po_number": this.PONumber,
       "created_date": this.selectedDateTime,
       "device": "CRM-WEB",
       "products": this.merchantProducts.map(product => {
@@ -465,7 +491,7 @@ export default {
              this.snackbar = true;
                     this.snackbarText = response.data.message
                     this.color = "primary";
-                    // window.location.reload();
+                    window.location.reload();
         }else{
              this.snackbar = true;
                     this.snackbarText = response.data.message
@@ -490,21 +516,22 @@ export default {
       }
     },
         handleBrandSelection(id){
-            this.loading2 = true;
-            this.salesMerchantProducts(id).then((response)=>{
-                console.log('check the response',response);
+               this.loading2 = true;
+               this.salesMerchantProducts(id).then((response)=>{
+               console.log('check the response',response);
             if(response.data.status == 1 ){
                 this.merchantProducts = response.data.merchant_product_details.products;
-                 this.snackbar = true;
-                    this.snackbarText = response.data.message
-                    this.color = "primary";
-            this.loading2 = false;
-
+                this.billingaddress = response.data.merchant_product_details.billing_address;
+                this.storeAddress = response.data.merchant_product_details.store_address;
+                this.snackbar = true;
+                this.snackbarText = response.data.message
+                this.color = "primary";
+                this.loading2 = false;
             }else{
-                 this.snackbar = true;
+                this.snackbar = true;
                 this.snackbarText =  response.data.message
                 this.color = "primary";
-            this.loading2 = false;
+                this.loading2 = false;
 
             }
         })

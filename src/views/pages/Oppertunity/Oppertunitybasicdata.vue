@@ -185,6 +185,17 @@
                 </VCol>
 
                 <VCol
+                  md="6"
+                  cols="12"
+                >
+                  <VTextField
+                    v-model="saveLeads.billing_address"
+                   
+                    label="Billing Address"
+                  />
+                </VCol>
+
+                <VCol
                   cols="12"
                   class="d-flex flex-wrap gap-4"
                 >
@@ -275,6 +286,7 @@ export default {
         user_id: '',
         location: '',
         status: '',
+        billing_address: '',
        },
       loggedby: '',
 createdby:'',
@@ -295,7 +307,7 @@ createdby:'',
       },
   },
   mounted() {
-      this.createdby =  localStorage.getItem('user_id');
+    this.createdby =  localStorage.getItem('user_id');
     this.Leadid = this.$route.query.opportunity_id
     this.loggedby = localStorage.getItem('createdby');
     // console.log('set', this.Leadid);
@@ -353,6 +365,7 @@ createdby:'',
         gst: this.saveLeads.gst,
         decision_authority: dec[this.saveLeads.decision_authority] ? dec[this.saveLeads.decision_authority] : this.saveLeads.decision_authority ,
         location: this.saveLeads.location,
+        billing_address: this.saveLeads.billing_address,
         status: status[this.saveLeads.status] ? status[this.saveLeads.status] : this.saveLeads.status ,
       }
       // console.log('update lead', postdata)
@@ -406,6 +419,7 @@ createdby:'',
               this.saveLeads.poc_phone = response.data.data.poc_phone
               this.saveLeads.pincode = response.data.data.pincode
               this.saveLeads.location = response.data.data.location
+              this.saveLeads.billing_address = response.data.data.billing_address
               this.saveLeads.status = response.data.data.status == "created" ? "Created" : "created" && response.data.data.status == "cancelled" ? "Cancelled" : "cancelled" && response.data.data.status == "close" ? "Closed(Onboard)" : response.data.data.status ;
               this.saveLeads.longitude = response.data.data.longitude ? response.data.data.longitude : "";
               this.saveLeads.latitude = response.data.data.latitude ? response.data.data.latitude : "";

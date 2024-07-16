@@ -325,7 +325,20 @@ export default {
             }
           })
           .then(response => {
-            return response.data;
+            return response.data; 
+          });
+        },
+        getmerchantsawise(reqbody){
+          return axios
+          .get(this.url +"bizkingz/services/api/routes/getSalesMerchants?user_id="+reqbody, {
+            headers: {
+              "Content-Type": "application/json",
+              "accept": "*/*",
+            //   "Authorization": "Bearer "+token
+            }
+          })
+          .then(response => {
+            return response.data; 
           });
         },
         getmerchantbrandproducts(reqbody,id){
@@ -1342,6 +1355,24 @@ export default {
           saveSorder(id){
             return axios
             .post(this.url +"bizkingz/services/api/sales/createOrder",id, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          saveRoute(id){
+            return axios
+            .post(this.url +"bizkingz/services/api/routes/addPlans",id, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",

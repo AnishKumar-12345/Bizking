@@ -26,8 +26,7 @@
            
                 />
               </VCol>
-<!-- 
-              <VCol
+              <!-- <VCol
                 md="6"
                 cols="12"
               >
@@ -42,16 +41,20 @@
                   :menu-props="{ maxHeight: 200 }"
                 />
               </VCol> -->
-            
+            <!-- {{this.merchantsawise}} -->
               <VCol
                 cols="12"
                 md="6"
               >
-                <VTextField
-                 
+                <VAutocomplete
+                  v-model="this.merchantsawise"
                   label="Merchants SA Wise"
-               
+                  :items="this.merchantSA"
+                  item-value="value"
+                  item-title="text"
+                  multiple
                   required
+                  :menu-props="{ maxHeight: 200 }"
                 />
               </VCol>
       
@@ -60,9 +63,9 @@
                 md="6"
               >
                 <VTextField
-              
+                  v-model="this.Routename"
                   label="Route Name"
-                  
+                  :rules="routerules"
                   required
                 />
               </VCol>
@@ -104,8 +107,14 @@ export default {
       text:123,
       salesdata:[],
       salesassicate:'',
+      merchantsawise:'',
+      Routename:'',
+      merchantSA:[],
+      merchantSAdata:[],
+      routerules: [
+         (v) => !!v || 'Route Name is required',
+      ],
       routesdata:{
-
       },
     }
   },
@@ -117,9 +126,69 @@ export default {
 
   },
   methods:{
+ validateForm(){
+   this.$refs.purchaseOrderForm.validate().then(valid => {
+        // console.log("form valid", valid.valid);
+        if (valid.valid == true) {         
+          this.saveRoutedetails();
+        }else{
+           this.snackbar = true;
+            this.snackbarText = "Please give all mandatory fields"
+            this.color = "on-background";
+        }
+      }); 
+    },
+
+    saveRoutedetails(){
+      const postData = {
+         "route_name":this.Routename,
+          "user_id":this.salesassicate,
+            "merchants": this.merchantsawise.map((merchantId) => {
+          const merchant = this.merchantSA.find(m => m.value === merchantId);
+          if (merchant) {
+            return {
+              merchant_id: merchant.value,
+              merchant_uid: merchant.text,
+              merchant_name: merchant.merchant_name,
+              latitude: merchant.latitude,
+              longitude: merchant.longitude,
+            };
+          } else {
+            console.warn(`Merchant with ID ${merchantId} not found in merchantSA`);
+            return null;
+          }
+        }).filter(m => m !== null),     
+      }
+     console.log('check route',postData)
+      this.saveRoute(postData).then((response)=>{
+        console.log('check route',response)
+         if(response.data.status == 1){
+             this.snackbar = true;
+                    this.snackbarText = response.data.message
+                    this.color = "primary";
+                    window.location.reload();
+        }else{
+             this.snackbar = true;
+                    this.snackbarText = response.data.message
+                    this.color = "on-background";
+        }
+      })
+    },
+
     handleBrandSelection(id){
-      this.getSalesmerchant(id).then((response)=>{
+      this.getmerchantsawise(id).then((response)=>{
         console.log('check rp',response);
+        this.merchantSA = response.data.map(m =>({
+          value: m.merchant_id,
+          text: m.merchant_uid,
+          merchant_name: m.merchant_name,
+          latitude: m.latitude,
+          longitude: m.longitude,
+        }));
+        // this.merchantSA = this.merchantSA.map(m => ({
+        //    value: m.merchant_id,
+        //   text: m.merchant_uid
+        // }))
       })
     },
     getAllsales(){

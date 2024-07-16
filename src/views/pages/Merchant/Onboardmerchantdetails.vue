@@ -244,6 +244,25 @@
               </VCol>
 
               <VCol
+                md="6"
+                cols="12"
+              >
+              <!-- {{this.salesdata}} -->
+
+                <VSelect
+                  v-model="this.saveMerchant.payment_type"                
+                 
+                  label="Payment Type "
+                  :items="['Cash On Delivery','GRN','POD']"
+               
+                 :rules="salespersonrules"
+                  required
+                    :menu-props="{ maxHeight: 200 }"
+
+                />
+              </VCol>
+
+              <VCol
                 cols="12"
                 class="d-flex flex-wrap gap-4"
               >
@@ -335,7 +354,8 @@ export default {
           "latitude":"",
           "city_id":"",
           "location_id":"",
-          "billing_address":""
+          "billing_address":"",
+          "payment_type":"",
          },
          locationsdata:[],
          cityLoaction:[],
@@ -359,6 +379,10 @@ latitude: [
 
          storerules:[
           (v) => !!v || 'Store Address is required',
+         ],
+         salespersonrules:[
+          (v) => !!v || 'Agree Payment Mode is required',
+
          ],
        uidrules: [
          (v) => !!v || 'UID is required',
@@ -463,7 +487,8 @@ latitude: [
           "longitude": this.saveMerchant.longitude,
           "city_id": this.saveMerchant.city_id,
           "location_id": this.saveMerchant.location_id,
-          "billing_address": this.saveMerchant.billing_address
+          "billing_address": this.saveMerchant.billing_address,
+          "payment_type": this.saveMerchant.payment_type,
       }
       console.log({postData});
       this.addOnboardmerchant(postData).then((response)=>{

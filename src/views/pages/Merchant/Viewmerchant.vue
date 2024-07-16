@@ -83,6 +83,7 @@
         <td class="text-center">{{ item.city }}</td>
         <td class="text-center">{{ item.location }}</td>
         <td class="text-center">{{ item.billing_address }}</td>
+        <td class="text-center">{{ item.payment_type }}</td>
 
         <td class="text-center">{{ item.sales_person }}</td>
 
@@ -463,6 +464,25 @@
                 />
               </VCol>
 
+    <VCol
+                md="6"
+                cols="12"
+              >
+              <!-- {{this.salesdata}} -->
+
+                <VSelect
+                  v-model="this.saveMerchant.payment_type"                
+                 
+                  label="Payment Type "
+                  :items="['Cash On Delivery','GRN','POD']"
+               
+                 :rules="salespersonrules"
+                  required
+                    :menu-props="{ maxHeight: 200 }"
+
+                />
+              </VCol>
+
               <VCol
                 cols="12"
                 class="d-flex flex-wrap gap-4"
@@ -504,6 +524,10 @@ export default {
         return{
             storerules:[
           (v) => !!v || 'Store Address is required',
+         ],
+          salespersonrules:[
+          (v) => !!v || 'Agree Payment Mode is required',
+
          ],
        uidrules: [
          (v) => !!v || 'UID is required',
@@ -584,7 +608,9 @@ latitude: [
               "status": "",
               "created_by": "",
               "city_id":"",
-              "location_id":""
+              "location_id":"",
+          "payment_type":"",
+
             },
             salesdata:[],
             cityID:null,
@@ -595,6 +621,7 @@ latitude: [
                {text:'City Name',value:'branch'},
                {text:'City Location',value:'location'},
                {text:'Billing Address',value:'billing_address'},
+               {text:'Payment Type',value:'payment_type'},
 
                {text:'Sales Associate',value:'sales_person'},
                 {text:'Merchant Name',value:'merchant_name'},
@@ -759,6 +786,8 @@ latitude: [
           "sales_person": this.saveMerchant.sales_person,
           "created_date": this.saveMerchant.created_date,
           "billing_address": this.saveMerchant.billing_address,
+          "payment_type": this.saveMerchant.payment_type,
+
 
       }
       console.log('post',postData);
@@ -824,7 +853,7 @@ this.saveMerchant.location_id = this.cityLoaction.find(location => location.valu
                           text: sales.name
                       })) : response.data.data.sales_person,
                        this.saveMerchant.store_address = response.data.data.store_address;
-                      
+                       this.saveMerchant.payment_type = response.data.data.payment_type;                      
                        this.saveMerchant.status = response.data.data.status == 1 ? 'Active' : 'Inactive';
 
             // this.$router.push({

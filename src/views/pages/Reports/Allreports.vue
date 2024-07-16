@@ -689,7 +689,7 @@
                     <!-- this_year this_month -->
                     <VSelect
                       v-model="selectSales"
-                      :items="['All', 'Acknowledged', 'Shipped', 'Delivered','OnHold','Cancel']"
+                      :items="['All', 'Acknowledged', 'Shipped', 'Delivered','OnHold','Cancel', 'GRN Orders']"
                       label="Select Status"
                       :rules="salesRules"
                     />
@@ -1766,7 +1766,7 @@
                       :size="50"
                       color="primary"
                       indeterminate
-                      v-show="isProgress15"
+                      v-show="isProgress16"
                     >
                     </VProgressCircular>
                   </VCol>
@@ -2029,7 +2029,7 @@ export default {
       });
           },
     openOreport(){
-      this.isProgress15 = true;
+      this.isProgress16 = true;
        const requestData = {
         // merchant: this.selectedmerchants3,
         location: this.userType === 'Business Head' ? this.citydata : this.cityID
@@ -2037,14 +2037,18 @@ export default {
 
        this.Opportunityreports(requestData.location).then((response)=>{
            if (response.data.status == 0) {
-               this.isProgress14 = false;
+               this.isProgress16 = false;
 
 
           this.snackbar = true;
           this.color = 'on-background'
-          this.snackbarText = response.data.message
+          this.snackbarText = response.data.message;
+      this.dialog14 = false;
+
         } else {
-          this.isProgress14 = false;      
+          this.isProgress16 = false;   
+      this.dialog14 = false;
+
           this.citydata = "";
           const blob = new Blob([response.data], { type: 'text/csv' })
 
@@ -2089,6 +2093,7 @@ export default {
        this.Leadreports(requestData.requestData).then((response)=>{
            if (response.data.status == 0) {
                this.isProgress13 = false;
+      this.dialog13 = false;
 
 
           this.snackbar = true;
@@ -2097,6 +2102,7 @@ export default {
         } else {
           this.isProgress13 = false;      
       this.citydata = "";
+      this.dialog13 = false;
 
           const blob = new Blob([response.data], { type: 'text/csv' })
 
@@ -2426,7 +2432,7 @@ export default {
         location: this.userType === 'Business Head' ? this.citydata : this.cityID
       };
         this.isProgress9 = true;
-         this.Merchantpaymentsoverall(this.selectedSalesuser,this.selectedSalesMerchant,this.startDate1,this.endDate1,requestData.location).then((response)=>{
+         this.Merchantpaymentsoverall(this.selectedSalesuser,this.selectedSalesMerchant,this.startDate1,this.endDate1,requestData.location,this.cityID).then((response)=>{
            if (response.data.status == 0) {
           this.isProgress10 = false;
           this.isProgress9 = false;

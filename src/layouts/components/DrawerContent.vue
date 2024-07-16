@@ -158,19 +158,19 @@ export default{
           ],
           expanded: false,
         },  
-         {
-          id: 19,
-          title: 'Routes',
-          icon: "material-symbols:payments-outline-sharp", 
-          children: [
-            // { id: 52, title: 'Merchant Payments', route: '/Merchantpaymentsdata' },   
-            { id: 59, title: 'Add Routes', route: '/Createroutes' },           
-            { id: 60, title: 'View Routes', route: '/Viewallroutes' },           
+        //  {
+        //   id: 19,
+        //   title: 'Routes',
+        //   icon: "material-symbols:payments-outline-sharp", 
+        //   children: [
+        //     // { id: 52, title: 'Merchant Payments', route: '/Merchantpaymentsdata' },   
+        //     { id: 59, title: 'Add Routes', route: '/Createroutes' },           
+        //     { id: 60, title: 'View Routes', route: '/Viewallroutes' },           
 
-            // { id: 51, title: 'Sales Orders', route: '/Salesordersdetails' },           
-          ],
-          expanded: false,
-        },  
+        //     // { id: 51, title: 'Sales Orders', route: '/Salesordersdetails' },           
+        //   ],
+        //   expanded: false,
+        // },  
         {
           id: 10,
           title: 'Warehouse',

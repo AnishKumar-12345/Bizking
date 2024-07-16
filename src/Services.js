@@ -1033,9 +1033,9 @@ export default {
               return err.response;
             });
           },
-          Merchantpaymentsoverall(person,id,startdate,enddate){
+          Merchantpaymentsoverall(person,id,startdate,enddate,cityid){
             return axios
-            .get(this.url +"bizkingz/services/api/reports/merchant_payments_overall?sales_person="+person+"&merchant_id="+id+"&start_date="+startdate+"&end_date="+enddate, {
+            .get(this.url +"bizkingz/services/api/reports/merchant_payments_overall?sales_person="+person+"&merchant_id="+id+"&start_date="+startdate+"&end_date="+enddate+"&city_id="+cityid, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",

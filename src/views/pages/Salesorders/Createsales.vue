@@ -484,20 +484,20 @@ export default {
         };
       })
     };
-    console.log({ postData });
-    this.saveSorder(postData).then((response)=>{
-        console.log({response});
-        if(response.data.status == 1){
-             this.snackbar = true;
-                    this.snackbarText = response.data.message
-                    this.color = "primary";
-                    window.location.reload();
-        }else{
-             this.snackbar = true;
-                    this.snackbarText = response.data.message
-                    this.color = "on-background";
-        }
-    })
+        console.log({ postData });
+        this.saveSorder(postData).then((response)=>{
+            console.log({response});
+            if(response.data.status == 1){
+                this.snackbar = true;
+                        this.snackbarText = response.data.message
+                        this.color = "primary";
+                        window.location.reload();
+            }else{
+                this.snackbar = true;
+                        this.snackbarText = response.data.message
+                        this.color = "on-background";
+            }
+        })
       }, 
          preventDecimal(event) {     
             if (event.key === '.' || event.key === ',' ||  event.key === '+' ||  event.key === '-' || event.keyCode === 189 || event.keyCode === 109) {

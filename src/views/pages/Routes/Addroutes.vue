@@ -26,11 +26,11 @@
            
                 />
               </VCol>
-              <!-- <VCol
+
+                <!-- <VCol
                 md="6"
                 cols="12"
-              >
-          
+                >          
                 <VAutocomplete
                   v-model="this.saveBrand.location_id"
                   label="Location"
@@ -40,12 +40,14 @@
                   :rules="locationrules2"
                   :menu-props="{ maxHeight: 200 }"
                 />
-              </VCol> -->
-            <!-- {{this.merchantsawise}} -->
+                </VCol> -->
+                <!-- {{this.merchantsawise}} -->
+
               <VCol
                 cols="12"
                 md="6"
               >
+                  <!-- class="fixed-height-autocomplete" -->
                 <VAutocomplete
                   v-model="this.merchantsawise"
                   label="Merchants SA Wise"
@@ -54,6 +56,7 @@
                   item-title="text"
                   multiple
                   required
+                  chips               
                   :menu-props="{ maxHeight: 200 }"
                 />
               </VCol>
@@ -93,7 +96,14 @@
       </VCard>
     </VCol>  
   </VRow>
-
+ <VSnackbar
+      v-model="snackbar"
+      :timeout="2000"
+      :color="color"
+    >
+      {{ snackbarText }}
+      <!-- <VBtn text @click="snackbar = false">Close</VBtn> -->
+    </VSnackbar>
   </div>
 </template>
 <script>
@@ -103,6 +113,14 @@ export default {
   mixins: [servicescall],
   data(){
     return{
+         snackbar: false,
+            snackbarText: '',
+            timeout: 6000, // milliseconds
+            color: '', // or 'error', 'warning', 'info', etc.
+            top: false,
+            bottom: true,
+            left: false,
+            right: false,
       cityID:'',
       text:123,
       salesdata:[],
@@ -206,3 +224,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+.fixed-height-autocomplete .v-input__control {
+  max-height: 56px; /* Set the max height to the default height of a single-line text field */
+  overflow-y: auto;
+}
+</style>

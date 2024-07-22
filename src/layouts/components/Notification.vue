@@ -14,7 +14,6 @@
         icon="mdi-bell-outline"
         size="24"
       />
-
       <!-- SECTION Menu -->
       <VMenu
         activator="parent"
@@ -22,8 +21,7 @@
         height="400"
         location="bottom end"
         offset="14px"
-      >
-     
+      >     
         <VList>
            <VListItem class="notification-heading">
             <template #default>
@@ -47,7 +45,7 @@
                     color="error"
                   />
                 </template>
-            <VListItemSubtitle style="font-size: 12px;" v-if="countUnreadNotifications === 0"> <h2>Your Notification is empty !</h2> </VListItemSubtitle>
+            <VListItemSubtitle style="font-size: 12px;" v-if="countUnreadNotifications === 0"><h2>Your Notification is empty !</h2> </VListItemSubtitle>
             <VListItemTitle class="font-weight-bold" style="font-size: 16px;">{{ notification.action }}</VListItemTitle>
             <VListItemSubtitle style="font-size: 12px;">{{ notification.message }}</VListItemSubtitle>
             <VListItemSubtitle style="font-size: 10px;">{{ notification.created_date }}</VListItemSubtitle>

@@ -357,6 +357,7 @@ export default {
           "billing_address":"",
           "payment_type":"",
          },
+         cityID:'',
          locationsdata:[],
          cityLoaction:[],
         //  Logitude:[
@@ -425,6 +426,8 @@ latitude: [
     }
    },
    mounted(){
+     this.cityID = localStorage.getItem("city_id");
+
     this.getAllsales();
     this.userid = localStorage.getItem('user_id');
     // console.log('us',  this.userid)
@@ -507,7 +510,7 @@ latitude: [
       })
     },
     getAllsales(){
-      this.getsalesperson().then((response)=>{
+      this.getSalesassociate(this.cityID).then((response)=>{
         // console.log('sales',response);
         this.salesdata = response.data.data;
    

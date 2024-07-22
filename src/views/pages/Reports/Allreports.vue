@@ -3322,7 +3322,10 @@ export default {
         Cancel: '0'
       }
 
-      console.log('check ', statusMapping[this.selectSales])
+      const statusma={
+        "GRN Orders": 'all'
+      }
+      console.log('check ', statusma[this.selectSales])
       this.isProgress2 = true;
 
         const requestData = {
@@ -3341,8 +3344,55 @@ export default {
         this.Salesdata.start_date = this.getFormattedDate(new Date())
         this.Salesdata.end_date = this.getFormattedDate(new Date())
       }
-      this.salesstocksreport(
+      if(this.selectSales != "GRN Orders"){
+           this.salesstocksreport(
         statusMapping[this.selectSales],
+        this.Salesdata.date_filter,
+        this.Salesdata.start_date,
+        this.Salesdata.end_date,
+        requestData.location
+      ).then(response => {
+        console.log('check the response', response)
+        if (response.data.status == 0) {
+          this.isProgress2 = false
+          this.dialog3 = false
+          this.selectSales = null
+          this.Salesdata = {}
+          this.snackbar = true
+          this.color = 'on-background'
+          this.snackbarText = response.data.message
+        } else {
+          this.isProgress2 = false
+          this.dialog3 = false
+          this.selectSales = null
+          this.Salesdata = {}
+          this.citydata = ""
+
+          //  this.loading = true;
+
+          // this.reportsMerchant = response.data;
+          const blob = new Blob([response.data], { type: 'text/csv' })
+          // Create a temporary URL for the Blob
+          const url = window.URL.createObjectURL(blob)
+          // Create a link element
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', 'Sales Report.csv') //
+          document.body.appendChild(link)
+
+          link.click()
+
+          link.parentNode.removeChild(link)
+          window.URL.revokeObjectURL(url)
+
+          this.snackbar = true
+          this.color = 'primary'
+          this.snackbarText = 'Reports downloaded successfully.'
+        }
+      })
+      }else{
+         this.grnsalesstocksreport(
+        statusma[this.selectSales],
         this.Salesdata.date_filter,
         this.Salesdata.start_date,
         this.Salesdata.end_date,
@@ -3375,7 +3425,7 @@ export default {
           // Create a link element
           const link = document.createElement('a')
           link.href = url
-          link.setAttribute('download', 'Sales Report.csv') //
+          link.setAttribute('download', 'GRN Sales Report.csv') //
           document.body.appendChild(link)
 
           link.click()
@@ -3388,6 +3438,8 @@ export default {
           this.snackbarText = 'Reports downloaded successfully.'
         }
       })
+      }
+   
     },
     getReport() {
       // const postdata = {

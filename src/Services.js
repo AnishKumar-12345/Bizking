@@ -577,6 +577,24 @@ export default {
               return err.response;
             });
           },
+          grnsalesstocksreport(id,filter,startdate,enddate,cityid){
+            return axios
+            .get(this.url +"bizkingz/services/api/reports/getGrnSalesOrders?type="+id+"&date_filter="+filter+"&start_date="+startdate+"&end_date="+enddate+"&city_id="+cityid, {
+              // headers: {
+              //   "accept": "*/*",
+              //   "Content-Type": "application/json",
+                
+              // },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
 
           saveLead(reqbody){
             return axios
@@ -1445,6 +1463,24 @@ export default {
           getSalesmerchant(id){
             return axios
             .get(this.url +"bizkingz/services/api/merchants/getSalesMerchants?user_id="+id, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          viewroutes(id){
+            return axios
+            .get(this.url +"bizkingz/services/api/routes/viewRoutes?user_id="+id, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",

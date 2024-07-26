@@ -692,6 +692,8 @@
                       :items="['All', 'Acknowledged', 'Shipped', 'Delivered','OnHold','Cancel', 'GRN Orders']"
                       label="Select Status"
                       :rules="salesRules"
+                    :menu-props="{ maxHeight: 200 }"
+
                     />
                   </VCol>
 

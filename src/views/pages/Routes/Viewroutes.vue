@@ -80,22 +80,19 @@
       </thead>
 
       <tbody>
-
          <tr v-if="filteredSalesHistory.length === 0">
           <td colspan="16" class="text-center"><h1>No data found !</h1></td>
          </tr> 
        <tr
          v-for="(item,index) in this.paginatedItems"
         :key="index"
-      >       
-    
+      >     
           <td class="text-center">{{item.route_name}}</td> 
           <td class="text-center">{{item.status}}</td>    
           <td class="text-center">{{item.stores_count}}</td>    
-
           <td class="text-center">{{item.visited_stores_count}}</td>    
 
-    <td class="text-center" >
+    <!-- <td class="text-center" >
               <V-btn
                   icon
                   variant="text"
@@ -144,7 +141,7 @@
                 size="22"
               />
             </VBtn>
-            </td>
+            </td> -->
       </tr>
       </tbody>        
         </VTable>
@@ -202,7 +199,7 @@ cityID:'',
                {text:'Stores Count',value:'stores_count'},
                {text:'Visited Stores Count',value:'visited_stores_count'},
 
-               {text:'Actions',value:'action'},
+              //  {text:'Actions',value:'action'},
 
               //  {text:'Sales Associate',value:'sales_person'},
                
@@ -216,8 +213,8 @@ cityID:'',
         return (
           (item.route_name && item.route_name.toLowerCase().includes(lowerCaseQuery)) ||
           (item.status && item.status.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.stores_count && item.stores_count.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.visited_stores_count && item.visited_stores_count.toLowerCase().includes(lowerCaseQuery)) 
+          (item.stores_count && item.stores_count.toString().includes(lowerCaseQuery)) ||
+          (item.visited_stores_count && item.visited_stores_count.toString().includes(lowerCaseQuery)) 
           // (item.total_po_amount && item.total_po_amount.toString().includes(lowerCaseQuery)) ||
           // (item.invoice_number && item.invoice_number.toLowerCase().includes(lowerCaseQuery)) 
 

@@ -695,7 +695,7 @@
                     :menu-props="{ maxHeight: 200 }"
 
                     />
-                  </VCol>
+                  </VCol> 
 
                   <VCol
                     md="6"

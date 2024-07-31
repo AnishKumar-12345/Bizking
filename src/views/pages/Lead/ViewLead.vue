@@ -109,7 +109,7 @@
             </VChip>
             <!-- {{item.status}} -->
           
-        </td> 
+        </td>  
         <td class="text-center">
           {{ item.gst }}
         </td>

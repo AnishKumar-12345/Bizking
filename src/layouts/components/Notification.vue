@@ -34,6 +34,11 @@
               <VTypography class="subtitle-1">Notifications</VTypography>
             </template>
           </VListItem>
+
+           <!-- Display message when no unread notifications -->
+          <VListItem v-if="notifications.length === 0">
+            <VListItemSubtitle style="font-size: 12px;"><h2>Your Notification is empty!</h2></VListItemSubtitle>
+          </VListItem>
           <!-- 👉 Bell Icon & Notifications -->
           <VListItem v-for="notification in notifications" :key="notification.notification_id" link>
                 <template #prepend>
@@ -45,7 +50,8 @@
                     color="error"
                   />
                 </template>
-            <VListItemSubtitle style="font-size: 12px;" v-if="countUnreadNotifications === 0"><h2>Your Notification is empty !</h2> </VListItemSubtitle>
+                <!-- [{{notification}}] -->        
+            <!-- <VListItemSubtitle style="font-size: 12px;" v-if="countUnreadNotifications === 0 "><h2>Your Notification is empty !</h2> </VListItemSubtitle> -->
             <VListItemTitle class="font-weight-bold" style="font-size: 16px;">{{ notification.action }}</VListItemTitle>
             <VListItemSubtitle style="font-size: 12px;">{{ notification.message }}</VListItemSubtitle>
             <VListItemSubtitle style="font-size: 10px;">{{ notification.created_date }}</VListItemSubtitle>

@@ -110,24 +110,27 @@ export default{
           ],
           expanded: false,
         },    
-          {
-          id: 8,
-          title: 'Sales Order',
-          icon: "material-symbols:orders-outline-rounded",
-          children: [
-            { id: 57, title: 'Create Order', route: '/Createsalesorders' },
-            // { id: 58, title: 'View Order', route: '/Viewpurchaseorder' },
-            // { id: 40, title: 'View History', route: '/Viewpurchasehistory' },
+        //   {
+        //   id: 8,
+        //   title: 'Sales Order',
+        //   icon: "material-symbols:orders-outline-rounded",
+        //   children: [
+        //     { id: 57, title: 'Create Order', route: '/Createsalesorders' },
+        //     // { id: 58, title: 'View Order', route: '/Viewpurchaseorder' },
+        //     // { id: 40, title: 'View History', route: '/Viewpurchasehistory' },
 
-          ],
-          expanded: false,
-        }, 
+        //   ],
+        //   expanded: false,
+        // }, 
         {
           id: 9,
           title: 'Sales',
           icon: "carbon-sales-ops",
           children: [
-            { id: 41, title: 'View Sales History', route: '/Viewsaleshistory' },           
+            { id: 57, title: 'Create Order', route: '/Createsalesorders' },
+
+            { id: 41, title: 'View Sales History', route: '/Viewsaleshistory' },        
+
             // { id: 51, title: 'Sales Orders', route: '/Salesordersdetails' },           
 
           ],

@@ -395,6 +395,8 @@
                 item-title="text"
                  :rules="namerulessale"
                   required
+                  :menu-props="{ maxHeight: 200 }"
+
                 />
               </VCol>
 
@@ -804,7 +806,7 @@ latitude: [
               this.color = "on-background";
               this.snackbar = true;
               }
-      })
+         })
       },
          getAllsales(){
       this.getsalesperson().then((response)=>{

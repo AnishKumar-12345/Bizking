@@ -354,14 +354,14 @@
                 ref="purchaseOrderForm"
               >
                 <VRow>                
-
+<!-- {{Deliverydata.delivery_person}} -->
                   <VCol
                     md="12"
                     cols="12"
                   >
                      <VAutocomplete
                       v-model="Deliverydata.delivery_person"
-                      :items="this.deliverydata"
+                      :items="this.deliveryPerson"
                         item-value="value"
                       item-title="text"                  
                       label="Assign Delivery Person"
@@ -624,23 +624,23 @@ export default {
     }
   },
     mounted(){
-        const storedSoData = localStorage.getItem("deliverydetails");
-            if (storedSoData) {
-            try {
-                this.Deliveryperson = JSON.parse(storedSoData);
-               this.deliverydata =  this.Deliveryperson.map(a => ({
-                    value: a.delivery_person,
-                    text: a.name
-                }))
-                // console.log('set',  this.deliverydata );
-                if (!Array.isArray(this.Deliveryperson)) {
-                this.Deliveryperson = [];
-                }
-            } catch (e) {
-                console.error('Error parsing sodetails from localStorage:', e);
-                this.Deliveryperson = [];
-            }
-            }
+        // const storedSoData = localStorage.getItem("deliverydetails");
+            // if (storedSoData) {
+            // try {
+            //     this.Deliveryperson = JSON.parse(storedSoData);
+            //    this.deliverydata =  this.Deliveryperson.map(a => ({
+            //         value: a.delivery_person,
+            //         text: a.name
+            //     }))
+            //     // console.log('set',  this.deliverydata );
+            //     if (!Array.isArray(this.Deliveryperson)) {
+            //     this.Deliveryperson = [];
+            //     }
+            // } catch (e) {
+            //     console.error('Error parsing sodetails from localStorage:', e);
+            //     this.Deliveryperson = [];
+            // }
+            // }
       this.cityID  = localStorage.getItem("city_id");
       this.locationID  = localStorage.getItem("location_id");
      if( this.cityID !== "" &&   this.locationID !== ""){
@@ -807,6 +807,8 @@ export default {
             this.Deliverydata = {};
             this.snackbarText = response.data.message;
             this.getSalesorderdetails();
+        this.locationdetails();
+
           }else{
              this.dialog = false;
              this.snackbar = true;
@@ -822,7 +824,7 @@ export default {
       },
       editrow(id){
         console.log("ids",id.so_id)
-        this.Getsalesperson().then((response)=>{
+        this.Getsalesperson( this.cityID,this.locationdata).then((response)=>{
           console.log('getperson',response);
           if(response.data.status == 1){
             this.deliveryPerson = response.data.data.map(del => ({

@@ -18,7 +18,7 @@
       <VMenu
         activator="parent"
         width="450"
-        height="400"
+        height="250"
         location="bottom end"
         offset="14px"
       >     

@@ -387,16 +387,16 @@
                     md="6"
                     cols="12"
                   >
-                    <!-- {{this.deliveryPersons}}
-                {{selectedDeliveryPerson}} -->
+                    <!-- {{this.deliveryPersons}} -->
+                <!-- {{selectedDeliveryPerson}} -->
                     <VSelect
                       v-model="selectedDeliveryPerson"
                       label="Select Delivery Person"
-                      :items="this.deliverydata"
+                      :items="this.deliveryPersons"
                       item-value="value"
                       item-title="text"
                       :rules="PersonRules"
-                    :menu-props="{ maxHeight: 200 }"
+                      :menu-props="{ maxHeight: 200 }"
 
                     />
 
@@ -425,25 +425,25 @@
 
                   <VCol cols="12">
                       <div
-      v-if="loading3"
-      id="app"
-    >
-      <div id="loading-bg">
-        <div class="loading-logo">
-          <img
-            src="../../../assets/images/logos/comlogo.jpeg"
-            height="60"
-            width="68"
-            alt="Logo"
-          />
-        </div>
-        <div class="loading">
-          <div class="effect-1 effects"></div>
-          <div class="effect-2 effects"></div>
-          <div class="effect-3 effects"></div>
-        </div>
-      </div>
-    </div>
+                        v-if="loading3"
+                        id="app"
+                      >
+                        <div id="loading-bg">
+                          <div class="loading-logo">
+                            <img
+                              src="../../../assets/images/logos/comlogo.jpeg"
+                              height="60"
+                              width="68"
+                              alt="Logo"
+                            />
+                          </div>
+                          <div class="loading">
+                            <div class="effect-1 effects"></div>
+                            <div class="effect-2 effects"></div>
+                            <div class="effect-3 effects"></div>
+                          </div>
+                        </div>
+                      </div>
                     <VTable
                       :headers="headers"
                       :items="Salesorderdetails"
@@ -790,23 +790,23 @@ export default {
   mounted() {
     this.Soid = this.$route.query.so_id;
       this.cityID  = localStorage.getItem("city_id");
-         const storedSoData = localStorage.getItem("deliverydetails");
-            if (storedSoData) {
-            try {
-                this.Deliveryperson = JSON.parse(storedSoData);
-               this.deliverydata =  this.Deliveryperson.map(a => ({
-                    value: a.delivery_person,
-                    text: a.name
-                }))
-                console.log('set',  this.deliverydata );
-                if (!Array.isArray(this.Deliveryperson)) {
-                this.Deliveryperson = [];
-                }
-            } catch (e) {
-                console.error('Error parsing sodetails from localStorage:', e);
-                this.Deliveryperson = [];
-            }
-            }
+        //  const storedSoData = localStorage.getItem("deliverydetails");
+            // if (storedSoData) {
+            // try {
+            //     this.Deliveryperson = JSON.parse(storedSoData);
+            //    this.deliverydata =  this.Deliveryperson.map(a => ({
+            //         value: a.delivery_person,
+            //         text: a.name
+            //     }))
+            //     console.log('set',  this.deliverydata );
+            //     if (!Array.isArray(this.Deliveryperson)) {
+            //     this.Deliveryperson = [];
+            //     }
+            // } catch (e) {
+            //     console.error('Error parsing sodetails from localStorage:', e);
+            //     this.Deliveryperson = [];
+            // }
+            // }
       // this.deliverydata = this.Deliveryperson.map(deliveryPerson => ({
       //     value: deliveryPerson.delivery_person,
       //     text: deliveryPerson.name,
@@ -1200,7 +1200,7 @@ export default {
       this.outputStock = {};
     },
     outputstocks(item) {
-      console.log('check the detials', item)
+      // console.log('check the detials', item)
       this.dialog = true
       this.outputStock.so_number = item.so_number
       this.outputStock.is_empty = item.is_empty
@@ -1214,8 +1214,8 @@ export default {
       // });
       this.loading3 = true;
       this.getOutputstock(item.so_id,this.cityID).then(response => {
-        console.log('dates',response);
-      this.loading3 = false;
+        // console.log('dates',response);
+        this.loading3 = false;
 
         this.OutputStockDetails = response.data;
         this.outputStock.po_number = response.data.po_number;

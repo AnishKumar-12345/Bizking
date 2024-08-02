@@ -1082,9 +1082,9 @@ export default {
               return err.response;
             });
           },
-          Getsalesperson(){
+          Getsalesperson(city,location){
             return axios
-            .get(this.url +"bizkingz/services/api/sales/delivery_persons", {
+            .get(this.url +"bizkingz/services/api/sales/delivery_persons?city_id="+city+"&location_id="+location, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",

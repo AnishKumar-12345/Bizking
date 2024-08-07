@@ -6,7 +6,7 @@
             color="primary"
             indeterminate
             class="custom-loader"  
-            full-width              
+            full-width               
         />          
      </div>
          <VRow> 

@@ -872,7 +872,7 @@ export default {
         });
     });
     },
-     handleBrandSelection(){
+     handleBrandSelection(){ 
         // console.log('check hjandle',id);
         this.getCitylocation(this.cityID ).then((response)=>{
           // console.log('check the response',response);
@@ -931,11 +931,11 @@ export default {
       this.$refs.purchaseOrderForm.validate().then(valid => {
         // console.log("form valid", valid.valid);
         if (valid.valid == true) {
-          this.saveOutputstock()
+          this.saveOutputstock();
         } else {
-          this.snackbar = true
-          this.snackbarText = 'Please give all mandatory fields'
-          this.color = 'on-background'
+          this.snackbar = true;
+          this.snackbarText = 'Please give all mandatory fields';
+          this.color = 'on-background';
         }
       })
     },

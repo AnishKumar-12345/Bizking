@@ -8,7 +8,7 @@ import { useTheme } from 'vuetify'
 // import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 
 export default{
-  name: "DrawerContent",
+  name: "DrawerContent", 
 //  components:{
 //  Index,
 
@@ -184,6 +184,10 @@ export default{
              { id: 44, title: 'View Stock', route: '/Viewstoreinventory' },
             //  { id: 45, title: 'Generate D.C', route: '/tables' },                    
               { id: 46, title: 'Update RTV', route: '/Returnwarehousegoods' },  
+              { id: 63, title: 'Assign Trip View', route: '/Assignedtripview' },  
+              { id: 64, title: 'Trip Bulk Upload', route: '/Tripblockuploaddata' },  
+
+
           ],
           expanded: false,
         },
@@ -195,6 +199,17 @@ export default{
             { id: 47, title: 'View Store Stocks', route: '/Viewstorestocks' },
             // { id: 48, title: 'Update Stock', route: '/tables' },
             //  { id: 49, title: 'Delete Product', route: '/tables' },                    
+
+          ],
+          expanded: false,
+        },
+         {
+          id: 21,
+          title: 'SA Targets',
+          icon: "material-symbols:finance-mode",
+          children: [
+            { id: 61, title: 'Add SA Targets', route: '/CreateSATargetsdata' },     
+            { id: 62, title: 'View SA Targets', route: '/ViewSATargetsdata' },        
 
           ],
           expanded: false,

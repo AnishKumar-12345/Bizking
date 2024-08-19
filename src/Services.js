@@ -1136,6 +1136,24 @@ export default {
               return err.response;
             });
           },
+          CancelAcksalesorders(reqbody){
+            return axios
+            .post(this.url +"bizkingz/services/api/sales/cancelAckSalesOrder",reqbody, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
           Merchantreports(cityid){
             return axios
             .get(this.url +"bizkingz/services/api/reports/merchants?city_id="+cityid, {
@@ -1481,6 +1499,43 @@ export default {
           viewroutes(id){
             return axios
             .get(this.url +"bizkingz/services/api/routes/viewRoutes?user_id="+id, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          saveTrip(id){
+            return axios
+            .post(this.url +"bizkingz/services/api/targets/addWeeklySaTargets",id, {
+              headers: {
+                // "accept": "*/*",
+                // "Content-Type": "application/json",
+                "Content-Type": "multipart/form-data",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          getSATargets(userid,startdate,enddate){
+            return axios
+            .get(this.url +"bizkingz/services/api/targets/getSaTargetsWeb?user_id="+userid+"&start_date="+startdate+"&end_date="+enddate, {
               headers: {
                 "accept": "*/*",
                 "Content-Type": "application/json",

@@ -163,7 +163,8 @@
           <td class="text-center">{{ item.merchant_name }}</td>
           <td class="text-center">{{ item.merchant_name }}</td>
           <td class="text-center">{{ item.total_so_amount }}</td>
-          <td class="text-center">  <VBtn
+          <td class="text-center">  
+            <VBtn
               v-if="item.so_status != 'Shipped' && item.so_status != 'Delivered'"
               icon
               variant="text"
@@ -178,8 +179,25 @@
                 size="30"
                 @click="outputstocks(item)"
               />
+            
             </VBtn>
-
+             <VBtn
+              v-if="item.so_status != 'Shipped' && item.so_status != 'Delivered'"
+              icon
+              variant="text"
+              color="success"
+              class="me-2"
+              size="small"
+            >
+              <!-- Receive Stock -->
+             
+              <VIcon
+              icon="material-symbols:cancel-outline"
+                       color="error"
+              size="30" 
+                @click="openoutputstocksforcancel(item)"
+              />
+            </VBtn>
             <VBtn
               v-if="item.so_status == 'Shipped' || item.so_status == 'Delivered'"
               icon
@@ -317,6 +335,83 @@
         </tr>
       </tbody>
     </VTable>
+
+
+<VDialog
+ v-model="dialog2"
+ max-width="500"
+>
+  <VCard
+        title="Cancel SO Status"
+        class="mb-2"
+      >
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- <VCard title="Output Stock" class="mb-4">       
+
+        <VCardText> -->
+              <!-- 👉 Form -->
+              <VForm
+                class="mt-6"
+                ref="purchaseOrderForm2"
+              >
+                <VRow>
+                  <VCol
+                    md="12"
+                    cols="12"
+                  >
+                    <VAutocomplete
+                     :items="['Revised Order','Fake Order','Duplicate','Logistics Unavailability']"
+                      label="Reason"
+                      v-model="canAcksales.not_delivered_reason"
+                    :rules="Reasonrules"
+
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="12"
+                  >
+                    <VTextarea
+                      row-height="30"
+                    rows="4"
+                    variant="filled"
+                    auto-grow
+                    shaped
+                    label="Remark"
+                    :rules="RemarkRules"
+                      v-model="canAcksales.remarks"
+                      
+                    />
+                  </VCol>
+                        <VCol
+                    cols="12"
+                    class="d-flex flex-wrap gap-4"
+                  >
+                    <!-- :disabled="validquan" -->
+                    <VBtn @click="validateForm2()">Save</VBtn>
+                    <VBtn @click="closedialogforcancel()" >Close</VBtn>
+                    <VProgressCircular
+                      :size="50"
+                      color="primary"
+                      indeterminate
+                      v-show="isProgress2"
+                    >
+                    </VProgressCircular>
+
+                  </VCol>
+                </VRow>
+              </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+  </VCard>
+
+</VDialog>
+
+<!-- Dialog 2 for outpput stock shipment -->
 
     <VDialog
       v-model="dialog"
@@ -617,10 +712,19 @@ export default {
 
   data() {
     return {
-        savingOutputStock: false,
+      canAcksales:{
+          "so_id": "",
+          "not_delivered_reason": "",
+          "remarks": "",
+          "so_status": 0
+          },
+      savingOutputStock: false,
       validquan: false,
       PersonRules: [v => !!v || 'Delivery Person is required'],
       DateRules: [v => !!v || 'Shipped date is required'],
+      RemarkRules: [v => !!v || 'Remark is required'],
+      Reasonrules: [v => !!v || 'Reason is required'],
+
       // loading: true,
       shippedexchange: [v => v === 0 || (!!v && `${v}`.trim() !== '') || 'shippedexchange Quantity Is Required'],
       shippedquantity: [v => v === 0 || (!!v && `${v}`.trim() !== '') || 'shipped Quantity Is Required'],
@@ -634,8 +738,13 @@ export default {
       right: false,
       loading3:false,
       isProgress: false,
+      isProgress2: false,
+      SOID:"",
+      SOSTATUS:"",
       selectedPurchaseOrder: null,
       dialog: false,
+      dialog2: false,
+
       Soid: '',
       OutputStockDetails: [],
       filteredsalesdata:[],
@@ -927,6 +1036,46 @@ export default {
   // }
    
    },
+   validateForm2(){
+     this.$refs.purchaseOrderForm2.validate().then(valid => {
+        // console.log("form valid", valid.valid);
+        if (valid.valid == true) {
+          this.cancelAcksalesordersdata();
+        } else {
+          this.snackbar = true;
+          this.snackbarText = 'Please give all mandatory fields';
+          this.color = 'on-background';
+        }
+      })
+   },
+  cancelAcksalesordersdata(){
+    const rapper = {
+      "Acknowledged" : 0
+    }
+    const postData = {
+      "so_id": this.SOID,
+      "not_delivered_reason": this.canAcksales.not_delivered_reason,
+      "remarks": this.canAcksales.remarks,
+      "so_status": rapper[this.SOSTATUS] 
+    }
+    this.CancelAcksalesorders(postData).then((response)=>{
+      // console.log({response});
+      if(response.data.status == 1){
+        this.snackbar = true;
+        this.color = 'primary';
+        this.snackbarText = response.data.message;
+        this.dialog2 = false;
+        window.location.reload(true);
+      }else{
+          this.snackbar = true
+        this.color = 'on-background';
+        this.snackbarText = response.data.message;
+        this.dialog2 = false;
+      
+      }
+
+    });
+  },
     validateForm() {
       this.$refs.purchaseOrderForm.validate().then(valid => {
         // console.log("form valid", valid.valid);
@@ -1061,14 +1210,14 @@ export default {
           // console.log('check the response',response.status);
           if (response.status == 1) {
             this.savingOutputStock = false;
-            this.snackbar = true
+            this.snackbar = true;
             this.color = 'primary'
-            this.formData = {}
+            this.formData = {};
             // this.isProgress = false
-            this.snackbarText = response.message
-            this.selectedDeliveryPerson = null
+            this.snackbarText = response.message;
+            this.selectedDeliveryPerson = null;
             this.loading = false;
-            this.Salesorderdetails = []
+            this.Salesorderdetails = [];
       //       console.log('text',this.outputSalesOrders.data);
       //        const indexToRemove = this.outputSalesOrders.data.findIndex(order => order.so_status === "Acknowledged");
       // if (indexToRemove !== -1) {
@@ -1157,10 +1306,19 @@ export default {
 
     openproductdialog() {
       // console.log('check the dialog')
-      this.dialog = true
+      this.dialog = true;
+    },
+    openoutputstocksforcancel(item){
+      this.dialog2 = true;
+      this.SOID = item.so_id;
+      this.SOSTATUS = item.so_status;
+      // console.log({item});
+    },
+    closedialogforcancel(){
+      this.dialog2 = false;
     },
     closeDialog() {
-      this.dialog = false
+      this.dialog = false;
     },
 
     isQuantityExceeded(sq, oq, wq) {

@@ -518,11 +518,14 @@ export default {
         handleBrandSelection(id){
                this.loading2 = true;
                this.salesMerchantProducts(id).then((response)=>{
-               console.log('check the response',response);
+              //  console.log('check the response',response);
             if(response.data.status == 1 ){
                 this.merchantProducts = response.data.merchant_product_details.products;
                 this.billingaddress = response.data.merchant_product_details.billing_address;
                 this.storeAddress = response.data.merchant_product_details.store_address;
+                this.Locationids = response.data.merchant_product_details.location_id;
+                this.useriddata = response.data.merchant_product_details.user_id;
+                this.cityiddata = response.data.merchant_product_details.city_id;
                 this.snackbar = true;
                 this.snackbarText = response.data.message
                 this.color = "primary";
@@ -542,11 +545,15 @@ export default {
             .then((response) => {
               console.log('check the resp',response);
               this.Merchants = response.data.data;
-              this.Locationids =   this.Merchants[0].location_id;
-              this.useriddata =   this.Merchants[0].user_id;
-              this.cityiddata =   this.Merchants[0].city_id;
+             // Collect the values into arrays
+        // this.Locationids = this.Merchants.map(sales => sales.location_id);
+        // this.useriddata = this.Merchants.map(sales => sales.user_id);
+        // this.cityiddata = this.Merchants.map(sales => sales.city_id);
 
-            //   console.log("mer",this.Locationids);
+        // Optional: Log the collected data
+        // console.log("Location IDs:", this.Locationids);
+        // console.log("User IDs:", this.useriddata);
+        // console.log("City IDs:", this.cityiddata);
               
               // this.opportunity.reverse();
               resolve(); // Resolve the promise when API call is successful

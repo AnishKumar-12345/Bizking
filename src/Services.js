@@ -1551,5 +1551,24 @@ export default {
               return err.response;
             });
           },
+          Uploadtrip(id){
+            return axios
+            .post(this.url +"bizkingz/services/api/trips/uploadTrips",id, {
+              headers: {
+                // "accept": "*/*",
+                // "Content-Type": "application/json",
+                "Content-Type": "multipart/form-data",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
     }
 }

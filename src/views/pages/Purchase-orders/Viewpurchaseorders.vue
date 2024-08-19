@@ -71,18 +71,17 @@
               <VRow >
                 <VCol
                 md="6"
-                cols="12"
-               
+                cols="12"               
               >
             
-                <VAutocomplete
+              <VAutocomplete
                   v-model="locationdata"
                   label="Location"
                   :items="this.cityLoaction"               
                   item-value="value"
                   item-title="text"                
                   :menu-props="{ maxHeight: 200 }"
-                   @update:model-value="locationdetails()"
+                  @update:model-value="locationdetails()"
                 />
               </VCol>
 

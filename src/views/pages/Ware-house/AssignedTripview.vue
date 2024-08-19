@@ -9,7 +9,7 @@
           <VCardText>
             <!-- 👉 Form -->
             <VForm
-              class="mt-6"
+              class="mt-6" 
               ref="tripform"
             >
               <VRow>
@@ -19,13 +19,16 @@
                   cols="12"
                   md="6"
                 >
+                 <!-- @update:model-value="locationdetails()" -->
                   <VAutocomplete
-                   :items="['Uppal', 'Pragatinagar']"
-                    
-                    label="Warehouse Location"
-                   
-
-                  />
+                  v-model="locationdata"
+                  label="Location"
+                  :items="this.cityLoaction"               
+                  item-value="value"
+                  item-title="text"                
+                  :menu-props="{ maxHeight: 200 }"                 
+                />
+                
                 </VCol>
 
                 <VCol
@@ -44,8 +47,7 @@
 
                 <VCol
                   cols="12"
-                  class="d-flex flex-wrap gap-4"
-                 
+                  class="d-flex flex-wrap gap-4"                 
                 >
                   <VBtn  @click="validateForm">Get</VBtn>
                 </VCol>
@@ -191,6 +193,10 @@ export default {
   data() {
    return{
     searchQuery:'',
+    locationdata:'',
+    cityID:'',
+
+    cityLoaction:[],
       headers: [
         { text: 'Trip Name', value: 'user_name' },
         { text: 'Location', value: 'merchant_uid' },
@@ -234,7 +240,25 @@ export default {
 ]
    }
   },
-  
+  mounted(){
+    this.cityID = localStorage.getItem("city_id");
+
+    this.handleBrandSelection();
+  },
+  methods:{
+      handleBrandSelection(){
+        // console.log('check hjandle',id);
+        this.getCitylocation(this.cityID).then((response)=>{
+          // console.log('check the response',response);
+        this.cityLoaction = response.data.data.map(sales => ({
+                  value: sales.location_id,
+                  text: sales.location
+              }))
+              // console.log('ceck tye res',this.cityLoaction);
+            })
+            
+       },
+  }
 
 
  

@@ -822,7 +822,7 @@ export default {
         this.dialog = false;
         this.Deliverydata = {};
       },
-      editrow(id){
+      editrow(id){ 
         console.log("ids",id.so_id)
         this.Getsalesperson( this.cityID,this.locationdata).then((response)=>{
           console.log('getperson',response);

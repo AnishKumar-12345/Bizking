@@ -1570,5 +1570,41 @@ export default {
               return err.response;
             });
           },
+          Assignedpersondata(reqBody,date){
+            return axios
+            .get(this.url +"bizkingz/services/api/trips/getTrips?location_id="+reqBody+"&created_date="+date, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
+          Assigndeliveryperson(reqdata){
+            return axios
+            .post(this.url +"bizkingz/services/api/trips/assignDeliveryPerson",reqdata, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
     }
 }

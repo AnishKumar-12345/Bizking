@@ -1381,7 +1381,7 @@ export default {
         //  console.log('check output dtock', this.OutputStockDetails);
         this.Salesorderdetails = response.data.products;
         this.deliveryUserDetails = response.delivery_user_details;
-        // console.log('delivery detials',this.deliveryUserDetails);
+        console.log('delivery detials',this.deliveryUserDetails);
 
         this.deliveryPersons = this.deliveryUserDetails.map(deliveryPerson => ({
           value: deliveryPerson.delivery_person,

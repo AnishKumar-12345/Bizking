@@ -331,6 +331,23 @@
                 @click="deleteRow(item)"
                 />
             </VBtn>
+
+            <VBtn
+              v-if="item.so_status == 'Delivered'"
+                  icon
+                variant="text"
+                color="error"
+                class="me-2"
+                size="x-small"  
+              
+            >
+                <VIcon
+                icon="humbleicons:upload"
+                size="30"
+                color="success"
+                @click="uploadrow(item)"
+                />
+            </VBtn>
           </td>
       </tr>
       </tbody>        
@@ -449,6 +466,71 @@
         </VCardText>
    </VCard>
 </VDialog>
+
+
+<VDialog
+  v-model="dialog3"
+  max-width="800"
+  persistent
+>
+   <VCard
+        title="Upload File"
+        class="mb-2"
+      >
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- 👉 Form -->
+              <VForm
+                class="mt-4"
+                ref="purchaseOrderForm3"
+              >
+                <VRow>
+                   <VCol
+                  cols="12"
+                  md="6"
+                >
+                  <VTextField
+                    v-model="GRNno"                   
+                    label="GRN Number"
+                    :rules="grnno"
+                  />
+                </VCol>
+                <!-- {{this.Importcsv}} -->
+                <VCol
+                  md="6"
+                  cols="12"
+                >
+                  <VFileInput
+                    v-model:file="GRNfile"
+                    label="File Browse"
+                    accept=".csv, .xls, .xlsx"                    
+                    @input="handleFileChange"
+                  multiple
+                  />
+                 </VCol>
+                  <VCol
+                  md="12"
+                    cols="12"
+                  >
+                    <VBtn @click="validateForm3">Yes</VBtn> &nbsp;
+                    <!-- @click="resetdetails" -->
+                    <VBtn
+                      color="secondary"
+                      variant="tonal"
+                      @click="closeDeliver"
+                    >
+                      No
+                    </VBtn>
+                  </VCol>
+                </VRow>
+              </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+   </VCard>
+</VDialog>
+
  <VSnackbar
       v-model="snackbar"
       :timeout="2000"
@@ -483,12 +565,16 @@ export default {
               "shipped_date":"",
               "delivery_person":""
            },
+      grnno: [v => !!v || 'GRN Number is required'],
 
           SOid:null,
           SOid2:null,
+          SOid3:null,
           locationdata:'',
           cityLoaction:[],
-
+          dialog3:false,
+          GRNfile:'',
+          GRNno:'',
             snackbar: false,
             snackbarText: '',
             timeout: 6000, // milliseconds
@@ -514,6 +600,7 @@ export default {
       dialog2:false,
       cityID:"",
       locationID:"",
+      
       headers: [
       
         { text: 'Sales Order', value: 'so_number' },
@@ -665,6 +752,79 @@ export default {
     // }, 5000);
     },
     methods:{
+        handleFileChange(event) {
+       if (event.target.files.length > 0) {
+        this.GRNfile = event.target.files[0];
+        // console.log('File Selected:', this.Importcsv);
+      } else {
+        // Clear the file input when no file is selected
+        this.GRNfile = null;
+      }
+    },
+
+      uploadrow(item){
+        this.SOid3 = item.so_id;
+        // console.log( this.SOid3);
+        this.dialog3 = true;
+      },
+        validateForm3(){
+        this.$refs.purchaseOrderForm3.validate().then(valid => {
+              // console.log("form valid", valid.valid);
+              if (valid.valid == true) {
+              
+                this.Uploaddeliverfile();
+              }else{
+                this.snackbar = true;
+                  this.snackbarText = "Please give all mandatory fields"
+                  this.color = "on-background";
+              }
+            }); 
+      },
+      Uploaddeliverfile(){
+        const formData = new FormData()
+      if (this.GRNfile) {
+        formData.append('grn_file', this.GRNfile)
+      }
+      formData.append('grn_number', this.GRNno)
+      formData.append('so_id', this.SOid3)
+      // formData.append('end_date', this.Enddate)
+      //   for (const pair of formData.entries()) {
+      //         console.log("Trip Data",`${pair[0]}: ${pair[1]}`);
+      //     }
+      this.Deliveredfileupload(formData)
+        .then(response => {
+          if (response.data.status == 1) {
+            this.snackbar = true
+            this.snackbarText = response.data.message
+            this.color = 'primary'
+            ;(this.GRNfile = ''), (this.SOid3 = ''), (this.GRNno = '');
+            this.dialog3 = false;
+      this.locationdetails();
+    this.getSalesorderdetails();
+            // window.location.reload(true);
+          } else if(response.data.status == 0){
+             this.snackbar = true
+            this.snackbarText = response.data.message
+            this.color = 'on-background'
+          
+          }else {
+            this.snackbar = true;          
+            this.color = 'on-background'
+            this.snackbarText = "File Is Mandatory"
+         
+          }
+          //   console.log({ response });
+        })
+        .catch(error => {
+          // console.error('Error uploading file:', error)
+        })
+      },
+        closeDeliver(){
+          this.dialog3 = false;
+          this.GRNfile='';
+        this.GRNno='';
+        },
+
       genaratePDFinvoice(id){
         this.createInvoice(id).then((response)=>{
          window.location.reload(true);
@@ -695,7 +855,7 @@ export default {
              this.loading = true;
           this.getSalesorders(postdata[this.selectsales],this.cityID, this.locationdata)
             .then((response) => {
-              console.log('response',response);
+              // console.log('response',response);
               if(response.status == 1){
               this.loading = false;
               this.snackbarText = response.message;
@@ -721,7 +881,7 @@ export default {
 
             this.getGRN(this.cityID, this.locationdata)
             .then((response) => {
-              console.log('response',response);
+              // console.log('response',response);
               if(response.data.status == 1){
               this.loading = false;
               this.saleshistory = response.data.data;
@@ -755,12 +915,12 @@ export default {
         return `${year}-${month}-${day}`;
       },
       deleteRow(id){
-        console.log("perk",id.so_id);
+        // console.log("perk",id.so_id);
         this.SOid2 = id.so_id;
         this.dialog2 = true;
       },
       cancelunhold(){
-        console.log("SOid2",this.SOid2);
+        // console.log("SOid2",this.SOid2);
         this.CancelUnholddata( this.SOid2 ).then((response)=>{
           if(response.data.status == 1){
              this.dialog2 = false;
@@ -797,9 +957,9 @@ export default {
           "shipped_date":this.Deliverydata.shipped_date,
           "delivery_person":this.Deliverydata.delivery_person
         }
-        console.log('po',postData);
+        // console.log('po',postData);
         this.UpdateUnholddata(postData).then((response)=>{
-          console.log("set",response);
+          // console.log("set",response);
           if(response.data.status == 1){
             this.dialog = false;
              this.snackbar = true;
@@ -823,9 +983,9 @@ export default {
         this.Deliverydata = {};
       },
       editrow(id){ 
-        console.log("ids",id.so_id)
+        // console.log("ids",id.so_id)
         this.Getsalesperson( this.cityID,this.locationdata).then((response)=>{
-          console.log('getperson',response);
+          // console.log('getperson',response);
           if(response.data.status == 1){
             this.deliveryPerson = response.data.data.map(del => ({
             value: del.delivery_person,
@@ -924,7 +1084,7 @@ export default {
 
             this.getSalesorders(postdata[this.selectsales],this.cityID, this.locationID)
             .then((response) => {
-              console.log('response',response);
+              // console.log('response',response);
               if(response.status == 1){
               this.loading = false;
               this.snackbarText = response.message;
@@ -949,7 +1109,7 @@ export default {
 
             this.getGRN(this.cityID, this.locationID)
             .then((response) => {
-              console.log('response',response);
+              // console.log('response',response);
               if(response.data.status == 1){
               this.loading = false;
               this.saleshistory = response.data.data;

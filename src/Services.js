@@ -1606,5 +1606,23 @@ export default {
               return err.response;
             });
           },
+          Deliveredfileupload(reqdata){
+            return axios
+            .post(this.url +"bizkingz/services/api/sales/updateGrn",reqdata, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
     }
 }

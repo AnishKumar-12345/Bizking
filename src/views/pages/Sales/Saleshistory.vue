@@ -219,6 +219,7 @@
             </VBtn>
         </td>
          <td class="text-center">
+          
            <VBtn
 
        v-if="(item.so_status === 'Shipped' || item.so_status === 'Delivered' || item.so_status === 'On Hold' || item.so_status === 'Cancelled') && item.invoice_file !== ''"
@@ -263,7 +264,7 @@
 
  <td class="text-center" > 
            <VBtn   
-              v-if="selectsales == 'GRN Sales Orders'" 
+              v-if="selectsales == 'GRN Sales Orders' || item.so_status == 'Delivered'" 
               icon
               variant="text"
               color="default"
@@ -503,8 +504,8 @@
                 >
                   <VFileInput
                     v-model:file="GRNfile"
-                    label="File Browse"
-                    accept=".csv, .xls, .xlsx"                    
+                    label="Image Browse"
+                    accept=".jpg, .png, .jpeg"                    
                     @input="handleFileChange"
                   multiple
                   />
@@ -810,7 +811,7 @@ export default {
           }else {
             this.snackbar = true;          
             this.color = 'on-background'
-            this.snackbarText = "File Is Mandatory"
+            this.snackbarText = "Image Is Mandatory"
          
           }
           //   console.log({ response });
@@ -855,7 +856,7 @@ export default {
              this.loading = true;
           this.getSalesorders(postdata[this.selectsales],this.cityID, this.locationdata)
             .then((response) => {
-              // console.log('response',response);
+              console.log('response',response);
               if(response.status == 1){
               this.loading = false;
               this.snackbarText = response.message;
@@ -1084,7 +1085,7 @@ export default {
 
             this.getSalesorders(postdata[this.selectsales],this.cityID, this.locationID)
             .then((response) => {
-              // console.log('response',response);
+              console.log('response',response);
               if(response.status == 1){
               this.loading = false;
               this.snackbarText = response.message;

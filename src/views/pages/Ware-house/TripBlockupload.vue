@@ -26,6 +26,31 @@
                   multiple
                   />
                 </VCol>
+               
+                <VCol
+                  md="6"
+                  cols="12"
+                >
+                 File Format Download
+                   <V-btn
+                  icon
+                  variant="text"
+                  color="default"
+                  class="mb-1 mt-2"
+                  size="small"
+                
+               
+                  >
+                  
+                      <VIcon
+                        icon="material-symbols:file-download"
+                        size="42"        
+                        color="#BA8B32" 
+                       @click="downloadCSV"
+
+                        />   
+                      </V-btn> 
+                </VCol>
                 <!-- {{this.Importcsv}} -->
 
                 <VCol
@@ -57,6 +82,27 @@ export default {
    }
   },
   methods:{
+    generateCSV() {
+    // Define the CSV headers
+    const headers = ['SO ID', 'SO Number', 'Merchant UID','Merchant Code','City ID','Location ID','Trip name'];
+
+    // Join the headers with commas and add a newline at the end
+    return headers.join(',') + '\n';
+  },
+
+  downloadCSV() {
+    const csvContent = this.generateCSV();
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'fileformat.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  },
      handleFileChange(event) {
        if (event.target.files.length > 0) {
         this.Importcsv = event.target.files[0];

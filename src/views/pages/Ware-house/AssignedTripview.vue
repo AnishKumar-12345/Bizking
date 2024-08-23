@@ -3,7 +3,7 @@
     <VRow>
       <VCol cols="12">
         <VCard
-          title="View Assigned Trips"
+          title="Assign Trip View"
           class="mb-4"
         >
           <VCardText>
@@ -37,7 +37,7 @@
                 >
                   <VTextField
                     type="date"
-                    label="End Date"
+                    label="Date"
                     v-model="Enddate"
                     :rules="endr"
 
@@ -129,10 +129,14 @@
         </tr>
       </thead>
 <tbody>
+  <tr v-if="filteredSAwisetarget.length === 0">
+          <td colspan="16" class="text-center"><h1>No data found !</h1></td>
+        </tr> 
         <tr
           v-for="(item, index) in this.filteredSAwisetarget"
           :key="index"
         >
+           
          <td class="text-center">
             {{ index + 1 }}
           </td> 
@@ -169,15 +173,15 @@
                         />   
                       </V-btn> 
 
-                       <VBtn
-         
-              icon
-              variant="text"
-              color="default"
-              class="me-2"
-              size="x-small"
-           
-            >
+                <VBtn         
+                icon
+                variant="text"
+                color="default"
+                class="me-2"
+                size="x-small"
+                @click="viewrow(item)"
+            
+              >
               <VIcon
                 color="success"
                 icon="basil:eye-outline"
@@ -254,8 +258,86 @@
         </VCardText>
    </VCard>
         </VDialog>
+<VDialog
+  v-model="dialog2"
+  max-width="800"
+  
+>
+ <div style="max-width: 400px">
+      <VTextField
+        class="mb-3"
+        v-model="searchQuery2"
+        density="compact"
+        variant="solo"
+        label="Search"
+        append-inner-icon="mdi-magnify"
+        single-line
+        hide-details
+      />
+    </div>
+
+   <!-- <VCard
+        title="View Trip Sales Orders"
+        class="mb-2"
+      >
+        <VCardText> -->
+            <VTable
+      :headers="headers2"
+      :items="this.paginatedItems2"
+      item-key="dessert"
+      class="table-rounded"
+      height="500"
+      fixed-header
+    >
+      <thead>
+        <tr>
+          <th 
+            class="text-center"
+            v-for="header in headers2"
+            :key="header"
+          >
+            {{ header.text }}
+          </th>
+        </tr>
+      </thead>
+<tbody>
+        <tr
+          v-for="(item, index) in this.filteredSAwisetarget2"
+          :key="index"
+        >
+         <td class="text-center">
+            {{ index + 1 }}
+          </td> 
+         <td class="text-center">
+            {{ item.sku_name }}
+          </td> 
+         <td class="text-center">
+            {{ item.shipped_ordered }}
+          </td> 
+          <td class="text-center">{{ item.shipped_exchange }}</td>
+          <!-- <td class="text-center">
+            {{ item.delivery_person }}
+          </td>         
+          <td class="text-center">
+            {{ item.sales_order_count }}
+          </td>  -->
+         
+   </tr>
+</tbody>
+            </VTable>
+        <!-- </VCardText>
+   </VCard> -->
+ <VPagination
+      v-model="page2"
+      :length="Math.ceil(filteredSAwisetarget2.length / pageSize2)"
+      @input="updatePagination2"
+    />
+        </VDialog>
 
     </VTable>
+
+
+
       <VPagination
       v-model="page"
       :length="Math.ceil(filteredSAwisetarget.length / pageSize)"
@@ -288,7 +370,7 @@ export default {
       left: false,
       right: false,
       Enddate:'',
-      searchQuery:'',
+      // searchQuery:'',
       locationdata:'',
       cityID:'',
       loading:'',
@@ -296,13 +378,23 @@ export default {
       person: [v => !!v || 'Assign Delivery Person is required'],
       headers: [
         { text: 'Serial No.', value: 'user_name' },
-
         { text: 'City', value: 'user_name' },
         { text: 'Trip Name', value: 'user_name' },
         { text: 'Location', value: 'merchant_uid' },
         { text: 'Driver Name', value: 'target_amount' },
         { text: 'Sales Order Count', value: 'achieved_target' },
         { text: 'Action', value: 'achieved_percentage' },
+      ],
+       headers2: [
+        { text: 'Serial No.', value: 'user_name' },
+
+        { text: 'SKU Name', value: 'user_name' },
+        { text: 'Shipped Ordered', value: 'user_name' },
+        { text: 'Shipped Exchange', value: 'user_name' },
+        // { text: 'Location', value: 'merchant_uid' },
+        // { text: 'Driver Name', value: 'target_amount' },
+        // { text: 'Sales Order Count', value: 'achieved_target' },
+        // { text: 'Action', value: 'achieved_percentage' },
       ],
       AssignedPerson:[],
       deliveryPerson:[],
@@ -311,7 +403,12 @@ export default {
       searchQuery: '',
       page: 1,
       pageSize: 10,
+       page2: 1,
+      pageSize2: 10,
       dialog:false,
+      getSalesorder:[],
+      dialog2:false,
+      searchQuery2:'',
    }
   },
     computed: {
@@ -332,13 +429,48 @@ export default {
       const endIndex = startIndex + this.pageSize
       return this.filteredSAwisetarget.slice(startIndex, endIndex)
     },
+     filteredSAwisetarget2() {
+      const lowerCaseQuery = this.searchQuery2.toLowerCase().trim()
+      return this.getSalesorder.filter(item => {
+        return (
+          (item.shipped_exchange && item.shipped_exchange.toString().includes(lowerCaseQuery)) ||
+          (item.shipped_ordered && item.shipped_ordered.toString().includes(lowerCaseQuery)) ||       
+          (item.sku_name && item.sku_name.toLowerCase().includes(lowerCaseQuery))         
+        )
+      })
+    },
+    paginatedItems2() {
+      const startIndex = (this.page2 - 1) * this.pageSize2
+      const endIndex = startIndex + this.pageSize2
+      return this.filteredSAwisetarget2.slice(startIndex, endIndex)
+    },
   },
   mounted(){
     this.cityID = localStorage.getItem("city_id");
 
     this.handleBrandSelection();
   },
-  methods:{      
+  methods:{   
+    viewrow(item){
+      // console.log({item});
+      this.GetTripdetails(item.trip_id).then((response)=>{
+        console.log("response",response);       
+         if(response.data.status == 1){
+            this.getSalesorder = response.data.data;           
+            this.dialog2 = true;
+            this.snackbar = true;
+            this.color = 'primary'           
+            this.snackbarText = response.data.message;
+            // this.SOid = id.so_id;
+          }else{
+            this.getSalesorder = [];
+            this.dialog2 = false;
+              this.snackbar = true;
+              this.color = 'on-background'           
+              this.snackbarText = response.data.message;
+          }
+      });
+    },   
     closeDialog(){
       this.dialog = false;
       this.Deliverypersondata = '';
@@ -409,6 +541,9 @@ export default {
       },
     updatePagination(page) {
       this.page = page
+    },
+     updatePagination2(page2) {
+      this.page2 = page2
     },
       validateForm() {
       this.$refs.tripform.validate().then(valid => {

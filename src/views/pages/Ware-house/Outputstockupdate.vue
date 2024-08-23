@@ -478,12 +478,11 @@
                       readonly
                     />
                   </VCol>
-                  <VCol
+                  <!-- <VCol
                     md="6"
                     cols="12"
                   >
-                    <!-- {{this.deliveryPersons}} -->
-                <!-- {{selectedDeliveryPerson}} -->
+              
                     <VSelect
                       v-model="selectedDeliveryPerson"
                       label="Select Delivery Person"
@@ -495,17 +494,8 @@
 
                     />
 
-                    <!-- <VSelect v-model="selectedDeliveryPerson" label="Select Delivery Person">
-    <VSelectItem
-      v-for="person in deliveryPersons"
-      :key="person.value"
-      :value="person.value"
-      :disabled="person.disabled"
-    >
-      {{ person.text }}
-    </VSelectItem>
-  </VSelect> -->
-                  </VCol>
+                   
+                  </VCol> -->
 <!-- {{this.outputStock.po_number}} -->
                     <VCol
                     md="6"
@@ -1166,7 +1156,7 @@ export default {
           shipped_ordered: `${product.shipped_ordered}`,
           shipped_exchange: `${product.shipped_exchange}`,
         })),
-        delivery_person: this.selectedDeliveryPerson,
+        // delivery_person: this.selectedDeliveryPerson,
       }
       console.log('check the post data',postData);
       const validationErrors = this.Salesorderdetails.map(product => {
@@ -1215,7 +1205,7 @@ export default {
             this.formData = {};
             // this.isProgress = false
             this.snackbarText = response.message;
-            this.selectedDeliveryPerson = null;
+            // this.selectedDeliveryPerson = null;
             this.loading = false;
             this.Salesorderdetails = [];
       //       console.log('text',this.outputSalesOrders.data);

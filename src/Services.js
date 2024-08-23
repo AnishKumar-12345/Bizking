@@ -1624,5 +1624,23 @@ export default {
               return err.response;
             });
           },
+          GetTripdetails(id){
+            return axios
+            .get(this.url +"bizkingz/services/api/trips/getSalesOrders?trip_id="+id, {
+              headers: {
+                "accept": "*/*",
+                "Content-Type": "application/json",
+                
+              },
+              // responseType: 'blob',
+            })
+            .then(response => {
+              return response;
+              // responseType: 'blob', 
+            })
+            .catch(err => {
+              return err.response;
+            });
+          },
     }
 }

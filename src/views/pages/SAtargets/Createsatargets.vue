@@ -13,6 +13,44 @@
               ref="tripform"
             >
               <VRow>
+                 <VCol
+                 
+                  cols="12"
+                >
+                 File Format Download
+                   <V-btn
+                  icon
+                  variant="text"
+                  color="default"
+                  class="mb-1 mt-2"
+                  size="small"
+                
+               
+                  >
+                  
+                      <VIcon
+                        icon="material-symbols:file-download"
+                        size="42"        
+                        color="#BA8B32" 
+                       @click="downloadCSV"
+
+                        />   
+                      </V-btn> 
+                </VCol>
+                <VCol
+                  md="6"
+                  cols="12"
+                >
+                  <VFileInput
+                    v-model:file="Importcsv"
+                    label="File Browse"
+                    accept=".csv, .xls, .xlsx"                    
+                    @input="handleFileChange"
+                  multiple
+                  />               
+               
+                
+                </VCol>
                 <VCol
                   md="6"
                   cols="12"
@@ -49,19 +87,8 @@
                   />
                 </VCol>
                 <!-- {{this.Importcsv}} -->
-                <VCol
-                  md="6"
-                  cols="12"
-                >
-                  <VFileInput
-                    v-model:file="Importcsv"
-                    label="File Browse"
-                    accept=".csv, .xls, .xlsx"                    
-                    @input="handleFileChange"
-                  multiple
-                  />
-                </VCol>
-
+                
+                
                 <VCol
                   cols="12"
                   class="d-flex flex-wrap gap-4"
@@ -124,7 +151,28 @@ export default {
   },
   mounted() {},
   methods: {
-   
+      generateCSV() {
+    // Define the CSV headers
+    const headers = ['SA ID', 'SA Name', 'Merchant ID','Merchant UID','Assigned Target'];
+
+    // Join the headers with commas and add a newline at the end
+    return headers.join(',') + '\n';
+  },
+
+     downloadCSV() {
+    const csvContent = this.generateCSV();
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'fileformat.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  },
+
     validateForm() {
       this.$refs.tripform.validate().then(valid => {
         // console.log("form valid", valid.valid);

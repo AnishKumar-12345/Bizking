@@ -263,7 +263,12 @@
   max-width="800"
   
 >
- <div style="max-width: 400px">
+ <VCard
+        title="View Trip Sales Orders"
+        class="mb-2"
+      >
+      <VCardText>
+      <div style="max-width: 400px">
       <VTextField
         class="mb-3"
         v-model="searchQuery2"
@@ -276,17 +281,14 @@
       />
     </div>
 
-   <!-- <VCard
-        title="View Trip Sales Orders"
-        class="mb-2"
-      >
-        <VCardText> -->
+  
             <VTable
       :headers="headers2"
       :items="this.paginatedItems2"
       item-key="dessert"
       class="table-rounded"
-      height="500"
+    max-height="90vh"
+    max-width="800"
       fixed-header
     >
       <thead>
@@ -324,14 +326,22 @@
          
    </tr>
 </tbody>
-            </VTable>
-        <!-- </VCardText>
-   </VCard> -->
- <VPagination
+  
+            </VTable> <br>
+                <VBtn
+                      color="primary"
+                      
+                      @click="closeDialog2()"
+                    >
+                      Close
+                    </VBtn>
+        </VCardText>
+   </VCard>
+ <!-- <VPagination
       v-model="page2"
       :length="Math.ceil(filteredSAwisetarget2.length / pageSize2)"
       @input="updatePagination2"
-    />
+    /> -->
         </VDialog>
 
     </VTable>
@@ -474,6 +484,10 @@ export default {
     closeDialog(){
       this.dialog = false;
       this.Deliverypersondata = '';
+    },
+    closeDialog2(){
+      this.dialog2 = false;
+
     },
      editrow(id){ 
         // console.log("ids",id);

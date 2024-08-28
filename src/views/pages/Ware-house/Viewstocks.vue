@@ -152,6 +152,15 @@
               {{ item.available_qty >= 0 ? item.available_qty : 0 }}
             </VChip>
           </td>
+           <td class="text-center">
+             <VChip
+              color="error"
+              class="font-weight-medium"
+              size="small"
+            >
+            {{ item.bad_quantity }}
+             </VChip>
+          </td>
           <td class="text-center">
             {{ item.stock_updated_date }}
           </td>
@@ -209,6 +218,8 @@ export default {
         { text: 'UOM', value: 'uom' },
         { text: 'HSN Code', value: 'hsn_code' },
         { text: 'Available Quantity', value: 'available_qty' },
+        { text: 'Bad Quantity', value: 'bad_quantity' },
+
         // { text: 'Price/Unit', value: 'price_per_unit' },
         // { text: 'TaxableAmount', value: 'taxable_amount' },
         // { text: 'CGST', value: 'csgt' },
@@ -329,6 +340,18 @@ export default {
           // text: 'Shared',
         }
     },
+    // colorbadQuantity(){
+    //    if (itm = 10)
+    //     return {
+    //       color: 'success',
+    //       // text: 'Acknowledged',
+    //     }
+    //   else
+    //     return {
+    //       color: 'error',
+    //       // text: 'Shared',
+    //     }
+    // }
   },
 }
 </script>

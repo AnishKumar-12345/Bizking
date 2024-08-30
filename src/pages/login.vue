@@ -9,8 +9,9 @@ import authV1Tree from '@/assets/images/pages/auth-v1-tree.png'
 import { ref, computed } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+
 // import Notification from '@/components/Notification.vue';
-import store from '../Stores';
+import store from '../Stores'
 
 const router = useRouter()
 const form = ref({
@@ -35,6 +36,7 @@ const passwordrules = computed(() => {
 
   // Email validation rule
   rules.push(v => !!v || 'Password is required')
+
   // rules.push((v) => /.+@.+\..+/.test(v) || 'Email must be valid')
 
   return rules
@@ -59,12 +61,14 @@ const loginuser = () => {
       message: 'Please give mandatory fields',
       color: 'error',
     }
+    
     return // Stop the function execution
   }
   const requestData = {
     email: form.value.email,
     password: form.value.password, 
   }
+
   //  }
   axios
     .post('http://103.211.218.32/bizkingz/services/api/auth/login', requestData)
@@ -75,22 +79,22 @@ const loginuser = () => {
         setTimeout(() => {
           router.push('/Dashboardhome')
         }, 1000)
-        localStorage.setItem('createdby', response.data.data.name);
-        localStorage.setItem('userId', response.data.data.user_id);
-        localStorage.setItem('userRole', response.data.data.user_role);
-        localStorage.setItem('user_id', response.data.data.user_id);
-        localStorage.setItem('user_type', response.data.data.user_type);
-        localStorage.setItem('city_id', response.data.data.city_id);
-        localStorage.setItem('location_id', response.data.data.location_id);
-        localStorage.setItem('gmail', response.data.data.email);
+        localStorage.setItem('createdby', response.data.data.name)
+        localStorage.setItem('userId', response.data.data.user_id)
+        localStorage.setItem('userRole', response.data.data.user_role)
+        localStorage.setItem('user_id', response.data.data.user_id)
+        localStorage.setItem('user_type', response.data.data.user_type)
+        localStorage.setItem('city_id', response.data.data.city_id)
+        localStorage.setItem('location_id', response.data.data.location_id)
+        localStorage.setItem('gmail', response.data.data.email)
 
         // localStorage.setItem('sodetails', response.data.data.so_to_details);
 
-        store.commit('setsodetails', response.data.so_to_details);
-        store.commit('setDeliverydetails', response.data.delivery_user_details);
+        store.commit('setsodetails', response.data.so_to_details)
+        store.commit('setDeliverydetails', response.data.delivery_user_details)
 
         // Store notifications
-        store.commit('setNotifications', response.data.notifications_details);
+        store.commit('setNotifications', response.data.notifications_details)
 
         snackbar.value = {
           show: true,
@@ -113,6 +117,7 @@ const loginuser = () => {
         message: 'An error occurred while logging in. Please try again.',
         color: 'error',
       }
+
       // You can display an error message or take appropriate actions
     })
 }
@@ -131,18 +136,24 @@ const loginuser = () => {
               src="@/assets/images/logos/comlogo.jpeg"
               width="80"
               height="80"
-            />
+            >
           </div>
         </template>
 
-        <!-- <VCardTitle class="font-weight-semibold text-2xl text-uppercase">
+        <!--
+          <VCardTitle class="font-weight-semibold text-2xl text-uppercase">
           BizKing
-        </VCardTitle> -->
+          </VCardTitle> 
+        -->
       </VCardItem>
 
       <VCardText class="pt-2">
-        <h5 class="text-h5 font-weight-semibold mb-1">Welcome to BIZKINGZ! 👋🏻</h5>
-        <p class="mb-0">Please sign-in to your account and start the adventure</p>
+        <h5 class="text-h5 font-weight-semibold mb-1">
+          Welcome to BIZKINGZ! 👋🏻
+        </h5>
+        <p class="mb-0">
+          Please sign-in to your account and start the adventure
+        </p>
       </VCardText>
 
       <VCardText>
@@ -166,67 +177,75 @@ const loginuser = () => {
                 label="Password"
                 :type="isPasswordVisible ? 'text' : 'password'"
                 :append-inner-icon="isPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
-                @click:append-inner="isPasswordVisible = !isPasswordVisible"
                 :rules="passwordrules"
-               />
+                @click:append-inner="isPasswordVisible = !isPasswordVisible"
+              />
               <!-- <span v-if="!isPasswordValid" class="error-message">Password must be at least 6 characters</span> -->
               <!-- remember me checkbox -->
-              <!-- <div class="d-flex align-center justify-space-between flex-wrap mt-1 mb-4">
+              <!--
+                <div class="d-flex align-center justify-space-between flex-wrap mt-1 mb-4">
                 <VCheckbox
-                  v-model="form.remember"
-                  label="Remember me"
+                v-model="form.remember"
+                label="Remember me"
                 />
 
                 <a
-                  class="ms-2 mb-1"
-                  href="javascript:void(0)"
+                class="ms-2 mb-1"
+                href="javascript:void(0)"
                 >
-                  Forgot Password?
+                Forgot Password?
                 </a>
-              </div> -->
+                </div> 
+              -->
 
               <!-- login button -->
               <!-- to="/" -->
-              <br /><br />
+              <br><br>
               <VBtn
+                id="button_id"
                 block
                 type="submit"
-                id="button_id"
               >
                 Login
               </VBtn>
             </VCol>
 
             <!-- create account -->
-            <!-- <VCol
+            <!--
+              <VCol
               cols="12"
               class="text-center text-base"
-            >
+              >
               <span>Forget Password?</span>
               <RouterLink
-                class="text-primary ms-2"
-                :to="{ name: 'register' }"
+              class="text-primary ms-2"
+              :to="{ name: 'register' }"
               >
-                Change Password
+              Change Password
               </RouterLink>
-            </VCol> -->
+              </VCol> 
+            -->
 
-            <!-- <VCol
+            <!--
+              <VCol
               cols="12"
               class="d-flex align-center"
-            >
+              >
               <VDivider />
               <span class="mx-4">or</span>
               <VDivider />
-            </VCol> -->
+              </VCol> 
+            -->
 
             <!-- auth providers -->
-            <!-- <VCol
+            <!--
+              <VCol
               cols="12"
               class="text-center"
-            >
+              >
               <AuthProvider />
-            </VCol> -->
+              </VCol> 
+            -->
           </VRow>
         </VForm>
       </VCardText>
@@ -256,15 +275,17 @@ const loginuser = () => {
       :timeout="1000"
     >
       {{ snackbar.message }}
-      <!-- <template #action="{ attrs }">
+      <!--
+        <template #action="{ attrs }">
         <VBtn
-          v-bind="attrs"
-          text
-          @click="snackbar.show = false"
+        v-bind="attrs"
+        text
+        @click="snackbar.show = false"
         >
-          Close
+        Close
         </VBtn>
-      </template> -->
+        </template> 
+      -->
     </VSnackbar>
   </div>
 </template>

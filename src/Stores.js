@@ -1,6 +1,6 @@
-import axios from "axios";
-import { createStore } from 'vuex';
-import createPersistedState from "vuex-persistedstate";
+import axios from "axios"
+import { createStore } from 'vuex'
+import createPersistedState from "vuex-persistedstate"
 
 const store = createStore({
   state: {
@@ -13,28 +13,28 @@ const store = createStore({
   },
   mutations: {
     setSelectedItem(state, item) {
-      state.selectedItem = item;
+      state.selectedItem = item
     },
     clearSelectedItem(state) { 
-      state.selectedItem = null;
+      state.selectedItem = null
     },
     setUser(state, user) {
-      state.user = user;
+      state.user = user
     },
     setNotifications(state, notifications) {
-      state.notifications = notifications;
-      localStorage.setItem('notifications', JSON.stringify(notifications)); // Save to localStorage
+      state.notifications = notifications
+      localStorage.setItem('notifications', JSON.stringify(notifications)) // Save to localStorage
     },
     setsodetails(state, sodetails) {
-      state.sodetails = sodetails;
-      localStorage.setItem('sodetails', JSON.stringify(sodetails)); // Save to localStorage
+      state.sodetails = sodetails
+      localStorage.setItem('sodetails', JSON.stringify(sodetails)) // Save to localStorage
     },
     setDeliverydetails(state, deliverydetails) {
-      state.deliverydetails = deliverydetails;
-      localStorage.setItem('deliverydetails', JSON.stringify(deliverydetails)); // Save to localStorage
+      state.deliverydetails = deliverydetails
+      localStorage.setItem('deliverydetails', JSON.stringify(deliverydetails)) // Save to localStorage
     },
     setOutputSalesOrders(state, data) {
-      state.outputSalesOrders = data;
+      state.outputSalesOrders = data
     },
   },
   actions: {
@@ -65,24 +65,26 @@ const store = createStore({
           headers: {
             "Content-Type": "application/json",
             "accept": "*/*",
+
             // "Authorization": "Bearer " + token, // Include Authorization if needed
           },
         })
         .then(response => {
           // console.log('check the response')
-          commit('setOutputSalesOrders', response.data);          
-          return response.data; // Optional: return the data if needed
+          commit('setOutputSalesOrders', response.data)          
+          
+          return response.data // Optional: return the data if needed
         })
         .catch(error => {
-          console.error('Error fetching sales orders:', error);
-          throw error; // Optional: rethrow the error for the calling code to handle
-        });
+          console.error('Error fetching sales orders:', error)
+          throw error // Optional: rethrow the error for the calling code to handle
+        })
     },
   },
   plugins: [createPersistedState()],
   modules: {},
-});
+})
 
 
 
-export default store;
+export default store

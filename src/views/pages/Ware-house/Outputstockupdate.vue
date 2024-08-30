@@ -478,7 +478,7 @@
                       readonly
                     />
                   </VCol>
-                  <!-- <VCol
+                  <VCol
                     md="6"
                     cols="12"
                   >
@@ -495,7 +495,7 @@
                     />
 
                    
-                  </VCol> -->
+                  </VCol>
 <!-- {{this.outputStock.po_number}} -->
                     <VCol
                     md="6"
@@ -1156,7 +1156,7 @@ export default {
           shipped_ordered: `${product.shipped_ordered}`,
           shipped_exchange: `${product.shipped_exchange}`,
         })),
-        // delivery_person: this.selectedDeliveryPerson,
+        delivery_person: this.selectedDeliveryPerson,
       }
       console.log('check the post data',postData);
       const validationErrors = this.Salesorderdetails.map(product => {
@@ -1205,7 +1205,7 @@ export default {
             this.formData = {};
             // this.isProgress = false
             this.snackbarText = response.message;
-            // this.selectedDeliveryPerson = null;
+            this.selectedDeliveryPerson = null;
             this.loading = false;
             this.Salesorderdetails = [];
       //       console.log('text',this.outputSalesOrders.data);

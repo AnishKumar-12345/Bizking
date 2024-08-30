@@ -162,7 +162,7 @@
             </td>
             <td class="text-center">
               <VBtn
-                icon
+                icon 
                 variant="text"
                 color="default"
                 class="mb-1 mt-2"

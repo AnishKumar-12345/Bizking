@@ -43,7 +43,7 @@
 
     <VDialog
       v-model="dialog"
-      max-width="600"
+      max-width="400"
     >
       <VCard
         title="Acknowledge Sales Orders Reports"        
@@ -59,13 +59,13 @@
               >
                 <VRow>
                   <VCol                  
-                    md="6"
+                   
                     cols="12"
                   >
                     <!-- {{selectedBrand}} -->             
                     <VAutocomplete
                       v-model="Location"
-                      label="Location"
+                      label="Location Details"
                       :items="locationsdata"               
                       item-value="value"
                       item-title="text"

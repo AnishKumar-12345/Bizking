@@ -290,6 +290,7 @@
                             color="default"
                             class="me-2"
                             size="x-small"
+                            @click="editassignedrow(item)"
                           >
                             <VIcon
                               icon="ri-pencil-line"
@@ -470,7 +471,180 @@
       </VDialog>
     </VTable>
 
+    <VDialog
+      v-model="dialog3"
+      max-width="400"
+      persistent
+    >
+      <VCard
+        title="SO Status Change"
+        class="mb-2"
+      >
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- 👉 Form -->
+              <VForm
+                ref="purchaseOrderForms"
+                class="mt-4"
+              >
+                <VRow>                
+                  <!-- {{Deliverydata.delivery_person}} -->
+                  <VCol
+                    md="12"
+                    cols="12"
+                  >
+                    <VAutocomplete
+                      v-model="soStatusdata"
+                      :items="['Delivered','Ready To Ship','On Hold']"
+                                    
+                      label="Assign Delivery Person"
+                      :rules="person"
+                      :menu-props="{ maxHeight: 200 }"
+                      @update:model-value="handlePersonSelection(soStatusdata)" 
+                    />
+                  </VCol>
+                  
+                  <!--
+                    <VCol
+                    md="12"
+                    cols="12"
+                    >
+                    <VTextField
+                    v-model="Deliverydata.shipped_date"
+                    type="date"
+                    label="Start Date"
+                    :min="today"
+                    :rules="dater"
+                    />
+                    </VCol> 
+                  -->
+                  <VCol
+                    v-if="soStatusdata != 'Delivered'"
+                    md="12"
+                    cols="12"
+                  >
+                    <VBtn @click="validateForm3">
+                      Save
+                    </VBtn> &nbsp;
+                    <!-- @click="resetdetails" -->
+                    <VBtn
+                      color="secondary"
+                      variant="tonal"
+                      @click="closeDialog3"
+                    >
+                      Close
+                    </VBtn>
+                  </VCol>
+                </VRow>
+              </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+      </VCard>
+    </VDialog>
 
+
+    <VDialog
+      v-model="dialog4"
+      max-width="800"
+      persistent
+    >
+      <VCard
+        title="Table"
+        class="mb-2"
+      >
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- 👉 Form -->
+              <VForm
+                ref="purchaseOrderForms"
+                class="mt-4"
+              >
+                <VRow>                
+                  <!-- {{Deliverydata.delivery_person}} -->
+                  <VTable
+                    :headers="headers4"
+              
+                    item-key="dessert"
+                    class="table-rounded"
+                    max-height="90vh"
+                    max-width="800"
+                    fixed-header
+                  >
+                    <thead>
+                      <tr>
+                        <th 
+                          v-for="header in headers4"
+                          :key="header"
+                          class="text-center"
+                        >
+                          {{ header.text }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <!--
+                      <tbody>
+                      <tr
+                      v-for="(item, index) in filteredSAwisetarget2"
+                      :key="index"
+                      >
+                      <td class="text-center">
+                      {{ index + 1 }}
+                      </td> 
+                      <td class="text-center">
+                      {{ item.sku_name }}
+                      </td> 
+                      <td class="text-center">
+                      {{ item.shipped_ordered }}
+                      </td> 
+                      <td class="text-center">
+                      {{ item.shipped_exchange }}
+                      </td>
+                
+                      </tr>
+                      </tbody> 
+                    -->
+                  </VTable>
+                  
+                  <!--
+                    <VCol
+                    md="12"
+                    cols="12"
+                    >
+                    <VTextField
+                    v-model="Deliverydata.shipped_date"
+                    type="date"
+                    label="Start Date"
+                    :min="today"
+                    :rules="dater"
+                    />
+                    </VCol> 
+                  -->
+                  <VCol
+                    md="12"
+                    cols="12"
+                  >
+                    <VBtn @click="validateForm4">
+                      Save
+                    </VBtn> &nbsp;
+                    <!-- @click="resetdetails" -->
+                    <VBtn
+                      color="secondary"
+                      variant="tonal"
+                      @click="closeDialog4"
+                    >
+                      Close
+                    </VBtn>
+                  </VCol>
+                </VRow>
+              </VForm>
+            </VCol>
+          </VRow>
+        </VCardText>
+      </VCard>
+    </VDialog>
 
     <VPagination
       v-model="page"
@@ -553,6 +727,19 @@ export default {
         // { text: 'Sales Order Count', value: 'achieved_target' },
         // { text: 'Action', value: 'achieved_percentage' },
       ],
+      headers4: [
+        { text: 'SKU Name', value: 'user_name' },
+        { text: 'Shipped Ordered', value: 'user_name' },
+        { text: 'Shipped Exchange', value: 'user_name' },
+
+        { text: 'Return', value: 'merchant_uid' },
+        { text: 'Delivery Ordered', value: 'target_amount' },
+        { text: 'Delivery Exchange', value: 'achieved_target' },
+        { text: 'Delivery Exchange', value: 'achieved_percentage' },
+        { text: 'Damaged', value: 'achieved_percentage' },
+
+
+      ],
       AssignedPerson:[],
       deliveryPerson:[],
       Deliverypersondata:'',
@@ -566,6 +753,9 @@ export default {
       getSalesorder:[],
       dialog2:false,
       searchQuery2:'',
+      dialog3:false,
+      soStatusdata:'',
+      dialog4:false,
     }
   },
   computed: {
@@ -607,11 +797,49 @@ export default {
     },
   },
   mounted(){
+   
     this.cityID = localStorage.getItem("city_id")
 
     this.handleBrandSelection()
   },
-  methods:{  
+  methods:{
+    handlePersonSelection(item){
+      if(item === 'Delivered'){
+        this.dialog4 = true
+        this.dialog3 = false
+      }else{
+        this.dialog4 = false
+
+      }
+    },
+    validateForm3(){
+      // if(this.soStatusdata === 'Delivered'){
+      //   this.dialog4 = true
+      //   this.dialog3 = false
+      // }else{
+      //   this.dialog4 = false
+      // }
+    },
+    closeDialog4(){
+      this.dialog4 = false
+
+    },
+    editassignedrow(item){
+      this.dialog3 = true
+      this.soStatusdata = item.so_status
+      
+      if (this.soStatusdata === 'Delivered') {
+        this.dialog4 = true
+        this.dialog3 = false
+      }else{
+        this.dialog4 = false
+
+      }
+    },  
+    closeDialog3(){
+      this.dialog3 = false
+      this.soStatusdata = ''
+    },
     getdeliverychallan(id){
       // this.loading2 = true
       window.open(id, '_blank')

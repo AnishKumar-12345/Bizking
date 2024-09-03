@@ -1,58 +1,59 @@
 <template>
   <div>
-    <!-- <div class="search-container">
+    <!--
+      <div class="search-container">
       <label for="search">Search:</label>
       <input
-        type="text"
-        id="search"
-        v-model="searchQuery"
-        @input="filterDesserts"
-        placeholder="Enter search query"
+      type="text"
+      id="search"
+      v-model="searchQuery"
+      @input="filterDesserts"
+      placeholder="Enter search query"
       />
-    </div> -->
-    <!-- v-if="!showNoSalesAlert" -->
-      <VCard         
-          class="mb-2"
-           v-show="filterlocation"
-        >
-          <VCardText>
-            <VRow>
-              <VCol cols="12">
-                <!-- 👉 Form -->
-              <VForm class="mt-6">
-              <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
-              </VCheckbox> -->
-              <VRow >
+      </div> 
+    -->
+    <!-- v-if="!showNoSalesAlert" --> 
+    <VCard         
+      v-show="filterlocation"
+      class="mb-2"
+    >
+      <VCardText>
+        <VRow>
+          <VCol cols="12">
+            <!-- 👉 Form -->
+            <VForm class="mt-6">
+              <!--
+                <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
+                </VCheckbox> 
+              -->
+              <VRow>
                 <VCol
-                md="6"
-                cols="12"
-               
-              >
-              <!-- {{selectedBrand}} -->  
-              <!-- {{this.Addbrand.location_id}}            -->
-                <VAutocomplete
-                  v-model="locationdata"
-                  label="Location"
-                  :items="this.cityLoaction"               
-                  item-value="value"
-                  item-title="text"                
-                  :menu-props="{ maxHeight: 200 }"
-                   @update:model-value="locationdetails()"
-
-                />
-              </VCol>
-
+                  md="6"
+                  cols="12"
+                >
+                  <!-- {{selectedBrand}} -->  
+                  <!-- {{this.Addbrand.location_id}}            -->
+                  <VAutocomplete
+                    v-model="locationdata"
+                    label="Location"
+                    :items="cityLoaction"               
+                    item-value="value"
+                    item-title="text"                
+                    :menu-props="{ maxHeight: 200 }"
+                    @update:model-value="locationdetails"
+                  />
+                </VCol>
               </VRow>
-              </VForm>
-              </VCol>
-            </VRow>
-          </VCardText>
-      </VCard>
+            </VForm>
+          </VCol>
+        </VRow>
+      </VCardText>
+    </VCard>
       
     <div style="max-width: 400px">
       <VTextField
-        class="mb-3"
         v-model="searchQuery"
+        class="mb-3"
         density="compact"
         variant="solo"
         label="Search"
@@ -60,7 +61,6 @@
         single-line
         hide-details
       />
-         
     </div>
 
     <div
@@ -77,42 +77,48 @@
     </div>
 
     <!-- v-if="showNoSalesAlert" -->
-<!-- 
-    <VRow v-if="!saleshistory || saleshistory.length === 0">
+    <!-- 
+      <VRow v-if="!saleshistory || saleshistory.length === 0">
       <VCol cols="12">
-        <VCard title="Output Stocks View">
-          <VCardText>
-            <VAlert
-              color="warning"
-              variant="tonal"
-              class="mb-4"
-              border="top"
-            >
-              <VAlertTitle class="mb-1"> Are you sure you have Output Stocks? </VAlertTitle>
-              <p class="mb-0">
-                The system is trying to retrieving the Orders. Please ensure that you have "Acknowledged" and "Onhold"
-                Output Stock Orders !
-              </p>
-            </VAlert>
-          </VCardText>
-        </VCard>
+      <VCard title="Output Stocks View">
+      <VCardText>
+      <VAlert
+      color="warning"
+      variant="tonal"
+      class="mb-4"
+      border="top"
+      >
+      <VAlertTitle class="mb-1"> Are you sure you have Output Stocks? </VAlertTitle>
+      <p class="mb-0">
+      The system is trying to retrieving the Orders. Please ensure that you have "Acknowledged" and "Onhold"
+      Output Stock Orders !
+      </p>
+      </VAlert>
+      </VCardText>
+      </VCard>
       </VCol>
-    </VRow> -->
+      </VRow> 
+    -->
 
   
-<!-- <div>{{outputSalesOrders}}</div> -->
- <!-- <h1>Output Sales Orders:</h1>
+    <!-- <div>{{outputSalesOrders}}</div> -->
+    <!--
+      <h1>Output Sales Orders:</h1>
       <ul>
-        <li v-for="(order, index) in outputSalesOrders.data" :key="index">
-          {{ order.so_number }} 
-        </li>
-      </ul> -->
-    <div v-if="savingOutputStock" class="loader-wrapper">
-      <div class="loader"></div>
+      <li v-for="(order, index) in outputSalesOrders.data" :key="index">
+      {{ order.so_number }} 
+      </li>
+      </ul> 
+    -->
+    <div
+      v-if="savingOutputStock"
+      class="loader-wrapper"
+    >
+      <div class="loader" />
     </div>
     <!-- v-if="!showNoSalesAlert" -->
     <!-- hasOwnProperty('cboqs') -->
-      <div
+    <div
       v-if="loading"
       id="app"
     >
@@ -123,46 +129,66 @@
             height="60"
             width="68"
             alt="Logo"
-          />
+          >
         </div>
         <div class="loading">
-          <div class="effect-1 effects"></div>
-          <div class="effect-2 effects"></div>
-          <div class="effect-3 effects"></div>
+          <div class="effect-1 effects" />
+          <div class="effect-2 effects" />
+          <div class="effect-3 effects" />
         </div>
       </div>
     </div>
 
-<VTable>
-   <thead>
+    <VTable>
+      <thead>
         <tr>
           <th
-            class="text-center"
             v-for="header in headers"
             :key="header"
+            class="text-center"
           >
             {{ header.text }}
           </th>
         </tr>
       </thead>
-        <tbody>
+      <tbody>
         <tr v-if="filteredSalesHistory.length === 0">
-          <td colspan="16" class="text-center"><h1>No data found !</h1></td>
+          <td
+            colspan="16"
+            class="text-center"
+          >
+            <h1>No data found !</h1>
+          </td>
         </tr>  
-          <tr v-for="item  in paginatedItems" :key="item.so_status">            
-          <td class="text-center">{{ item.so_number }}</td>
-          <td class="text-center">{{ item.created_date }}</td>
-          <td class="text-center"> <VChip
+        <tr
+          v-for="item in paginatedItems"
+          :key="item.so_status"
+        >            
+          <td class="text-center">
+            {{ item.so_number }}
+          </td>
+          <td class="text-center">
+            {{ item.created_date }}
+          </td>
+          <td class="text-center">
+            <VChip
               :color="resolveStatusVariant(item.so_status).color"
               class="font-weight-medium"
               size="small"
             >
               {{ item.so_status }}
-              <!-- {{ item.fat }} -->
-            </VChip></td>
-          <td class="text-center">{{ item.merchant_name }}</td>
-          <td class="text-center">{{ item.merchant_name }}</td>
-          <td class="text-center">{{ item.total_so_amount }}</td>
+            <!-- {{ item.fat }} -->
+            </VChip>
+          </td>
+          <td class="text-center">
+            {{ item.merchant_name }}
+          </td>
+          <td class="text-center">
+            {{ item.merchant_name }}
+          </td>
+          <td class="text-center">
+            {{ item.total_so_amount }}
+          </td>
           <td class="text-center">  
             <VBtn
               v-if="item.so_status != 'Shipped' && item.so_status != 'Delivered'"
@@ -179,9 +205,8 @@
                 size="30"
                 @click="outputstocks(item)"
               />
-            
             </VBtn>
-             <VBtn
+            <VBtn
               v-if="item.so_status != 'Shipped' && item.so_status != 'Delivered'"
               icon
               variant="text"
@@ -192,9 +217,9 @@
               <!-- Receive Stock -->
              
               <VIcon
-              icon="material-symbols:cancel-outline"
-                       color="error"
-              size="30" 
+                icon="material-symbols:cancel-outline"
+                color="error"
+                size="30" 
                 @click="openoutputstocksforcancel(item)"
               />
             </VBtn>
@@ -212,15 +237,15 @@
                 icon="iwwa:file-pdf"
                 size="26"
               />
-            </VBtn></td>
-         
-          </tr>
-        </tbody>
-</VTable>
+            </VBtn>
+          </td>
+        </tr>
+      </tbody>
+    </VTable>
 
-<!--below is expired table  -->
+    <!-- below is expired table  -->
     <VTable
-      v-if="this.saleshistory != ''"
+      v-if="saleshistory != ''"
       :headers="headers"
       :items="paginatedItems"
       class="table-rounded"
@@ -230,9 +255,9 @@
       <thead>
         <tr>
           <th
-            class="text-center"
             v-for="header in headers"
             :key="header"
+            class="text-center"
           >
             {{ header.text }}
           </th>
@@ -240,15 +265,16 @@
       </thead>
 
       <tbody>
-
-          <!-- <tr v-if="filteredSalesHistory.length === 0">
+        <!--
+          <tr v-if="filteredSalesHistory.length === 0">
           <td colspan="16" class="text-center"><h1>No data found !</h1></td>
-        </tr>   -->
-<!-- v-for="(item, index) in outputSalesOrders.data" :key="index" -->
-        <tr
-          
-        >
-          <td class="text-center">{{ item.so_number }}</td>
+          </tr>   
+        -->
+        <!-- v-for="(item, index) in outputSalesOrders.data" :key="index" -->
+        <tr>
+          <td class="text-center">
+            {{ item.so_number }}
+          </td>
           <td class="text-center">
             {{ item.created_date }}
           </td>
@@ -305,56 +331,60 @@
                 size="26"
               />
             </VBtn>
-            <!-- <VBtn
-                icon
-                variant="text"
-                color="default"
-                class="me-2"
-                size="x-small"
-                @click="deleteRow(item)"
-            >
-                <VIcon
-                icon="ri-pencil-line"
-                size="22"
-                />
-            </VBtn>
-            <VBtn
-                icon
-                variant="text"
-                color="default"
-                class="me-2"
-                size="x-small"
-                @click="deleteRow(item)"
-            >
-                <VIcon
-                icon="ri-delete-bin-line"
-                size="22"
-                />
-            </VBtn> -->
+            <!--
+              <VBtn
+              icon
+              variant="text"
+              color="default"
+              class="me-2"
+              size="x-small"
+              @click="deleteRow(item)"
+              >
+              <VIcon
+              icon="ri-pencil-line"
+              size="22"
+              />
+              </VBtn>
+              <VBtn
+              icon
+              variant="text"
+              color="default"
+              class="me-2"
+              size="x-small"
+              @click="deleteRow(item)"
+              >
+              <VIcon
+              icon="ri-delete-bin-line"
+              size="22"
+              />
+              </VBtn> 
+            -->
           </td>
         </tr>
       </tbody>
     </VTable>
 
 
-<VDialog
- v-model="dialog2"
- max-width="500"
->
-  <VCard
+    <VDialog
+      v-model="dialog2"
+      max-width="500"
+    >
+      <VCard
         title="Cancel SO Status"
         class="mb-2"
       >
         <VCardText>
           <VRow>
             <VCol cols="12">
-              <!-- <VCard title="Output Stock" class="mb-4">       
+              <!--
+                <VCard title="Output Stock" class="mb-4">       
 
-        <VCardText> -->
+                <VCardText> 
+              -->
               <!-- 👉 Form -->
               <VForm
-                class="mt-6"
                 ref="purchaseOrderForm2"
+                class="mt-6"
               >
                 <VRow>
                   <VCol
@@ -362,11 +392,10 @@
                     cols="12"
                   >
                     <VAutocomplete
-                     :items="['Revised Order','Fake Order','Duplicate','Logistics Unavailability']"
-                      label="Reason"
                       v-model="canAcksales.not_delivered_reason"
-                    :rules="Reasonrules"
-
+                      :items="['Revised Order','Fake Order','Duplicate','Logistics Unavailability']"
+                      label="Reason"
+                      :rules="Reasonrules"
                     />
                   </VCol>
 
@@ -375,43 +404,43 @@
                     md="12"
                   >
                     <VTextarea
-                      row-height="30"
-                    rows="4"
-                    variant="filled"
-                    auto-grow
-                    shaped
-                    label="Remark"
-                    :rules="RemarkRules"
                       v-model="canAcksales.remarks"
-                      
+                      row-height="30"
+                      rows="4"
+                      variant="filled"
+                      auto-grow
+                      shaped
+                      label="Remark"
+                      :rules="RemarkRules"
                     />
                   </VCol>
-                        <VCol
+                  <VCol
                     cols="12"
                     class="d-flex flex-wrap gap-4"
                   >
                     <!-- :disabled="validquan" -->
-                    <VBtn @click="validateForm2()">Save</VBtn>
-                    <VBtn @click="closedialogforcancel()" >Close</VBtn>
+                    <VBtn @click="validateForm2">
+                      Save
+                    </VBtn>
+                    <VBtn @click="closedialogforcancel">
+                      Close
+                    </VBtn>
                     <VProgressCircular
+                      v-show="isProgress2"
                       :size="50"
                       color="primary"
                       indeterminate
-                      v-show="isProgress2"
-                    >
-                    </VProgressCircular>
-
+                    />
                   </VCol>
                 </VRow>
               </VForm>
             </VCol>
           </VRow>
         </VCardText>
-  </VCard>
+      </VCard>
+    </VDialog>
 
-</VDialog>
-
-<!-- Dialog 2 for outpput stock shipment -->
+    <!-- Dialog 2 for outpput stock shipment -->
 
     <VDialog
       v-model="dialog"
@@ -424,13 +453,15 @@
         <VCardText>
           <VRow>
             <VCol cols="12">
-              <!-- <VCard title="Output Stock" class="mb-4">       
+              <!--
+                <VCard title="Output Stock" class="mb-4">       
 
-        <VCardText> -->
+                <VCardText> 
+              -->
               <!-- 👉 Form -->
               <VForm
-                class="mt-6"
                 ref="purchaseOrderForm"
+                class="mt-6"
               >
                 <VRow>
                   <VCol
@@ -438,7 +469,7 @@
                     cols="12"
                   >
                     <VTextField
-                      v-model="this.outputStock.so_number"
+                      v-model="outputStock.so_number"
                       label="Sales Order"
                       readonly
                     />
@@ -449,7 +480,7 @@
                     md="6"
                   >
                     <VTextField
-                      v-model="this.outputStock.merchant_name"
+                      v-model="outputStock.merchant_name"
                       label="Order From"
                       readonly
                     />
@@ -460,7 +491,7 @@
                     md="6"
                   >
                     <VTextField
-                      v-model="this.outputStock.shipped_date"
+                      v-model="outputStock.shipped_date"
                       type="date"
                       label="Date"
                       :min="today"
@@ -473,7 +504,7 @@
                     cols="12"
                   >
                     <VTextField
-                      v-model="this.outputStock.so_status"
+                      v-model="outputStock.so_status"
                       label="SO Status"
                       readonly
                     />
@@ -482,53 +513,48 @@
                     md="6"
                     cols="12"
                   >
-              
                     <VSelect
                       v-model="selectedDeliveryPerson"
                       label="Select Delivery Person"
-                      :items="this.deliveryPersons"
+                      :items="deliveryPersons"
                       item-value="value"
                       item-title="text"
                       :rules="PersonRules"
                       :menu-props="{ maxHeight: 200 }"
-
                     />
-
-                   
                   </VCol>
-<!-- {{this.outputStock.po_number}} -->
-                    <VCol
+                  <!-- {{this.outputStock.po_number}} -->
+                  <VCol
                     md="6"
                     cols="12"
                   >
                     <VTextField
-                      v-model="this.outputStock.po_number"
+                      v-model="outputStock.po_number"
                       label="PO Number"
-                      
                     />
                   </VCol>
 
                   <VCol cols="12">
-                      <div
-                        v-if="loading3"
-                        id="app"
-                      >
-                        <div id="loading-bg">
-                          <div class="loading-logo">
-                            <img
-                              src="../../../assets/images/logos/comlogo.jpeg"
-                              height="60"
-                              width="68"
-                              alt="Logo"
-                            />
-                          </div>
-                          <div class="loading">
-                            <div class="effect-1 effects"></div>
-                            <div class="effect-2 effects"></div>
-                            <div class="effect-3 effects"></div>
-                          </div>
+                    <div
+                      v-if="loading3"
+                      id="app"
+                    >
+                      <div id="loading-bg">
+                        <div class="loading-logo">
+                          <img
+                            src="../../../assets/images/logos/comlogo.jpeg"
+                            height="60"
+                            width="68"
+                            alt="Logo"
+                          >
+                        </div>
+                        <div class="loading">
+                          <div class="effect-1 effects" />
+                          <div class="effect-2 effects" />
+                          <div class="effect-3 effects" />
                         </div>
                       </div>
+                    </div>
                     <VTable
                       :headers="headers"
                       :items="Salesorderdetails"
@@ -536,9 +562,9 @@
                       <thead>
                         <tr>
                           <th
-                            class="text-center"
                             v-for="header in headers2"
                             :key="header"
+                            class="text-center"
                           >
                             {{ header.text }}
                           </th>
@@ -548,7 +574,7 @@
                       <tbody>
                         <!-- {{filteredOutputstocks}} -->
                         <tr
-                          v-for="(item, index) in this.Salesorderdetails"
+                          v-for="(item, index) in Salesorderdetails"
                           :key="index"
                         >
                           <td class="text-center">
@@ -563,7 +589,9 @@
                           <td class="text-center">
                             {{ item.quantity }}
                           </td>
-                          <td class="text-center">{{ item.exchange == '' ? 0 : item.exchange }}</td>
+                          <td class="text-center">
+                            {{ item.exchange == '' ? 0 : item.exchange }}
+                          </td>
                           <td class="text-center">
                             {{ item.return }}
                           </td>
@@ -588,59 +616,67 @@
                             }"
                           >
                             <VTextField
-                              @keydown="preventDecimal"
-                              @paste="preventPaste"
+                              v-model="item.shipped_ordered"
                               type="number"
                               min="0"
                               max="20000"
                               :rules="shippedquantity"
-                              v-model="item.shipped_ordered"
                               outlined
                               dense
+                              @keydown="preventDecimal"
+                              @paste="preventPaste"
                             />
 
                             <!-- {{ item.carbs }} -->
                           </td>
-                          <!-- <span v-if="isQuantityExceeded(item.shipped_ordered,item.ordered_quantity,item.warehouse_quantity)">
+                          <!--
+                            <span v-if="isQuantityExceeded(item.shipped_ordered,item.ordered_quantity,item.warehouse_quantity)">
                            
-                          </span> -->
+                            </span> 
+                          -->
                           <td
                             class="text-center"
                             :class="{ 'has-error': isQuantityExceeded2(item.shipped_exchange, item.exchange, item.warehouse_quantity)}"
                           >
                             <VTextField
-                              @keydown="preventDecimal"
-                              @paste="preventPaste"
+                              v-model="item.shipped_exchange"
                               type="number"
                               min="0"
                               max="20000"
                               :rules="shippedexchange"
-                              v-model="item.shipped_exchange"
                               outlined
                               dense
+                              @keydown="preventDecimal"
+                              @paste="preventPaste"
                             />
-                            <!-- <span v-if="isQuantityExceeded2(item.shipped_exchange,item.exchange)" >
-    </span> -->
+                            <!--
+                              <span v-if="isQuantityExceeded2(item.shipped_exchange,item.exchange)" >
+                              </span> 
+                            -->
                             <!-- {{ item.carbs }} -->
                           </td>
 
-                          <!-- <td class="text-center">
-          <VTextField v-model="item.protein" outlined dense />
+                          <!--
+                            <td class="text-center">
+                            <VTextField v-model="item.protein" outlined dense />
 
         
-        </td> -->
+                            </td> 
+                          -->
                         </tr>
                       </tbody>
-                      <!-- <tfoot>
-        <tr>
-           <td>
-          {{this.totalshippedorder}}
-        </td>
-        <td>
-          {{this.totalshippedexchange}}
-        </td>
-        </tr>
-        </tfoot>      -->
+                      <!--
+                        <tfoot>
+                        <tr>
+                        <td>
+                        {{this.totalshippedorder}}
+                        </td>
+                        <td>
+                        {{this.totalshippedexchange}}
+                        </td>
+                        </tr>
+                        </tfoot>      
+                      -->
                     </VTable>
                   </VCol>
                   <VCol
@@ -648,29 +684,36 @@
                     class="d-flex flex-wrap gap-4"
                   >
                     <!-- :disabled="validquan" -->
-                    <VBtn @click="validateForm()">Save</VBtn>
-                    <VBtn @click="closedialog()" >Close</VBtn>
+                    <VBtn @click="validateForm">
+                      Save
+                    </VBtn>
+                    <VBtn @click="closedialog">
+                      Close
+                    </VBtn>
                     <VProgressCircular
+                      v-show="isProgress"
                       :size="50"
                       color="primary"
                       indeterminate
-                      v-show="isProgress"
-                    >
-                    </VProgressCircular>
-                    <!-- <VBtn
-                  color="secondary"
-                  variant="tonal"
-                  type="reset"
+                    />
+                    <!--
+                      <VBtn
+                      color="secondary"
+                      variant="tonal"
+                      type="reset"
                
-                >
-                  Reset
-                </VBtn> -->
+                      >
+                      Reset
+                      </VBtn> 
+                    -->
                   </VCol>
                 </VRow>
               </VForm>
 
-              <!-- </VCardText>
-      </VCard> -->
+              <!--
+                </VCardText>
+                </VCard> 
+              -->
             </VCol>
           </VRow>
         </VCardText>
@@ -703,11 +746,11 @@ export default {
   data() {
     return {
       canAcksales:{
-          "so_id": "",
-          "not_delivered_reason": "",
-          "remarks": "",
-          "so_status": 0
-          },
+        "so_id": "",
+        "not_delivered_reason": "",
+        "remarks": "",
+        "so_status": 0,
+      },
       savingOutputStock: false,
       validquan: false,
       PersonRules: [v => !!v || 'Delivery Person is required'],
@@ -833,9 +876,10 @@ export default {
     }
   },
   computed: {
-     outputSalesOrders() {
-      return this.$store.state.outputSalesOrders;
+    outputSalesOrders() {
+      return this.$store.state.outputSalesOrders
     },
+
     // ifoutputstock(){
     //   this.paginatedItems.map(item => item.)
     // },
@@ -854,14 +898,9 @@ export default {
     //  const postdata = this.outputSalesOrders.data.filter(order=>order.so_number);
     //  console.log('tbf',postdata);
       const lowerCaseQuery = this.searchQuery.toLowerCase().trim()
+      
       return this.filteredsalesdata.filter(item => {
         // Filter based on search query
-        const matchesSearch =
-          (item.so_number && item.so_number.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.created_date && item.created_date.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.so_status && item.so_status.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.merchant_name && item.merchant_name.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.total_so_amount && item.total_so_amount.toString().includes(lowerCaseQuery))
         // Filter based on status
         // const matchesStatus = (
         //   item.so_status === 'Acknowledged' ||
@@ -872,13 +911,18 @@ export default {
         // );
         // Return true if both search query and status match
         // return matchesSearch && matchesStatus;
-        return matchesSearch;
+        return (item.so_number && item.so_number.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.created_date && item.created_date.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.so_status && item.so_status.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.merchant_name && item.merchant_name.toLowerCase().includes(lowerCaseQuery)) ||
+          (item.total_so_amount && item.total_so_amount.toString().includes(lowerCaseQuery))
       })
     },
 
     paginatedItems() {
       const startIndex = (this.page - 1) * this.pageSize
       const endIndex = startIndex + this.pageSize
+      
       return this.filteredSalesHistory.slice(startIndex, endIndex)
     },
     showNoSalesAlert() {
@@ -887,30 +931,31 @@ export default {
     },
   },
   mounted() {
-    this.Soid = this.$route.query.so_id;
-      this.cityID  = localStorage.getItem("city_id");
-        //  const storedSoData = localStorage.getItem("deliverydetails");
-            // if (storedSoData) {
-            // try {
-            //     this.Deliveryperson = JSON.parse(storedSoData);
-            //    this.deliverydata =  this.Deliveryperson.map(a => ({
-            //         value: a.delivery_person,
-            //         text: a.name
-            //     }))
-            //     console.log('set',  this.deliverydata );
-            //     if (!Array.isArray(this.Deliveryperson)) {
-            //     this.Deliveryperson = [];
-            //     }
-            // } catch (e) {
-            //     console.error('Error parsing sodetails from localStorage:', e);
-            //     this.Deliveryperson = [];
-            // }
-            // }
-      // this.deliverydata = this.Deliveryperson.map(deliveryPerson => ({
-      //     value: deliveryPerson.delivery_person,
-      //     text: deliveryPerson.name,
-      //   }))
-    this.handleBrandSelection();
+    this.Soid = this.$route.query.so_id
+    this.cityID  = localStorage.getItem("city_id")
+
+    //  const storedSoData = localStorage.getItem("deliverydetails");
+    // if (storedSoData) {
+    // try {
+    //     this.Deliveryperson = JSON.parse(storedSoData);
+    //    this.deliverydata =  this.Deliveryperson.map(a => ({
+    //         value: a.delivery_person,
+    //         text: a.name
+    //     }))
+    //     console.log('set',  this.deliverydata );
+    //     if (!Array.isArray(this.Deliveryperson)) {
+    //     this.Deliveryperson = [];
+    //     }
+    // } catch (e) {
+    //     console.error('Error parsing sodetails from localStorage:', e);
+    //     this.Deliveryperson = [];
+    // }
+    // }
+    // this.deliverydata = this.Deliveryperson.map(deliveryPerson => ({
+    //     value: deliveryPerson.delivery_person,
+    //     text: deliveryPerson.name,
+    //   }))
+    this.handleBrandSelection()
  
     // this.fetchOutputSalesOrders();
     // this.fetchOutputSalesOrders();
@@ -936,7 +981,7 @@ export default {
     //   this.loading = false; // Set loading to false when the operation is complete
     // }, 4500);
   },
-   created() {
+  created() {
     // console.log('test it created');
     this.fetchOutputSalesOrders().then(()=>{
       this.loading=false
@@ -946,135 +991,138 @@ export default {
   },
   methods: {
     locationdetails(){
-      const city_id  = localStorage.getItem("city_id");
-      const location_id = this.locationdata; 
-        this.loading = true;
+      const city_id  = localStorage.getItem("city_id")
+      const location_id = this.locationdata 
+      this.loading = true
+      
       return new Promise((resolve, reject) => {
-      this.$store.dispatch('getOutputSaleOrdersdata2',{city_id, location_id})
-        .then((response) => {
-          console.log('check locationdata', response);
-          if(response.status == 1){
-            this.filteredsalesdata = response.data;
-            this.filteredsalesdata.reverse();
-            this.loading = false;
-            resolve(response); 
-          }else{
-             this.filteredsalesdata = [];
-            this.loading = false;
+        this.$store.dispatch('getOutputSaleOrdersdata2',{city_id, location_id})
+          .then(response => {
+            console.log('check locationdata', response)
+            if(response.status == 1){
+              this.filteredsalesdata = response.data
+              this.filteredsalesdata.reverse()
+              this.loading = false
+              resolve(response) 
+            }else{
+              this.filteredsalesdata = []
+              this.loading = false
 
-          }         
-        })
-        .catch(error => {
-          console.error('Error fetching output sales orders:', error);
-          this.loading = false; // Set loading to false on error
-          reject(error); // Reject the promise with error
-        });
-    });
+            }         
+          })
+          .catch(error => {
+            console.error('Error fetching output sales orders:', error)
+            this.loading = false // Set loading to false on error
+            reject(error) // Reject the promise with error
+          })
+      })
     },
-     handleBrandSelection(){ 
-        // console.log('check hjandle',id);
-        this.getCitylocation(this.cityID ).then((response)=>{
-          // console.log('check the response',response);
-          this.cityLoaction = response.data.data.map(sales => ({
-                  value: sales.location_id,
-                  text: sales.location
-              }))
-                console.log('ceck tye res',this.cityLoaction);
-        })
-      },
+    handleBrandSelection(){ 
+      // console.log('check hjandle',id);
+      this.getCitylocation(this.cityID ).then(response=>{
+        // console.log('check the response',response);
+        this.cityLoaction = response.data.data.map(sales => ({
+          value: sales.location_id,
+          text: sales.location,
+        }))
+        console.log('ceck tye res',this.cityLoaction)
+      })
+    },
 
-   fetchOutputSalesOrders() { 
+    fetchOutputSalesOrders() { 
     // this.loading = true; // Set loading to true before API call
-      const city_id  = localStorage.getItem("city_id");
-      const location_id =  localStorage.getItem("location_id"); 
-  // if(city_id != null && location_id != null){
-     return new Promise((resolve, reject) => {
-      if(city_id != '' && location_id !== ''){
-        this.loading = true;
-      this.filterlocation = false;
-      this.$store.dispatch('getOutputSaleOrdersdata2',{city_id,location_id})
-        .then((response) => {
-          console.log('check details', response);
-          this.filteredsalesdata = response.data;
-          this.filteredsalesdata.reverse();
-          this.loading = false; // Set loading to false after API call
-          resolve(response); // Resolve the promise with response
-        })
-        .catch(error => {
-          console.error('Error fetching output sales orders:', error);
-          this.loading = false; // Set loading to false on error
-          reject(error); // Reject the promise with error
-        });
-      }
-    });
-  // }else{
-  //    return new Promise((resolve, reject) => {
-  //     this.$store.dispatch('getOutputSaleOrdersdata2',{city_id, location_id})
-  //       .then((response) => {
-  //         console.log('check details', response);
-  //         this.filteredsalesdata = response.data;
-  //           this.filteredsalesdata.reverse();
-  //         this.loading = false; // Set loading to false after API call
-  //         resolve(response); // Resolve the promise with response
-  //       })
-  //       .catch(error => {
-  //         console.error('Error fetching output sales orders:', error);
-  //         this.loading = false; // Set loading to false on error
-  //         reject(error); // Reject the promise with error
-  //       });
-  //   });
-  // }
-   
-   },
-   validateForm2(){
-     this.$refs.purchaseOrderForm2.validate().then(valid => {
-        // console.log("form valid", valid.valid);
-        if (valid.valid == true) {
-          this.cancelAcksalesordersdata();
-        } else {
-          this.snackbar = true;
-          this.snackbarText = 'Please give all mandatory fields';
-          this.color = 'on-background';
+      const city_id  = localStorage.getItem("city_id")
+      const location_id =  localStorage.getItem("location_id") 
+
+      // if(city_id != null && location_id != null){
+      return new Promise((resolve, reject) => {
+        if(city_id != '' && location_id !== ''){
+          this.loading = true
+          this.filterlocation = false
+          this.$store.dispatch('getOutputSaleOrdersdata2',{city_id,location_id})
+            .then(response => {
+              console.log('check details', response)
+              this.filteredsalesdata = response.data
+              this.filteredsalesdata.reverse()
+              this.loading = false // Set loading to false after API call
+              resolve(response) // Resolve the promise with response
+            })
+            .catch(error => {
+              console.error('Error fetching output sales orders:', error)
+              this.loading = false // Set loading to false on error
+              reject(error) // Reject the promise with error
+            })
         }
       })
-   },
-  cancelAcksalesordersdata(){
-    const rapper = {
-      "Acknowledged" : 0
-    }
-    const postData = {
-      "so_id": this.SOID,
-      "not_delivered_reason": this.canAcksales.not_delivered_reason,
-      "remarks": this.canAcksales.remarks,
-      "so_status": rapper[this.SOSTATUS] 
-    }
-    this.CancelAcksalesorders(postData).then((response)=>{
-      // console.log({response});
-      if(response.data.status == 1){
-        this.snackbar = true;
-        this.color = 'primary';
-        this.snackbarText = response.data.message;
-        this.dialog2 = false;
-        window.location.reload(true);
-      }else{
-          this.snackbar = true
-        this.color = 'on-background';
-        this.snackbarText = response.data.message;
-        this.dialog2 = false;
-      
-      }
 
-    });
-  },
+      // }else{
+      //    return new Promise((resolve, reject) => {
+      //     this.$store.dispatch('getOutputSaleOrdersdata2',{city_id, location_id})
+      //       .then((response) => {
+      //         console.log('check details', response);
+      //         this.filteredsalesdata = response.data;
+      //           this.filteredsalesdata.reverse();
+      //         this.loading = false; // Set loading to false after API call
+      //         resolve(response); // Resolve the promise with response
+      //       })
+      //       .catch(error => {
+      //         console.error('Error fetching output sales orders:', error);
+      //         this.loading = false; // Set loading to false on error
+      //         reject(error); // Reject the promise with error
+      //       });
+      //   });
+      // }
+   
+    },
+    validateForm2(){
+      this.$refs.purchaseOrderForm2.validate().then(valid => {
+        // console.log("form valid", valid.valid);
+        if (valid.valid == true) {
+          this.cancelAcksalesordersdata()
+        } else {
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
+        }
+      })
+    },
+    cancelAcksalesordersdata(){
+      const rapper = {
+        "Acknowledged" : 0,
+      }
+      const postData = {
+        "so_id": this.SOID,
+        "not_delivered_reason": this.canAcksales.not_delivered_reason,
+        "remarks": this.canAcksales.remarks,
+        "so_status": rapper[this.SOSTATUS], 
+      }
+      this.CancelAcksalesorders(postData).then(response=>{
+      // console.log({response});
+        if(response.data.status == 1){
+          this.snackbar = true
+          this.color = 'primary'
+          this.snackbarText = response.data.message
+          this.dialog2 = false
+          window.location.reload(true)
+        }else{
+          this.snackbar = true
+          this.color = 'on-background'
+          this.snackbarText = response.data.message
+          this.dialog2 = false
+      
+        }
+
+      })
+    },
     validateForm() {
       this.$refs.purchaseOrderForm.validate().then(valid => {
         // console.log("form valid", valid.valid);
         if (valid.valid == true) {
-          this.saveOutputstock();
+          this.saveOutputstock()
         } else {
-          this.snackbar = true;
-          this.snackbarText = 'Please give all mandatory fields';
-          this.color = 'on-background';
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
         }
       })
     },
@@ -1111,6 +1159,7 @@ export default {
         Shipped: 4,
         Delivered: 5,
       }
+
       // this.outputStockproducts.filter(product => product.shipped_ordered > 0 || product.shipped_exchange > 0)
       const postData = {
         so_id: this.OutputStockDetails.so_id,
@@ -1138,6 +1187,7 @@ export default {
           mrp: product.mrp,
           margin: product.margin,
           margin_percentage: product.margin_percentage,
+
           // "ordered_quantity":  product.ordered_quantity,
           // "warehouse_quantity":  product.warehouse_quantity,
           brand_name: product.brand_name,
@@ -1158,7 +1208,7 @@ export default {
         })),
         delivery_person: this.selectedDeliveryPerson,
       }
-      console.log('check the post data',postData);
+      console.log('check the post data',postData)
       const validationErrors = this.Salesorderdetails.map(product => {
         console.log(
           'Shipped quan',
@@ -1190,37 +1240,41 @@ export default {
         validationErrors.filter(error => error),
       )
       if (validationErrors.filter(error => error).length === 0) {
-        this.loading = true;
+        this.loading = true
+
         // this.isProgress = true
-        this.savingOutputStock = true;
-         this.dialog = false;
+        this.savingOutputStock = true
+        this.dialog = false
         this.postOutputstock(postData).then(response => {
            
           //  console.log('check the response',response);
           // console.log('check the response',response.status);
           if (response.status == 1) {
-            this.savingOutputStock = false;
-            this.snackbar = true;
+            this.savingOutputStock = false
+            this.snackbar = true
             this.color = 'primary'
-            this.formData = {};
+            this.formData = {}
+
             // this.isProgress = false
-            this.snackbarText = response.message;
-            this.selectedDeliveryPerson = null;
-            this.loading = false;
-            this.Salesorderdetails = [];
-      //       console.log('text',this.outputSalesOrders.data);
-      //        const indexToRemove = this.outputSalesOrders.data.findIndex(order => order.so_status === "Acknowledged");
-      // if (indexToRemove !== -1) {
-      //   this.outputSalesOrders.data.splice(indexToRemove, 1); // Remove the object at index
-      // }
-      // console.log('tedrs',indexToRemove)
+            this.snackbarText = response.message
+            this.selectedDeliveryPerson = null
+            this.loading = false
+            this.Salesorderdetails = []
+
+            //       console.log('text',this.outputSalesOrders.data);
+            //        const indexToRemove = this.outputSalesOrders.data.findIndex(order => order.so_status === "Acknowledged");
+            // if (indexToRemove !== -1) {
+            //   this.outputSalesOrders.data.splice(indexToRemove, 1); // Remove the object at index
+            // }
+            // console.log('tedrs',indexToRemove)
             // this.outputStock={};
             this.fetchOutputSalesOrders().then(()=>{
               this.loading=false
             }).catch(error=>{
               console.error('Error fetching merchants:', error)
             })
-            this.locationdetails();
+            this.locationdetails()
+
             //          setTimeout(() => {
             //             this.$router.push({
             //           name: 'Viewsaleshistory'
@@ -1231,14 +1285,14 @@ export default {
             // });
             // this.getInputstockdetails();
           } else {
-             this.savingOutputStock = false;
+            this.savingOutputStock = false
             this.snackbar = true
             this.color = 'on-background'
             this.snackbarText = 'Please give proper data'
           }
         })
       }else {
-         this.savingOutputStock = false;
+        this.savingOutputStock = false
         this.snackbar = true
         this.color = 'on-background'
         this.snackbarText = 'your quantities are exceeded'
@@ -1248,6 +1302,7 @@ export default {
       const year = date.getFullYear()
       const month = String(date.getMonth() + 1).padStart(2, '0')
       const day = String(date.getDate()).padStart(2, '0')
+      
       return `${year}-${month}-${day}`
     },
 
@@ -1278,11 +1333,13 @@ export default {
       if (itm.warehouse_quantity >= itm.quantity)
         return {
           color: 'success',
+
           // text: 'Created',
         }
       else
         return {
           color: 'success',
+
           // text: 'Shared',
         }
     },
@@ -1296,19 +1353,20 @@ export default {
 
     openproductdialog() {
       // console.log('check the dialog')
-      this.dialog = true;
+      this.dialog = true
     },
     openoutputstocksforcancel(item){
-      this.dialog2 = true;
-      this.SOID = item.so_id;
-      this.SOSTATUS = item.so_status;
+      this.dialog2 = true
+      this.SOID = item.so_id
+      this.SOSTATUS = item.so_status
+
       // console.log({item});
     },
     closedialogforcancel(){
-      this.dialog2 = false;
+      this.dialog2 = false
     },
     closeDialog() {
-      this.dialog = false;
+      this.dialog = false
     },
 
     isQuantityExceeded(sq, oq, wq) {
@@ -1318,19 +1376,23 @@ export default {
         this.snackbar = true
         this.color = 'on-background'
         this.snackbarText = 'Shipped quantity cannot exceed ordered or warehouse quantity'
+        
         return true // Return true if validation fails
       }
+      
       return false // Return false if validation passes
     },
     isQuantityExceeded2(seq, eq, wq) {
       const minQuantity = Math.min( eq, wq)
 
       if (seq !== '0' && seq > minQuantity) {
-        this.snackbar = true;
+        this.snackbar = true
         this.color = 'on-background'
         this.snackbarText = 'Shipped Exchange cannot exceed Availble quantity.'
+        
         return true
       }
+      
       return false
     },
     updatePagination(page) {
@@ -1343,9 +1405,9 @@ export default {
     },
     closedialog() {
       this.dialog = false
-      this.deliveryPersons = [];
-      this.Salesorderdetails = [];
-      this.outputStock = {};
+      this.deliveryPersons = []
+      this.Salesorderdetails = []
+      this.outputStock = {}
     },
     outputstocks(item) {
       // console.log('check the detials', item)
@@ -1354,24 +1416,25 @@ export default {
       this.outputStock.is_empty = item.is_empty
       this.outputStock.merchant_name = item.merchant_name
       this.outputStock.so_status = 'Shipped'
+
       // this.outputStockproducts = item.products
       // console.log('check ', this.outputStockproducts)
       //  this.$router.push({
       //   name: 'Createwarehouseoutput', // Replace with the actual name of your route
       //   query: { so_id: item.so_id }
       // });
-      this.loading3 = true;
+      this.loading3 = true
       this.getOutputstock(item.so_id,this.cityID).then(response => {
         // console.log('dates',response);
-        this.loading3 = false;
+        this.loading3 = false
 
-        this.OutputStockDetails = response.data;
-        this.outputStock.po_number = response.data.po_number;
+        this.OutputStockDetails = response.data
+        this.outputStock.po_number = response.data.po_number
 
         //  console.log('check output dtock', this.OutputStockDetails);
-        this.Salesorderdetails = response.data.products;
-        this.deliveryUserDetails = response.delivery_user_details;
-        console.log('delivery detials',this.deliveryUserDetails);
+        this.Salesorderdetails = response.data.products
+        this.deliveryUserDetails = response.delivery_user_details
+        console.log('delivery detials',this.deliveryUserDetails)
 
         this.deliveryPersons = this.deliveryUserDetails.map(deliveryPerson => ({
           value: deliveryPerson.delivery_person,
@@ -1383,14 +1446,17 @@ export default {
       if (status == 'Acknowledged')
         return {
           color: 'warning',
+
           // text: 'Acknowledged',
         }
       else
         return {
           color: 'error',
+
           // text: 'Shared',
         }
     },
+
     // getSalesorderdetails() {
     //   return new Promise((resolve, reject) => {
     //     this.getOutputSalesorders()

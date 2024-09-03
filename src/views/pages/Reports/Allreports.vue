@@ -31,11 +31,11 @@
                 icon="line-md:downloading-loop"
               />
             </h4>
-            <br />
+            <br>
             <!-- <p>🎉</p> -->
             <VBtn
               size="small"
-              @click="openMPR()"
+              @click="openMPR"
             >
               Get Reports
             </VBtn>
@@ -49,7 +49,7 @@
           <img
             src="@/assets/images/avatars/avatar-14.png"
             class="trophy2"
-          />
+          >
         </VCard>
       </VCol>
 
@@ -70,11 +70,11 @@
                 icon="line-md:downloading-loop"
               />
             </h4>
-            <br />
+            <br>
             <!-- <p>🎉</p> -->
             <VBtn
               size="small"
-              @click="openMPS()"
+              @click="openMPS"
             >
               Get Reports
             </VBtn>
@@ -88,7 +88,7 @@
           <img
             src="@/assets/images/avatars/avatar-16.png"
             class="trophy4"
-          />
+          >
         </VCard>
       </VCol>
 
@@ -109,11 +109,11 @@
                 icon="line-md:downloading-loop"
               />
             </h4>
-            <br />
+            <br>
             <!-- <p>🎉</p> -->
             <VBtn
               size="small"
-              @click="openMSI()"
+              @click="openMSI"
             >
               Get Reports
             </VBtn>
@@ -127,7 +127,7 @@
           <img
             src="@/assets/images/avatars/avatar-11.png"
             class="trophy"
-          />
+          >
         </VCard>
       </VCol>
 
@@ -148,11 +148,11 @@
                 icon="line-md:downloading-loop"
               />
             </h4>
-            <br />
+            <br>
             <!-- <p>🎉</p> -->
             <VBtn
               size="small"
-              @click="openSales()"
+              @click="openSales"
             >
               Get Reports
             </VBtn>
@@ -166,11 +166,11 @@
           <img
             src="@/assets/images/avatars/avatar-15.png"
             class="trophy1"
-          />
+          >
           <img
             :src="avatarg"
             class="avatarg"
-          />
+          >
         </VCard>
       </VCol>
 
@@ -191,11 +191,11 @@
                 icon="line-md:downloading-loop"
               />
             </h4>
-            <br />
+            <br>
             <!-- <p>🎉</p> -->
             <VBtn
               size="small"
-              @click="openWSI()"
+              @click="openWSI"
             >
               Get Reports
             </VBtn>
@@ -209,7 +209,7 @@
           <img
             src="@/assets/images/avatars/avatar-9.png"
             class="trophy"
-          />
+          >
         </VCard>
       </VCol>
 
@@ -230,11 +230,11 @@
                 icon="line-md:downloading-loop"
               />
             </h4>
-            <br />
+            <br>
             <!-- <p>🎉</p> -->
             <VBtn
               size="small"
-              @click="openBrand()"
+              @click="openBrand"
             >
               Get Reports
             </VBtn>
@@ -248,7 +248,7 @@
           <img
             src="@/assets/images/avatars/avatar-10.png"
             class="trophy"
-          />
+          >
         </VCard>
       </VCol>
 
@@ -269,11 +269,11 @@
                 icon="line-md:downloading-loop"
               />
             </h4>
-            <br />
+            <br>
 
             <VBtn
               size="small"
-              @click="openPurchase()"
+              @click="openPurchase"
             >
               Get Reports
             </VBtn>
@@ -286,7 +286,7 @@
           <img
             src="@/assets/images/avatars/avatar-12.png"
             class="trophy5"
-          />
+          >
         </VCard>
       </VCol>
 
@@ -307,11 +307,11 @@
                 icon="line-md:downloading-loop"
               />
             </h4>
-            <br />
+            <br>
 
             <VBtn
               size="small"
-              @click="opengstreport()"
+              @click="opengstreport"
             >
               Get Reports
             </VBtn>
@@ -324,7 +324,7 @@
           <img
             src="@/assets/images/avatars/avatar-19.png"
             class="trophy10"
-          />
+          >
         </VCard>
       </VCol>
 
@@ -345,16 +345,14 @@
                 icon="line-md:downloading-loop"
               />
             </h4>
-            <br />
+            <br>
 
             <VBtn
               size="small"
-              @click="openMerchantpayment()"
+              @click="openMerchantpayment"
             >
               Get Reports
             </VBtn>
-
-           
           </VCardText>
 
           <VImg
@@ -364,11 +362,11 @@
           <img
             src="@/assets/images/avatars/avatar-18.png"
             class="trophy7"
-          />
+          >
         </VCard>
       </VCol>
 
-<!-- Merchant Report -->
+      <!-- Merchant Report -->
       <VCol
         cols="12"
         md="4"
@@ -385,21 +383,23 @@
                 icon="line-md:downloading-loop"
               />
             </h4>
-            <br />
+            <br>
 
             <VBtn
               size="small"
-              @click="openMerchantreport()"
+              @click="openMerchantreport"
             >
               Get Reports
             </VBtn> &nbsp;
-              <!-- <VProgressCircular
-                      :size="50"
-                      color="primary"
-                      indeterminate
-                      v-show="isProgress12"
-                    >
-                    </VProgressCircular> -->
+            <!--
+              <VProgressCircular
+              :size="50"
+              color="primary"
+              indeterminate
+              v-show="isProgress12"
+              >
+              </VProgressCircular> 
+            -->
           </VCardText>
 
           <VImg
@@ -409,12 +409,12 @@
           <img
             src="@/assets/images/avatars/avatar-20.png"
             class="trophy12"
-          />
+          >
         </VCard>
       </VCol>
       
       <!-- Lead Report -->
-        <VCol
+      <VCol
         cols="12"
         md="4"
       >
@@ -430,21 +430,23 @@
                 icon="line-md:downloading-loop"
               />
             </h4>
-            <br />
+            <br>
 
             <VBtn
               size="small"
-              @click="openLeadreport()"
+              @click="openLeadreport"
             >
               Get Reports
             </VBtn> &nbsp;
-              <!-- <VProgressCircular
-                      :size="50"
-                      color="primary"
-                      indeterminate
-                      v-show="isProgress13"
-                    >
-                    </VProgressCircular> -->
+            <!--
+              <VProgressCircular
+              :size="50"
+              color="primary"
+              indeterminate
+              v-show="isProgress13"
+              >
+              </VProgressCircular> 
+            -->
           </VCardText>
 
           <VImg
@@ -454,15 +456,15 @@
           <img
             src="@/assets/images/avatars/avatar-22.png"
             class="trophy12"
-          />
+          >
         </VCard>
       </VCol>
 
-       <!-- Opportunity Report -->
+      <!-- Opportunity Report -->
       <VCol
         cols="12"
         md="4"
-        >
+      >
         <VCard
           title="Opportunity Report"
           class="position-relative"
@@ -475,21 +477,23 @@
                 icon="line-md:downloading-loop"
               />
             </h4>
-            <br />
+            <br>
 
             <VBtn
               size="small"
-              @click="openOpreport()"
+              @click="openOpreport"
             >
               Get Reports
             </VBtn> &nbsp;
-              <!-- <VProgressCircular
-                      :size="50"
-                      color="primary"
-                      indeterminate
-                      v-show="isProgress14"
-                    >
-                    </VProgressCircular> -->
+            <!--
+              <VProgressCircular
+              :size="50"
+              color="primary"
+              indeterminate
+              v-show="isProgress14"
+              >
+              </VProgressCircular> 
+            -->
           </VCardText>
 
           <VImg
@@ -499,39 +503,41 @@
           <img
             src="@/assets/images/avatars/avatar-21.png"
             class="trophy12"
-          />
+          >
         </VCard>
       </VCol>
       
       <!-- User Store Logins -->
-      <!-- <VCol
+      <!--
+        <VCol
         cols="12"
         md="4"
-      >
+        >
         <VCard
         title="User Store Login"
         class="position-relative"
-      >
+        >
         <VCardText>
-          <h4 class="text-4xl font-weight-medium text-primary">
-                    <VIcon size="50" start icon="line-md:downloading-loop" />
+        <h4 class="text-4xl font-weight-medium text-primary">
+        <VIcon size="50" start icon="line-md:downloading-loop" />
 
-          </h4> <br>
+        </h4> <br>
        
-          <VBtn size="small" @click="openUserstore()">
-            Get Reports
-          </VBtn>
+        <VBtn size="small" @click="openUserstore()">
+        Get Reports
+        </VBtn>
         </VCardText>
 
    
         <VImg
-          :src="triangleBg"
-          class="triangle-bg flip-in-rtl"
+        :src="triangleBg"
+        class="triangle-bg flip-in-rtl"
         />
-          <img src="@/assets/images/avatars/avatar-13.png"  class="trophy6">
+        <img src="@/assets/images/avatars/avatar-13.png"  class="trophy6">
 
-      </VCard>
-    </VCol>  -->
+        </VCard>
+        </VCol>  
+      -->
     </VRow>
 
     <!-- Merchant Product Sales Dialog -->
@@ -548,18 +554,21 @@
             <VCol cols="12">
               <!-- 👉 Form -->
               <VForm
-                class="mt-6"
                 ref="purchaseOrderForm1"
+                class="mt-6"
               >
-                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
+                <!--
+                  <VCheckbox v-model="selectAll" @change="selectAllMerchants">
            
-            </VCheckbox> -->
+                  </VCheckbox> 
+                -->
                 <VRow>
                   <VCol
                     md="6"
                     cols="12"
                   >
                     <VAutocomplete
+                      v-if="!selectAll"
                       v-model="selectedmerchants"
                       :items="merchantName"
                       item-value="value"
@@ -568,12 +577,11 @@
                       label="Store or Merchant"
                       :menu-props="{ maxHeight: 200 }"
                       no-underline
-                      v-if="!selectAll"
                     />
                     <VTextField
+                      v-if="selectAll"
                       v-model="selectedmerchants"
                       label="Store or Merchant"
-                      v-if="selectAll"
                       disabled
                     />
                   </VCol>
@@ -583,8 +591,8 @@
                   >
                     <!-- this_year this_month -->
                     <VSelect
-                      :rules="selectDate"
                       v-model="reportsdata.date_filter"
+                      :rules="selectDate"
                       :items="['Custom', 'Current Year', 'Current Month']"
                       label="Select Date"
                     />
@@ -616,42 +624,45 @@
                       :max="maxDate1"
                     />
                   </VCol>
-                     <VCol
-                md="6"
-                cols="12"
-                v-if="userType == 'Business Head'"
-              >
-              <!-- {{selectedBrand}} -->             
-                <VAutocomplete
-                  v-model="this.citydata"
-                  label="City"
-                  :items="this.locationsdata"               
-                  item-value="value"
-                  item-title="text"
-                  :rules="locationrules"
-                  :menu-props="{ maxHeight: 200 }"                   
-                />
-              </VCol>
+                  <VCol
+                    v-if="userType == 'Business Head'"
+                    md="6"
+                    cols="12"
+                  >
+                    <!-- {{selectedBrand}} -->             
+                    <VAutocomplete
+                      v-model="citydata"
+                      label="City"
+                      :items="locationsdata"               
+                      item-value="value"
+                      item-title="text"
+                      :rules="locationrules"
+                      :menu-props="{ maxHeight: 200 }"                   
+                    />
+                  </VCol>
 
                   <VDivider />
-                  <VCol cols="12"> </VCol>
+                  <VCol cols="12" />
 
                   <VCol
                     cols="12"
                     class="d-flex flex-wrap gap-4"
                   >
-                    <VBtn @click="validateForm1()">Get</VBtn>
+                    <VBtn @click="validateForm1">
+                      Get
+                    </VBtn>
 
-                    <VBtn @click="closereport()">Close</VBtn>
+                    <VBtn @click="closereport">
+                      Close
+                    </VBtn>
 
                     <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
                     <VProgressCircular
+                      v-show="isProgress"
                       :size="50"
                       color="primary"
                       indeterminate
-                      v-show="isProgress"
-                    >
-                    </VProgressCircular>
+                    />
                   </VCol>
                 </VRow>
               </VForm>
@@ -675,12 +686,14 @@
             <VCol cols="12">
               <!-- 👉 Form -->
               <VForm
-                class="mt-6"
                 ref="purchaseOrderForm2"
+                class="mt-6"
               >
-                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
+                <!--
+                  <VCheckbox v-model="selectAll" @change="selectAllMerchants">
            
-            </VCheckbox> -->
+                  </VCheckbox> 
+                -->
                 <VRow>
                   <VCol
                     md="6"
@@ -692,8 +705,7 @@
                       :items="['All', 'Acknowledged', 'Shipped', 'Delivered','OnHold','Cancel', 'GRN Orders']"
                       label="Select Status"
                       :rules="salesRules"
-                    :menu-props="{ maxHeight: 200 }"
-
+                      :menu-props="{ maxHeight: 200 }"
                     />
                   </VCol> 
 
@@ -703,8 +715,8 @@
                   >
                     <!-- this_year this_month -->
                     <VSelect
-                      :rules="selectDate"
                       v-model="Salesdata.date_filter"
+                      :rules="selectDate"
                       :items="['Custom', 'Current Year', 'Current Month']"
                       label="Select Date"
                     />
@@ -739,22 +751,22 @@
                     />
                   </VCol>
 
-                 <VCol
-                md="6"
-                cols="12"
-                v-if="userType == 'Business Head'"
-              >
-              <!-- {{selectedBrand}} -->             
-                <VAutocomplete
-                  v-model="this.citydata"
-                  label="City"
-                  :items="this.locationsdata"               
-                  item-value="value"
-                  item-title="text"
-                  :rules="locationrules"
-                  :menu-props="{ maxHeight: 200 }"                   
-                />
-              </VCol>
+                  <VCol
+                    v-if="userType == 'Business Head'"
+                    md="6"
+                    cols="12"
+                  >
+                    <!-- {{selectedBrand}} -->             
+                    <VAutocomplete
+                      v-model="citydata"
+                      label="City"
+                      :items="locationsdata"               
+                      item-value="value"
+                      item-title="text"
+                      :rules="locationrules"
+                      :menu-props="{ maxHeight: 200 }"                   
+                    />
+                  </VCol>
 
                   <VDivider />
 
@@ -762,18 +774,21 @@
                     cols="12"
                     class="d-flex flex-wrap gap-4"
                   >
-                    <VBtn @click="validateForm2()">Get</VBtn>
+                    <VBtn @click="validateForm2">
+                      Get
+                    </VBtn>
 
-                    <VBtn @click="closeSales()">Close</VBtn>
+                    <VBtn @click="closeSales">
+                      Close
+                    </VBtn>
 
                     <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
                     <VProgressCircular
+                      v-show="isProgress2"
                       :size="50"
                       color="primary"
                       indeterminate
-                      v-show="isProgress2"
-                    >
-                    </VProgressCircular>
+                    />
                   </VCol>
                 </VRow>
               </VForm>
@@ -797,12 +812,14 @@
             <VCol cols="12">
               <!-- 👉 Form -->
               <VForm
-                class="mt-6"
                 ref="purchaseOrderForm3"
+                class="mt-6"
               >
-                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
+                <!--
+                  <VCheckbox v-model="selectAll" @change="selectAllMerchants">
             
-              </VCheckbox> -->
+                  </VCheckbox> 
+                -->
                 <VRow>
                   <VCol
                     md="6"
@@ -819,40 +836,43 @@
                       no-underline
                     />
                   </VCol>
-            <VCol
-                md="6"
-                cols="12"
-                v-if="userType == 'Business Head'"
-              >
-              <!-- {{selectedBrand}} -->             
-                <VAutocomplete
-                  v-model="this.citydata"
-                  label="City"
-                  :items="this.locationsdata"               
-                  item-value="value"
-                  item-title="text"
-                  :rules="locationrules"
-                  :menu-props="{ maxHeight: 200 }"                   
-                />
-              </VCol>
+                  <VCol
+                    v-if="userType == 'Business Head'"
+                    md="6"
+                    cols="12"
+                  >
+                    <!-- {{selectedBrand}} -->             
+                    <VAutocomplete
+                      v-model="citydata"
+                      label="City"
+                      :items="locationsdata"               
+                      item-value="value"
+                      item-title="text"
+                      :rules="locationrules"
+                      :menu-props="{ maxHeight: 200 }"                   
+                    />
+                  </VCol>
                   <VDivider />
 
                   <VCol
                     cols="12"
                     class="d-flex flex-wrap gap-4"
                   >
-                    <VBtn @click="validateForm3()">Get</VBtn>
+                    <VBtn @click="validateForm3">
+                      Get
+                    </VBtn>
 
-                    <VBtn @click="closemreport()">Close</VBtn>
+                    <VBtn @click="closemreport">
+                      Close
+                    </VBtn>
 
                     <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
                     <VProgressCircular
+                      v-show="isProgress3"
                       :size="50"
                       color="primary"
                       indeterminate
-                      v-show="isProgress3"
-                    >
-                    </VProgressCircular>
+                    />
                   </VCol>
                 </VRow>
               </VForm>
@@ -876,12 +896,14 @@
             <VCol cols="12">
               <!-- 👉 Form -->
               <VForm
-                class="mt-6"
                 ref="purchaseOrderForm4"
+                class="mt-6"
               >
-                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
+                <!--
+                  <VCheckbox v-model="selectAll" @change="selectAllMerchants">
             
-              </VCheckbox> -->
+                  </VCheckbox> 
+                -->
                 <VRow>
                   <VCol
                     md="6"
@@ -898,40 +920,43 @@
                       no-underline
                     />
                   </VCol>
-    <VCol
-                md="6"
-                cols="12"
-                v-if="userType == 'Business Head'"
-              >
-              <!-- {{selectedBrand}} -->             
-                <VAutocomplete
-                  v-model="this.citydata"
-                  label="City"
-                  :items="this.locationsdata"               
-                  item-value="value"
-                  item-title="text"
-                  :rules="locationrules"
-                  :menu-props="{ maxHeight: 200 }"                   
-                />
-              </VCol>
+                  <VCol
+                    v-if="userType == 'Business Head'"
+                    md="6"
+                    cols="12"
+                  >
+                    <!-- {{selectedBrand}} -->             
+                    <VAutocomplete
+                      v-model="citydata"
+                      label="City"
+                      :items="locationsdata"               
+                      item-value="value"
+                      item-title="text"
+                      :rules="locationrules"
+                      :menu-props="{ maxHeight: 200 }"                   
+                    />
+                  </VCol>
                   <VDivider />
 
                   <VCol
                     cols="12"
                     class="d-flex flex-wrap gap-4"
                   >
-                    <VBtn @click="validateForm4()">Get</VBtn>
+                    <VBtn @click="validateForm4">
+                      Get
+                    </VBtn>
 
-                    <VBtn @click="closewreport()">Close</VBtn>
+                    <VBtn @click="closewreport">
+                      Close
+                    </VBtn>
 
                     <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
                     <VProgressCircular
+                      v-show="isProgress4"
                       :size="50"
                       color="primary"
                       indeterminate
-                      v-show="isProgress4"
-                    >
-                    </VProgressCircular>
+                    />
                   </VCol>
                 </VRow>
               </VForm>
@@ -955,11 +980,13 @@
             <VCol cols="12">
               <!-- 👉 Form -->
               <VForm
-                class="mt-6"
                 ref="purchaseOrderForm5"
+                class="mt-6"
               >
-                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
-              </VCheckbox> -->
+                <!--
+                  <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
+                  </VCheckbox> 
+                -->
                 <VRow>
                   <VCol
                     md="6"
@@ -976,40 +1003,43 @@
                       no-underline
                     />
                   </VCol>
-            <VCol
-                md="6"
-                cols="12"
-                v-if="userType == 'Business Head'"
-              >
-              <!-- {{selectedBrand}} -->             
-                <VAutocomplete
-                  v-model="this.citydata"
-                  label="City"
-                  :items="this.locationsdata"               
-                  item-value="value"
-                  item-title="text"
-                  :rules="locationrules"
-                  :menu-props="{ maxHeight: 200 }"                   
-                />
-              </VCol>
+                  <VCol
+                    v-if="userType == 'Business Head'"
+                    md="6"
+                    cols="12"
+                  >
+                    <!-- {{selectedBrand}} -->             
+                    <VAutocomplete
+                      v-model="citydata"
+                      label="City"
+                      :items="locationsdata"               
+                      item-value="value"
+                      item-title="text"
+                      :rules="locationrules"
+                      :menu-props="{ maxHeight: 200 }"                   
+                    />
+                  </VCol>
                   <VDivider />
 
                   <VCol
                     cols="12"
                     class="d-flex flex-wrap gap-4"
                   >
-                    <VBtn @click="validateForm5()">Get</VBtn>
+                    <VBtn @click="validateForm5">
+                      Get
+                    </VBtn>
 
-                    <VBtn @click="closeBreport()">Close</VBtn>
+                    <VBtn @click="closeBreport">
+                      Close
+                    </VBtn>
 
                     <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
                     <VProgressCircular
+                      v-show="isProgress4"
                       :size="50"
                       color="primary"
                       indeterminate
-                      v-show="isProgress4"
-                    >
-                    </VProgressCircular>
+                    />
                   </VCol>
                 </VRow>
               </VForm>
@@ -1033,12 +1063,14 @@
             <VCol cols="12">
               <!-- 👉 Form -->
               <VForm
-                class="mt-6"
                 ref="purchaseOrderForm6"
+                class="mt-6"
               >
-                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
+                <!--
+                  <VCheckbox v-model="selectAll" @change="selectAllMerchants">
             
-              </VCheckbox> -->
+                  </VCheckbox> 
+                -->
                 <VRow>
                   <VCol
                     md="6"
@@ -1056,40 +1088,43 @@
                     />
                   </VCol>
 
-              <VCol
-                md="6"
-                cols="12"
-                v-if="userType == 'Business Head'"
-              >
-              <!-- {{selectedBrand}} -->             
-                <VAutocomplete
-                  v-model="this.citydata"
-                  label="City"
-                  :items="this.locationsdata"               
-                  item-value="value"
-                  item-title="text"
-                  :rules="locationrules"
-                  :menu-props="{ maxHeight: 200 }"                   
-                />
-              </VCol>
+                  <VCol
+                    v-if="userType == 'Business Head'"
+                    md="6"
+                    cols="12"
+                  >
+                    <!-- {{selectedBrand}} -->             
+                    <VAutocomplete
+                      v-model="citydata"
+                      label="City"
+                      :items="locationsdata"               
+                      item-value="value"
+                      item-title="text"
+                      :rules="locationrules"
+                      :menu-props="{ maxHeight: 200 }"                   
+                    />
+                  </VCol>
                   <VDivider />
 
                   <VCol
                     cols="12"
                     class="d-flex flex-wrap gap-4"
                   >
-                    <VBtn @click="validateForm6()">Get</VBtn>
+                    <VBtn @click="validateForm6">
+                      Get
+                    </VBtn>
 
-                    <VBtn @click="closeMPreport()">Close</VBtn>
+                    <VBtn @click="closeMPreport">
+                      Close
+                    </VBtn>
 
                     <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
                     <VProgressCircular
+                      v-show="isProgress6"
                       :size="50"
                       color="primary"
                       indeterminate
-                      v-show="isProgress6"
-                    >
-                    </VProgressCircular>
+                    />
                   </VCol>
                 </VRow>
               </VForm>
@@ -1113,12 +1148,14 @@
             <VCol cols="12">
               <!-- 👉 Form -->
               <VForm
-                class="mt-6"
                 ref="purchaseOrderForm7"
+                class="mt-6"
               >
-                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
+                <!--
+                  <VCheckbox v-model="selectAll" @change="selectAllMerchants">
            
-            </VCheckbox> -->
+                  </VCheckbox> 
+                -->
                 <VRow>
                   <VCol
                     md="6"
@@ -1139,8 +1176,8 @@
                   >
                     <!-- this_year this_month -->
                     <VSelect
-                      :rules="selectDate"
                       v-model="Purchasedata.date_filter"
+                      :rules="selectDate"
                       :items="['Custom', 'Current Year', 'Current Month']"
                       label="Select Date"
                     />
@@ -1173,40 +1210,43 @@
                     />
                   </VCol>
                   
-              <VCol
-                md="6"
-                cols="12"
-                v-if="userType == 'Business Head'"
-              >
-              <!-- {{selectedBrand}} -->             
-                <VAutocomplete
-                  v-model="this.citydata"
-                  label="City"
-                  :items="this.locationsdata"               
-                  item-value="value"
-                  item-title="text"
-                  :rules="locationrules"
-                  :menu-props="{ maxHeight: 200 }"                   
-                />
-              </VCol>
+                  <VCol
+                    v-if="userType == 'Business Head'"
+                    md="6"
+                    cols="12"
+                  >
+                    <!-- {{selectedBrand}} -->             
+                    <VAutocomplete
+                      v-model="citydata"
+                      label="City"
+                      :items="locationsdata"               
+                      item-value="value"
+                      item-title="text"
+                      :rules="locationrules"
+                      :menu-props="{ maxHeight: 200 }"                   
+                    />
+                  </VCol>
                   <VDivider />
 
                   <VCol
                     cols="12"
                     class="d-flex flex-wrap gap-4"
                   >
-                    <VBtn @click="validateForm7()">Get</VBtn>
+                    <VBtn @click="validateForm7">
+                      Get
+                    </VBtn>
 
-                    <VBtn @click="closePurchase()">Close</VBtn>
+                    <VBtn @click="closePurchase">
+                      Close
+                    </VBtn>
 
                     <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
                     <VProgressCircular
+                      v-show="isProgress7"
                       :size="50"
                       color="primary"
                       indeterminate
-                      v-show="isProgress7"
-                    >
-                    </VProgressCircular>
+                    />
                   </VCol>
                 </VRow>
               </VForm>
@@ -1230,11 +1270,13 @@
             <VCol cols="12">
               <!-- 👉 Form -->
               <VForm
-                class="mt-6"
                 ref="purchaseOrderForm8"
+                class="mt-6"
               >
-                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
-              </VCheckbox> -->
+                <!--
+                  <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
+                  </VCheckbox> 
+                -->
                 <VRow>
                   <VCol
                     md="6"
@@ -1258,18 +1300,21 @@
                     cols="12"
                     class="d-flex flex-wrap gap-4"
                   >
-                    <VBtn @click="validateForm8()">Get</VBtn>
+                    <VBtn @click="validateForm8">
+                      Get
+                    </VBtn>
 
-                    <VBtn @click="closeUserLoginreport()">Close</VBtn>
+                    <VBtn @click="closeUserLoginreport">
+                      Close
+                    </VBtn>
 
                     <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
                     <VProgressCircular
+                      v-show="isProgress8"
                       :size="50"
                       color="primary"
                       indeterminate
-                      v-show="isProgress8"
-                    >
-                    </VProgressCircular>
+                    />
                   </VCol>
                 </VRow>
               </VForm>
@@ -1293,17 +1338,18 @@
             <VCol cols="12">
               <!-- 👉 Form -->
               <VForm
-                class="mt-6"
                 ref="purchaseOrderForm9"
+                class="mt-6"
               >
-                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
-              </VCheckbox> -->
+                <!--
+                  <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
+                  </VCheckbox> 
+                -->
                 <VRow>
                   <VCol
                     md="6"
                     cols="12"
                   >
-                 
                     <VAutocomplete
                       v-model="selectedSalesuser"
                       :items="userstorenames"
@@ -1316,18 +1362,17 @@
                       @update:model-value="handleuserSelection(selectedSalesuser)"
                     />
                     <VProgressCircular
+                      v-show="isProgress10"
                       :size="50"
                       color="primary"
                       indeterminate
-                      v-show="isProgress10"
-                    >
-                    </VProgressCircular>
+                    />
                   </VCol>
 
                   <VCol
+                    v-if="selectedSalesuser == 'all'"
                     md="6"
                     cols="12"
-                    v-if="selectedSalesuser == 'all'"
                   >
                     <VAutocomplete
                       v-model="selectedSalesMerchant"
@@ -1343,9 +1388,9 @@
 
 
                   <VCol
+                    v-if="selectedSalesuser != 'all'"
                     md="6"
                     cols="12"
-                    v-if="selectedSalesuser != 'all'"
                   >
                     <VAutocomplete
                       v-model="selectedSalesMerchant"
@@ -1375,7 +1420,7 @@
                     />
                   </VCol>
 
-                   <VCol
+                  <VCol
                     md="6"
                     cols="12"
                   >
@@ -1402,40 +1447,43 @@
                     />
                   </VCol>
 
-                    <VCol
-                md="6"
-                cols="12"
-                v-if="userType == 'Business Head'"
-              >
-              <!-- {{selectedBrand}} -->             
-                <VAutocomplete
-                  v-model="this.citydata"
-                  label="City"
-                  :items="this.locationsdata"               
-                  item-value="value"
-                  item-title="text"
-                  :rules="locationrules"
-                  :menu-props="{ maxHeight: 200 }"                   
-                />
-              </VCol>
+                  <VCol
+                    v-if="userType == 'Business Head'"
+                    md="6"
+                    cols="12"
+                  >
+                    <!-- {{selectedBrand}} -->             
+                    <VAutocomplete
+                      v-model="citydata"
+                      label="City"
+                      :items="locationsdata"               
+                      item-value="value"
+                      item-title="text"
+                      :rules="locationrules"
+                      :menu-props="{ maxHeight: 200 }"                   
+                    />
+                  </VCol>
                   <VDivider />
 
                   <VCol
                     cols="12"
                     class="d-flex flex-wrap gap-4"
                   >
-                    <VBtn @click="validateForm9()">Get</VBtn>
+                    <VBtn @click="validateForm9">
+                      Get
+                    </VBtn>
 
-                    <VBtn @click="closeMerchantpayment()">Close</VBtn>
+                    <VBtn @click="closeMerchantpayment">
+                      Close
+                    </VBtn>
 
                     <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
                     <VProgressCircular
+                      v-show="isProgress9"
                       :size="50"
                       color="primary"
                       indeterminate
-                      v-show="isProgress9"
-                    >
-                    </VProgressCircular>
+                    />
                   </VCol>
                 </VRow>
               </VForm>
@@ -1459,12 +1507,14 @@
             <VCol cols="12">
               <!-- 👉 Form -->
               <VForm
-                class="mt-6"
                 ref="purchaseOrderForm10"
+                class="mt-6"
               >
-                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">
+                <!--
+                  <VCheckbox v-model="selectAll" @change="selectAllMerchants">
            
-            </VCheckbox> -->
+                  </VCheckbox> 
+                -->
                 <VRow>
                   <VCol
                     md="6"
@@ -1505,40 +1555,43 @@
                       :rules="Daterules"
                     />
                   </VCol>
-<VCol
-                md="6"
-                cols="12"
-                v-if="userType == 'Business Head'"
-              >
-              <!-- {{selectedBrand}} -->             
-                <VAutocomplete
-                  v-model="this.citydata"
-                  label="City"
-                  :items="this.locationsdata"               
-                  item-value="value"
-                  item-title="text"
-                  :rules="locationrules"
-                  :menu-props="{ maxHeight: 200 }"                   
-                />
-              </VCol>
+                  <VCol
+                    v-if="userType == 'Business Head'"
+                    md="6"
+                    cols="12"
+                  >
+                    <!-- {{selectedBrand}} -->             
+                    <VAutocomplete
+                      v-model="citydata"
+                      label="City"
+                      :items="locationsdata"               
+                      item-value="value"
+                      item-title="text"
+                      :rules="locationrules"
+                      :menu-props="{ maxHeight: 200 }"                   
+                    />
+                  </VCol>
                   <VDivider />
 
                   <VCol
                     cols="12"
                     class="d-flex flex-wrap gap-4"
                   >
-                    <VBtn @click="validateForm10()">Get</VBtn>
+                    <VBtn @click="validateForm10">
+                      Get
+                    </VBtn>
 
-                    <VBtn @click="closeGSTreport()">Close</VBtn>
+                    <VBtn @click="closeGSTreport">
+                      Close
+                    </VBtn>
 
                     <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
                     <VProgressCircular
+                      v-show="isProgress11"
                       :size="50"
                       color="primary"
                       indeterminate
-                      v-show="isProgress11"
-                    >
-                    </VProgressCircular>
+                    />
                   </VCol>
                 </VRow>
               </VForm>
@@ -1548,8 +1601,8 @@
       </VCard>
     </VDialog>
 
-<!-- Merchant Report -->
- <VDialog
+    <!-- Merchant Report -->
+    <VDialog
       v-model="dialog12"
       max-width="1000"
     >
@@ -1562,87 +1615,93 @@
             <VCol cols="12">
               <!-- 👉 Form -->
               <VForm
-                class="mt-6"
                 ref="purchaseOrderForm11"
+                class="mt-6"
               >
-                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
-              </VCheckbox> -->
-                <VRow>              
-
-                  <!-- <VCol
-                    md="6"
-                    cols="12"
-                  >
-                    <VAutocomplete
-                      v-model="selectedMerchantReportype"
-                      :items="['All','Date-Wise']"
-                      :rules="salesdata"
-                      label="Merchant Report Type"
-                      :menu-props="{ maxHeight: 200 }"
-                      no-underline
-                    />
-                  </VCol>
-
-                   <VCol
-                    md="6"
-                    cols="12"
-                  >
-                    <VTextField
-                      v-model="startDate2"
-                      type="date"
-                      label="Start Date"
-                      :min="minDate"
-                      :max="maxDate"
-                      :rules="Daterules"
-                    />
-                  </VCol>
-                  <VCol
-                    md="6"
-                    cols="12"
-                  >
-                    <VTextField
-                      v-model="endDate2"
-                      type="date"
-                      label="End Date"
-                      :min="minDate1"
-                      :max="maxDate1"
-                      :rules="Daterules"
-                    />
-                  </VCol> -->
+                <!--
+                  <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
+                  </VCheckbox> 
+                -->
+                <VRow>
+                  <!--
                     <VCol
-                md="6"
-                cols="12"
-                v-if="userType == 'Business Head'"
-              >
-              <!-- {{selectedBrand}} -->             
-                <VAutocomplete
-                  v-model="this.citydata"
-                  label="City"
-                  :items="this.locationsdata"               
-                  item-value="value"
-                  item-title="text"
-                  :rules="locationrules"
-                  :menu-props="{ maxHeight: 200 }"                   
-                />
-              </VCol>
+                    md="6"
+                    cols="12"
+                    >
+                    <VAutocomplete
+                    v-model="selectedMerchantReportype"
+                    :items="['All','Date-Wise']"
+                    :rules="salesdata"
+                    label="Merchant Report Type"
+                    :menu-props="{ maxHeight: 200 }"
+                    no-underline
+                    />
+                    </VCol>
+
+                    <VCol
+                    md="6"
+                    cols="12"
+                    >
+                    <VTextField
+                    v-model="startDate2"
+                    type="date"
+                    label="Start Date"
+                    :min="minDate"
+                    :max="maxDate"
+                    :rules="Daterules"
+                    />
+                    </VCol>
+                    <VCol
+                    md="6"
+                    cols="12"
+                    >
+                    <VTextField
+                    v-model="endDate2"
+                    type="date"
+                    label="End Date"
+                    :min="minDate1"
+                    :max="maxDate1"
+                    :rules="Daterules"
+                    />
+                    </VCol> 
+                  -->
+                  <VCol
+                    v-if="userType == 'Business Head'"
+                    md="6"
+                    cols="12"
+                  >
+                    <!-- {{selectedBrand}} -->             
+                    <VAutocomplete
+                      v-model="citydata"
+                      label="City"
+                      :items="locationsdata"               
+                      item-value="value"
+                      item-title="text"
+                      :rules="locationrules"
+                      :menu-props="{ maxHeight: 200 }"                   
+                    />
+                  </VCol>
                   <VDivider />
 
                   <VCol
                     cols="12"
                     class="d-flex flex-wrap gap-4"
                   >
-                    <VBtn @click="validateForm11()">Get</VBtn>
+                    <VBtn @click="validateForm11">
+                      Get
+                    </VBtn>
 
-                    <VBtn @click="closeMerchantreport()">Close</VBtn>
+                    <VBtn @click="closeMerchantreport">
+                      Close
+                    </VBtn>
 
                     <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
                     <VProgressCircular
+                      v-show="isProgress12"
                       :size="50"
                       color="primary"
                       indeterminate
-                      v-show="isProgress12"
-                    >
-                    </VProgressCircular>
+                    />
                   </VCol>
                 </VRow>
               </VForm>
@@ -1652,8 +1711,8 @@
       </VCard>
     </VDialog>
 
-<!-- Lead Report -->
- <VDialog
+    <!-- Lead Report -->
+    <VDialog
       v-model="dialog13"
       max-width="1000"
     >
@@ -1666,48 +1725,51 @@
             <VCol cols="12">
               <!-- 👉 Form -->
               <VForm
-                class="mt-6"
                 ref="purchaseOrderForm12"
+                class="mt-6"
               >
-                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
-              </VCheckbox> -->
-                <VRow>              
-
-                 
-                    <VCol
-                md="6"
-                cols="12"
-                v-if="userType == 'Business Head'"
-              >
-              <!-- {{selectedBrand}} -->             
-                <VAutocomplete
-                  v-model="this.citydata"
-                  label="City"
-                  :items="this.locationsdata"               
-                  item-value="value"
-                  item-title="text"
-                  :rules="locationrules"
-                  :menu-props="{ maxHeight: 200 }"                   
-                />
-              </VCol>
+                <!--
+                  <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
+                  </VCheckbox> 
+                -->
+                <VRow>
+                  <VCol
+                    v-if="userType == 'Business Head'"
+                    md="6"
+                    cols="12"
+                  >
+                    <!-- {{selectedBrand}} -->             
+                    <VAutocomplete
+                      v-model="citydata"
+                      label="City"
+                      :items="locationsdata"               
+                      item-value="value"
+                      item-title="text"
+                      :rules="locationrules"
+                      :menu-props="{ maxHeight: 200 }"                   
+                    />
+                  </VCol>
                   <VDivider />
 
                   <VCol
                     cols="12"
                     class="d-flex flex-wrap gap-4"
                   >
-                    <VBtn @click="validateForm12()">Get</VBtn>
+                    <VBtn @click="validateForm12">
+                      Get
+                    </VBtn>
 
-                    <VBtn @click="closeLreport()">Close</VBtn>
+                    <VBtn @click="closeLreport">
+                      Close
+                    </VBtn>
 
                     <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
                     <VProgressCircular
+                      v-show="isProgress15"
                       :size="50"
                       color="primary"
                       indeterminate
-                      v-show="isProgress15"
-                    >
-                    </VProgressCircular>
+                    />
                   </VCol>
                 </VRow>
               </VForm>
@@ -1717,7 +1779,7 @@
       </VCard>
     </VDialog>
 
- <VDialog
+    <VDialog
       v-model="dialog14"
       max-width="1000"
     >
@@ -1730,47 +1792,51 @@
             <VCol cols="12">
               <!-- 👉 Form -->
               <VForm
-                class="mt-6"
                 ref="purchaseOrderForm13"
+                class="mt-6"
               >
-                <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
-              </VCheckbox> -->
-                <VRow>            
-
-                    <VCol
-                md="6"
-                cols="12"
-                v-if="userType == 'Business Head'"
-              >
-              <!-- {{selectedBrand}} -->             
-                <VAutocomplete
-                  v-model="this.citydata"
-                  label="City"
-                  :items="this.locationsdata"               
-                  item-value="value"
-                  item-title="text"
-                  :rules="locationrules"
-                  :menu-props="{ maxHeight: 200 }"                   
-                />
-              </VCol>
+                <!--
+                  <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
+                  </VCheckbox> 
+                -->
+                <VRow>
+                  <VCol
+                    v-if="userType == 'Business Head'"
+                    md="6"
+                    cols="12"
+                  >
+                    <!-- {{selectedBrand}} -->             
+                    <VAutocomplete
+                      v-model="citydata"
+                      label="City"
+                      :items="locationsdata"               
+                      item-value="value"
+                      item-title="text"
+                      :rules="locationrules"
+                      :menu-props="{ maxHeight: 200 }"                   
+                    />
+                  </VCol>
                   <VDivider />
 
                   <VCol
                     cols="12"
                     class="d-flex flex-wrap gap-4"
                   >
-                    <VBtn @click="validateForm13()">Get</VBtn>
+                    <VBtn @click="validateForm13">
+                      Get
+                    </VBtn>
 
-                    <VBtn @click="closeOreport()">Close</VBtn>
+                    <VBtn @click="closeOreport">
+                      Close
+                    </VBtn>
 
                     <!-- &nbsp; &nbsp; &nbsp; &nbsp; -->
                     <VProgressCircular
+                      v-show="isProgress16"
                       :size="50"
                       color="primary"
                       indeterminate
-                      v-show="isProgress16"
-                    >
-                    </VProgressCircular>
+                    />
                   </VCol>
                 </VRow>
               </VForm>
@@ -1793,15 +1859,16 @@
 
 <script>
 import servicescall from '@/Services'
+
 // import VueExcelXlsx from 'vue-excel-xlsx';
 import { useTheme } from 'vuetify'
 import triangleDark from '@/assets/images/misc/triangle-dark.png'
 import triangleLight from '@/assets/images/misc/triangle-light.png'
 export default {
-  mixins: [servicescall],
   components: {
     // VueExcelXlsx,
   },
+  mixins: [servicescall],
 
   data() {
     return {
@@ -1883,6 +1950,7 @@ export default {
       storeBrand: [v => !!v || 'Brand Name is required'],
       Daterules: [v => !!v || 'Date is required'],
       GSTrules: [v => !!v || 'This Field is required'],
+
       // locationrules:  [v => !!v || 'This Field is required'],
       reportsdata: {
         merchant_id: '',
@@ -1951,23 +2019,11 @@ export default {
       ],
     }
   },
-  watch: {
-    'reportsdata.start_date': function (newDate) {
-      // Update maxDate to disable future dates after selecting a start date
-      this.maxDate = newDate ? newDate : this.getFormattedDate(new Date())
-    },
-    //  userType(newValue) {
-    //   if (newValue === 'Business Head') {
-    //     this.locationRules = [(v) => !!v || 'City is required'];
-    //   } else {
-    //     this.locationRules = [];
-    //   }
-    // },
-  },
   computed: {
     vuetifyTheme() {
       return useTheme()
     },
+
     // locationRules() {
     //   return this.userType === 'Business Head'
     //     ? [(v) => !!v || 'City is required']
@@ -1977,16 +2033,31 @@ export default {
       return this.vuetifyTheme.global.name.value === 'light' ? triangleLight : triangleDark
     },
   },
+  watch: {
+    'reportsdata.start_date': function (newDate) {
+      // Update maxDate to disable future dates after selecting a start date
+      this.maxDate = newDate ? newDate : this.getFormattedDate(new Date())
+    },
+
+    //  userType(newValue) {
+    //   if (newValue === 'Business Head') {
+    //     this.locationRules = [(v) => !!v || 'City is required'];
+    //   } else {
+    //     this.locationRules = [];
+    //   }
+    // },
+  },
   mounted() {
     // this.filter();
-    this.gmaildata = localStorage.getItem("gmail");
-     this.cityID = localStorage.getItem("city_id");
-      this.locationID = localStorage.getItem("location_id");
-      this.userType = localStorage.getItem("user_type");
-    this.getAllsales();
-    this.getMerchantdetails();
-    this.getBrandsdata();
-    this.getBranchnames();
+    this.gmaildata = localStorage.getItem("gmail")
+    this.cityID = localStorage.getItem("city_id")
+    this.locationID = localStorage.getItem("location_id")
+    this.userType = localStorage.getItem("user_type")
+    
+    this.getAllsales()
+    this.getMerchantdetails()
+    this.getBrandsdata()
+    this.getBranchnames()
     setTimeout(() => {
       this.loading = false
     }, 3000)
@@ -1995,63 +2066,63 @@ export default {
     // handleBrandSelection(){ 
     // },
     openOpreport(){
-      this.dialog14 = true;
+      this.dialog14 = true
     },
     closeOreport(){
-      this.dialog14 = false;
-      this.citydata = "";
+      this.dialog14 = false
+      this.citydata = ""
     },
-     getBranchnames(){
-            this.Locationdata().then((response)=>{ 
+    getBranchnames(){
+      this.Locationdata().then(response=>{ 
         
-              this.locationsdata = response.data.data.map(sales => ({
-                  value: sales.city_id,
-                  text: sales.city
-              }));
-                console.log('ceck tye res',this.locationsdata);
-            })
-          },
-          validateForm13(){
-             this.$refs.purchaseOrderForm13.validate().then((valid) => {
+        this.locationsdata = response.data.data.map(sales => ({
+          value: sales.city_id,
+          text: sales.city,
+        }))
+        console.log('ceck tye res',this.locationsdata)
+      })
+    },
+    validateForm13(){
+      this.$refs.purchaseOrderForm13.validate().then(valid => {
         if (valid) {
           // Check if citydata is required and provided
           if (this.userType === 'Business Head' && !this.citydata) {
-            this.snackbar = true;
-            this.snackbarText = 'Please select a city';
-            this.color = 'on-background';
+            this.snackbar = true
+            this.snackbarText = 'Please select a city'
+            this.color = 'on-background'
           } else {
             // Proceed with API call
-            this.openOreport();
+            this.openOreport()
           }
         } else {
-          this.snackbar = true;
-          this.snackbarText = 'Please give all mandatory fields';
-          this.color = 'on-background';
-        }
-      });
-          },
-    openOreport(){
-      this.isProgress16 = true;
-       const requestData = {
-        // merchant: this.selectedmerchants3,
-        location: this.userType === 'Business Head' ? this.citydata : this.cityID
-      };
-
-       this.Opportunityreports(requestData.location).then((response)=>{
-           if (response.data.status == 0) {
-               this.isProgress16 = false;
-
-
-          this.snackbar = true;
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
           this.color = 'on-background'
-          this.snackbarText = response.data.message;
-      this.dialog14 = false;
+        }
+      })
+    },
+    openOreport(){
+      this.isProgress16 = true
+      const requestData = {
+        // merchant: this.selectedmerchants3,
+        location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+      }
+
+      this.Opportunityreports(requestData.location).then(response=>{
+        if (response.data.status == 0) {
+          this.isProgress16 = false
+
+
+          this.snackbar = true
+          this.color = 'on-background'
+          this.snackbarText = response.data.message
+          this.dialog14 = false
 
         } else {
-          this.isProgress16 = false;   
-      this.dialog14 = false;
+          this.isProgress16 = false   
+          this.dialog14 = false
 
-          this.citydata = "";
+          this.citydata = ""
           const blob = new Blob([response.data], { type: 'text/csv' })
 
           // Create a temporary URL for the Blob
@@ -2080,31 +2151,31 @@ export default {
       })
     },
     openLeadreport(){
-      this.dialog13 = true;
+      this.dialog13 = true
     },
     closeLreport(){
-      this.dialog13 = false;
-      this.citydata = "";
+      this.dialog13 = false
+      this.citydata = ""
     },
-  openLreport(){
-     this.isProgress13 = true;
+    openLreport(){
+      this.isProgress13 = true
       const requestData = {
         // merchant: this.selectedmerchants3,
-        location: this.userType === 'Business Head' ? this.citydata : this.cityID
-      };
-       this.Leadreports(requestData.requestData).then((response)=>{
-           if (response.data.status == 0) {
-               this.isProgress13 = false;
-      this.dialog13 = false;
+        location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+      }
+      this.Leadreports(requestData.requestData).then(response=>{
+        if (response.data.status == 0) {
+          this.isProgress13 = false
+          this.dialog13 = false
 
 
-          this.snackbar = true;
+          this.snackbar = true
           this.color = 'on-background'
           this.snackbarText = response.data.message
         } else {
-          this.isProgress13 = false;      
-      this.citydata = "";
-      this.dialog13 = false;
+          this.isProgress13 = false      
+          this.citydata = ""
+          this.dialog13 = false
 
           const blob = new Blob([response.data], { type: 'text/csv' })
 
@@ -2132,17 +2203,17 @@ export default {
           this.snackbarText = 'Reports downloaded successfully.'
         }
       })
-  },
-     openMerchantreport() {
-      this.dialog12 = true;
+    },
+    openMerchantreport() {
+      this.dialog12 = true
       
     },
     closeMerchantreport(){
-      this.dialog12 = false;
-      this.selectedMerchantReportype = null;
-      this.startDate2 = null;
-      this.endDate2 = null;
-      this.citydata = "";
+      this.dialog12 = false
+      this.selectedMerchantReportype = null
+      this.startDate2 = null
+      this.endDate2 = null
+      this.citydata = ""
     },
     validateForm10() {
       this.$refs.purchaseOrderForm10.validate().then(valid => {
@@ -2157,17 +2228,17 @@ export default {
         if (valid) {
           // Check if citydata is required and provided
           if (this.userType === 'Business Head' && !this.citydata) {
-            this.snackbar = true;
-            this.snackbarText = 'Please select a city';
-            this.color = 'on-background';
+            this.snackbar = true
+            this.snackbarText = 'Please select a city'
+            this.color = 'on-background'
           } else {
             // Proceed with API call
-            this.getGSTinvoicedetails();
+            this.getGSTinvoicedetails()
           }
         } else {
-          this.snackbar = true;
-          this.snackbarText = 'Please give all mandatory fields';
-          this.color = 'on-background';
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
         }
       })
     },
@@ -2182,10 +2253,10 @@ export default {
     },
     getGSTinvoicedetails() {
       if (this.selectGST == 'Invoice Wise') {
-          const requestData = {
+        const requestData = {
         // merchant: this.selectedmerchants3,
-        location: this.userType === 'Business Head' ? this.citydata : this.cityID
-      };
+          location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+        }
         this.isProgress11 = true
         this.GSTinvoicewise(this.startDate, this.endDate,requestData.location).then(response => {
           if (response.data.status == 0) {
@@ -2240,8 +2311,8 @@ export default {
         this.isProgress11 = true
         const requestData = {
         // merchant: this.selectedmerchants3,
-        location: this.userType === 'Business Head' ? this.citydata : this.cityID
-      };
+          location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+        }
         this.GSTproductwise(this.startDate, this.endDate,requestData.location).then(response => {
           if (response.data.status == 0) {
             this.isProgress11 = false
@@ -2263,6 +2334,7 @@ export default {
             this.startDate = ''
             this.endDate = ''
             this.citydata = ''
+
             //  console.log('length',response.data.length);
             const blob = new Blob([response.data], { type: 'text/csv' })
 
@@ -2297,49 +2369,50 @@ export default {
       
       if(itm == "all"){
         console.log("yes it is selected")
-        this.isProgress10 = true;
-         this.getMerchantdetails().then(() => {
-            this.isProgress10 = false;
+        this.isProgress10 = true
+        this.getMerchantdetails().then(() => {
+          this.isProgress10 = false
         }).catch(() => {
-            this.isProgress10 = false;
-        });
+          this.isProgress10 = false
+        })
   
 
       }else{
-          this.isProgress10 = true;
+        this.isProgress10 = true
 
-          this.getSalesmerchant(itm).then(response => {
-        console.log('check response data', response)
-        if (response.data.status == 1) {
-          this.isProgress10 = false;
-          // this.getmerchantdata = response.data.data.map(merchant => ({
-          //   value: merchant.merchant_id,
-          //   text: merchant.merchant_uid,
-          // }))
-           this.getmerchantdata = [
-          { value: "all", text: "All" },
-          ...response.data.data.map(merchant => ({
-            value: merchant.merchant_id,
-            text: merchant.merchant_uid
-          }))
-        ];
-          this.snackbar = true
-          this.snackbarText = response.data.message
-          this.color = 'primary'
-        } else {
-          this.isProgress10 = false
+        this.getSalesmerchant(itm).then(response => {
+          console.log('check response data', response)
+          if (response.data.status == 1) {
+            this.isProgress10 = false
 
-          this.snackbar = true
-          this.snackbarText = response.data.message
-          this.color = 'on-background'
-        }
-      })
+            // this.getmerchantdata = response.data.data.map(merchant => ({
+            //   value: merchant.merchant_id,
+            //   text: merchant.merchant_uid,
+            // }))
+            this.getmerchantdata = [
+              { value: "all", text: "All" },
+              ...response.data.data.map(merchant => ({
+                value: merchant.merchant_id,
+                text: merchant.merchant_uid,
+              })),
+            ]
+            this.snackbar = true
+            this.snackbarText = response.data.message
+            this.color = 'primary'
+          } else {
+            this.isProgress10 = false
+
+            this.snackbar = true
+            this.snackbarText = response.data.message
+            this.color = 'on-background'
+          }
+        })
       }
     
     
     },
     validateForm9(){
-       this.$refs.purchaseOrderForm9.validate().then(valid => {
+      this.$refs.purchaseOrderForm9.validate().then(valid => {
         // console.log("form valid", valid.valid);
         // if (valid.valid == true) {
         //   this.getmerchantpayemt()
@@ -2348,147 +2421,149 @@ export default {
         //   this.snackbarText = 'Please give all mandatory fields'
         //   this.color = 'on-background'
         // }
-          if (valid) {
+        if (valid) {
           // Check if citydata is required and provided
           if (this.userType === 'Business Head' && !this.citydata) {
-            this.snackbar = true;
-            this.snackbarText = 'Please select a city';
-            this.color = 'on-background';
+            this.snackbar = true
+            this.snackbarText = 'Please select a city'
+            this.color = 'on-background'
           } else {
             // Proceed with API call
-            this.getmerchantpayemt();
+            this.getmerchantpayemt()
           }
         } else {
-          this.snackbar = true;
-          this.snackbarText = 'Please give all mandatory fields';
-          this.color = 'on-background';
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
         }
       })
     },
     getmerchantpayemt(){
       if(this.selectedReportype == "Invoice Wise"){
-         const requestData = {
+        const requestData = {
         // merchant: this.selectedmerchants3,
-        location: this.userType === 'Business Head' ? this.citydata : this.cityID
-      };
-
-          this.isProgress9 = true;
-         this.Merchantpayments(this.selectedSalesuser,this.selectedSalesMerchant,this.startDate1,this.endDate1,requestData.location).then((response)=>{
-           if (response.data.status == 0) {
-          this.isProgress10 = false;
-          this.isProgress9 = false;
-          this.dialog10 = false;
-          this.selectedReportype = '';
-          this.selectedSalesuser = '';
-          this.selectedSalesMerchant = '';
-          this.startDate1 = '';
-          this.endDate1 = '';
-
-          this.snackbar = true;
-          this.color = 'on-background'
-          this.snackbarText = response.data.message
-        } else {
-           this.isProgress10 = false;
-          this.isProgress9 = false;
-          this.dialog10 = false;
-          this.citydata = ""
-
-          //  this.loading = true;
-          // this.reportsdata={};
-            this.selectedSalesuser = '';
-          this.selectedSalesMerchant = '';
-          this.selectedReportype = '';
-
-          this.startDate1 = '';
-          this.endDate1 = '';
-          //  console.log('length',response.data.length);
-          const blob = new Blob([response.data], { type: 'text/csv' })
-
-          // Create a temporary URL for the Blob
-          const url = window.URL.createObjectURL(blob)
-
-          // Create a link element
-          const link = document.createElement('a')
-          link.href = url
-          link.setAttribute('download', 'Merchant Payment Report.csv') // Set the file name here
-
-          // Append the link to the body
-          document.body.appendChild(link)
-
-          // Programmatically click the link to trigger the download
-          link.click()
-
-          // Clean up - remove the link and revoke the URL
-          link.parentNode.removeChild(link)
-          window.URL.revokeObjectURL(url)
-
-          // console.log('CSV data:', response.data);
-          this.snackbar = true
-          this.color = 'primary'
-          this.snackbarText = 'Reports downloaded successfully.'
+          location: this.userType === 'Business Head' ? this.citydata : this.cityID,
         }
-      })
+
+        this.isProgress9 = true
+        this.Merchantpayments(this.selectedSalesuser,this.selectedSalesMerchant,this.startDate1,this.endDate1,requestData.location).then(response=>{
+          if (response.data.status == 0) {
+            this.isProgress10 = false
+            this.isProgress9 = false
+            this.dialog10 = false
+            this.selectedReportype = ''
+            this.selectedSalesuser = ''
+            this.selectedSalesMerchant = ''
+            this.startDate1 = ''
+            this.endDate1 = ''
+
+            this.snackbar = true
+            this.color = 'on-background'
+            this.snackbarText = response.data.message
+          } else {
+            this.isProgress10 = false
+            this.isProgress9 = false
+            this.dialog10 = false
+            this.citydata = ""
+
+            //  this.loading = true;
+            // this.reportsdata={};
+            this.selectedSalesuser = ''
+            this.selectedSalesMerchant = ''
+            this.selectedReportype = ''
+
+            this.startDate1 = ''
+            this.endDate1 = ''
+
+            //  console.log('length',response.data.length);
+            const blob = new Blob([response.data], { type: 'text/csv' })
+
+            // Create a temporary URL for the Blob
+            const url = window.URL.createObjectURL(blob)
+
+            // Create a link element
+            const link = document.createElement('a')
+            link.href = url
+            link.setAttribute('download', 'Merchant Payment Report.csv') // Set the file name here
+
+            // Append the link to the body
+            document.body.appendChild(link)
+
+            // Programmatically click the link to trigger the download
+            link.click()
+
+            // Clean up - remove the link and revoke the URL
+            link.parentNode.removeChild(link)
+            window.URL.revokeObjectURL(url)
+
+            // console.log('CSV data:', response.data);
+            this.snackbar = true
+            this.color = 'primary'
+            this.snackbarText = 'Reports downloaded successfully.'
+          }
+        })
       }else{
         const requestData = {
         // merchant: this.selectedmerchants3,
-        location: this.userType === 'Business Head' ? this.citydata : this.cityID
-      };
-        this.isProgress9 = true;
-         this.Merchantpaymentsoverall(this.selectedSalesuser,this.selectedSalesMerchant,this.startDate1,this.endDate1,requestData.location,this.cityID).then((response)=>{
-           if (response.data.status == 0) {
-          this.isProgress10 = false;
-          this.isProgress9 = false;
-          this.dialog10 = false;
-          this.selectedReportype = '';
-
-          this.selectedSalesuser = '';
-          this.selectedSalesMerchant = '';
-          this.startDate1 = '';
-          this.endDate1 = '';
-
-          this.snackbar = true;
-          this.color = 'on-background'
-          this.snackbarText = response.data.message
-        } else {
-           this.isProgress10 = false;
-          this.isProgress9 = false;
-          this.dialog10 = false;
-          this.selectedReportype = '';
-          this.citydata = ""
-
-          //  this.loading = true;
-          // this.reportsdata={};
-            this.selectedSalesuser = '';
-          this.selectedSalesMerchant = '';
-          this.startDate1 = '';
-          this.endDate1 = '';
-          //  console.log('length',response.data.length);
-          const blob = new Blob([response.data], { type: 'text/csv' })
-
-          // Create a temporary URL for the Blob
-          const url = window.URL.createObjectURL(blob)
-
-          // Create a link element
-          const link = document.createElement('a')
-          link.href = url
-          link.setAttribute('download', 'Merchant Payment Report.csv') // Set the file name here
-
-          // Append the link to the body
-          document.body.appendChild(link)
-
-          // Programmatically click the link to trigger the download
-          link.click()
-
-          // Clean up - remove the link and revoke the URL
-          link.parentNode.removeChild(link)
-          window.URL.revokeObjectURL(url)
-
-          // console.log('CSV data:', response.data);
-          this.snackbar = true
-          this.color = 'primary'
-          this.snackbarText = 'Reports downloaded successfully.'
+          location: this.userType === 'Business Head' ? this.citydata : this.cityID,
         }
-       })
+        this.isProgress9 = true
+        this.Merchantpaymentsoverall(this.selectedSalesuser,this.selectedSalesMerchant,this.startDate1,this.endDate1,requestData.location,this.cityID).then(response=>{
+          if (response.data.status == 0) {
+            this.isProgress10 = false
+            this.isProgress9 = false
+            this.dialog10 = false
+            this.selectedReportype = ''
+
+            this.selectedSalesuser = ''
+            this.selectedSalesMerchant = ''
+            this.startDate1 = ''
+            this.endDate1 = ''
+
+            this.snackbar = true
+            this.color = 'on-background'
+            this.snackbarText = response.data.message
+          } else {
+            this.isProgress10 = false
+            this.isProgress9 = false
+            this.dialog10 = false
+            this.selectedReportype = ''
+            this.citydata = ""
+
+            //  this.loading = true;
+            // this.reportsdata={};
+            this.selectedSalesuser = ''
+            this.selectedSalesMerchant = ''
+            this.startDate1 = ''
+            this.endDate1 = ''
+
+            //  console.log('length',response.data.length);
+            const blob = new Blob([response.data], { type: 'text/csv' })
+
+            // Create a temporary URL for the Blob
+            const url = window.URL.createObjectURL(blob)
+
+            // Create a link element
+            const link = document.createElement('a')
+            link.href = url
+            link.setAttribute('download', 'Merchant Payment Report.csv') // Set the file name here
+
+            // Append the link to the body
+            document.body.appendChild(link)
+
+            // Programmatically click the link to trigger the download
+            link.click()
+
+            // Clean up - remove the link and revoke the URL
+            link.parentNode.removeChild(link)
+            window.URL.revokeObjectURL(url)
+
+            // console.log('CSV data:', response.data);
+            this.snackbar = true
+            this.color = 'primary'
+            this.snackbarText = 'Reports downloaded successfully.'
+          }
+        })
       }
      
     },
@@ -2498,7 +2573,7 @@ export default {
     closeMerchantpayment() {
       this.dialog10 = false
       this.selectedmerchants4 = ''
-          this.citydata = ""
+      this.citydata = ""
 
     },
     validateForm8() {
@@ -2515,6 +2590,7 @@ export default {
     },
     getUserstoreloginreport() {
       this.isProgress8 = true
+
       // console.log('text it',this.userStoredata);
       this.getUserstorereport(this.userStoredata).then(response => {
         // console.log(response);
@@ -2535,6 +2611,7 @@ export default {
           //  this.loading = true;
           // this.reportsdata={};
           this.userStoredata = ''
+
           //  console.log('length',response.data.length);
           const blob = new Blob([response.data], { type: 'text/csv' })
 
@@ -2566,7 +2643,7 @@ export default {
     closeUserLoginreport() {
       this.dialog9 = false
       this.userStoredata = ''
-          this.citydata = ""
+      this.citydata = ""
 
     },
     openUserstore() {
@@ -2583,13 +2660,14 @@ export default {
         //     text: sales.name
         // }));
 
-         this.userstorenames = [
+        this.userstorenames = [
           { value: "all", text: "All" },
           ...response.data.data.map(brand => ({
             value: brand.user_id,
-            text: brand.name
-          }))
-        ];
+            text: brand.name,
+          })),
+        ]
+
         // this.userstorenames = response.data.data.map(brand => ({
         //   value: brand.user_id,
         //   text: brand.name,
@@ -2612,17 +2690,17 @@ export default {
         if (valid) {
           // Check if citydata is required and provided
           if (this.userType === 'Business Head' && !this.citydata) {
-            this.snackbar = true;
-            this.snackbarText = 'Please select a city';
-            this.color = 'on-background';
+            this.snackbar = true
+            this.snackbarText = 'Please select a city'
+            this.color = 'on-background'
           } else {
             // Proceed with API call
-            this.getPurchaseOrdersdatareport();
+            this.getPurchaseOrdersdatareport()
           }
         } else {
-          this.snackbar = true;
-          this.snackbarText = 'Please give all mandatory fields';
-          this.color = 'on-background';
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
         }
       })
     },
@@ -2646,10 +2724,10 @@ export default {
         this.Purchasedata.start_date = this.getFormattedDate(new Date())
         this.Purchasedata.end_date = this.getFormattedDate(new Date())
       }
-  const requestData = {
+      const requestData = {
         // merchant: this.selectedmerchants3,
-        location: this.userType === 'Business Head' ? this.citydata : this.cityID
-      };
+        location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+      }
 
       this.isProgress7 = true
 
@@ -2658,7 +2736,7 @@ export default {
         this.Purchasedata.date_filter,
         this.Purchasedata.start_date,
         this.Purchasedata.end_date,
-        requestData.location
+        requestData.location,
       ).then(response => {
         // console.log(response);
 
@@ -2680,6 +2758,7 @@ export default {
           //  this.loading = true;
           // this.reportsdata={};
           this.selectedmerchants3 = ''
+
           //  console.log('length',response.data.length);
           const blob = new Blob([response.data], { type: 'text/csv' })
 
@@ -2714,9 +2793,10 @@ export default {
     closePurchase() {
       this.dialog8 = false
       this.selectPurchase = ''
-          this.citydata = ""
+      this.citydata = ""
 
     },
+
     // filter(){
     //   if(this.userType == "Business Head"){
     //     this.filterLocation = true;
@@ -2726,53 +2806,53 @@ export default {
     //   }
     // },
     validateForm12(){
-        this.$refs.purchaseOrderForm12.validate().then((valid) => {
+      this.$refs.purchaseOrderForm12.validate().then(valid => {
         if (valid) {
           // Check if citydata is required and provided
           if (this.userType === 'Business Head' && !this.citydata) {
-            this.snackbar = true;
-            this.snackbarText = 'Please select a city';
-            this.color = 'on-background';
+            this.snackbar = true
+            this.snackbarText = 'Please select a city'
+            this.color = 'on-background'
           } else {
             // Proceed with API call
-            this.openLreport();
+            this.openLreport()
           }
         } else {
-          this.snackbar = true;
-          this.snackbarText = 'Please give all mandatory fields';
-          this.color = 'on-background';
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
         }
-      });
+      })
     },
     validateForm11(){
-        this.$refs.purchaseOrderForm11.validate().then((valid) => {
+      this.$refs.purchaseOrderForm11.validate().then(valid => {
         if (valid) {
           // Check if citydata is required and provided
           if (this.userType === 'Business Head' && !this.citydata) {
-            this.snackbar = true;
-            this.snackbarText = 'Please select a city';
-            this.color = 'on-background';
+            this.snackbar = true
+            this.snackbarText = 'Please select a city'
+            this.color = 'on-background'
           } else {
             // Proceed with API call
-            this.getMerchantreport();
+            this.getMerchantreport()
           }
         } else {
-          this.snackbar = true;
-          this.snackbarText = 'Please give all mandatory fields';
-          this.color = 'on-background';
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
         }
-      });
+      })
     },
     getMerchantreport(){
-      this.isProgress12 = true;
-        const requestData = {
+      this.isProgress12 = true
+      const requestData = {
         // merchant: this.selectedmerchants3,
-        location: this.userType === 'Business Head' ? this.citydata : this.cityID
-      };
+        location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+      }
 
-       this.Merchantreports(requestData.location).then((response)=>{
-           if (response.data.status == 0) {
-               this.isProgress12 = false;
+      this.Merchantreports(requestData.location).then(response=>{
+        if (response.data.status == 0) {
+          this.isProgress12 = false
 
           // this.dialog10 = false;
 
@@ -2781,11 +2861,11 @@ export default {
           // this.startDate1 = '';
           // this.endDate1 = '';
 
-          this.snackbar = true;
+          this.snackbar = true
           this.color = 'on-background'
           this.snackbarText = response.data.message
         } else {
-          this.isProgress12 = false;
+          this.isProgress12 = false
        
           this.citydata = ""
 
@@ -2820,65 +2900,65 @@ export default {
         }
       })
     },
- validateForm6() {
+    validateForm6() {
       // Validate the form
-      this.$refs.purchaseOrderForm6.validate().then((valid) => {
+      this.$refs.purchaseOrderForm6.validate().then(valid => {
         if (valid) {
           // Check if citydata is required and provided
           if (this.userType === 'Business Head' && !this.citydata) {
-            this.snackbar = true;
-            this.snackbarText = 'Please select a city';
-            this.color = 'on-background';
+            this.snackbar = true
+            this.snackbarText = 'Please select a city'
+            this.color = 'on-background'
           } else {
             // Proceed with API call
-            this.getMerchantProductsreport();
+            this.getMerchantProductsreport()
           }
         } else {
-          this.snackbar = true;
-          this.snackbarText = 'Please give all mandatory fields';
-          this.color = 'on-background';
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
         }
-      });
+      })
     },
     getMerchantProductsreport() {
-      this.isProgress6 = true;
+      this.isProgress6 = true
 
       const requestData = {
         merchant: this.selectedmerchants3,
-        location: this.userType === 'Business Head' ? this.citydata : this.cityID
-      };
+        location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+      }
 
       this.getMProductsreport(requestData.merchant, requestData.location).then(response => {
         if (response.data.status === 0) {
-          this.isProgress6 = false;
-          this.dialog7 = false;
-          this.snackbar = true;
-          this.color = 'on-background';
-          this.snackbarText = response.data.message;
+          this.isProgress6 = false
+          this.dialog7 = false
+          this.snackbar = true
+          this.color = 'on-background'
+          this.snackbarText = response.data.message
         } else {
-          this.isProgress6 = false;
-          this.dialog7 = false;
-          this.selectedmerchants3 = '';
-          this.citydata = "";
-          const blob = new Blob([response.data], { type: 'text/csv' });
-          const url = window.URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.href = url;
-          link.setAttribute('download', 'Merchant Products Report.csv');
-          document.body.appendChild(link);
-          link.click();
-          link.parentNode.removeChild(link);
-          window.URL.revokeObjectURL(url);
-          this.snackbar = true;
-          this.color = 'primary';
-          this.snackbarText = 'Reports downloaded successfully.';
+          this.isProgress6 = false
+          this.dialog7 = false
+          this.selectedmerchants3 = ''
+          this.citydata = ""
+          const blob = new Blob([response.data], { type: 'text/csv' })
+          const url = window.URL.createObjectURL(blob)
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', 'Merchant Products Report.csv')
+          document.body.appendChild(link)
+          link.click()
+          link.parentNode.removeChild(link)
+          window.URL.revokeObjectURL(url)
+          this.snackbar = true
+          this.color = 'primary'
+          this.snackbarText = 'Reports downloaded successfully.'
         }
-      });
+      })
     },
     closeMPreport() {
       this.dialog7 = false
       this.selectedmerchants3 = ''
-          this.citydata = ""
+      this.citydata = ""
 
     },
     openMPR() {
@@ -2890,7 +2970,7 @@ export default {
     closeBreport() {
       this.dialog6 = false
       this.selectedBrand2 = ''
-          this.citydata = ""
+      this.citydata = ""
 
     },
     validateForm5() {
@@ -2903,29 +2983,29 @@ export default {
         //   this.snackbarText = 'Please give all mandatory fields'
         //   this.color = 'on-background'
         // }
-         if (valid) {
+        if (valid) {
           // Check if citydata is required and provided
           if (this.userType === 'Business Head' && !this.citydata) {
-            this.snackbar = true;
-            this.snackbarText = 'Please select a city';
-            this.color = 'on-background';
+            this.snackbar = true
+            this.snackbarText = 'Please select a city'
+            this.color = 'on-background'
           } else {
             // Proceed with API call
-            this.getbrandsreport();
+            this.getbrandsreport()
           }
         } else {
-          this.snackbar = true;
-          this.snackbarText = 'Please give all mandatory fields';
-          this.color = 'on-background';
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
         }
       })
     },
     getbrandsreport() {
       this.isProgress5 = true
- const requestData = {
+      const requestData = {
         // merchant: this.selectedmerchants3,
-        location: this.userType === 'Business Head' ? this.citydata : this.cityID
-      };
+        location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+      }
 
       this.getBrandsallreport(this.selectedBrand2,requestData.location).then(response => {
         // console.log(response);
@@ -2946,6 +3026,7 @@ export default {
           //  this.loading = true;
           // this.reportsdata={};
           this.selectedBrand2 = ''
+
           //  console.log('length',response.data.length);
           const blob = new Blob([response.data], { type: 'text/csv' })
 
@@ -2988,26 +3069,26 @@ export default {
         if (valid) {
           // Check if citydata is required and provided
           if (this.userType === 'Business Head' && !this.citydata) {
-            this.snackbar = true;
-            this.snackbarText = 'Please select a city';
-            this.color = 'on-background';
+            this.snackbar = true
+            this.snackbarText = 'Please select a city'
+            this.color = 'on-background'
           } else {
             // Proceed with API call
-            this.getwarehousestockreport();
+            this.getwarehousestockreport()
           }
         } else {
-          this.snackbar = true;
-          this.snackbarText = 'Please give all mandatory fields';
-          this.color = 'on-background';
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
         }
       })
     },
     getwarehousestockreport() {
-      this.isProgress4 = true;
+      this.isProgress4 = true
       const requestData = {
         // merchant: this.selectedmerchants3,
-        location: this.userType === 'Business Head' ? this.citydata : this.cityID
-      };
+        location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+      }
 
       this.getBrandreports(this.selectedBrand,requestData.location).then(response => {
         // console.log(response);
@@ -3028,6 +3109,7 @@ export default {
           //  this.loading = true;
           // this.reportsdata={};
           this.selectedBrand = ''
+
           //  console.log('length',response.data.length);
           const blob = new Blob([response.data], { type: 'text/csv' })
 
@@ -3072,7 +3154,7 @@ export default {
     closewreport() {
       this.dialog5 = false
       this.selectedBrand = ''
-          this.citydata = ""
+      this.citydata = ""
 
     },
     openWSI() {
@@ -3081,7 +3163,7 @@ export default {
     closemreport() {
       this.dialog4 = false
       this.selectedmerchants2 = ''
-          this.citydata = ""
+      this.citydata = ""
 
     },
     openMSI() {
@@ -3097,20 +3179,20 @@ export default {
         //   this.snackbarText = 'Please give all mandatory fields'
         //   this.color = 'on-background'
         // }
-          if (valid) {
+        if (valid) {
           // Check if citydata is required and provided
           if (this.userType === 'Business Head' && !this.citydata) {
-            this.snackbar = true;
-            this.snackbarText = 'Please select a city';
-            this.color = 'on-background';
+            this.snackbar = true
+            this.snackbarText = 'Please select a city'
+            this.color = 'on-background'
           } else {
             // Proceed with API call
-            this.getReport();
+            this.getReport()
           }
         } else {
-          this.snackbar = true;
-          this.snackbarText = 'Please give all mandatory fields';
-          this.color = 'on-background';
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
         }
       })
     },
@@ -3124,20 +3206,20 @@ export default {
         //   this.snackbarText = 'Please give all mandatory fields'
         //   this.color = 'on-background'
         // }
-         if (valid) {
+        if (valid) {
           // Check if citydata is required and provided
           if (this.userType === 'Business Head' && !this.citydata) {
-            this.snackbar = true;
-            this.snackbarText = 'Please select a city';
-            this.color = 'on-background';
+            this.snackbar = true
+            this.snackbarText = 'Please select a city'
+            this.color = 'on-background'
           } else {
             // Proceed with API call
-            this.getSales();
+            this.getSales()
           }
         } else {
-          this.snackbar = true;
-          this.snackbarText = 'Please give all mandatory fields';
-          this.color = 'on-background';
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
         }
       })
     },
@@ -3152,30 +3234,30 @@ export default {
         //   this.snackbarText = 'Please give all mandatory fields'
         //   this.color = 'on-background'
         // }
-           if (valid) {
+        if (valid) {
           // Check if citydata is required and provided
           if (this.userType === 'Business Head' && !this.citydata) {
-            this.snackbar = true;
-            this.snackbarText = 'Please select a city';
-            this.color = 'on-background';
+            this.snackbar = true
+            this.snackbarText = 'Please select a city'
+            this.color = 'on-background'
           } else {
             // Proceed with API call
-            this.getMerchantsreport();
+            this.getMerchantsreport()
           }
         } else {
-          this.snackbar = true;
-          this.snackbarText = 'Please give all mandatory fields';
-          this.color = 'on-background';
+          this.snackbar = true
+          this.snackbarText = 'Please give all mandatory fields'
+          this.color = 'on-background'
         }
       })
     },
 
     getMerchantsreport() {
       this.isProgress3 = true
- const requestData = {
+      const requestData = {
         // merchant: this.selectedmerchants3,
-        location: this.userType === 'Business Head' ? this.citydata : this.cityID
-      };
+        location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+      }
       this.getMerchantstocksreport(this.selectedmerchants2,requestData.location).then(response => {
         // console.log(response);
 
@@ -3229,22 +3311,24 @@ export default {
     closeSales() {
       this.dialog3 = false
       this.selectSales = null
-          this.citydata = ""
+      this.citydata = ""
 
     },
     getFormattedDates(date) {
       const year = date.getFullYear()
       const month = String(date.getMonth() + 1).padStart(2, '0')
       const day = String(date.getDate()).padStart(2, '0')
+      
       return `${year}-${month}-${day}`
     },
     closereport() {
       this.dialog2 = false
       this.reportsdata = {}
       this.selectedmerchants = ''
-          this.citydata = ""
+      this.citydata = ""
 
     },
+
     //   selectAllMerchants() {
     //   if (this.selectAll) {
     //     // Select all merchants
@@ -3267,11 +3351,13 @@ export default {
       const year = date.getFullYear()
       const month = String(date.getMonth() + 1).padStart(2, '0')
       const day = String(date.getDate()).padStart(2, '0')
+      
       return `${year}-${month}-${day}`
     },
     downloadExcel() {
       console.log('download excel')
     },
+
     // downloadReport(){
     //     if (this.reportsMerchant.length === 0) {
     //     alert("No data to download.");
@@ -3321,19 +3407,19 @@ export default {
         Shipped: '4',
         Delivered: '5',
         OnHold: '7',
-        Cancel: '0'
+        Cancel: '0',
       }
 
       const statusma={
-        "GRN Orders": 'all'
+        "GRN Orders": 'all',
       }
       console.log('check ', statusma[this.selectSales])
-      this.isProgress2 = true;
+      this.isProgress2 = true
 
-        const requestData = {
+      const requestData = {
         // merchant: this.selectedmerchants3,
-        location: this.userType === 'Business Head' ? this.citydata : this.cityID
-      };
+        location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+      }
 
       if (this.Salesdata.date_filter === 'Custom') {
         this.Salesdata.date_filter = 'custom'
@@ -3347,99 +3433,101 @@ export default {
         this.Salesdata.end_date = this.getFormattedDate(new Date())
       }
       if(this.selectSales != "GRN Orders"){
-           this.salesstocksreport(
-        statusMapping[this.selectSales],
-        this.Salesdata.date_filter,
-        this.Salesdata.start_date,
-        this.Salesdata.end_date,
-        requestData.location
-      ).then(response => {
-        console.log('check the response', response)
-        if (response.data.status == 0) {
-          this.isProgress2 = false
-          this.dialog3 = false
-          this.selectSales = null
-          this.Salesdata = {}
-          this.snackbar = true
-          this.color = 'on-background'
-          this.snackbarText = response.data.message
-        } else {
-          this.isProgress2 = false
-          this.dialog3 = false
-          this.selectSales = null
-          this.Salesdata = {}
-          this.citydata = ""
+        this.salesstocksreport(
+          statusMapping[this.selectSales],
+          this.Salesdata.date_filter,
+          this.Salesdata.start_date,
+          this.Salesdata.end_date,
+          requestData.location,
+        ).then(response => {
+          console.log('check the response', response)
+          if (response.data.status == 0) {
+            this.isProgress2 = false
+            this.dialog3 = false
+            this.selectSales = null
+            this.Salesdata = {}
+            this.snackbar = true
+            this.color = 'on-background'
+            this.snackbarText = response.data.message
+          } else {
+            this.isProgress2 = false
+            this.dialog3 = false
+            this.selectSales = null
+            this.Salesdata = {}
+            this.citydata = ""
 
-          //  this.loading = true;
+            //  this.loading = true;
 
-          // this.reportsMerchant = response.data;
-          const blob = new Blob([response.data], { type: 'text/csv' })
-          // Create a temporary URL for the Blob
-          const url = window.URL.createObjectURL(blob)
-          // Create a link element
-          const link = document.createElement('a')
-          link.href = url
-          link.setAttribute('download', 'Sales Report.csv') //
-          document.body.appendChild(link)
+            // this.reportsMerchant = response.data;
+            const blob = new Blob([response.data], { type: 'text/csv' })
 
-          link.click()
+            // Create a temporary URL for the Blob
+            const url = window.URL.createObjectURL(blob)
 
-          link.parentNode.removeChild(link)
-          window.URL.revokeObjectURL(url)
+            // Create a link element
+            const link = document.createElement('a')
+            link.href = url
+            link.setAttribute('download', 'Sales Report.csv') //
+            document.body.appendChild(link)
 
-          this.snackbar = true
-          this.color = 'primary'
-          this.snackbarText = 'Reports downloaded successfully.'
-        }
-      })
+            link.click()
+
+            link.parentNode.removeChild(link)
+            window.URL.revokeObjectURL(url)
+
+            this.snackbar = true
+            this.color = 'primary'
+            this.snackbarText = 'Reports downloaded successfully.'
+          }
+        })
       }else{
-         this.grnsalesstocksreport(
-        statusma[this.selectSales],
-        this.Salesdata.date_filter,
-        this.Salesdata.start_date,
-        this.Salesdata.end_date,
-        requestData.location
-      ).then(response => {
-        console.log('check the response', response)
-        if (response.data.status == 0) {
-          this.isProgress2 = false
-          this.dialog3 = false
-          this.selectSales = null
-          this.Salesdata = {}
-          this.snackbar = true
-          this.color = 'on-background'
-          this.snackbarText = response.data.message
-        } else {
-          this.isProgress2 = false
-          this.dialog3 = false
-          this.selectSales = null
-          this.Salesdata = {}
-          this.citydata = ""
+        this.grnsalesstocksreport(
+          statusma[this.selectSales],
+          this.Salesdata.date_filter,
+          this.Salesdata.start_date,
+          this.Salesdata.end_date,
+          requestData.location,
+        ).then(response => {
+          console.log('check the response', response)
+          if (response.data.status == 0) {
+            this.isProgress2 = false
+            this.dialog3 = false
+            this.selectSales = null
+            this.Salesdata = {}
+            this.snackbar = true
+            this.color = 'on-background'
+            this.snackbarText = response.data.message
+          } else {
+            this.isProgress2 = false
+            this.dialog3 = false
+            this.selectSales = null
+            this.Salesdata = {}
+            this.citydata = ""
 
-          //  this.loading = true;
+            //  this.loading = true;
 
-          // this.reportsMerchant = response.data;
-          const blob = new Blob([response.data], { type: 'text/csv' })
+            // this.reportsMerchant = response.data;
+            const blob = new Blob([response.data], { type: 'text/csv' })
 
-          // Create a temporary URL for the Blob
-          const url = window.URL.createObjectURL(blob)
+            // Create a temporary URL for the Blob
+            const url = window.URL.createObjectURL(blob)
 
-          // Create a link element
-          const link = document.createElement('a')
-          link.href = url
-          link.setAttribute('download', 'GRN Sales Report.csv') //
-          document.body.appendChild(link)
+            // Create a link element
+            const link = document.createElement('a')
+            link.href = url
+            link.setAttribute('download', 'GRN Sales Report.csv') //
+            document.body.appendChild(link)
 
-          link.click()
+            link.click()
 
-          link.parentNode.removeChild(link)
-          window.URL.revokeObjectURL(url)
+            link.parentNode.removeChild(link)
+            window.URL.revokeObjectURL(url)
 
-          this.snackbar = true
-          this.color = 'primary'
-          this.snackbarText = 'Reports downloaded successfully.'
-        }
-      })
+            this.snackbar = true
+            this.color = 'primary'
+            this.snackbarText = 'Reports downloaded successfully.'
+          }
+        })
       }
    
     },
@@ -3450,10 +3538,10 @@ export default {
       //         "start_date":this.reportsdata.start_date,
       //         "end_date":this.reportsdata.end_date
       // }
-  const requestData = {
+      const requestData = {
         // merchant: this.selectedmerchants3,
-        location: this.userType === 'Business Head' ? this.citydata : this.cityID
-      };
+        location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+      }
       if (this.reportsdata.date_filter === 'Custom') {
         this.reportsdata.date_filter = 'custom'
       } else if (this.reportsdata.date_filter === 'Current Year') {
@@ -3465,6 +3553,7 @@ export default {
         this.reportsdata.start_date = this.getFormattedDate(new Date())
         this.reportsdata.end_date = this.getFormattedDate(new Date())
       }
+
       // console.log('check the res',this.reportsdata.date_filter,this.selectedmerchants,this.reportsdata.start_date, this.reportsdata.end_date);
       this.isProgress = true
 
@@ -3473,7 +3562,7 @@ export default {
         this.reportsdata.date_filter,
         this.reportsdata.start_date,
         this.reportsdata.end_date,
-        requestData.location
+        requestData.location,
       ).then(response => {
         // console.log(response);
 
@@ -3489,6 +3578,7 @@ export default {
           this.isProgress = false
           this.dialog2 = false
           this.citydata = ""
+
           //  this.loading = true;
           this.reportsdata = {}
           this.selectedmerchants = ''
@@ -3525,23 +3615,23 @@ export default {
     },
     getMerchantdetails() {
 
-        return new Promise((resolve, reject) => {
-          this.getMerchants(this.cityID)
-            .then((response) => {
-               this.merchantName = [
-                { value: 'all', text: 'All' },
-                ...response.data.data.map(brand => ({
-                  value: brand.merchant_id,
-                  text: brand.merchant_uid,
-                })),
-              ]
-              resolve(); // Resolve the promise when API call is successful
-            })
-            .catch((error) => {
-              console.error('Error fetching merchants:', error);
-              reject(error); // Reject the promise if there's an error
-            });
-        });
+      return new Promise((resolve, reject) => {
+        this.getMerchants(this.cityID)
+          .then(response => {
+            this.merchantName = [
+              { value: 'all', text: 'All' },
+              ...response.data.data.map(brand => ({
+                value: brand.merchant_id,
+                text: brand.merchant_uid,
+              })),
+            ]
+            resolve() // Resolve the promise when API call is successful
+          })
+          .catch(error => {
+            console.error('Error fetching merchants:', error)
+            reject(error) // Reject the promise if there's an error
+          })
+      })
 
 
       // this.getMerchants().then(response => {

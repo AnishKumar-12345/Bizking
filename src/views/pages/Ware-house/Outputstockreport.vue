@@ -66,7 +66,7 @@
                     <VAutocomplete
                       v-model="Location"
                       label="Location Details"
-                      :items="locationsdata"               
+                      :items="cityLoaction"               
                       item-value="value"
                       item-title="text"
                       :rules="locationrules"
@@ -102,6 +102,14 @@
         </VCardText>
       </VCard>
     </VDialog>
+    <VSnackbar
+      v-model="snackbar"
+      :timeout="3500"
+      :color="color"
+    >
+      {{ snackbarText }}
+      <!-- <VBtn text @click="snackbar = false">Close</VBtn> -->
+    </VSnackbar>
   </div>
 </template>
 
@@ -118,23 +126,111 @@ export default {
       Location:'',
       cityID:'',
       locationsdata:[],
+      snackbar: false,
+      snackbarText: '',
+      timeout: 6000, // milliseconds
+      color: '', // or 'error', 'warning', 'info', etc.
+      top: false,
+      bottom: true,
+      left: false,
+      right: false,
+      locationrules:  [v => !!v || 'This Field is required'],
     }
   },
   mounted(){
     this.cityID = localStorage.getItem("city_id")
-    this.getBranchnames()
+
+    // this.getBranchnames()
+    this.handleBrandSelection()
 
   },
   methods: {
-    getBranchnames(){
-      this.Locationdata().then(response=>{ 
-        
-        this.locationsdata = response.data.data.map(sales => ({
-          value: sales.city_id,
-          text: sales.city,
-        }))
+    validateForm6(){
+      this.$refs.purchaseOrderForm.validate().then(valid => {
+        // console.log("form valid", valid.valid);
+        if (valid.valid == true) {
+              
+          this.openOreport()
+        }else{
+          this.snackbar = true
+          this.snackbarText = "Please give all mandatory fields"
+          this.color = "on-background"
+        }
+      }) 
+    },
+    openOreport() {
+      this.isProgress = true
 
-        // console.log('ceck tye res',this.locationsdata)
+      this.getOutputstockreport(this.cityID, this.Location).then(response => {
+        if (response.data.status == 0) {
+          this.isProgress = false
+          this.snackbar = true
+          this.color = 'on-background'
+          this.snackbarText = response.data.message
+          this.dialog = false
+        } else {
+          this.isProgress = false
+          this.dialog = false
+          this.Location = ""
+      
+
+          // Default base file name
+          const baseFileName = 'Acknowledge_Sales_Orders'
+
+          // Get the current date and time
+          const now = new Date()
+          const year = now.getFullYear()
+          const month = String(now.getMonth() + 1).padStart(2, '0')
+          const day = String(now.getDate()).padStart(2, '0')
+          const hours = String(now.getHours()).padStart(2, '0')
+          const minutes = String(now.getMinutes()).padStart(2, '0')
+          const formattedDateTime = `${year}${month}${day}${hours}${minutes}`
+
+          // Append the date and time to the file name
+          const finalFileName = `${baseFileName}_${formattedDateTime}.csv`
+
+          const blob = new Blob([response.data])
+
+          // Create a temporary URL for the Blob
+          const url = window.URL.createObjectURL(blob)
+
+          // Create a link element
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', finalFileName) // Set the final file name dynamically
+
+          // Append the link to the body
+          document.body.appendChild(link)
+
+          // Programmatically click the link to trigger the download
+          link.click()
+
+          // Clean up - remove the link and revoke the URL
+          link.parentNode.removeChild(link)
+          window.URL.revokeObjectURL(url)
+
+          this.snackbar = true
+          this.color = 'primary'
+          this.snackbarText = 'Reports downloaded successfully.'
+        }
+      }).catch(error => {
+        console.error('Error during report generation:', error)
+        this.isProgress = false
+        this.snackbar = true
+        this.color = 'error'
+        this.snackbarText = 'Failed to download report due to an error.'
+      })
+    },
+
+    handleBrandSelection(){ 
+      // console.log('check hjandle',id);
+      this.getCitylocation(this.cityID ).then(response=>{
+        // console.log('check the response',response);
+        this.cityLoaction = response.data.data.map(sales => ({
+          value: sales.location_id,
+          text: sales.location,
+        }))
+        console.log('ceck tye res',this.cityLoaction)
       })
     },
     openMPR() {

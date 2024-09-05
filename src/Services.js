@@ -1818,5 +1818,23 @@ export default {
           return err.response
         })
     },
+    getOutputstockreport(cityid,locationid){
+      return axios
+        .get(this.url +"bizkingz/services/api/reports/ackSalesOrders?city_id="+cityid+"&location_id="+locationid, {
+          headers: {
+            "accept": "*/*",
+            "Content-Type": "application/json",
+       
+          },
+        
+        })
+        .then(response => {
+          return response
+        
+        })
+        .catch(err => {
+          return err.response
+        })
+    },
   },
 }

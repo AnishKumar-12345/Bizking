@@ -9,8 +9,8 @@
           <VCardText>
             <!-- 👉 Form -->
             <VForm
-              class="mt-6"
               ref="tripform"
+              class="mt-6"
             >
               <VRow>
                 <VCol
@@ -23,7 +23,7 @@
                   <VAutocomplete
                     v-model="satargetuserid"
                     label="Sales Associate"
-                    :items="this.salesdata"
+                    :items="salesdata"
                     item-value="value"
                     item-title="text"
                     :menu-props="{ maxHeight: 200 }"
@@ -37,11 +37,10 @@
                   md="6"
                 >
                   <VTextField
-                    type="date"
                     v-model="Startdate"
+                    type="date"
                     label="Start Date"
                     :rules="startr"
-
                   />
                 </VCol>
 
@@ -50,11 +49,10 @@
                   md="6"
                 >
                   <VTextField
+                    v-model="Enddate"
                     type="date"
                     label="End Date"
-                    v-model="Enddate"
                     :rules="endr"
-
                   />
                 </VCol>
                 <!-- {{this.Importcsv}} -->
@@ -62,9 +60,10 @@
                 <VCol
                   cols="12"
                   class="d-flex flex-wrap gap-4"
-                 
                 >
-                  <VBtn  @click="validateForm">Get</VBtn>
+                  <VBtn @click="validateForm">
+                    Get
+                  </VBtn>
                 </VCol>
               </VRow>
             </VForm>
@@ -75,8 +74,8 @@
     
     <div style="max-width: 400px">
       <VTextField
-        class="mb-3"
         v-model="searchQuery"
+        class="mb-3"
         density="compact"
         variant="solo"
         label="Search"
@@ -96,37 +95,39 @@
             height="60"
             width="68"
             alt="Logo"
-          />
+          >
         </div>
         <div class="loading">
-          <div class="effect-1 effects"></div>
-          <div class="effect-2 effects"></div>
-          <div class="effect-3 effects"></div>
+          <div class="effect-1 effects" />
+          <div class="effect-2 effects" />
+          <div class="effect-3 effects" />
         </div>
       </div>
     </div>
-    <!-- <VRow v-if="this.filteredPurchaseHistory == null">
+    <!--
+      <VRow v-if="this.filteredPurchaseHistory == null">
       <VCol cols="12"> 
-        <VCard title="Purchase Order View">
-          <VCardText>      
-              <VAlert
-                color="warning"
-                variant="tonal"
-                class="mb-4"              
-                border="top"
-              >
-                <VAlertTitle class="mb-1"> Are you sure you gave Purchase Orders? </VAlertTitle>
-                <p class="mb-0">
-                  The system is not retrieving the Purchase Histories from Purchase Orders. Please ensure that you have applied for Purchase Orders !</p>
-              </VAlert>
-          </VCardText>
-        </VCard>
+      <VCard title="Purchase Order View">
+      <VCardText>      
+      <VAlert
+      color="warning"
+      variant="tonal"
+      class="mb-4"              
+      border="top"
+      >
+      <VAlertTitle class="mb-1"> Are you sure you gave Purchase Orders? </VAlertTitle>
+      <p class="mb-0">
+      The system is not retrieving the Purchase Histories from Purchase Orders. Please ensure that you have applied for Purchase Orders !</p>
+      </VAlert>
+      </VCardText>
+      </VCard>
       </VCol>
-     </VRow> -->
+      </VRow> 
+    -->
 
     <VTable
       :headers="headers"
-      :items="this.paginatedItems"
+      :items="paginatedItems"
       item-key="dessert"
       class="table-rounded"
       height="500"
@@ -135,9 +136,9 @@
       <thead>
         <tr>
           <th 
-            class="text-center"
             v-for="header in headers"
             :key="header"
+            class="text-center"
           >
             {{ header.text }}
           </th>
@@ -156,13 +157,15 @@
         </tr>
 
         <tr
-          v-for="(item, index) in this.paginatedItems"
+          v-for="(item, index) in paginatedItems"
           :key="index"
         >
-         <td class="text-center">
+          <td class="text-center">
             {{ item.user_name }}
           </td> 
-          <td class="text-center">{{ item.merchant_uid }}</td>
+          <td class="text-center">
+            {{ item.merchant_uid }}
+          </td>
           <td class="text-center">
             {{ item.target_amount }}
           </td>         
@@ -170,18 +173,16 @@
             {{ item.achieved_target }}
           </td> 
                 
-              <td class="text-center">
-                <VChip
-        :color="colorTGMmargin( item.achieved_percentage ).color"
-        class="font-weight-medium"
-        size="small"
-      >
-        ( {{ item.achieved_percentage.toFixed(2) + "%" }})
-      
+          <td class="text-center">
+            <VChip
+              :color="colorTGMmargin( item.achieved_percentage ).color"
+              class="font-weight-medium"
+              size="small"
+            >
+              ( {{ item.achieved_percentage.toFixed(2) + "%" }})
             </VChip>  
             <!-- {{ item.achieved_percentage.toFixed(2) + "%" }} -->
-          </td>  
-              
+          </td>
         </tr>
       </tbody>
     </VTable>
@@ -201,6 +202,7 @@
     </VSnackbar>
   </div>
 </template>
+
 <script>
 import servicescall from '@/Services'
 
@@ -245,6 +247,7 @@ export default {
   computed: {
     filteredSAwisetarget() {
       const lowerCaseQuery = this.searchQuery.toLowerCase().trim()
+      
       return this.viewSATragetsdata.filter(item => {
         return (
           (item.merchant_uid && item.merchant_uid.toLowerCase().includes(lowerCaseQuery)) ||
@@ -258,11 +261,13 @@ export default {
     paginatedItems() {
       const startIndex = (this.page - 1) * this.pageSize
       const endIndex = startIndex + this.pageSize
+      
       return this.filteredSAwisetarget.slice(startIndex, endIndex)
     },
   },
   mounted() {
     this.cityID = localStorage.getItem('city_id')
+
     //    // Utility function to format date as YYYY-MM-DD
     // function formatDate(date) {
     //     const year = date.getFullYear();
@@ -289,22 +294,23 @@ export default {
   },
 
   methods: {
-     colorTGMmargin(text){
-    if(text > 100){
-      return {
+    colorTGMmargin(text){
+      if(text > 100){
+        return {
           color: 'success',
+
           // text: 'Shared',
         }
-    }else{
-      return{
-        color: 'error'
+      }else{
+        return{
+          color: 'error',
+        }
       }
-    }
-   },
+    },
     updatePagination(page) {
       this.page = page
     },
-      validateForm() {
+    validateForm() {
       this.$refs.tripform.validate().then(valid => {
         // console.log("form valid", valid.valid);
         if (valid.valid == true) {
@@ -320,6 +326,7 @@ export default {
       return new Promise((resolve, reject) => {
         //  if( this.cityID != '' &&  this.locationID !== ''){
         this.loading = true
+
         // this.filterlocation = false
 
         this.getSATargets(this.satargetuserid, this.Startdate, this.Enddate)
@@ -327,26 +334,29 @@ export default {
             if (response.data.status == 1) {
             //   console.log({ response })
               this.viewSATragetsdata = response.data.data
+
               // this.viewSATragetsdata.reverse()
               resolve()
-              this.snackbar = true;
-              this.loading = false;
+              this.snackbar = true
+              this.loading = false
               this.color = 'primary'
               this.snackbarText = response.data.message
             } else {
-              this.loading = false;
-              this.snackbar = true;
+              this.loading = false
+              this.snackbar = true
               this.color = 'on-background'
-                 this.viewSATragetsdata = [];
-              this.snackbarText = response.data.message;
+              this.viewSATragetsdata = []
+              this.snackbarText = response.data.message
             }
           })
           .catch(error => {
             console.error('Error fetching merchants:', error)
             reject(error) // Reject the promise if there's an error
           })
+
         //  }
       })
+
       // this.getSATargets(this.satargetuserid,this.Startdate,this.Enddate).then((response)=>{
 
       // })
@@ -355,6 +365,7 @@ export default {
       this.getSalesassociate(this.cityID).then(response => {
         // console.log('sales',response);
         this.salesdata = response.data.data
+
         // this.salesdata = [
         //   { value: 'all', text: 'All' },
         //   ...this.salesdata.map(sales => ({
@@ -362,14 +373,16 @@ export default {
         //     text: sales.name,
         //   })),
         // ]
-         this.salesdata = this.salesdata.map(sales => ({
-            value: sales.user_id,
-            text: sales.name
-        }));
+        this.salesdata = this.salesdata.map(sales => ({
+          value: sales.user_id,
+          text: sales.name,
+        }))
+
         //  console.log('sales',this.salesdata);
       })
     },
   },
 }
 </script>
+
 <style></style>

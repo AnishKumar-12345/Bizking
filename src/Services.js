@@ -3,7 +3,7 @@ import axios from "axios"
 export default { 
   data(){
     return{
-      url:'http://103.211.218.32/', 
+      url:'http://216.10.250.149/', 
     }
   }, 
   methods:{
@@ -1725,8 +1725,7 @@ export default {
         .get(this.url +"bizkingz/services/api/trips/getTrips?location_id="+reqBody+"&created_date="+date, {
           headers: {
             "accept": "*/*",
-            "Content-Type": "application/json",
-                
+            "Content-Type": "application/json",                
           },
 
           // responseType: 'blob',
@@ -1821,6 +1820,42 @@ export default {
     getOutputstockreport(cityid,locationid){
       return axios
         .get(this.url +"bizkingz/services/api/reports/ackSalesOrders?city_id="+cityid+"&location_id="+locationid, {
+          headers: {
+            "accept": "*/*",
+            "Content-Type": "application/json",
+       
+          },
+        
+        })
+        .then(response => {
+          return response
+        
+        })
+        .catch(err => {
+          return err.response
+        })
+    },
+    Delivereddata(type,locationid){
+      return axios
+        .get(this.url +"bizkingz/services/api/sales/deliveryZDCurrent?store_type="+type+"&location_id="+locationid, {
+          headers: {
+            "accept": "*/*",
+            "Content-Type": "application/json",
+       
+          },
+        
+        })
+        .then(response => {
+          return response
+        
+        })
+        .catch(err => {
+          return err.response
+        })
+    },
+    Notdelivereddata(type,locationid){
+      return axios
+        .get(this.url +"bizkingz/services/api/sales/deliveryZDAll?store_type="+type+"&location_id="+locationid, {
           headers: {
             "accept": "*/*",
             "Content-Type": "application/json",

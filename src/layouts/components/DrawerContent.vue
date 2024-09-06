@@ -4,27 +4,29 @@
 // import logo from '@/assets/images/logos/aws.png'
 import { VerticalNavLink, VerticalNavSectionTitle } from '@layouts'
 import { useTheme } from 'vuetify'
+
 // import Index from '@/pages/index.vue'
 // import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 
 export default{
   name: "DrawerContent", 
-//  components:{
-//  Index,
 
-//  },
+  //  components:{
+  //  Index,
+
+  //  },
   
   data(){
     return{
       userRole: '',
-       miniVariant: false,
-       parentItems: [
+      miniVariant: false,
+      parentItems: [
         {
           id: 1,
           title: 'Dashboard',
           route: '/Dashboardhome',
           expanded: false,
-          icon: "ri-home-smile-line"
+          icon: "ri-home-smile-line",
         },
         {
           id: 2,
@@ -33,19 +35,20 @@ export default{
           children: [
             // { id: 21, title: 'Create Lead', route: '/Leadcreate' },
             { id: 22, title: 'View Lead', route: '/LeadView' },
-         ],
+          ],
           expanded: false,
         }, 
-         {
+        {
           id: 3,
           title: 'Oppertunity',
           icon: "ic:baseline-connect-without-contact",
           children: [
             //  { id: 25, title: 'Add Oppertunity', route: '/Updateoppertunities' },
             { id: 23, title: 'View Oppertunity', route: '/Viewoppertunities' },
+
             // { id: 24, title: 'Generate Quote', route: '/Oppertunitygeneratequote' },
-              // { id: 26, title: 'Close Oppertunity', route: '/Closealloppertunities' },
-         ],
+            // { id: 26, title: 'Close Oppertunity', route: '/Closealloppertunities' },
+          ],
           expanded: false,
         },
         {
@@ -55,43 +58,47 @@ export default{
           children: [
             { id: 27, title: 'Add Service', route: '/Addservicesdetails' },
             { id: 28, title: 'View Service', route: '/Updateservicedetails' },
+
             // { id: 29, title: 'Delete Service', route: '/Deleteservicesdetails' },             
-         ],
+          ],
           expanded: false,
         },
-         {
+        {
           id:5,
           title: 'Brand',
           icon: "mdi-alpha-b-circle-outline",
           children: [
             { id: 37, title: 'Add Brand ', route: '/Addbrand' },                            
             { id: 36, title: 'View Brand', route: '/Viewbrands' },
+
             // { id: 50, title: 'Add Brand Product', route: '/Addbrandproductsalldata' },
 
 
           ],
           expanded: false,
         },
-         {
+        {
           id: 6,
           title: 'Product',
           icon: "ic:baseline-production-quantity-limits",
           children: [
             { id: 30, title: 'Add Product', route: '/Addbrandproductsalldata' },
             { id: 31, title: 'View Product', route: '/Viewproductdetails' },
+
             //  { id: 32, title: 'Delete Product', route: '/Deleteproductdetails' },               
-         ],
+          ],
           expanded: false,
-         },
-         {
+        },
+        {
           id: 7,
           title: 'Merchant',
           icon: "mdi-person-group-outline",
           children: [
             { id: 34, title: 'Onboard Merchant', route: '/Onboardmerchant' },
-              { id: 50, title: 'View Merchants', route: '/Viewmerchantdetails' },
-                { id: 35, title: 'Add Merchant Products', route: '/Addmerchantdetails' }, 
-              // { id: 33, title: 'View Merchant Products', route: '/Viewproducts' },
+            { id: 50, title: 'View Merchants', route: '/Viewmerchantdetails' },
+            { id: 35, title: 'Add Merchant Products', route: '/Addmerchantdetails' }, 
+
+            // { id: 33, title: 'View Merchant Products', route: '/Viewproducts' },
                               
 
           ],
@@ -105,11 +112,13 @@ export default{
           children: [
             { id: 38, title: 'Create Order', route: '/Createpurchaseorder' },
             { id: 39, title: 'View Order', route: '/Viewpurchaseorder' },
+
             // { id: 40, title: 'View History', route: '/Viewpurchasehistory' },
 
           ],
           expanded: false,
         },    
+
         //   {
         //   id: 8,
         //   title: 'Sales Order',
@@ -136,19 +145,20 @@ export default{
           ],
           expanded: false,
         },   
-          {
+        {
           id: 14,
           title: 'Accounts',
           icon: "material-symbols:payments-outline-sharp",
           children: [
             { id: 52, title: 'Merchant Payments', route: '/Merchantpaymentsdata' },   
+
             // { id: 54, title: 'Generate Credit Note', route: '/updateCreditnote' },           
 
             // { id: 51, title: 'Sales Orders', route: '/Salesordersdetails' },           
           ],
           expanded: false,
         },   
-           {
+        {
           id: 18,
           title: 'Credit Notes',
           icon: "hugeicons:note-03",
@@ -161,7 +171,7 @@ export default{
           ],
           expanded: false,
         },  
-         {
+        {
           id: 19,
           title: 'Routes',
           icon: "gis:map-route", 
@@ -181,11 +191,12 @@ export default{
           children: [
             { id: 42, title: 'Input Stock', route: '/Viewpurchasehistory' },
             { id: 43, title: 'Output Stock', route: '/Outputstockupdates' },
-             { id: 44, title: 'View Stock', route: '/Viewstoreinventory' },
+            { id: 44, title: 'View Stock', route: '/Viewstoreinventory' },
+
             //  { id: 45, title: 'Generate D.C', route: '/tables' },                    
-              { id: 46, title: 'Update RTV', route: '/Returnwarehousegoods' },  
-              { id: 63, title: 'Assign Trip View', route: '/Assignedtripview' },  
-              { id: 64, title: 'Trip Bulk Upload', route: '/Tripblockuploaddata' },  
+            { id: 46, title: 'Update RTV', route: '/Returnwarehousegoods' },  
+            { id: 63, title: 'Assign Trip View', route: '/Assignedtripview' },  
+            { id: 64, title: 'Trip Bulk Upload', route: '/Tripblockuploaddata' },  
 
 
           ],
@@ -197,13 +208,14 @@ export default{
           icon: "carbon:store",
           children: [
             { id: 47, title: 'View Store Stocks', route: '/Viewstorestocks' },
+
             // { id: 48, title: 'Update Stock', route: '/tables' },
             //  { id: 49, title: 'Delete Product', route: '/tables' },                    
 
           ],
           expanded: false,
         },
-         {
+        {
           id: 21,
           title: 'SA Targets',
           icon: "material-symbols:finance-mode",
@@ -214,15 +226,29 @@ export default{
           ],
           expanded: false,
         },
-          {
+        {
+          id: 22,
+          title: 'Delivery Status',
+          icon: "icon-park-outline:buy",
+          children: [
+            { id: 65, title: 'View Delivery Status', route: '/Zeptopage' },     
+
+            // { id: 66, title: 'View SA Targets', route: '/ViewSATargetsdata' },        
+
+          ],
+          expanded: false,
+        },
+        {
           id: 15,
           title: 'Reports',
           icon: "iconoir:reports",
+
           // route: '/Allreportsdata',
           expanded: false,
           children: [
             { id: 55, title: 'All Reports Data', route: '/Allreportsdata' },                             
           ],
+
           // expanded: false,
         },
         {
@@ -231,6 +257,7 @@ export default{
           icon: "material-symbols:nest-doorbell-visitor",
           children: [
             { id: 48, title: 'Retention Visit', route: '/Retentionvisit' },
+
             // { id: 48, title: 'Update Stock', route: '/tables' },
             //  { id: 49, title: 'Delete Product', route: '/tables' },                    
 
@@ -246,6 +273,7 @@ export default{
           ],
           expanded: false,
         },
+
         //  {
         //   id: 16,
         //   title: 'Delivery Map',
@@ -260,133 +288,134 @@ export default{
       selectedChild: null,
     }
   },
-  mounted(){
-    const vuetifyTheme = useTheme();
-    this.userRole = localStorage.getItem("userRole");
-    console.log('check the role', this.userRole);
-  },
-computed: {
-  filteredParentItems() {
-    if (this.userRole === "Sales Associate") {
+  computed: {
+    filteredParentItems() {
+      if (this.userRole === "Sales Associate") {
       // Filter items for Sales Associate
-      const allowedTitles = ["Dashboard", "Product"];
+        const allowedTitles = ["Dashboard", "Product"]
       
-      // console.log('Allowed Titles:', allowedTitles);
-      console.log("set",this.parentItems.filter(item => item.title));
-      const filteredItems = this.parentItems.filter((item) => {
-        const isAllowed = allowedTitles.includes(item.title);
-        console.log(`Title: ${item.title}, Allowed: ${isAllowed}`);
-        return isAllowed;
-      });
+        // console.log('Allowed Titles:', allowedTitles);
+        console.log("set",this.parentItems.filter(item => item.title))
+        const filteredItems = this.parentItems.filter(item => {
+          const isAllowed = allowedTitles.includes(item.title)
+          console.log(`Title: ${item.title}, Allowed: ${isAllowed}`)
+          
+          return isAllowed
+        })
       
-      console.log('Filtered Items:', filteredItems);
-      return filteredItems;
-    } else if (this.userRole === "Business Development Manager") {
+        console.log('Filtered Items:', filteredItems)
+        
+        return filteredItems
+      } else if (this.userRole === "Business Development Manager") {
       // Filter items for Business Development Manager
-      const allowedTitles = ["Dashboard", "Merchant"];
+        const allowedTitles = ["Dashboard", "Merchant"]
       
-      console.log('Allowed Titles:', allowedTitles);
+        console.log('Allowed Titles:', allowedTitles)
       
-      const filteredItems = this.parentItems.filter((item) => {
-        const isAllowed = allowedTitles.includes(item.title);
-        console.log(`Title: ${item.title}, Allowed: ${isAllowed}`);
-        return isAllowed;
-      });
+        const filteredItems = this.parentItems.filter(item => {
+          const isAllowed = allowedTitles.includes(item.title)
+          console.log(`Title: ${item.title}, Allowed: ${isAllowed}`)
+          
+          return isAllowed
+        })
       
-      console.log('Filtered Items:', filteredItems);
-      return filteredItems;
-    }  else if (this.userRole === "Brand Management") {
+        console.log('Filtered Items:', filteredItems)
+        
+        return filteredItems
+      }  else if (this.userRole === "Brand Management") {
       // Filter items for Business Development Manager
-      const allowedTitles = ["Dashboard", "Brand", "Product","Purchase Order","Reports"];
+        const allowedTitles = ["Dashboard", "Brand", "Product","Purchase Order","Reports"]
       
-      // console.log('Allowed Titles:', allowedTitles);
+        // console.log('Allowed Titles:', allowedTitles);
       
-      const filteredItems = this.parentItems.filter((item) => {
-        const isAllowed = allowedTitles.includes(item.title);
-        // console.log(`Title: ${item.title}, Allowed: ${isAllowed}`);
-        return isAllowed;
-      });
-      
-      // console.log('Filtered Items:', filteredItems);
-      return filteredItems;
-    }  else if (this.userRole === "Warehouse") {
+        // console.log('Filtered Items:', filteredItems);
+        return this.parentItems.filter(item => {
+          // console.log(`Title: ${item.title}, Allowed: ${isAllowed}`);
+          return allowedTitles.includes(item.title)
+        })
+      }  else if (this.userRole === "Warehouse") {
       // Filter items for Business Development Manager
-      const allowedTitles = ["Dashboard", "Warehouse","Sales","Reports","Purchase Order"];
+        const allowedTitles = ["Dashboard", "Warehouse","Sales","Reports","Purchase Order"]
       
-      console.log('Allowed Titles:', allowedTitles);
+        console.log('Allowed Titles:', allowedTitles)
       
-      const filteredItems = this.parentItems.filter((item) => {
-        const isAllowed = allowedTitles.includes(item.title);
-        console.log(`Title: ${item.title}, Allowed: ${isAllowed}`);
-        return isAllowed;
-      });
-      
-      // console.log('Filtered Items:', filteredItems);
-      return filteredItems;
-    } 
-    else if (this.userRole === "Finance Operations Associate") {
+        // console.log('Filtered Items:', filteredItems);
+        return this.parentItems.filter(item => {
+          const isAllowed = allowedTitles.includes(item.title)
+          console.log(`Title: ${item.title}, Allowed: ${isAllowed}`)
+          
+          return isAllowed
+        })
+      } 
+      else if (this.userRole === "Finance Operations Associate") {
       // Filter items for Business Development Manager
-      const allowedTitles = ["Dashboard", "Accounts"];
+        const allowedTitles = ["Dashboard", "Accounts"]
       
-      console.log('Allowed Titles:', allowedTitles);
+        console.log('Allowed Titles:', allowedTitles)
       
-      const filteredItems = this.parentItems.filter((item) => {
-        const isAllowed = allowedTitles.includes(item.title);
-        console.log(`Title: ${item.title}, Allowed: ${isAllowed}`);
-        return isAllowed;
-      });
-      
-      // console.log('Filtered Items:', filteredItems);
-      return filteredItems;
-    } 
+        // console.log('Filtered Items:', filteredItems);
+        return this.parentItems.filter(item => {
+          const isAllowed = allowedTitles.includes(item.title)
+          console.log(`Title: ${item.title}, Allowed: ${isAllowed}`)
+          
+          return isAllowed
+        })
+      } 
       else if (this.userRole === "Delivery Person") {
       // Filter items for Business Development Manager
-      return [];
-    } 
-     else {
+        return []
+      } 
+      else {
       // Return all items for other roles
-      return this.parentItems;
-    }
+        return this.parentItems
+      }
+    },
   },
-},
+  mounted(){
+    const vuetifyTheme = useTheme()
+    this.userRole = localStorage.getItem("userRole")
+    console.log('check the role', this.userRole)
+  },
 
 
-//  watch: {
-//     '$route'(to, from) {
-//       if (to.name === 'Createwarehouseoutput') {
-//         // Extract so_id from query parameters
-//         const so_id = to.query.so_id;
-//         // Update the selectedChild based on the so_id
-//         this.selectedChild = so_id;
-//       } else {
-//         // Reset the selectedChild for other routes
-//         this.selectedChild = null;
-//       }
-//     }
-//   },
-   methods: {
+  //  watch: {
+  //     '$route'(to, from) {
+  //       if (to.name === 'Createwarehouseoutput') {
+  //         // Extract so_id from query parameters
+  //         const so_id = to.query.so_id;
+  //         // Update the selectedChild based on the so_id
+  //         this.selectedChild = so_id;
+  //       } else {
+  //         // Reset the selectedChild for other routes
+  //         this.selectedChild = null;
+  //       }
+  //     }
+  //   },
+  methods: {
     toggleChildren(parentItem) {
       //  console.log('Toggling children for:', parentItem.title);
-      parentItem.expanded = !parentItem.expanded;  
-       this.parentItems.forEach(item => {
+      parentItem.expanded = !parentItem.expanded  
+      this.parentItems.forEach(item => {
         if (item !== parentItem) {
-          item.expanded = false;
+          item.expanded = false
 
         }
   
-      });  
+      })  
+
       //  if (!parentItem.expanded) {
       //   this.selectedChild = null;
       // }
       // console.log('Parent item expanded:', parentItem.expanded);
     },
-   navigateTo(route, id) {
-  // console.log('Navigating to route:', route);
-  this.$router.push(route);
-  // console.log(id);
-  this.selectedChild = id; // Update selectedChild with the id of the clicked child item
-  // console.log('Selected child:', this.selectedChild);
-}
+    navigateTo(route, id) {
+      // console.log('Navigating to route:', route);
+      this.$router.push(route)
+
+      // console.log(id);
+      this.selectedChild = id // Update selectedChild with the id of the clicked child item
+      // console.log('Selected child:', this.selectedChild);
+    },
   },
 }
 </script>
@@ -394,227 +423,282 @@ computed: {
 <template>
   <!-- 👉 Nav header -->
   <div class="nav-header">
-    <!-- <RouterLink
+    <!--
+      <RouterLink
       to="/"
       class="app-logo d-flex align-center gap-x-3 app-title-wrapper"
-    > -->
+      > 
+    -->
     <div class="app-logo d-flex align-center gap-x-3 app-title-wrapper">
       <!-- ℹ️ You can also use img tag or VImg here -->
       <!-- <div v-html="logo" /> -->
-      <img src="@/assets/images/logos/comlogo.jpeg" height="60" width="60" style="padding:5px;">
+      <img
+        src="@/assets/images/logos/comlogo.jpeg"
+        height="60"
+        width="60"
+        style="padding:5px;"
+      >
 
       <Transition name="vertical-nav-app-title">
-        <h1 class="font-weight-semibold leading-normal text-xl text-uppercase">BIZKINGZ 
-         <!-- <span>WE LAUNCH YOUR SUCCESS</span> -->
+        <h1 class="font-weight-semibold leading-normal text-xl text-uppercase">
+          BIZKINGZ 
+          <!-- <span>WE LAUNCH YOUR SUCCESS</span> -->
         </h1>
       </Transition>
       <!-- <span>anish</span> -->
- <!-- <Transition >
-       <h3 class="font-weight-semibold leading-normal text-xl text-uppercase">WE LAUNCH YOUR SUCCESS</h3>
+      <!--
+        <Transition >
+        <h3 class="font-weight-semibold leading-normal text-xl text-uppercase">WE LAUNCH YOUR SUCCESS</h3>
  
        
-      </Transition> -->
-      </div>
+        </Transition> 
+      -->
+    </div>
     <!-- </RouterLink> -->
   </div>
 
   <!-- 👉 Nav items -->
-    <!-- <v-navigation-drawer > -->
-      <!-- <v-container class="custom-scrollbar"> -->
+  <!-- <v-navigation-drawer > -->
+  <!-- <v-container class="custom-scrollbar"> -->
 
-    <VerticalNavLink class="custom-scrollbar"> 
-      
-      <v-list-item-group  v-for="(parentItem,index) in filteredParentItems" :key="index">
- 
-        <v-list-item 
-       class="list-item"
-          style="margin:8px; border-top-right-radius: 30px;
+  <VerticalNavLink class="custom-scrollbar">
+    <VListItemGroup
+      v-for="(parentItem,index) in filteredParentItems"
+      :key="index"
+    >
+      <VListItem 
+        class="list-item"
+        style="margin:8px; border-top-right-radius: 30px;
                 border-bottom-right-radius: 30px;width:95%;"
-         :to="parentItem.route"
-         :style="{ backgroundColor: parentItem.expanded ? '#BA8B32' : '' , color: parentItem.expanded ? '#ffffff' : '' }"
-         @click="toggleChildren(parentItem)">
-          <v-list-item-icon style="gap: 0.5rem;">
-            <v-icon style="display:flex;float:left;margin-right:0.5rem;">{{ parentItem.icon || 'mdi-folder' }}</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content >        
-            <v-list-item-title style="line-height: 1.375rem;letter-spacing: 0.15px;margin-inline-end: auto;fontsize:x-small;font-size: 1rem;">     
-              
-              {{ parentItem.title }}    
+        :to="parentItem.route"
+        :style="{ backgroundColor: parentItem.expanded ? '#BA8B32' : '' , color: parentItem.expanded ? '#ffffff' : '' }"
+        @click="toggleChildren(parentItem)"
+      >
+        <VListItemIcon style="gap: 0.5rem;">
+          <VIcon style="display:flex;float:left;margin-right:0.5rem;">
+            {{ parentItem.icon || 'mdi-folder' }}
+          </VIcon>
+        </VListItemIcon>
+        <VListItemContent>        
+          <VListItemTitle style="line-height: 1.375rem;letter-spacing: 0.15px;margin-inline-end: auto;fontsize:x-small;font-size: 1rem;">
+            {{ parentItem.title }}    
             
-                <v-icon v-if="parentItem.children && parentItem.expanded==false" style="display:flex;float:right;">mdi-chevron-right</v-icon>
-                <v-icon v-if="parentItem.expanded && parentItem.children"  style="display:flex;float:right">mdi-chevron-down</v-icon>
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+            <VIcon
+              v-if="parentItem.children && parentItem.expanded==false"
+              style="display:flex;float:right;"
+            >
+              mdi-chevron-right
+            </VIcon>
+            <VIcon
+              v-if="parentItem.expanded && parentItem.children"
+              style="display:flex;float:right"
+            >
+              mdi-chevron-down
+            </VIcon>
+          </VListItemTitle>
+        </VListItemContent>
+      </VListItem>
        
-       <!-- child navs -->
-        <v-list-item-group v-for="childItem in parentItem.children" :key="childItem.id"  v-if="parentItem.expanded"  >
-      
-            <v-list-item 
-            :style="{ backgroundColor: this.selectedChild == childItem.id ? '#edebec' : '' , color: this.selectedChild == childItem.id ? '#BA8B32' : '',fontWeight: this.selectedChild == childItem.id ? 'bold' : 'normal' }"
-            style="margin:5px;border-top-right-radius: 30px;
+      <!-- child navs -->
+      <VListItemGroup
+        v-for="childItem in parentItem.children"
+        v-if="parentItem.expanded"
+        :key="childItem.id"
+      >
+        <VListItem 
+          :style="{ backgroundColor: selectedChild == childItem.id ? '#edebec' : '' , color: selectedChild == childItem.id ? '#BA8B32' : '',fontWeight: selectedChild == childItem.id ? 'bold' : 'normal' }"
+          style="margin:5px;border-top-right-radius: 30px;
                 border-bottom-right-radius: 30px;"
-            @click="navigateTo(childItem.route,childItem.id)">
-                <v-list-item-content>
-                 <v-list-item-title class="d-flex" style="font-size: 0.9rem;">
-                  <v-icon v-if="parentItem.children" style="float:left;margin-right:20px;margin-top:5px;font-size:.75rem">ri-checkbox-blank-circle-line</v-icon>
+          @click="navigateTo(childItem.route,childItem.id)"
+        >
+          <VListItemContent>
+            <VListItemTitle
+              class="d-flex"
+              style="font-size: 0.9rem;"
+            >
+              <VIcon
+                v-if="parentItem.children"
+                style="float:left;margin-right:20px;margin-top:5px;font-size:.75rem"
+              >
+                ri-checkbox-blank-circle-line
+              </VIcon>
                   
-                 {{ childItem.title }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>  
-          </v-list-item-group>     
-
-      </v-list-item-group>
-    </VerticalNavLink> 
-    <!-- </v-container> -->
+              {{ childItem.title }}
+            </VListItemTitle>
+          </VListItemContent>
+        </VListItem>  
+      </VListItemGroup>
+    </VListItemGroup>
+  </VerticalNavLink> 
+  <!-- </v-container> -->
   <!-- </v-navigation-drawer> -->
    
   <ul style="margin-top:10px">
- <!-- <VerticalNavLink
+    <!--
+      <VerticalNavLink
       :item="{
-        title: 'Dashboard',
-        to: 'index',
-        icon: { icon: 'mdi-home-outline' },
+      title: 'Dashboard',
+      to: 'index',
+      icon: { icon: 'mdi-home-outline' },
       }"
-    /> -->
-     <!-- <VerticalNavLink
+      /> 
+    -->
+    <!--
+      <VerticalNavLink
       :item="{
-        title: 'Dashboard',
-        to: 'index',
-        icon: { icon: 'mdi-home-outline' },
+      title: 'Dashboard',
+      to: 'index',
+      icon: { icon: 'mdi-home-outline' },
       }"
-    />
+      />
        
-    <VerticalNavLink
+      <VerticalNavLink
       :item="{
-        title: 'Lead',
-        to: 'account-settings',
-        icon: { icon: 'mdi-account-cog-outline' },
+      title: 'Lead',
+      to: 'account-settings',
+      icon: { icon: 'mdi-account-cog-outline' },
       }"
-    />
+      />
    
-    <VerticalNavLink
+      <VerticalNavLink
       :item="{
-        title: 'Oppertunity',
-        to: '',
-        icon: { icon: 'mdi-account-group-outline' },
+      title: 'Oppertunity',
+      to: '',
+      icon: { icon: 'mdi-account-group-outline' },
       }"
-    /> -->
-      <!-- to: 'account-settings', -->
-     <!-- <VerticalNavLink
-      :item="{
-        title: 'Service',
-      
-        icon: { icon: 'mdi-account-wrench-outline' },
-      }"
-    /> -->
+      /> 
+    -->
     <!-- to: 'account-settings', -->
-     <!-- <VerticalNavLink
+    <!--
+      <VerticalNavLink
       :item="{
-        title: 'Product',
+      title: 'Service',
+      
+      icon: { icon: 'mdi-account-wrench-outline' },
+      }"
+      /> 
+    -->
+    <!-- to: 'account-settings', -->
+    <!--
+      <VerticalNavLink
+      :item="{
+      title: 'Product',
         
-        icon: { icon: 'mdi-book-open-outline' },
+      icon: { icon: 'mdi-book-open-outline' },
       }"
-    /> -->
-           <!-- to: 'account-settings', -->
-     <!-- <VerticalNavLink
+      /> 
+    -->
+    <!-- to: 'account-settings', -->
+    <!--
+      <VerticalNavLink
       :item="{
-        title: 'Merchant',
+      title: 'Merchant',
  
-        icon: { icon: 'mdi-account-arrow-right-outline' },
+      icon: { icon: 'mdi-account-arrow-right-outline' },
       }"
-    /> -->
-       <!-- to: 'account-settings', -->
-     <!-- <VerticalNavLink
+      /> 
+    -->
+    <!-- to: 'account-settings', -->
+    <!--
+      <VerticalNavLink
       :item="{
-        title: 'Brand',
+      title: 'Brand',
      
-        icon: { icon: 'mdi-alpha-b-circle-outline' },
+      icon: { icon: 'mdi-alpha-b-circle-outline' },
       }"
-    /> -->
+      /> 
+    -->
     <!-- 👉 Pages -->
-    <!-- <VerticalNavSectionTitle :item="{ heading: 'Pages' }" />
-    <VerticalNavLink
+    <!--
+      <VerticalNavSectionTitle :item="{ heading: 'Pages' }" />
+      <VerticalNavLink
       :item="{
-        title: 'Login',
-        to: 'login',
-        target: '_blank',
-        icon: { icon: 'mdi-login' },
+      title: 'Login',
+      to: 'login',
+      target: '_blank',
+      icon: { icon: 'mdi-login' },
       }"
-    />
-    <VerticalNavLink
+      />
+      <VerticalNavLink
       :item="{
-        title: 'Register',
-        to: 'register',
-        target: '_blank',
-        icon: { icon: 'mdi-account-plus-outline' },
+      title: 'Register',
+      to: 'register',
+      target: '_blank',
+      icon: { icon: 'mdi-account-plus-outline' },
       }"
-    /> -->
+      /> 
+    -->
 
     <!-- ℹ️ This path doesn't exist so 404 route will catch this undefined path -->
-    <!-- <VerticalNavLink
+    <!--
+      <VerticalNavLink
       :item="{
-        title: 'Error',
-        to: { path: '/error' },
-        target: '_blank',
-        icon: { icon: 'mdi-alert-circle-outline' },
+      title: 'Error',
+      to: { path: '/error' },
+      target: '_blank',
+      icon: { icon: 'mdi-alert-circle-outline' },
       }"
-    /> -->
+      /> 
+    -->
 
     <!-- 👉 User Interface -->
-    <!-- <VerticalNavSectionTitle :item="{ heading: 'User Interface' }" />
+    <!--
+      <VerticalNavSectionTitle :item="{ heading: 'User Interface' }" />
 
-    <VerticalNavLink
+      <VerticalNavLink
       :item="{
-        title: 'Typography',
-        to: 'typography',
-        icon: { icon: 'mdi-alpha-t-box-outline' },
+      title: 'Typography',
+      to: 'typography',
+      icon: { icon: 'mdi-alpha-t-box-outline' },
       }"
-    />
-    <VerticalNavLink
+      />
+      <VerticalNavLink
       :item="{
-        title: 'Icons',
-        to: 'icons',
-        icon: { icon: 'mdi-eye-outline' },
+      title: 'Icons',
+      to: 'icons',
+      icon: { icon: 'mdi-eye-outline' },
       }"
-    />
-    <VerticalNavLink
+      />
+      <VerticalNavLink
       :item="{
-        title: 'Cards',
-        to: 'card-basic',
-        icon: { icon: 'mdi-credit-card-outline' },
+      title: 'Cards',
+      to: 'card-basic',
+      icon: { icon: 'mdi-credit-card-outline' },
       }"
-    />
-    <VerticalNavLink
+      />
+      <VerticalNavLink
       :item="{
-        title: 'Tables',
-        to: 'tables',
-        icon: { icon: 'mdi-table' },
+      title: 'Tables',
+      to: 'tables',
+      icon: { icon: 'mdi-table' },
       }"
-    />
-    <VerticalNavLink
+      />
+      <VerticalNavLink
       :item="{
-        title: 'Form Layouts',
-        to: 'form-layouts',
-        icon: { icon: 'mdi-form-select' },
+      title: 'Form Layouts',
+      to: 'form-layouts',
+      icon: { icon: 'mdi-form-select' },
       }"
-    /> -->
+      /> 
+    -->
   </ul>
 
   <!-- 👉 illustration -->
-  <!-- <a
+  <!--
+    <a
     href="https://themeselection.com/item/materio-vuetify-vuejs-admin-template"
     target="_blank"
     rel="noopener noreferrer"
-  >
+    >
     <img
-      :src="upgradeBanner"
-      alt="upgrade-banner"
-      transition="scale-transition"
-      class="upgrade-banner mx-auto"
-      style="max-width: 230px"
+    :src="upgradeBanner"
+    alt="upgrade-banner"
+    transition="scale-transition"
+    class="upgrade-banner mx-auto"
+    style="max-width: 230px"
     />
-  </a> -->
+    </a> 
+  -->
 </template>
 
 <style scoped>

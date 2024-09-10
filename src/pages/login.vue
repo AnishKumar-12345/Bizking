@@ -71,7 +71,7 @@ const loginuser = () => {
 
   //  }
   axios
-    .post('http://216.10.250.149/bizkingz/services/api/auth/login', requestData)
+    .post('http://103.211.218.32/bizkingz/services/api/auth/login', requestData)
     .then(response => {
       // console.log('API Response:', response)
 

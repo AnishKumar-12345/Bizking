@@ -19,6 +19,7 @@ export default{
   data(){
     return{
       userRole: '',
+      userType: '',
       miniVariant: false,
       parentItems: [
         {
@@ -239,6 +240,84 @@ export default{
           expanded: false,
         },
         {
+          id: 23,
+          title: 'Visit Health',
+          icon: "carbon:crop-health",
+
+          // route: '/LiveVisithealth',
+
+          children: [
+            // { id: 65, title: 'View Delivery Status', route: '/Zeptopage' },     
+
+            { id: 66, title: 'Live Visit Health', route: '/LiveVisithealth' },        
+
+          ],
+          expanded: false,
+        },
+        {
+          id: 24,
+          title: 'Delivery Health',
+          icon: "carbon:crop-health",
+
+          // route: '/Livedeliveryhealth',
+
+          children: [
+            // { id: 65, title: 'View Delivery Status', route: '/Zeptopage' },     
+
+            { id: 67, title: 'Live Delivery Health', route: '/Livedeliveryhealth' },        
+
+          ],
+          expanded: false,
+        },
+        {
+          id: 25,
+          title: 'Sales Summary',
+          icon: "carbon:crop-health",
+
+          // route: '/Livedeliveryhealth',
+
+          children: [
+            // { id: 65, title: 'View Delivery Status', route: '/Zeptopage' },     
+
+            { id: 68, title: 'SKU Level', route: '/Salessummerysku' },  
+            { id: 71, title: 'Retail Chain', route: '/Livesalessummaryretail' },        
+
+
+          ],
+          expanded: false,
+        },
+        {
+          id: 26,
+          title: 'Visit Track',
+          icon: "carbon:crop-health",
+
+          // route: '/Livedeliveryhealth',
+
+          children: [
+            // { id: 65, title: 'View Delivery Status', route: '/Zeptopage' },     
+
+            { id: 69, title: 'Live Visit Track', route: '/Livevisittrack' },        
+
+          ],
+          expanded: false,
+        },
+        {
+          id: 27,
+          title: 'Delivery Track',
+          icon: "carbon:crop-health",
+
+          // route: '/Livedeliveryhealth',
+
+          children: [
+            // { id: 65, title: 'View Delivery Status', route: '/Zeptopage' },     
+
+            { id: 70, title: 'Live Delivery Track', route: '/Livedeliverytrack' },        
+
+          ],
+          expanded: false,
+        },
+       
+        {
           id: 15,
           title: 'Reports',
           icon: "iconoir:reports",
@@ -295,33 +374,27 @@ export default{
         const allowedTitles = ["Dashboard", "Product"]
       
         // console.log('Allowed Titles:', allowedTitles);
-        console.log("set",this.parentItems.filter(item => item.title))
-        const filteredItems = this.parentItems.filter(item => {
-          const isAllowed = allowedTitles.includes(item.title)
-          console.log(`Title: ${item.title}, Allowed: ${isAllowed}`)
-          
-          return isAllowed
-        })
-      
-        console.log('Filtered Items:', filteredItems)
+        // console.log("set",this.parentItems.filter(item => item.title))
+        // console.log('Filtered Items:', filteredItems)
         
-        return filteredItems
+        return this.parentItems.filter(item => {
+          // console.log(`Title: ${item.title}, Allowed: ${isAllowed}`)
+          
+          return allowedTitles.includes(item.title)
+        })
       } else if (this.userRole === "Business Development Manager") {
       // Filter items for Business Development Manager
         const allowedTitles = ["Dashboard", "Merchant"]
       
-        console.log('Allowed Titles:', allowedTitles)
+        // console.log('Allowed Titles:', allowedTitles)
       
-        const filteredItems = this.parentItems.filter(item => {
-          const isAllowed = allowedTitles.includes(item.title)
-          console.log(`Title: ${item.title}, Allowed: ${isAllowed}`)
-          
-          return isAllowed
-        })
-      
-        console.log('Filtered Items:', filteredItems)
+        // console.log('Filtered Items:', filteredItems)
         
-        return filteredItems
+        return this.parentItems.filter(item => {
+          // console.log(`Title: ${item.title}, Allowed: ${isAllowed}`)
+          
+          return allowedTitles.includes(item.title)
+        })
       }  else if (this.userRole === "Brand Management") {
       // Filter items for Business Development Manager
         const allowedTitles = ["Dashboard", "Brand", "Product","Purchase Order","Reports"]
@@ -337,44 +410,59 @@ export default{
       // Filter items for Business Development Manager
         const allowedTitles = ["Dashboard", "Warehouse","Sales","Reports","Purchase Order"]
       
-        console.log('Allowed Titles:', allowedTitles)
+        // console.log('Allowed Titles:', allowedTitles)
       
         // console.log('Filtered Items:', filteredItems);
         return this.parentItems.filter(item => {
-          const isAllowed = allowedTitles.includes(item.title)
-          console.log(`Title: ${item.title}, Allowed: ${isAllowed}`)
+          // console.log(`Title: ${item.title}, Allowed: ${isAllowed}`)
           
-          return isAllowed
+          return allowedTitles.includes(item.title)
         })
       } 
       else if (this.userRole === "Finance Operations Associate") {
       // Filter items for Business Development Manager
         const allowedTitles = ["Dashboard", "Accounts"]
       
-        console.log('Allowed Titles:', allowedTitles)
+        // console.log('Allowed Titles:', allowedTitles)
       
         // console.log('Filtered Items:', filteredItems);
         return this.parentItems.filter(item => {
-          const isAllowed = allowedTitles.includes(item.title)
-          console.log(`Title: ${item.title}, Allowed: ${isAllowed}`)
+          // console.log(`Title: ${item.title}, Allowed: ${isAllowed}`)
           
-          return isAllowed
+          return allowedTitles.includes(item.title)
+        })
+      } 
+      else if (this.userType === "brand") {
+      // Filter items for Business Development Manager
+        const allowedTitles = ["Dashboard","Visit Health", "Delivery Health","Visit Track","Delivery Track","Sales Summary"]
+      
+        // console.log('Allowed Titles:', allowedTitles)
+      
+        // console.log('Filtered Items:', filteredItems);
+        return this.parentItems.filter(item => {
+          // console.log(`Title: ${item.title}, Allowed: ${isAllowed}`)
+          
+          return allowedTitles.includes(item.title)
         })
       } 
       else if (this.userRole === "Delivery Person") {
       // Filter items for Business Development Manager
         return []
-      } 
+      }  
       else {
       // Return all items for other roles
-        return this.parentItems
+        const excludedTitles = ["Visit Health", "Delivery Health","Sales Summary","Visit Track","Delivery Track"]
+        
+        return this.parentItems.filter(item => !excludedTitles.includes(item.title))
       }
     },
   },
   mounted(){
     const vuetifyTheme = useTheme()
     this.userRole = localStorage.getItem("userRole")
-    console.log('check the role', this.userRole)
+    this.userType = localStorage.getItem("user_type")
+
+    // console.log('check the role', this.userRole)
   },
 
 
@@ -519,9 +607,8 @@ export default{
               <VIcon
                 v-if="parentItem.children"
                 style="float:left;margin-right:20px;margin-top:5px;font-size:.75rem"
-              >
-                ri-checkbox-blank-circle-line
-              </VIcon>
+                icon="ri-checkbox-blank-circle-line"
+              />
                   
               {{ childItem.title }}
             </VListItemTitle>

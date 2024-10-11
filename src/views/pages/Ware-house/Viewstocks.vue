@@ -1,47 +1,46 @@
 <template>
   <div>
-
-       <VCard         
-          class="mb-2"
-           v-show="filterlocation"
-        >
-          <VCardText>
-            <VRow>
-              <VCol cols="12">
-                <!-- 👉 Form -->
-              <VForm class="mt-6">
-              <!-- <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
-              </VCheckbox> -->
-              <VRow >
+    <VCard         
+      v-show="filterlocation"
+      class="mb-2"
+    >
+      <VCardText>
+        <VRow>
+          <VCol cols="12">
+            <!-- 👉 Form -->
+            <VForm class="mt-6">
+              <!--
+                <VCheckbox v-model="selectAll" @change="selectAllMerchants">           
+                </VCheckbox> 
+              -->
+              <VRow>
                 <VCol
-                md="6"
-                cols="12"
-               
-              >
-              <!-- {{selectedBrand}} -->  
-              <!-- {{this.Addbrand.location_id}}            -->
-                <VAutocomplete
-                  v-model="locationdata"
-                  label="Location" 
-                  :items="this.cityLoaction"               
-                  item-value="value"
-                  item-title="text"                
-                  :menu-props="{ maxHeight: 200 }"
-                   @update:model-value="locationdetails()"
-                />
-              </VCol>
-
+                  md="6"
+                  cols="12"
+                >
+                  <!-- {{selectedBrand}} -->  
+                  <!-- {{this.Addbrand.location_id}}            -->
+                  <VAutocomplete
+                    v-model="locationdata"
+                    label="Location" 
+                    :items="cityLoaction"               
+                    item-value="value"
+                    item-title="text"                
+                    :menu-props="{ maxHeight: 200 }"
+                    @update:model-value="locationdetails"
+                  />
+                </VCol>
               </VRow>
-              </VForm>
-              </VCol>
-            </VRow>
-          </VCardText>
-      </VCard>
+            </VForm>
+          </VCol>
+        </VRow>
+      </VCardText>
+    </VCard>
 
     <div style="max-width: 400px">
       <VTextField
-        class="mb-3"
-        v-model="searchQuery" 
+        v-model="searchQuery"
+        class="mb-3" 
         density="compact"
         variant="solo"
         label="Search"
@@ -61,37 +60,39 @@
             height="60"
             width="68"
             alt="Logo"
-          />
+          >
         </div>
         <div class="loading">
-          <div class="effect-1 effects"></div>
-          <div class="effect-2 effects"></div>
-          <div class="effect-3 effects"></div>
+          <div class="effect-1 effects" />
+          <div class="effect-2 effects" />
+          <div class="effect-3 effects" />
         </div>
       </div>
     </div>
-    <!-- <VRow v-if="this.filteredPurchaseHistory == null">
+    <!--
+      <VRow v-if="this.filteredPurchaseHistory == null">
       <VCol cols="12"> 
-        <VCard title="Purchase Order View">
-          <VCardText>      
-              <VAlert
-                color="warning"
-                variant="tonal"
-                class="mb-4"              
-                border="top"
-              >
-                <VAlertTitle class="mb-1"> Are you sure you gave Purchase Orders? </VAlertTitle>
-                <p class="mb-0">
-                  The system is not retrieving the Purchase Histories from Purchase Orders. Please ensure that you have applied for Purchase Orders !</p>
-              </VAlert>
-          </VCardText>
-        </VCard>
+      <VCard title="Purchase Order View">
+      <VCardText>      
+      <VAlert
+      color="warning"
+      variant="tonal"
+      class="mb-4"              
+      border="top"
+      >
+      <VAlertTitle class="mb-1"> Are you sure you gave Purchase Orders? </VAlertTitle>
+      <p class="mb-0">
+      The system is not retrieving the Purchase Histories from Purchase Orders. Please ensure that you have applied for Purchase Orders !</p>
+      </VAlert>
+      </VCardText>
+      </VCard>
       </VCol>
-     </VRow> -->
+      </VRow> 
+    -->
 
     <VTable
       :headers="headers"
-      :items="this.paginatedItems"
+      :items="paginatedItems"
       item-key="dessert"
       class="table-rounded"
       height="500"
@@ -100,9 +101,9 @@
       <thead>
         <tr>
           <th
-            class="text-center"
             v-for="header in headers"
             :key="header"
+            class="text-center"
           >
             {{ header.text }}
           </th>
@@ -120,23 +121,27 @@
         </tr>
 
         <tr
-          v-for="(item, index) in this.paginatedItems"
+          v-for="(item, index) in paginatedItems"
           :key="index"
         >
-          <td class="text-center">{{ item.brand_name }}</td>
+          <td class="text-center">
+            {{ item.brand_name }}
+          </td>
           <td class="text-center">
             {{ item.sku_name }}
           </td>
-          <!-- <td class="text-center">
-           <VChip
-        :color="resolveStatusVariant(item.po_status).color"
-        class="font-weight-medium"
-        size="small"
-      >
-        {{ item.po_status }}
+          <!--
+            <td class="text-center">
+            <VChip
+            :color="resolveStatusVariant(item.po_status).color"
+            class="font-weight-medium"
+            size="small"
+            >
+            {{ item.po_status }}
        
             </VChip>
-        </td> -->
+            </td> 
+          -->
           <td class="text-center">
             {{ item.uom }}
           </td>
@@ -152,37 +157,39 @@
               {{ item.available_qty >= 0 ? item.available_qty : 0 }}
             </VChip>
           </td>
-           <td class="text-center">
-             <VChip
+          <td class="text-center">
+            <VChip
               color="error"
               class="font-weight-medium"
               size="small"
             >
-            {{ item.bad_quantity }}
-             </VChip>
+              {{ item.bad_quantity }}
+            </VChip>
           </td>
           <td class="text-center">
             {{ item.stock_updated_date }}
           </td>
-          <!-- <td  class="text-center " v-if="item.po_status != 'Received'">
+          <!--
+            <td  class="text-center " v-if="item.po_status != 'Received'">
    
             <VBtn
-                icon
-                variant="text"
-                color="success"
-                class="me-2"
-                size="small"                
+            icon
+            variant="text"
+            color="success"
+            class="me-2"
+            size="small"                
             >
           
-              <VIcon
-              icon="mdi-invoice-receive-outline"
-              color="success"
-              size="30"
-              @click="inputstock(item)"
-              />
+            <VIcon
+            icon="mdi-invoice-receive-outline"
+            color="success"
+            size="30"
+            @click="inputstock(item)"
+            />
             </VBtn>
              
-          </td> -->
+            </td> 
+          -->
         </tr>
       </tbody>
     </VTable>
@@ -231,6 +238,7 @@ export default {
   computed: {
     filteredStocks() {
       const lowerCaseQuery = this.searchQuery.toLowerCase().trim()
+      
       return this.Allstocks.filter(item => {
         return (
           (item.brand_name && item.brand_name.toLowerCase().includes(lowerCaseQuery)) ||
@@ -245,52 +253,54 @@ export default {
     paginatedItems() {
       const startIndex = (this.page - 1) * this.pageSize
       const endIndex = startIndex + this.pageSize
+      
       return this.filteredStocks.slice(startIndex, endIndex)
     },
   },
   mounted() {
-    this.cityID  = localStorage.getItem("city_id");
-    this.locationID =  localStorage.getItem("location_id"); 
-    this.handleBrandSelection();
-    console.log('view stock view');
+    this.cityID  = localStorage.getItem("city_id")
+    this.locationID =  localStorage.getItem("location_id") 
+    this.handleBrandSelection()
+    console.log('view stock view')
     this.getstocksdetails().then(() => { 
-        this.loading = false;
+      this.loading = false
     }).catch(error => {
-        console.error('Error fetching merchants:', error);
-    });
+      console.error('Error fetching merchants:', error)
+    })
 
   },
 
   methods: {
-      handleBrandSelection(){
-        // console.log('check hjandle',id);
-        this.getCitylocation(this.cityID).then((response)=>{
-          // console.log('check the response',response);
+    handleBrandSelection(){
+      // console.log('check hjandle',id);
+      this.getCitylocation(this.cityID).then(response=>{
+        // console.log('check the response',response);
         this.cityLoaction = response.data.data.map(sales => ({
-                  value: sales.location_id,
-                  text: sales.location
-              }))
-              // console.log('ceck tye res',this.cityLoaction);
-            })
-       },
-      locationdetails(){
-        this.loading = true;
-         this.getAllstocks(this.cityID, this.locationdata)
-          .then(response => {
-            console.log('check the get res',response);
-            if(response.data.status == 1){
-                 this.Allstocks = response.data.data
-            this.Allstocks.reverse();
-            this.loading = false;
+          value: sales.location_id,
+          text: sales.location,
+        }))
 
-            }else{
-            this.loading = false;
+        // console.log('ceck tye res',this.cityLoaction);
+      })
+    },
+    locationdetails(){
+      this.loading = true
+      this.getAllstocks(this.cityID, this.locationdata)
+        .then(response => {
+          console.log('check the get res',response)
+          if(response.data.status == 1){
+            this.Allstocks = response.data.data
+            this.Allstocks.reverse()
+            this.loading = false
 
-            }
+          }else{
+            this.loading = false
+
+          }
          
             
-          })
-      },
+        })
+    },
     updatePagination(page) {
       this.page = page
     },
@@ -311,35 +321,38 @@ export default {
       //   // this.Allstocks.reverse();
       // })
       return new Promise((resolve, reject) => {
-         if( this.cityID != '' &&  this.locationID !== ''){
-        this.loading = true;
-      this.filterlocation = false;
+        if( this.cityID != '' &&  this.locationID !== ''){
+          this.loading = true
+          this.filterlocation = false
 
-            this.getAllstocks(this.cityID, this.locationID)
-          .then(response => {
-            this.Allstocks = response.data.data
-            this.Allstocks.reverse()
-            resolve() // Resolve the promise when API call is successful
-          })
-          .catch(error => {
-            console.error('Error fetching merchants:', error)
-            reject(error) // Reject the promise if there's an error
-          })
-         }      
+          this.getAllstocks(this.cityID, this.locationID)
+            .then(response => {
+              this.Allstocks = response.data.data
+              this.Allstocks.reverse()
+              resolve() // Resolve the promise when API call is successful
+            })
+            .catch(error => {
+              console.error('Error fetching merchants:', error)
+              reject(error) // Reject the promise if there's an error
+            })
+        }      
       })
     },
     colorQuantity(itm) {
       if (itm >= 10)
         return {
           color: 'success',
+
           // text: 'Acknowledged',
         }
       else
         return {
           color: 'error',
+
           // text: 'Shared',
         }
     },
+
     // colorbadQuantity(){
     //    if (itm = 10)
     //     return {

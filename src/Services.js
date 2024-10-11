@@ -3,7 +3,7 @@ import axios from "axios"
 export default { 
   data(){
     return{
-      url:'http://103.211.218.32/', 
+      url:'http://216.10.250.149/', 
     }
   }, 
   methods:{
@@ -1861,6 +1861,132 @@ export default {
             "Content-Type": "application/json",
        
           },
+        
+        })
+        .then(response => {
+          return response
+        
+        })
+        .catch(err => {
+          return err.response
+        })
+    },
+    getVisithealth(cityid){
+      return axios
+        .get(this.url +"bizkingz/services/api/daily_reports/visit_health?city_id="+cityid,{
+          headers: {
+            "accept": "*/*",
+            "Content-Type": "application/json",
+       
+          },
+        
+        })
+        .then(response => {
+          return response
+        
+        })
+        .catch(err => {
+          return err.response
+        })
+    },
+    getDeliveryhealth(cityid){
+      return axios
+        .get(this.url +"bizkingz/services/api/daily_reports/delivery_health?city_id="+cityid,{
+          headers: {
+            "accept": "*/*",
+            "Content-Type": "application/json",
+       
+          },
+        
+        })
+        .then(response => {
+          return response
+        
+        })
+        .catch(err => {
+          return err.response
+        })
+    },
+    shippedinvoice(tripid){
+      return axios
+        .get(this.url +"bizkingz/services/api/trips/createShippedInvoices?trip_id="+tripid,{
+          headers: {
+            "accept": "*/*",
+            "Content-Type": "application/json",
+       
+          },
+        
+        })
+        .then(response => {
+          return response
+        
+        })
+        .catch(err => {
+          return err.response
+        })
+    },
+    getVisitTrack(cityid){
+      return axios
+        .get(this.url +"bizkingz/services/api/daily_reports/visit_track?city_id="+cityid,{
+          headers: {
+            "accept": "*/*",
+            "Content-Type": "application/json",
+       
+          },
+        
+        })
+        .then(response => {
+          return response
+        
+        })
+        .catch(err => {
+          return err.response
+        })
+    },
+    getSAlevelsumtrack(cityid){
+      return axios
+        .get(this.url +"bizkingz/services/api/daily_reports/sales_summary_sku_level?city_id="+cityid,{
+          headers: {
+            "accept": "*/*",
+            "Content-Type": "application/json",
+       
+          },
+        
+        })
+        .then(response => {
+          return response
+        
+        })
+        .catch(err => {
+          return err.response
+        })
+    },
+    getDeliveryTrack(cityid){
+      return axios
+        .get(this.url +"bizkingz/services/api/daily_reports/delivery_track?city_id="+cityid,{
+          headers: {
+            "accept": "*/*",
+            "Content-Type": "application/json",
+       
+          }, 
+        
+        })
+        .then(response => {
+          return response
+        
+        })
+        .catch(err => {
+          return err.response
+        })
+    },
+    getSalessummaryretail(cityid){
+      return axios
+        .get(this.url +"bizkingz/services/api/daily_reports/sales_summary_retail_level?city_id="+cityid,{
+          headers: {
+            "accept": "*/*",
+            "Content-Type": "application/json",
+       
+          }, 
         
         })
         .then(response => {

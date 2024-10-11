@@ -167,6 +167,21 @@
                 color="default"
                 class="mb-1 mt-2"
                 size="x-small"
+                @click="createshippinvoice(item.trip_id)"
+              >
+                <VIcon
+                  icon="iwwa:file-pdf"
+                  size="22"
+                  color="error"
+                />
+              </VBtn>
+              
+              <VBtn
+                icon 
+                variant="text"
+                color="default"
+                class="mb-1 mt-2"
+                size="x-small"
                 @click="toggleExpand(item,index)"
               >
                 <VIcon
@@ -803,6 +818,26 @@ export default {
     this.handleBrandSelection()
   },
   methods:{
+    createshippinvoice(itm){
+      this.shippedinvoice(itm).then(response =>{
+        // console.log({response})
+        if(response.data.status == 1){
+          // this.getAllsalesorderdata = response.data.data
+          this.snackbar = true
+          this.color = 'primary'           
+          this.snackbarText = response.data.message
+          this.AssignedPerson
+
+          // this.SOid = id.so_id;
+        }else{
+          
+          this.snackbar = true
+          this.color = 'on-background'           
+          this.snackbarText = response.data.message
+        }
+        
+      })
+    },
     handlePersonSelection(item){
       if(item === 'Delivered'){
         this.dialog4 = true

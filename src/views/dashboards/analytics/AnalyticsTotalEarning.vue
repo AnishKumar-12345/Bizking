@@ -30,6 +30,7 @@
 import { useTheme } from 'vuetify'
 import triangleDark from '@/assets/images/misc/triangle-dark.png'
 import triangleLight from '@/assets/images/misc/triangle-light.png'
+
 // import trophy from '@/assets/images/misc/trophy.png'
 import avatar from '@/assets/images/avatars/avatar-15.png'
  
@@ -40,16 +41,16 @@ const triangleBg = computed(() => {
 </script>
 
 <template>
- <VCard
+  <VCard
     title="OnBorded Brands!"
     
-    class="position-relative"
+    class="position-relative" 
   >
     <VCardText>
       <h4 class="text-4xl font-weight-medium text-primary">
         50
       </h4>
-        <p>🎉</p>
+      <p>🎉</p>
       <!-- <p>78% of target 🚀</p> -->
       <VBtn size="small">
         View 
@@ -61,87 +62,94 @@ const triangleBg = computed(() => {
       :src="triangleBg"
       class="triangle-bg flip-in-rtl"
     />
-    <img src="@/assets/images/avatars/avatar-15.png" class="trophy1">
+    <img
+      src="@/assets/images/avatars/avatar-15.png"
+      class="trophy1"
+    >
 
     <!-- Trophy -->
-    <!-- <VImg
+    <!--
+      <VImg
       :src="avatar"
       class="trophy1"
-    /> -->
+      /> 
+    -->
   </VCard>
 
 <!-- deafault UI -->
-  <!-- <VCard>
+  <!--
+    <VCard>
     <VCardItem>
-      <VCardTitle>Total Earning</VCardTitle>
+    <VCardTitle>Total Earning</VCardTitle>
 
-      <template #append>
-        <div class="me-n3">
-          <VBtn
-            icon
-            size="x-small"
-            variant="text"
-            color="default"
-          >
-            <VIcon
-              size="24"
-              icon="mdi-dots-vertical"
-            />
-          </VBtn>
-        </div>
-      </template>
+    <template #append>
+    <div class="me-n3">
+    <VBtn
+    icon
+    size="x-small"
+    variant="text"
+    color="default"
+    >
+    <VIcon
+    size="24"
+    icon="mdi-dots-vertical"
+    />
+    </VBtn>
+    </div>
+    </template>
     </VCardItem>
 
     <VCardText class="pt-4">
-      <div class="d-flex align-center">
-        <h4 class="text-h4 me-2">
-          $24,895
-        </h4>
+    <div class="d-flex align-center">
+    <h4 class="text-h4 me-2">
+    $24,895
+    </h4>
 
-        <span class="text-success">
-          <VIcon
-            size="30"
-            icon="mdi-menu-up"
-          />
-          <span>10%</span>
-        </span>
-      </div>
-      <span class="text-xs">Compared to $84,325 last year</span>
+    <span class="text-success">
+    <VIcon
+    size="30"
+    icon="mdi-menu-up"
+    />
+    <span>10%</span>
+    </span>
+    </div>
+    <span class="text-xs">Compared to $84,325 last year</span>
 
-      <VList class="card-list mt-9">
-        <VListItem
-          v-for="earning in earnings"
-          :key="earning.title"
-        >
-          <template #prepend>
-            <VAvatar
-              rounded
-              :image="earning.avatar"
-            />
-          </template>
+    <VList class="card-list mt-9">
+    <VListItem
+    v-for="earning in earnings"
+    :key="earning.title"
+    >
+    <template #prepend>
+    <VAvatar
+    rounded
+    :image="earning.avatar"
+    />
+    </template>
 
-          <VListItemTitle class="text-sm font-weight-semibold mb-1">
-            {{ earning.title }}
-          </VListItemTitle>
-          <VListItemSubtitle class="text-xs">
-            {{ earning.subtitle }}
-          </VListItemSubtitle>
+    <VListItemTitle class="text-sm font-weight-semibold mb-1">
+    {{ earning.title }}
+    </VListItemTitle>
+    <VListItemSubtitle class="text-xs">
+    {{ earning.subtitle }}
+    </VListItemSubtitle>
 
-          <template #append>
-            <div>
-              <h6 class="text-sm mb-2">
-                {{ earning.amount }}
-              </h6>
-              <VProgressLinear
-                :color="earning.progress"
-                model-value="80"
-              />
-            </div>
-          </template>
-        </VListItem>
-      </VList>
+    <template #append>
+    <div>
+    <h6 class="text-sm mb-2">
+    {{ earning.amount }}
+    </h6>
+    <VProgressLinear
+    :color="earning.progress"
+    model-value="80"
+    />
+    </div>
+    </template>
+    </VListItem>
+    </VList>
     </VCardText>
-  </VCard> -->
+    </VCard> 
+  -->
 </template>
 
 <style lang="scss" scoped>
@@ -162,5 +170,4 @@ const triangleBg = computed(() => {
   inset-block-end: 0.5rem;
   inset-inline-end: 1rem;
 }
-
 </style>

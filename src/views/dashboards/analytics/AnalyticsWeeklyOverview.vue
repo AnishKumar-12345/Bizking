@@ -98,6 +98,7 @@
 import { useTheme } from 'vuetify'
 import triangleDark from '@/assets/images/misc/triangle-dark.png'
 import triangleLight from '@/assets/images/misc/triangle-light.png'
+
 // import trophy from '@/assets/images/misc/trophy.png'
 import avatar from '@/assets/images/avatars/avatar-11.png'
  
@@ -131,59 +132,67 @@ const triangleBg = computed(() => {
       :src="triangleBg"
       class="triangle-bg flip-in-rtl"
     />
-    <img src="@/assets/images/avatars/avatar-11.png" class="trophy">
+    <img
+      src="@/assets/images/avatars/avatar-11.png"
+      class="trophy"
+    >
 
     <!-- Trophy -->
-    <!-- <VImg
+    <!--
+      <VImg
       :src="avatar"
       class="trophy"
-    /> -->
+      /> 
+    --> 
   </VCard>
 <!-- default UI -->
-  <!-- <VCard>
+  <!--
+    <VCard>
     <VCardItem>
-      <VCardTitle>Weekly Overview</VCardTitle>
+    <VCardTitle>Weekly Overview</VCardTitle>
 
-      <template #append>
-        <div class="me-n3">
-          <VBtn
-            icon
-            size="x-small"
-            color="default"
-            variant="text"
-          >
-            <VIcon
-              size="24"
-              icon="mdi-dots-vertical"
-            />
-          </VBtn>
-        </div>
-      </template>
+    <template #append>
+    <div class="me-n3">
+    <VBtn
+    icon
+    size="x-small"
+    color="default"
+    variant="text"
+    >
+    <VIcon
+    size="24"
+    icon="mdi-dots-vertical"
+    />
+    </VBtn>
+    </div>
+    </template>
     </VCardItem>
 
     <VCardText>
-      <VueApexCharts
-        type="bar"
-        :options="options"
-        :series="series"
-        :height="220"
-      />
+    <VueApexCharts
+    type="bar"
+    :options="options"
+    :series="series"
+    :height="220"
+    />
 
-      <div class="d-flex align-center mb-3">
-        <h5 class="text-h5 me-4">
-          45%
-        </h5>
-        <p>
-          Your sales performance is 45% 😎 better compared to last month
-        </p>
-      </div>
+    <div class="d-flex align-center mb-3">
+    <h5 class="text-h5 me-4">
+    45%
+    </h5>
+    <p>
+    Your sales performance is 45% 😎 better compared to last month
+    </p>
+    </div>
 
-      <VBtn block>
-        Details
-      </VBtn>
+    <VBtn block>
+    Details
+    </VBtn>
     </VCardText>
-  </VCard> -->
+    </VCard> 
+  -->
 </template>
+
 <style lang="scss">
 .triangle-bg {
   position: absolute;

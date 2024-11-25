@@ -2,8 +2,7 @@
 // import upgradeBannerDark from '@/assets/images/pro/upgrade-banner-dark.png'
 // import upgradeBannerLight from '@/assets/images/pro/upgrade-banner-light.png'
 // import logo from '@/assets/images/logos/aws.png'
-import { VerticalNavLink, VerticalNavSectionTitle } from '@layouts'
-import { useTheme } from 'vuetify'
+import { useTheme } from 'vuetify';
 
 // import Index from '@/pages/index.vue'
 // import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
@@ -445,6 +444,19 @@ export default{
           return allowedTitles.includes(item.title)
         })
       } 
+      else if (this.userType === "Reporting Team") {
+      // Filter items for Business Development Manager
+        const allowedTitles = ["Dashboard","Reports"]
+      
+        // console.log('Allowed Titles:', allowedTitles)
+      
+        // console.log('Filtered Items:', filteredItems);
+        return this.parentItems.filter(item => {
+          // console.log(`Title: ${item.title}, Allowed: ${isAllowed}`)
+          
+          return allowedTitles.includes(item.title)
+        })
+      } 
       else if (this.userRole === "Delivery Person") {
       // Filter items for Business Development Manager
         return []
@@ -574,15 +586,13 @@ export default{
             <VIcon
               v-if="parentItem.children && parentItem.expanded==false"
               style="display:flex;float:right;"
-            >
-              mdi-chevron-right
-            </VIcon>
+              icon="mdi-chevron-right"
+            />
             <VIcon
               v-if="parentItem.expanded && parentItem.children"
               style="display:flex;float:right"
-            >
-              mdi-chevron-down
-            </VIcon>
+              icon="mdi-chevron-down"
+            />
           </VListItemTitle>
         </VListItemContent>
       </VListItem>

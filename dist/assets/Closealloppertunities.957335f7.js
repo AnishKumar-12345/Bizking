@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as n,r as c,g as p}from"./index.08705643.js";const l={};function a(o,r){return t(),n("div",null," Template will Integrate Shortly ! ")}const _=e(l,[["render",a]]),i={components:{CloseOppertunity:_}};function u(o,r,d,f,m,$){const s=c("CloseOppertunity");return t(),n("div",null,[p(s)])}const x=e(i,[["render",u]]);export{x as default};

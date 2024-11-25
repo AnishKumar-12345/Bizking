@@ -84,36 +84,38 @@ const triangleBg = computed(() => {
 </script>
 
 <template>
-<!-- Ibuilt UI -->
-  <!-- <VCard>
+  <!-- Ibuilt UI -->
+  <!--
+    <VCard>
     <VCardText>
-      <h6 class="text-h6">
-        $86.4k
-      </h6>
-      <VueApexCharts
-        type="line"
-        :options="chartOptions"
-        :series="series"
-        :height="100"
-      />
+    <h6 class="text-h6">
+    $86.4k
+    </h6>
+    <VueApexCharts
+    type="line"
+    :options="chartOptions"
+    :series="series"
+    :height="100"
+    />
 
-      <p class="text-center font-weight-semibold mb-0">
-        Total Profit
-      </p>
+    <p class="text-center font-weight-semibold mb-0">
+    Total Profit
+    </p>
     </VCardText>
-  </VCard> -->
+    </VCard> 
+  -->
 
-<!-- Anish UI -->
-   <VCard
+  <!-- Anish UI -->
+  <VCard
     title="Ongoing Opportunities!"
     
-    class="position-relative"
+    class="position-relative" 
   >
     <VCardText>
       <h1 class="text-2xl font-weight-medium text-primary">
         2
       </h1>
-        <p>🎉</p>
+      <p>🎉</p>
       <!-- <p>78% of target 🚀</p> -->
       <VBtn size="small">
         View Opportunities
@@ -127,10 +129,12 @@ const triangleBg = computed(() => {
     />
 
     <!-- Trophy -->
-    <!-- <VImg
+    <!--
+      <VImg
       :src="trophy"
       class="trophy"
-    /> -->
+      /> 
+    -->
   </VCard>
 </template>
 

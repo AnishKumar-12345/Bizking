@@ -38,6 +38,13 @@ export default defineConfig({
     }),
     DefineOptions(),
   ],
+  server: {
+    host: 'localhost',  // or '127.0.0.1'
+    port: 5173,
+    strictPort: true,   // Ensures it only uses the specified port
+    open: false   ,     // Prevents Vite from opening any additional network connections
+  },
+
   define: { 'process.env': {} },
   resolve: {
     alias: {

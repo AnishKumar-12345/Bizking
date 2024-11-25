@@ -1,19 +1,15 @@
 <script setup>
-import AnalyticsAward from '@/views/dashboards/analytics/AnalyticsAward.vue'
-import AnalyticsBarCharts from '@/views/dashboards/analytics/AnalyticsBarCharts.vue'
-import AnalyticsDatatable from '@/views/dashboards/analytics/AnalyticsDatatable.vue'
+// import AnalyticsAward from '@/views/dashboards/analytics/AnalyticsAward.vue'
 import AnalyticsDepositWithdraw from '@/views/dashboards/analytics/AnalyticsDepositWithdraw.vue'
 import AnalyticsSalesByCountries from '@/views/dashboards/analytics/AnalyticsSalesByCountries.vue'
 import AnalyticsTotalEarning from '@/views/dashboards/analytics/AnalyticsTotalEarning.vue'
-import AnalyticsTotalProfitLineCharts from '@/views/dashboards/analytics/AnalyticsTotalProfitLineCharts.vue'
 import AnalyticsTransactions from '@/views/dashboards/analytics/AnalyticsTransactions.vue'
 import AnalyticsWeeklyOverview from '@/views/dashboards/analytics/AnalyticsWeeklyOverview.vue'
-import CardStatisticsVertical from '@core/components/CardStatisticsVertical.vue'
 
 const totalProfit = {
   title: 'Total Profit',
-  color: 'secondary',
-  icon: 'mdi-poll',
+  color: 'secondary', 
+  icon: 'mdi-poll', 
   stats: '$25.6k',
   change: 42,
   subtitle: 'Weekly Project',
@@ -58,40 +54,42 @@ const newProject = {
       <AnalyticsTotalEarning />
     </VCol>
 
-    <!-- <VCol
+    <!--
+      <VCol
       cols="12"
       md="4"
-    >
+      >
       <VRow class="match-height">
-        <VCol
-          cols="12"
-          sm="6"
-        >
-          <AnalyticsTotalProfitLineCharts />
-        </VCol>
+      <VCol
+      cols="12"
+      sm="6"
+      >
+      <AnalyticsTotalProfitLineCharts />
+      </VCol>
 
-        <VCol
-          cols="12"
-          sm="6"
-        >
-          <CardStatisticsVertical v-bind="totalProfit" /> 
-        </VCol>
+      <VCol
+      cols="12"
+      sm="6"
+      >
+      <CardStatisticsVertical v-bind="totalProfit" /> 
+      </VCol>
 
-        <VCol
-          cols="12"
-          sm="6"
-        >
-          <CardStatisticsVertical v-bind="newProject" /> 
-        </VCol>
+      <VCol
+      cols="12"
+      sm="6"
+      >
+      <CardStatisticsVertical v-bind="newProject" /> 
+      </VCol>
 
-        <VCol
-          cols="12"
-          sm="6"
-        >
-          <AnalyticsBarCharts /> 
-        </VCol>
+      <VCol
+      cols="12"
+      sm="6"
+      >
+      <AnalyticsBarCharts /> 
+      </VCol>
       </VRow>
-    </VCol> -->
+      </VCol> 
+    -->
 
     <VCol
       cols="12"
@@ -107,8 +105,10 @@ const newProject = {
       <AnalyticsDepositWithdraw />
     </VCol>
 
-    <!-- <VCol cols="12">
+    <!--
+      <VCol cols="12">
       <AnalyticsDatatable />
-    </VCol> -->
+      </VCol> 
+    -->
   </VRow>
 </template>

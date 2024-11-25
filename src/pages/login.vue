@@ -1,14 +1,12 @@
 <script setup>
-import { useTheme } from 'vuetify'
-import logo from '@/assets/images/logos/comlogo.jpeg'
-import AuthProvider from '@/views/pages/authentication/AuthProvider.vue'
 import authV1MaskDark from '@/assets/images/pages/auth-v1-mask-dark.png'
 import authV1MaskLight from '@/assets/images/pages/auth-v1-mask-light.png'
 import authV1Tree2 from '@/assets/images/pages/auth-v1-tree-2.png'
 import authV1Tree from '@/assets/images/pages/auth-v1-tree.png'
-import { ref, computed } from 'vue'
 import axios from 'axios'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useTheme } from 'vuetify'
 
 // import Notification from '@/components/Notification.vue';
 import store from '../Stores'
@@ -71,13 +69,13 @@ const loginuser = () => {
 
   //  }
   axios
-    .post('http://216.10.250.149/bizkingz/services/api/auth/login', requestData)
+    .post('http://103.211.218.32/bizkingz/services/api/auth/login', requestData)
     .then(response => {
       // console.log('API Response:', response)
 
       if (response.data.status == 1) {
         setTimeout(() => {
-          router.push('/Dashboardhome')
+          router.push('/Dashboardhome') 
         }, 1000)
         localStorage.setItem('createdby', response.data.data.name)
         localStorage.setItem('userId', response.data.data.user_id)

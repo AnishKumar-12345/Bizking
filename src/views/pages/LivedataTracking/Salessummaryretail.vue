@@ -119,7 +119,10 @@
             {{ item.tomorrow_sold_qty }}
           </td>
           <td class="text-center">
-            &#8377; {{ item.tomorrow_sold_amount }}
+            &#8377;{{ !isNaN(parseFloat(item.tomorrow_sold_amount))
+              ? parseFloat(item.tomorrow_sold_amount).toFixed(2)
+              : '0.00' }}
+            <!-- {{ item.tomorrow_sold_amount }} -->
           </td>
         </tr>
       </tbody>

@@ -3,7 +3,7 @@ import axios from "axios"
 export default { 
   data(){
     return{
-      url:'http://216.10.250.149/', 
+      url:'http://103.211.218.32/', 
     }
   }, 
   methods:{
@@ -1779,6 +1779,26 @@ export default {
           return err.response
         })
     },
+    DeliveredPODimage(reqdata){
+      return axios
+        .post(this.url +"bizkingz/services/api/delivery/proofOfDelivery",reqdata, {
+          headers: {
+            "accept": "*/*",
+            "Content-Type": "application/json",
+                
+          },
+
+          // responseType: 'blob',
+        })
+        .then(response => {
+          return response
+
+          // responseType: 'blob', 
+        })
+        .catch(err => {
+          return err.response
+        })
+    },
     GetTripdetails(id){
       return axios
         .get(this.url +"bizkingz/services/api/trips/getSalesOrders?trip_id="+id, {
@@ -1992,6 +2012,26 @@ export default {
         .then(response => {
           return response
         
+        })
+        .catch(err => {
+          return err.response
+        })
+    },
+    postDelivery(reqbody){
+      return axios
+        .post(this.url +"bizkingz/services/api/delivery/send",reqbody, {
+          headers: {
+            "accept": "*/*",
+            "Content-Type": "application/json",
+              
+          },
+
+        // responseType: 'blob',
+        })
+        .then(response => {
+          return response
+
+        // responseType: 'blob', 
         })
         .catch(err => {
           return err.response

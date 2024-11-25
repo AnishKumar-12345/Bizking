@@ -26,6 +26,14 @@
               @update:model-value="getDeliveryhealthdata(cityID)"
             />
           </VCol>
+          <VCol
+            cols="12"
+            md="6"
+          >
+            <h2 class="stores-count">
+              STORES COUNT <span style="color:rgb(13, 180, 13)">{{ todaysoldquanity }}</span>
+            </h2> 
+          </VCol>
         </VRow>
       </VCardText>
     </VCard>
@@ -162,7 +170,9 @@
       max-width="1000px"
     >
       <VCard>
-        <VCardTitle>Service age Gap Lessthan 3 days</VCardTitle>
+        <VCardTitle class="mt-5 text-h5 text-center">
+          <span style="background-color: #bf9442; border-radius: 8px; padding: 10px; box-shadow: 0 2px 5px rgba(185, 178, 178, 0.1);color:#ffffff">  SERVICE AGE GAP LESS THAN 3 DAYS</span>
+        </VCardTitle>
         <VCardContent>
           <div style="max-width: 400px;padding: 20px;">
             <VTextField
@@ -243,7 +253,9 @@
       max-width="1000px"
     >
       <VCard>
-        <VCardTitle>Service age Gap less than 5 days</VCardTitle>
+        <VCardTitle class="mt-5 text-h5 text-center">
+          <span style="background-color: #bf9442; border-radius: 8px; padding: 10px; box-shadow: 0 2px 5px rgba(185, 178, 178, 0.1);color:#ffffff"> SERVICE AGE GAP LESS THAN 5 DAYS  </span>
+        </VCardTitle>
         <VCardContent>
           <div style="max-width: 400px;padding: 20px;">
             <VTextField
@@ -324,7 +336,9 @@
       max-width="1000px"
     >
       <VCard>
-        <VCardTitle>Service age Gap Greater than and Equal to 5 days</VCardTitle>
+        <VCardTitle class="mt-5 text-h5 text-center">
+          <span style="background-color: #bf9442; border-radius: 8px; padding: 10px; box-shadow: 0 2px 5px rgba(185, 178, 178, 0.1);color:#ffffff"> SERVICE AGE GAP GREATER THAN AND EQUAL TO 5 DAYS</span>
+        </VCardTitle>
         <VCardContent>
           <div style="max-width: 400px;padding: 20px;">
             <VTextField
@@ -420,7 +434,7 @@ export default {
     return{     
       searchQuery: '',
       searchQuery2: '',
-      searchQuery3: '',
+      searchQuery3: '', 
       searchQuery4: '',
       snackbar: false,
       snackbarText: '',
@@ -477,6 +491,21 @@ export default {
     }
   },
   computed:{
+    todaysoldquanity(){
+      
+      const AllBproducts = this.deliveryhealth.reduce((total, item) => {
+        const quantity = parseFloat(item.stores_count)
+  
+        
+        if (!isNaN(quantity)) {
+          return total + quantity
+        }
+  
+        return total
+      }, 0)
+  
+      return isNaN(AllBproducts) ? 0 : AllBproducts.toFixed(0)
+    },
     filtereddeliveryagegapabove5() {
       const lowerCaseQuery = this.searchQuery4.toLowerCase().trim()
       
@@ -484,15 +513,20 @@ export default {
         return (
           (item.merchant_name && item.merchant_name.toLowerCase().includes(lowerCaseQuery)) ||
           (item.merchant_uid && item.merchant_uid.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.last_visited_date && item.last_delivered_date.toLowerCase().includes(lowerCaseQuery))
+          (item.last_delivered_date && item.last_delivered_date.toLowerCase().includes(lowerCaseQuery))
         )
       })
+    },
+    sortedItems3() {
+      return this.filtereddeliveryagegapabove5
+        .slice() // Create a shallow copy of the array
+        .sort((a, b) => new Date(b.last_delivered_date) - new Date(a.last_delivered_date)) // Sort in descending order
     },
     paginatedItems4() {
       const startIndex = (this.page4 - 1) * this.pageSize4
       const endIndex = startIndex + this.pageSize4      
       
-      return this.filtereddeliveryagegapabove5.slice(startIndex, endIndex)
+      return this.sortedItems3.slice(startIndex, endIndex)
     },
 
     filtereddeliveryagegap5() {
@@ -502,15 +536,20 @@ export default {
         return (
           (item.merchant_name && item.merchant_name.toLowerCase().includes(lowerCaseQuery)) ||
           (item.merchant_uid && item.merchant_uid.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.last_visited_date && item.last_delivered_date.toLowerCase().includes(lowerCaseQuery))
+          (item.last_delivered_date && item.last_delivered_date.toLowerCase().includes(lowerCaseQuery))
         )
       })
+    },
+    sortedItems2() {
+      return this.filtereddeliveryagegap5
+        .slice() // Create a shallow copy of the array
+        .sort((a, b) => new Date(b.last_delivered_date) - new Date(a.last_delivered_date)) // Sort in descending order
     },
     paginatedItems3() {
       const startIndex = (this.page3 - 1) * this.pageSize3
       const endIndex = startIndex + this.pageSize3      
       
-      return this.filtereddeliveryagegap5.slice(startIndex, endIndex)
+      return this.sortedItems2.slice(startIndex, endIndex)
     },
 
     filterdeliveryagegap3() {
@@ -520,15 +559,20 @@ export default {
         return (
           (item.merchant_name && item.merchant_name.toLowerCase().includes(lowerCaseQuery)) ||
           (item.merchant_uid && item.merchant_uid.toLowerCase().includes(lowerCaseQuery)) ||
-          (item.last_visited_date && item.last_delivered_date.toLowerCase().includes(lowerCaseQuery))
+          (item.last_delivered_date && item.last_delivered_date.toLowerCase().includes(lowerCaseQuery))
         )
       })
+    },
+    sortedItems() {
+      return this.filterdeliveryagegap3
+        .slice() // Create a shallow copy of the array
+        .sort((a, b) => new Date(b.last_delivered_date) - new Date(a.last_delivered_date)) // Sort in descending order
     },
     paginatedItems2() {
       const startIndex = (this.page2 - 1) * this.pageSize2
       const endIndex = startIndex + this.pageSize2      
       
-      return this.filterdeliveryagegap3.slice(startIndex, endIndex)
+      return this.sortedItems.slice(startIndex, endIndex)
     },
 
     filteredeliveryhealth() {
@@ -649,3 +693,15 @@ export default {
   },
 }
 </script>
+
+<style>
+.stores-count {
+    background-color: #f0f0f0; /* Light gray background */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 12px; /* Padding around the text */
+    text-align: center; /* Center the text */
+    font-weight: bold; /* Make the text bold */
+    color: #333; /* Darker text color */
+}
+</style>

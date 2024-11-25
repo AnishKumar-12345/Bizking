@@ -7,6 +7,7 @@ const router = createRouter({
     { path: '/', redirect: '/login' },     
   
     ...setupLayouts(routes),   
+
     // {
     //   path: '/Createwarehouseinput/:po_id',
     //   name: 'Createwarehouseinput',
@@ -14,7 +15,7 @@ const router = createRouter({
     //   props: true // Enable props for route params
     // },  
     
-      // other routes...
+    // other routes...
    
     // { path: '/default', component: 'Default' },
     // { path: '/login', component: Login },
@@ -26,13 +27,15 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = localStorage.getItem('createdby') !== null;/* Check if user is authenticated */  // You need to implement this logic
+  const isAuthenticated = localStorage.getItem('createdby') !== null
+
+  /* Check if user is authenticated */  // You need to implement this logic
   
   // If the user is not authenticated and trying to access any route other than '/login', redirect to '/login'
   if (!isAuthenticated && to.path !== '/login') {
-    next('/login');
+    next('/login')
   } else {
-    next(); // Proceed with navigation
+    next() // Proceed with navigation
   }
-});
+})
 export default router

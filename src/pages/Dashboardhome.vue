@@ -9,6 +9,17 @@ import AnalyticsTotalProfitLineCharts from '@/views/dashboards/analytics/Analyti
 import AnalyticsTransactions from '@/views/dashboards/analytics/AnalyticsTransactions.vue'
 import AnalyticsWeeklyOverview from '@/views/dashboards/analytics/AnalyticsWeeklyOverview.vue'
 import CardStatisticsVertical from '@core/components/CardStatisticsVertical.vue'
+import PoSoCreate from '@/views/dashboards/analytics/LiveDatatrack/PoSoCreate.vue'
+import Notshipped from '@/views/dashboards/analytics/LiveDatatrack/Notshipped.vue'
+import Shipped from '@/views/dashboards/analytics/LiveDatatrack/Shipped.vue'
+import Delivered from '@/views/dashboards/analytics/LiveDatatrack/Delivered.vue'
+import Rejected from '@/views/dashboards/analytics/LiveDatatrack/Rejected.vue'
+
+
+import { ref } from 'vue'
+
+const storedValue = ref(localStorage.getItem('userRole'))
+console.log('set',storedValue)
 
 const totalProfit = {
   title: 'Total Profit',
@@ -31,6 +42,7 @@ const newProject = {
 <template>
   <VRow>
     <VCol
+      v-if="storedValue != 'Brand Associate'"     
       cols="12"
       md="4"
     >
@@ -38,6 +50,16 @@ const newProject = {
     </VCol>
 
     <VCol
+      v-if="storedValue === 'Brand Associate'"     
+      cols="12"
+      md="4"
+    >
+      <PoSoCreate /> 
+    </VCol>
+
+    <VCol
+      v-if="storedValue != 'Brand Associate'"     
+
       cols="12"
       md="4"
     >
@@ -45,55 +67,84 @@ const newProject = {
     </VCol>
 
     <VCol
+      v-if="storedValue === 'Brand Associate'"     
+
       cols="12"
-      md="4" 
+      md="4"
+    >
+      <Notshipped />
+    </VCol>
+
+    <VCol
+      v-if="storedValue != 'Brand Associate'"
+      cols="12" 
+      md="4"
     >
       <AnalyticsWeeklyOverview />
     </VCol>
 
     <VCol
+      v-if="storedValue === 'Brand Associate'"
+      cols="12" 
+      md="4"
+    >
+      <Shipped />
+    </VCol>
+
+    <VCol
+      v-if="storedValue != 'Brand Associate'"
       cols="12"
       md="4"
     >
       <AnalyticsTotalEarning />
     </VCol>
-
-    <!-- <VCol
+    <VCol
+      v-if="storedValue === 'Brand Associate'"
       cols="12"
       md="4"
     >
+      <Delivered />
+    </VCol>
+
+    <!--
+      <VCol
+      cols="12"
+      md="4"
+      >
       <VRow class="match-height">
-        <VCol
-          cols="12"
-          sm="6"
-        >
-          <AnalyticsTotalProfitLineCharts />
-        </VCol>
+      <VCol
+      cols="12"
+      sm="6"
+      >
+      <AnalyticsTotalProfitLineCharts />
+      </VCol>
 
-        <VCol
-          cols="12"
-          sm="6"
-        >
-          <CardStatisticsVertical v-bind="totalProfit" /> 
-        </VCol>
+      <VCol
+      cols="12"
+      sm="6"
+      >
+      <CardStatisticsVertical v-bind="totalProfit" /> 
+      </VCol>
 
-        <VCol
-          cols="12"
-          sm="6"
-        >
-          <CardStatisticsVertical v-bind="newProject" /> 
-        </VCol>
+      <VCol
+      cols="12"
+      sm="6"
+      >
+      <CardStatisticsVertical v-bind="newProject" /> 
+      </VCol>
 
-        <VCol
-          cols="12"
-          sm="6"
-        >
-          <AnalyticsBarCharts /> 
-        </VCol>
+      <VCol
+      cols="12"
+      sm="6"
+      >
+      <AnalyticsBarCharts /> 
+      </VCol>
       </VRow>
-    </VCol> -->
+      </VCol> 
+    -->
 
     <VCol
+      v-if="storedValue != 'Brand Associate'"
       cols="12"
       md="4"
     >
@@ -101,14 +152,25 @@ const newProject = {
     </VCol>
 
     <VCol
+      v-if="storedValue === 'Brand Associate'"
+      cols="12"
+      md="4"
+    >
+      <Rejected />
+    </VCol>
+
+    <VCol
+      v-if="storedValue != 'Brand Associate'"
       cols="12"
       md="4"
     >
       <AnalyticsDepositWithdraw />
     </VCol>
 
-    <!-- <VCol cols="12">
+    <!--
+      <VCol cols="12">
       <AnalyticsDatatable />
-    </VCol> -->
+      </VCol> 
+    -->
   </VRow>
 </template>

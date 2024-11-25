@@ -26,6 +26,14 @@
               @update:model-value="getvisithealthdata(cityID)"
             />
           </VCol>
+          <VCol
+            cols="12"
+            md="6"
+          >
+            <h2 class="stores-count">
+              STORES COUNT <span style="color:rgb(13, 180, 13)">{{ todaysoldquanity }}</span>
+            </h2> 
+          </VCol>
         </VRow>
       </VCardText>
     </VCard>
@@ -154,8 +162,10 @@
       max-width="1000px"
     >
       <VCard>
-        <VCardTitle class="m-10">
-          Visit age Gap Lessthan 3 days
+        <VCardTitle
+          class="mt-5 text-h5 text-center"
+        >
+          <span style="background-color: #bf9442; border-radius: 8px; padding: 10px; box-shadow: 0 2px 5px rgba(185, 178, 178, 0.1);color:#ffffff"> VISIT AGE GAP LESS THAN 3 DAYS </span>
         </VCardTitle>
         <VCardContent>
           <div style="max-width: 400px;padding: 20px">
@@ -237,7 +247,9 @@
       max-width="1000px"
     >
       <VCard>
-        <VCardTitle>Visit age Gap Lessthan 5 days</VCardTitle>
+        <VCardTitle class="mt-5 text-h5 text-center">
+          <span style="background-color: #bf9442; border-radius: 8px; padding: 10px; box-shadow: 0 2px 5px rgba(185, 178, 178, 0.1);color:#ffffff">VISIT AGE GAP LESS THAN 5 DAYS</span>
+        </VCardTitle>
         <VCardContent>
           <div style="max-width: 400px;padding:20px">
             <VTextField
@@ -318,7 +330,9 @@
       max-width="1000px"
     >
       <VCard>
-        <VCardTitle>Visit age Gap Greater than and Equal to 5 days</VCardTitle>
+        <VCardTitle class="mt-5 text-h5 text-center">
+          <span style="background-color: #bf9442; border-radius: 8px; padding: 10px; box-shadow: 0 2px 5px rgba(185, 178, 178, 0.1);color:#ffffff">VISIT AGE GAP GREATER THAN EQUAL AND EQUAL TO 5 DAYS</span>
+        </VCardTitle>
         <VCardContent>
           <div style="max-width: 400px;padding:20px">
             <VTextField
@@ -472,6 +486,22 @@ export default {
     }
   },
   computed:{
+    todaysoldquanity(){
+      
+      const AllBproducts = this.visithealth.reduce((total, item) => {
+        const quantity = parseFloat(item.stores_count)
+  
+        
+        if (!isNaN(quantity)) {
+          return total + quantity
+        }
+  
+        return total
+      }, 0)
+  
+      return isNaN(AllBproducts) ? 0 : AllBproducts.toFixed(0)
+    },
+
     filteredvisitagegapabove5() {
       const lowerCaseQuery = this.searchQuery4.toLowerCase().trim()
       
@@ -483,11 +513,16 @@ export default {
         )
       })
     },
+    sortedItems3() {
+      return this.filteredvisitagegapabove5
+        .slice() // Create a shallow copy of the array
+        .sort((a, b) => new Date(b.last_visited_date) - new Date(a.last_visited_date)) // Sort in descending order
+    },
     paginatedItems4() {
       const startIndex = (this.page4 - 1) * this.pageSize4
       const endIndex = startIndex + this.pageSize4      
       
-      return this.filteredvisitagegapabove5.slice(startIndex, endIndex)
+      return this.sortedItems3.slice(startIndex, endIndex)
     },
     filteredvisitagegap5() {
       const lowerCaseQuery = this.searchQuery3.toLowerCase().trim()
@@ -500,13 +535,19 @@ export default {
         )
       })
     },
+
+    sortedItems2() {
+      return this.filteredvisitagegap5
+        .slice() // Create a shallow copy of the array
+        .sort((a, b) => new Date(b.last_visited_date) - new Date(a.last_visited_date)) // Sort in descending order
+    },
     paginatedItems3() {
       const startIndex = (this.page3 - 1) * this.pageSize3
       const endIndex = startIndex + this.pageSize3      
       
-      return this.filteredvisitagegap5.slice(startIndex, endIndex)
+      return this.sortedItems2.slice(startIndex, endIndex)
     },
-
+   
     filteredvisitagegap3() {
       const lowerCaseQuery = this.searchQuery2.toLowerCase().trim()
       
@@ -518,11 +559,16 @@ export default {
         )
       })
     },
+    sortedItems() {
+      return this.filteredvisitagegap3
+        .slice() // Create a shallow copy of the array
+        .sort((a, b) => new Date(b.last_visited_date) - new Date(a.last_visited_date)) // Sort in descending order
+    },
     paginatedItems2() {
       const startIndex = (this.page2 - 1) * this.pageSize2
       const endIndex = startIndex + this.pageSize2      
       
-      return this.filteredvisitagegap3.slice(startIndex, endIndex)
+      return this.sortedItems.slice(startIndex, endIndex)
     },
     filteredvisithealth() {
       const lowerCaseQuery = this.searchQuery.toLowerCase().trim()
@@ -642,3 +688,15 @@ export default {
   },
 }
 </script>
+
+<style>
+.stores-count {
+    background-color: #f0f0f0; /* Light gray background */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 12px; /* Padding around the text */
+    text-align: center; /* Center the text */
+    font-weight: bold; /* Make the text bold */
+    color: #333; /* Darker text color */
+}
+</style>

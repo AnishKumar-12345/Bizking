@@ -21,7 +21,7 @@ const triangleBg = computed(() => {
       <h4 class="text-4xl font-weight-medium text-primary">
         2
       </h4>
-        <p>🎉</p>
+      <p>🎉</p>
       <!-- <p>78% of target 🚀</p> -->
       <VBtn size="small">
         View 
@@ -33,13 +33,18 @@ const triangleBg = computed(() => {
       :src="triangleBg"
       class="triangle-bg flip-in-rtl"
     />
-    <img src="@/assets/images/avatars/avatar-9.png" class="avatarg">
+    <img
+      src="@/assets/images/avatars/avatar-9.png"
+      class="avatarg"
+    >
 
     <!-- Trophy -->
-    <!-- <VImg
+    <!--
+      <VImg
       :src="avatarg"
       class="avatarg"
-    /> -->
+      /> 
+    -->
   </VCard>
 </template>
 

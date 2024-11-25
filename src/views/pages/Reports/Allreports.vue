@@ -625,7 +625,7 @@
                     />
                   </VCol>
                   <VCol
-                    v-if="userType == 'Business Head'"
+                    v-if="userType == 'Business Head' || userType == 'Reporting Team'"
                     md="6"
                     cols="12"
                   >
@@ -752,7 +752,7 @@
                   </VCol>
 
                   <VCol
-                    v-if="userType == 'Business Head'"
+                    v-if="userType == 'Business Head' || userType == 'Reporting Team'"
                     md="6"
                     cols="12"
                   >
@@ -837,7 +837,7 @@
                     />
                   </VCol>
                   <VCol
-                    v-if="userType == 'Business Head'"
+                    v-if="userType == 'Business Head' || userType == 'Reporting Team'"
                     md="6"
                     cols="12"
                   >
@@ -921,7 +921,7 @@
                     />
                   </VCol>
                   <VCol
-                    v-if="userType == 'Business Head'"
+                    v-if="userType == 'Business Head' || userType == 'Reporting Team'"
                     md="6"
                     cols="12"
                   >
@@ -1004,7 +1004,7 @@
                     />
                   </VCol>
                   <VCol
-                    v-if="userType == 'Business Head'"
+                    v-if="userType == 'Business Head' || userType == 'Reporting Team'"
                     md="6"
                     cols="12"
                   >
@@ -1089,7 +1089,7 @@
                   </VCol>
 
                   <VCol
-                    v-if="userType == 'Business Head'"
+                    v-if="userType == 'Business Head' || userType == 'Reporting Team'"
                     md="6"
                     cols="12"
                   >
@@ -1211,7 +1211,7 @@
                   </VCol>
                   
                   <VCol
-                    v-if="userType == 'Business Head'"
+                    v-if="userType == 'Business Head' || userType == 'Reporting Team'"
                     md="6"
                     cols="12"
                   >
@@ -1448,7 +1448,7 @@
                   </VCol>
 
                   <VCol
-                    v-if="userType == 'Business Head'"
+                    v-if="userType == 'Business Head' || userType == 'Reporting Team'"
                     md="6"
                     cols="12"
                   >
@@ -1556,7 +1556,7 @@
                     />
                   </VCol>
                   <VCol
-                    v-if="userType == 'Business Head'"
+                    v-if="userType == 'Business Head' || userType == 'Reporting Team'"
                     md="6"
                     cols="12"
                   >
@@ -1666,7 +1666,7 @@
                     </VCol> 
                   -->
                   <VCol
-                    v-if="userType == 'Business Head'"
+                    v-if="userType == 'Business Head' || userType == 'Reporting Team'"
                     md="6"
                     cols="12"
                   >
@@ -1734,7 +1734,7 @@
                 -->
                 <VRow>
                   <VCol
-                    v-if="userType == 'Business Head'"
+                    v-if="userType == 'Business Head' || userType == 'Reporting Team'"
                     md="6"
                     cols="12"
                   >
@@ -1801,7 +1801,7 @@
                 -->
                 <VRow>
                   <VCol
-                    v-if="userType == 'Business Head'"
+                    v-if="userType == 'Business Head' || userType == 'Reporting Team'"
                     md="6"
                     cols="12"
                   >
@@ -1858,12 +1858,12 @@
 </template>
 
 <script>
-import servicescall from '@/Services'
+import servicescall from '@/Services';
 
 // import VueExcelXlsx from 'vue-excel-xlsx';
-import { useTheme } from 'vuetify'
-import triangleDark from '@/assets/images/misc/triangle-dark.png'
-import triangleLight from '@/assets/images/misc/triangle-light.png'
+import triangleDark from '@/assets/images/misc/triangle-dark.png';
+import triangleLight from '@/assets/images/misc/triangle-light.png';
+import { useTheme } from 'vuetify';
 export default {
   components: {
     // VueExcelXlsx,
@@ -2086,7 +2086,7 @@ export default {
       this.$refs.purchaseOrderForm13.validate().then(valid => {
         if (valid) {
           // Check if citydata is required and provided
-          if (this.userType === 'Business Head' && !this.citydata) {
+          if ((this.userType === 'Business Head' || this.userType === 'Reporting Team')  && !this.citydata) {
             this.snackbar = true
             this.snackbarText = 'Please select a city'
             this.color = 'on-background'
@@ -2105,7 +2105,7 @@ export default {
       this.isProgress16 = true
       const requestData = {
         // merchant: this.selectedmerchants3,
-        location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+        location: this.userType === 'Business Head' || this.userType === 'Reporting Team' ? this.citydata : this.cityID,
       }
 
       this.Opportunityreports(requestData.location).then(response=>{
@@ -2161,7 +2161,7 @@ export default {
       this.isProgress13 = true
       const requestData = {
         // merchant: this.selectedmerchants3,
-        location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+        location: this.userType === 'Business Head' || this.userType === 'Reporting Team' ? this.citydata : this.cityID,
       }
       this.Leadreports(requestData.requestData).then(response=>{
         if (response.data.status == 0) {
@@ -2227,7 +2227,7 @@ export default {
         // }
         if (valid) {
           // Check if citydata is required and provided
-          if (this.userType === 'Business Head' && !this.citydata) {
+          if ((this.userType === 'Business Head' || this.userType === 'Reporting Team')  && !this.citydata) {
             this.snackbar = true
             this.snackbarText = 'Please select a city'
             this.color = 'on-background'
@@ -2255,7 +2255,7 @@ export default {
       if (this.selectGST == 'Invoice Wise') {
         const requestData = {
         // merchant: this.selectedmerchants3,
-          location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+          location: this.userType === 'Business Head' || this.userType === 'Reporting Team' ? this.citydata : this.cityID,
         }
         this.isProgress11 = true
         this.GSTinvoicewise(this.startDate, this.endDate,requestData.location).then(response => {
@@ -2311,7 +2311,7 @@ export default {
         this.isProgress11 = true
         const requestData = {
         // merchant: this.selectedmerchants3,
-          location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+          location: this.userType === 'Business Head' || this.userType === 'Reporting Team' ? this.citydata : this.cityID,
         }
         this.GSTproductwise(this.startDate, this.endDate,requestData.location).then(response => {
           if (response.data.status == 0) {
@@ -2423,7 +2423,7 @@ export default {
         // }
         if (valid) {
           // Check if citydata is required and provided
-          if (this.userType === 'Business Head' && !this.citydata) {
+          if ((this.userType === 'Business Head' || this.userType === 'Reporting Team')  && !this.citydata) {
             this.snackbar = true
             this.snackbarText = 'Please select a city'
             this.color = 'on-background'
@@ -2442,7 +2442,7 @@ export default {
       if(this.selectedReportype == "Invoice Wise"){
         const requestData = {
         // merchant: this.selectedmerchants3,
-          location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+          location: this.userType === 'Business Head' || this.userType === 'Reporting Team' ? this.citydata : this.cityID,
         }
 
         this.isProgress9 = true
@@ -2505,7 +2505,7 @@ export default {
       }else{
         const requestData = {
         // merchant: this.selectedmerchants3,
-          location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+          location: this.userType === 'Business Head' || this.userType === 'Reporting Team' ? this.citydata : this.cityID,
         }
         this.isProgress9 = true
         this.Merchantpaymentsoverall(this.selectedSalesuser,this.selectedSalesMerchant,this.startDate1,this.endDate1,requestData.location,this.cityID).then(response=>{
@@ -2689,7 +2689,7 @@ export default {
         // }
         if (valid) {
           // Check if citydata is required and provided
-          if (this.userType === 'Business Head' && !this.citydata) {
+          if ((this.userType === 'Business Head' || this.userType === 'Reporting Team')  && !this.citydata) {
             this.snackbar = true
             this.snackbarText = 'Please select a city'
             this.color = 'on-background'
@@ -2726,7 +2726,7 @@ export default {
       }
       const requestData = {
         // merchant: this.selectedmerchants3,
-        location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+        location: this.userType === 'Business Head' || this.userType === 'Reporting Team' ? this.citydata : this.cityID,
       }
 
       this.isProgress7 = true
@@ -2809,7 +2809,7 @@ export default {
       this.$refs.purchaseOrderForm12.validate().then(valid => {
         if (valid) {
           // Check if citydata is required and provided
-          if (this.userType === 'Business Head' && !this.citydata) {
+          if ((this.userType === 'Business Head' || this.userType === 'Reporting Team')  && !this.citydata) {
             this.snackbar = true
             this.snackbarText = 'Please select a city'
             this.color = 'on-background'
@@ -2828,7 +2828,7 @@ export default {
       this.$refs.purchaseOrderForm11.validate().then(valid => {
         if (valid) {
           // Check if citydata is required and provided
-          if (this.userType === 'Business Head' && !this.citydata) {
+          if ((this.userType === 'Business Head' || this.userType === 'Reporting Team')  && !this.citydata) {
             this.snackbar = true
             this.snackbarText = 'Please select a city'
             this.color = 'on-background'
@@ -2847,7 +2847,7 @@ export default {
       this.isProgress12 = true
       const requestData = {
         // merchant: this.selectedmerchants3,
-        location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+        location: this.userType === 'Business Head' || this.userType === 'Reporting Team' ? this.citydata : this.cityID,
       }
 
       this.Merchantreports(requestData.location).then(response=>{
@@ -2905,7 +2905,7 @@ export default {
       this.$refs.purchaseOrderForm6.validate().then(valid => {
         if (valid) {
           // Check if citydata is required and provided
-          if (this.userType === 'Business Head' && !this.citydata) {
+          if ((this.userType === 'Business Head' || this.userType === 'Reporting Team')  && !this.citydata) {
             this.snackbar = true
             this.snackbarText = 'Please select a city'
             this.color = 'on-background'
@@ -2925,7 +2925,7 @@ export default {
 
       const requestData = {
         merchant: this.selectedmerchants3,
-        location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+        location: this.userType === 'Business Head' || this.userType === 'Reporting Team' ? this.citydata : this.cityID,
       }
 
       this.getMProductsreport(requestData.merchant, requestData.location).then(response => {
@@ -2985,7 +2985,7 @@ export default {
         // }
         if (valid) {
           // Check if citydata is required and provided
-          if (this.userType === 'Business Head' && !this.citydata) {
+          if ((this.userType === 'Business Head' || this.userType === 'Reporting Team') && !this.citydata) {
             this.snackbar = true
             this.snackbarText = 'Please select a city'
             this.color = 'on-background'
@@ -3004,7 +3004,7 @@ export default {
       this.isProgress5 = true
       const requestData = {
         // merchant: this.selectedmerchants3,
-        location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+        location: this.userType === 'Business Head' || this.userType === 'Reporting Team' ? this.citydata : this.cityID,
       }
 
       this.getBrandsallreport(this.selectedBrand2,requestData.location).then(response => {
@@ -3068,7 +3068,7 @@ export default {
         // }
         if (valid) {
           // Check if citydata is required and provided
-          if (this.userType === 'Business Head' && !this.citydata) {
+          if ((this.userType === 'Business Head' || this.userType === 'Reporting Team')  && !this.citydata) {
             this.snackbar = true
             this.snackbarText = 'Please select a city'
             this.color = 'on-background'
@@ -3087,7 +3087,7 @@ export default {
       this.isProgress4 = true
       const requestData = {
         // merchant: this.selectedmerchants3,
-        location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+        location: this.userType === 'Business Head' || this.userType === 'Reporting Team' ? this.citydata : this.cityID,
       }
 
       this.getBrandreports(this.selectedBrand,requestData.location).then(response => {
@@ -3181,7 +3181,7 @@ export default {
         // }
         if (valid) {
           // Check if citydata is required and provided
-          if (this.userType === 'Business Head' && !this.citydata) {
+          if ((this.userType === 'Business Head' || this.userType === 'Reporting Team')  && !this.citydata) {
             this.snackbar = true
             this.snackbarText = 'Please select a city'
             this.color = 'on-background'
@@ -3208,7 +3208,7 @@ export default {
         // }
         if (valid) {
           // Check if citydata is required and provided
-          if (this.userType === 'Business Head' && !this.citydata) {
+          if ((this.userType === 'Business Head' || this.userType === 'Reporting Team') && !this.citydata) {
             this.snackbar = true
             this.snackbarText = 'Please select a city'
             this.color = 'on-background'
@@ -3236,7 +3236,7 @@ export default {
         // }
         if (valid) {
           // Check if citydata is required and provided
-          if (this.userType === 'Business Head' && !this.citydata) {
+          if ((this.userType === 'Business Head' || this.userType === 'Reporting Team')  && !this.citydata) {
             this.snackbar = true
             this.snackbarText = 'Please select a city'
             this.color = 'on-background'
@@ -3256,7 +3256,7 @@ export default {
       this.isProgress3 = true
       const requestData = {
         // merchant: this.selectedmerchants3,
-        location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+        location: this.userType === 'Business Head' || this.userType === 'Reporting Team' ? this.citydata : this.cityID,
       }
       this.getMerchantstocksreport(this.selectedmerchants2,requestData.location).then(response => {
         // console.log(response);
@@ -3418,7 +3418,7 @@ export default {
 
       const requestData = {
         // merchant: this.selectedmerchants3,
-        location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+        location: this.userType === 'Business Head' || this.userType === 'Reporting Team' ? this.citydata : this.cityID,
       }
 
       if (this.Salesdata.date_filter === 'Custom') {
@@ -3540,7 +3540,7 @@ export default {
       // }
       const requestData = {
         // merchant: this.selectedmerchants3,
-        location: this.userType === 'Business Head' ? this.citydata : this.cityID,
+        location: this.userType === 'Business Head' || this.userType === 'Reporting Team' ? this.citydata : this.cityID,
       }
       if (this.reportsdata.date_filter === 'Custom') {
         this.reportsdata.date_filter = 'custom'

@@ -670,6 +670,7 @@
                             ),
                           }"
                         >
+                          <!-- :rules="getdeliveryexchangerule(item)" -->
                           <VTextField
                             v-model="item.delivered_exchange"
                             type="number"   
@@ -677,7 +678,8 @@
                             style="min-width:80px;"
                             :rules="getdeliveryexchangerule(item)"
                             
-                            @keydown="preventDecimal"
+                            @keydown="
+                              preventDecimal"
                             @paste="preventPaste"
                           />
                         </td>
@@ -689,6 +691,7 @@
                             ),
                           }"
                         >
+                          <!-- :rules="getdeliveryreturnrule(item)" -->
                           <VTextField
                             v-model="item.delivered_returned"
                             type="number"   
@@ -1046,6 +1049,14 @@ export default {
           
           return !this.isQuantityExceeded4(item.shipped_ordered, v, item.damaged)
         },
+        v => {
+          if (item.shipped_ordered === "0") return true // Skip validation if shipped_ordered is 0
+      
+          return item.delivered_ordered <= item.shipped_ordered || 
+             "Exceeding"
+
+
+        },
       ]
     },
 
@@ -1068,38 +1079,64 @@ export default {
           
           return !this.isQuantityExceeded4(item.shipped_ordered, item.delivered_ordered, v)
         },
+        v => {
+          if (item.shipped_ordered === "0") return true // Skip validation if shipped_ordered is 0
+      
+          return item.damaged <= item.shipped_ordered || 
+             "Exceeding"
+
+
+        },
       ]
     },
     getdeliveryreturnrule(item){
       return [
-        v => {
-          // Skip all validations if shipped_ordered is 0
-          if (item.return === "0")
-            return true
+        // v => {
+        //   // Skip all validations if shipped_ordered is 0
+        //   if (item.return === "0")
+        //     return true
 
-          // Otherwise, validate that the field has a value or delivered_ordered > 0
-          return !!v || item.delivered_returned > 0 || "Required"
-        },
-        v => {
-          if (item.return === "0") return true // Skip validation if shipped_ordered is 0
+        //   // Otherwise, validate that the field has a value or delivered_ordered > 0
+        //   return !!v || item.delivered_returned > 0 || "Required"
+        // },
+        // v => {
+        //   if (item.return === "0") return true // Skip validation if shipped_ordered is 0
           
-          return v >= 0 || "Value must be positive."
-        },        
+        //   return v >= 0 || "Value must be positive."
+        // },      
+        v => {
+          if (item.return === "0") return true
+
+          // Skip validation if shipped_ordered is 0
+      
+          return item.delivered_returned <= item.return || 
+             "Exceeding"
+
+        },  
       ]
     },
     getdeliveryexchangerule(item){
       return [
+        // v => {
+        //   // Skip all validations if shipped_ordered is 0
+        //   if (item.shipped_exchange === "0") return true
+
+        //   // Otherwise, validate that the field has a value or delivered_ordered > 0
+        //   return !!v || item.delivered_exchange > 0 || "Required"
+        // },
+        // v => {
+        //   if (item.shipped_exchange === "0") return true // Skip validation if shipped_ordered is 0
+          
+        //   return v >= 0 || "Value must be positive."
+        // },  
         v => {
-          // Skip all validations if shipped_ordered is 0
           if (item.shipped_exchange === "0") return true
 
-          // Otherwise, validate that the field has a value or delivered_ordered > 0
-          return !!v || item.delivered_exchange > 0 || "Required"
-        },
-        v => {
-          if (item.shipped_exchange === "0") return true // Skip validation if shipped_ordered is 0
-          
-          return v >= 0 || "Value must be positive."
+          // Skip validation if shipped_ordered is 0
+      
+          return item.delivered_exchange <= item.shipped_exchange || 
+             "Exceeding"
+
         },        
       ]
     },
@@ -1124,20 +1161,20 @@ export default {
       if(itm<data){
         this.snackbar = true
         this.color = "on-background"
-        this.snackbarText = "Delivery Exchange cannot exceed Exchange quantity."
+        this.snackbarText = "Delivery Exchange cannot exceed Shipped Exchange quantity."
         
         return true
       }
       
       return false
     },
-    isQuantityExceeded3(itm,data){
+    isQuantityExceeded3(itm,data){ 
       if(itm>data){
         this.snackbar = true
         this.color = "on-background"
-        this.snackbarText = "Delivery Return cannot exceed Return quantity."
+        this.snackbarText = " Delivery Return cannot exceed Return quantity."
         
-        return true
+        return true 
       }
       
       return false
@@ -1162,7 +1199,7 @@ export default {
         // Show snackbar error
         this.snackbar = true
         this.color = "on-background"
-        this.snackbarText = "The total of delivered and damaged quantities must match the shipped quantity."
+        this.snackbarText = "The total of delivered and damaged quantities must match the shipped Ordered quantity."
 
         return true // Error state
       }

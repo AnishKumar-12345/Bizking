@@ -1,7 +1,6 @@
 <template>
-   <div>
-
-   <VRow v-if="this.leadData == null">
+  <div>
+    <VRow v-if="leadData == null">
       <VCol cols="12"> 
         <VCard title="Lead View">
           <VCardText> 
@@ -12,38 +11,51 @@
               class="mb-4"              
               border="top"
             >
-              <VAlertTitle class="mb-1"> Are you sure you gave Leads? </VAlertTitle>
+              <VAlertTitle class="mb-1">
+                Are you sure you gave Leads?
+              </VAlertTitle>
               <p class="mb-0">
-                The system is not retrieving the Leads. Please ensure that you have applied for Leads !</p>
+                The system is not retrieving the Leads. Please ensure that you have applied for Leads !
+              </p>
             </VAlert>
           </VCardText>
         </VCard>
       </VCol>
-     </VRow>
+    </VRow>
 
-    <div style="max-width:400px" v-if="this.leadData != null">
+    <div
+      v-if="leadData != null"
+      style="max-width:400px"
+    >
       <VTextField
-      class="mb-3"
-        v-model="searchQuery"        
+        v-model="searchQuery"
+        class="mb-3"        
         density="compact"
         variant="solo"
         label="Search"
         append-inner-icon="mdi-magnify"
         single-line 
         hide-details
-    
-    />
+      />
     </div>
 
-     <div v-if="loading" id="app">
+    <div
+      v-if="loading"
+      id="app"
+    >
       <div id="loading-bg">
         <div class="loading-logo">
-          <img src="../../../assets/images/logos/comlogo.jpeg" height="60" width="68" alt="Logo" />
+          <img
+            src="../../../assets/images/logos/comlogo.jpeg"
+            height="60"
+            width="68"
+            alt="Logo"
+          >
         </div>
         <div class="loading">
-          <div class="effect-1 effects"></div>
-          <div class="effect-2 effects"></div>
-          <div class="effect-3 effects"></div>
+          <div class="effect-1 effects" />
+          <div class="effect-2 effects" />
+          <div class="effect-3 effects" />
         </div>
       </div>
     </div>
@@ -52,169 +64,175 @@
       <!-- <p>No data found.</p> -->
     </div>
 
-     <VTable 
-     v-if="this.leadData != null"
-       :headers="headers"
+    <VTable 
+      v-if="leadData != null"
+      :headers="headers"
     
-        item-key="dessert"
+      item-key="dessert"
       class="table-rounded"      
-       height="500"
+      height="500"
       fixed-header 
-      >
-       <thead>
+    >
+      <thead>
         <tr>
           <th
-           class="text-center"
             v-for="header in headers"
             :key="header"
+            class="text-center"
           >
             {{ header.text }}
           </th>
         </tr>
       </thead>
 
-      <tbody>   
-        
-         
-
-       <tr
-        v-for="(item,index) in paginatedItems"
-        :key="index"
-
-         
-      >       
-        <td class="text-center">{{ item.lead_no }}</td>
-
-        <td class="text-center">{{ item.lead_type }}</td>
+      <tbody>
+        <tr
+          v-for="(item,index) in paginatedItems"
+          :key="index"
+        >       
           <td class="text-center">
-          {{ item.created_by }}
-        </td>
-        <td class="text-center">
-          {{ item.name }}
-        </td>
-        <td class="text-center">           
-        {{ item.address }}
-        </td>
-        <!-- <td class="text-center">
-          {{ item.location }}
-        </td> -->
-         <td class="text-center">
-          <VChip
-        :color="resolveStatusVariant(item.status).color"
-        class="font-weight-medium"
-        size="small"
-      >
-      {{ item.status}}
-    
+            {{ item.lead_no }}
+          </td>
+
+          <td class="text-center">
+            {{ item.lead_type }}
+          </td>
+          <td class="text-center">
+            {{ item.created_by }}
+          </td>
+          <td class="text-center">
+            {{ item.name }}
+          </td>
+          <td class="text-center">           
+            {{ item.address }}
+          </td>
+          <!--
+            <td class="text-center">
+            {{ item.location }}
+            </td> 
+          -->
+          <td class="text-center">
+            <VChip
+              :color="resolveStatusVariant(item.status).color"
+              class="font-weight-medium"
+              size="small"
+            >
+              {{ item.status }}
             </VChip>
             <!-- {{item.status}} -->
-          
-        </td>  
-        <td class="text-center">
-          {{ item.gst }}
-        </td>
-           <td class="text-center">
-          {{ item.owner_name }}
-        </td>   
-        <td class="text-center">
-          {{ item.owner_phone }}
-        </td>  
-         <td class="text-center">
-          {{ item.poc_name }}
-        </td>   
-        
-        <td class="text-center">
-          {{ item.poc_phone }}
-        </td>   
-        <td class="text-center">
-          {{ item.updated_date }}
-        </td>   
-           <td class="text-center">
-          {{ item.created_date }}
-        </td>   
-        <td class="text-center">
-          {{ item.pincode }}
-        </td>
-          <!-- <td class="text-center">
-          {{ item.bc_margin_amt }}
-        </td>
+          </td>  
           <td class="text-center">
-          {{ item.bc_margin }}
-        </td> -->
-           
-    <td class="text-center" >
-              <V-btn
-                  icon
-                  variant="text"
-                  color="default"
-                  class="mb-1 mt-2"
-                  size="x-small"
-                 
-                 @click="editProduct(item)"
-                  >
-                  
-                      <VIcon
-                        icon="ri-pencil-line"
-                        size="22"        
-                        color="#BA8B32"       
-                        />   
-                      </V-btn>     
-                      
+            {{ item.gst }}
+          </td>
+          <td class="text-center">
+            {{ item.owner_name }}
+          </td>   
+          <td class="text-center">
+            {{ item.owner_phone }}
+          </td>  
+          <td class="text-center">
+            {{ item.poc_name }}
+          </td>   
+        
+          <td class="text-center">
+            {{ item.poc_phone }}
+          </td>   
+          <td class="text-center">
+            {{ item.updated_date }}
+          </td>   
+          <td class="text-center">
+            {{ item.created_date }}
+          </td>   
+          <td class="text-center">
+            {{ item.pincode }}
+          </td>
+          <!--
+            <td class="text-center">
+            {{ item.bc_margin_amt }}
             </td>
-      </tr>
+            <td class="text-center">
+            {{ item.bc_margin }}
+            </td> 
+          -->
+           
+          <td class="text-center">
+            <VBtn
+              icon
+              variant="text"
+              color="default"
+              class="mb-1 mt-2"
+              size="x-small"
+                 
+              @click="editProduct(item)"
+            >
+              <VIcon
+                icon="ri-pencil-line"
+                size="22"        
+                color="#BA8B32"       
+              />   
+            </VBtn>
+          </td>
+        </tr>
 
-       <tr v-if="filteredProducts.length === 0">
-          <td colspan="16" class="text-center"><h1>No data found !</h1></td>
+        <tr v-if="filteredProducts.length === 0">
+          <td
+            colspan="16"
+            class="text-center"
+          >
+            <h1>No data found !</h1>
+          </td>
         </tr>   
       </tbody>        
-        </VTable>
-          <VPagination
-            v-model="page"
-            :length="Math.ceil(filteredProducts.length / pageSize)"
-            @input="updatePagination"
-               :max="maxPaginationPages"
-            />
-   </div>
+    </VTable>
+    <VPagination
+      v-model="page"
+      :length="Math.ceil(filteredProducts.length / pageSize)"
+      :max="maxPaginationPages"
+      @input="updatePagination"
+    />
+  </div>
 </template>
-<script>
-import servicescall from '@/Services'
-export default {    
-    mixins: [servicescall], 
-    data(){
-        return{
-           page: 1,
-            pageSize: 10,
-             loading:true,
-            searchQuery:'',
 
-          maxPaginationPages:5,
-            storerules:[
-          (v) => !!v || 'Store Address is required',
-         ],
-       mrprules: [
-         (v) => !!v || 'MRP is required',
+<script>
+import servicescall from '@/Services';
+export default {    
+  mixins: [servicescall], 
+  data(){
+    return{
+      page: 1,
+      pageSize: 10,
+      loading:true,
+      searchQuery:'',
+
+      maxPaginationPages:5,
+      storerules:[
+        v => !!v || 'Store Address is required',
       ],
-       namerules: [
-         (v) => !!v || 'Name is required',
+      mrprules: [
+        v => !!v || 'MRP is required',
       ],
-       uomRules: [
-         (v) => !!v || 'UOM is required',
+      namerules: [
+        v => !!v || 'Name is required',
       ],
+      uomRules: [
+        v => !!v || 'UOM is required',
+      ],
+
       //  hsnRules: [
       //          (v) => !!v || "HSN is required",
      
       // ],
-       pinrules: [
-         (v) => !!v || 'PIN is required',
+      pinrules: [
+        v => !!v || 'PIN is required',
       ],
-       phonerules: [
-         (v) => !!v || " Mobile  is required",
-        (v) => /^[0-9]+$/.test(v) || "only number are accepted",
-        (v) =>
+      phonerules: [
+        v => !!v || " Mobile  is required",
+        v => /^[0-9]+$/.test(v) || "only number are accepted",
+        v =>
           (v && v.length <= 10 && v.length >= 10) ||
           "Mobile must be  10 number",
       ],
-           snackbar: false,
+      snackbar: false,
       snackbarText: '',
       timeout: 6000, // milliseconds
       color: '', // or 'error', 'warning', 'info', etc.
@@ -222,86 +240,91 @@ export default {
       bottom: true,
       left: false,
       right: false,
-            dialog:false,
-            loading:true,
-            searchQuery:'',
-            page: 1,
-            pageSize: 10,
-            products:[],
-            saveProduct:{
-              "merchant_uid": "",
-              "brand_name": "",
-              "sku_name":"",
-              "uom":"",
-              "hsn_code": "",
-              "mrp": "",
-              "status": "",
-              "brand_id":"",
-              "brand_product_id":"",
-              "total_given_margin": "",
-              "sgst": "",
-              "cgst": "",
+      dialog:false,
+      loading:true,
+      searchQuery:'',
+      page: 1,
+      pageSize: 10,
+      products:[],
+      saveProduct:{
+        "merchant_uid": "",
+        "brand_name": "",
+        "sku_name":"",
+        "uom":"",
+        "hsn_code": "",
+        "mrp": "",
+        "status": "",
+        "brand_id":"",
+        "brand_product_id":"",
+        "total_given_margin": "",
+        "sgst": "",
+        "cgst": "",
 
-              "pitch_from": "",
-              // "decision_authority": "",
-              "final_retail_cp": "",
-              "final_ret": "",
+        "pitch_from": "",
 
-              "bk_profit": "",           
-              "bizkingz_cp_final": "",
-              "bc_margin_amt": "",
+        // "decision_authority": "",
+        "final_retail_cp": "",
+        "final_ret": "",
 
-              "bc_margin": "",
-              // "created_by": "",
-            },
-            // salesdata:[],
-            // BrandNames:[],
-            selectedBrand:null,
-            userRole:'',
-            createdby:'',
-             userid:"",
-            leadData:[],
-            headers:[
-               {text:'Lead',value:'lead_no'},
-                {text:'Type',value:'lead_type'},
-                {text:'Created By',value:'created_by'},
+        "bk_profit": "",           
+        "bizkingz_cp_final": "",
+        "bc_margin_amt": "",
 
-                {text:'Name',value:'name'},
-                {text:'Address',value:'address'},
-                // {text:'Location',value:'location'},
-                {text:'Status',value:'status'},
-                {text:'GST',value:'gst'},
-                {text:'Owner Name',value:'owner_name'},
-                {text:'Owner Phone',value:'owner_phone'},
-                {text:'Poc Name',value:'poc_name'},
-                {text:'Poc Phone',value:'poc_phone'},
-                {text:'Updated Date',value:'updated_date'},
-                {text:'Created Date',value:'created_date'},
-                {text:'PinCode',value:'pincode'},
+        "bc_margin": "",
 
-                // {text:'Total Given Margin',value:'total_given_margin'},
-                // {text:'SGST',value:'sgst'},
-                // {text:'CGST',value:'cgst'},
-                // {text:'Pitch From',value:'pitch_from'},            
-                // {text:'Final Retail CP',value:'final_retail_cp'},
-                // {text:'Final Retail',value:'final_ret'},
-                //  {text:'BK Profit',value:'bk_profit'},
-                // {text:'Bizking CP Final',value:'bizkingz_cp_final'},
-                // {text:'BC Margin Amount',value:'bc_margin_amt'},
-                // {text:'BC Margin',value:'bc_margin'},
-                // {text:'Location',value:'location'},
-                // {text:'Area Pincode',value:'area_pincode'},
-                {text:'Action',value:'actions'},
-            ]
-        }
+        // "created_by": "",
+      },
+
+      // salesdata:[],
+      // BrandNames:[],
+      selectedBrand:null,
+      userRole:'',
+      createdby:'',
+      userid:"",
+      leadData:[],
+      headers:[
+        {text:'Lead',value:'lead_no'},
+        {text:'Type',value:'lead_type'},
+        {text:'Created By',value:'created_by'},
+
+        {text:'Name',value:'name'},
+        {text:'Address',value:'address'},
+
+        // {text:'Location',value:'location'},
+        {text:'Status',value:'status'},
+        {text:'GST',value:'gst'},
+        {text:'Owner Name',value:'owner_name'},
+        {text:'Owner Phone',value:'owner_phone'},
+        {text:'Poc Name',value:'poc_name'},
+        {text:'Poc Phone',value:'poc_phone'},
+        {text:'Updated Date',value:'updated_date'},
+        {text:'Created Date',value:'created_date'},
+        {text:'PinCode',value:'pincode'},
+
+        // {text:'Total Given Margin',value:'total_given_margin'},
+        // {text:'SGST',value:'sgst'},
+        // {text:'CGST',value:'cgst'},
+        // {text:'Pitch From',value:'pitch_from'},            
+        // {text:'Final Retail CP',value:'final_retail_cp'},
+        // {text:'Final Retail',value:'final_ret'},
+        //  {text:'BK Profit',value:'bk_profit'},
+        // {text:'Bizking CP Final',value:'bizkingz_cp_final'},
+        // {text:'BC Margin Amount',value:'bc_margin_amt'},
+        // {text:'BC Margin',value:'bc_margin'},
+        // {text:'Location',value:'location'},
+        // {text:'Area Pincode',value:'area_pincode'},
+        {text:'Action',value:'actions'},
+      ],
+    }
+  },
+  computed:{
+    leadfilter(){
+      return this.leadData.filter(name => name.status != "closed")
     },
-    computed:{
-         leadfilter(){
-            return this.leadData.filter(name => name.status != "closed");
-         },
-         filteredProducts(){
-         const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
-        return this.leadfilter.filter((item) => {
+    filteredProducts(){
+      const lowerCaseQuery = this.searchQuery.toLowerCase().trim()
+      
+      return this.leadfilter.filter(item => {
         return (
 
           (item.lead_no && item.lead_no.toLowerCase().includes(lowerCaseQuery)) ||
@@ -320,76 +343,78 @@ export default {
           (item.created_date && item.created_date.toLowerCase().includes(lowerCaseQuery)) ||
           (item.pincode && item.pincode.toLowerCase().includes(lowerCaseQuery))     
 
-        );
-       });
+        )
+      })
     },
 
-      paginatedItems() {
-          const startIndex = (this.page - 1) * this.pageSize;
-          const endIndex = startIndex + this.pageSize;
-          return this.filteredProducts.slice(startIndex, endIndex);
-        },
+    paginatedItems() {
+      const startIndex = (this.page - 1) * this.pageSize
+      const endIndex = startIndex + this.pageSize
+      
+      return this.filteredProducts.slice(startIndex, endIndex)
     },
-    mounted(){
-    this.userid = localStorage.getItem('user_id');
+  },
+  mounted(){
+    this.userid = localStorage.getItem('user_id')
+
     // this.getLeaddata();
     this.getLeaddata()
-            .then(() => {             
-              this.loading = false;
-            }) 
-            .catch((error) => {             
-              console.error('Error fetching merchants:', error);            
-            });
-    },
-methods:{
-  resolveStatusVariant(itm){
+      .then(() => {             
+        this.loading = false
+      }) 
+      .catch(error => {             
+        console.error('Error fetching merchants:', error)            
+      })
+  },
+  methods:{
+    resolveStatusVariant(itm){
       if(itm == "Partially interested" || itm == "partially interested"){
-          return{
-            color:"warning"
-          }
-        }else if (itm == "Closed" || itm == "closed"){
-          return{
-            color:"success"
-          }
-        }else if (itm == "Created" || itm == "created" ){
-          return{
-            color:"primary"
-          }
-        }else {
-           return{
-            color:"error"
-          }
+        return{
+          color:"warning",
         }
-  },
-   updatePagination(page) {
-    this.page = page;
-  },
-  getLeaddata(){
+      }else if (itm == "Closed" || itm == "closed"){
+        return{
+          color:"success",
+        }
+      }else if (itm == "Created" || itm == "created" ){
+        return{
+          color:"primary",
+        }
+      }else {
+        return{
+          color:"error",
+        }
+      }
+    },
+    updatePagination(page) {
+      this.page = page
+    },
+    getLeaddata(){
     // this.getLeads().then((response)=>{
     //   console.log('res',response);
     //   this.leadData = response.data.data;
     //   this.leadData.reverse();
     // }) 
       return new Promise((resolve, reject) => {
-          this.getLeads()
-            .then((response) => {
-              this.leadData = response.data.data;
-              this.leadData.reverse();
-              resolve(); // Resolve the promise when API call is successful
-            })
-            .catch((error) => {
-              console.error('Error fetching merchants:', error);
-              reject(error); // Reject the promise if there's an error
-            });
-        });
+        this.getLeads()
+          .then(response => {
+            this.leadData = response.data.data
+            this.leadData.reverse()
+            resolve() // Resolve the promise when API call is successful
+          })
+          .catch(error => {
+            console.error('Error fetching merchants:', error)
+            reject(error) // Reject the promise if there's an error
+          })
+      })
+    },
+    editProduct(item){ 
+      this.$router.push({
+        name: 'Leadbasicdataview', // Replace with the actual name of your route
+        query: { lead_id: item.lead_id }, 
+      })
+    },
   },
-  editProduct(item){ 
-     this.$router.push({
-          name: 'Leadbasicdataview', // Replace with the actual name of your route
-          query: { lead_id: item.lead_id } 
-        });
-  }
-}
 
 }
 </script>
